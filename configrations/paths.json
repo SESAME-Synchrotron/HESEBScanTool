@@ -1,0 +1,7 @@
+{
+  "users_data_path": "/home/SED-Data/SEM[1]/XAFS/20185101/ExpData/",
+  "local_data_path": "/home/control/XAFSScanTool/DATA",
+  "ficus_workstation_data_path": "D:\\DATA",
+  "log_file": "/tmp/xafscan.log",
+  "remoteServer1": "root@10.1.100.11:/home/XAFS-Instant-Data/autoCopied"
+}

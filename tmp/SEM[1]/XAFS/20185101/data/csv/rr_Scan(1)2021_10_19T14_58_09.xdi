@@ -1,0 +1,55 @@
+# XDI/1.0 SED_XAFS/0.9
+# Column.1: energy eV
+# Column.2: I0
+# Column.3: Itrans
+# Column.4: Irefer
+# Column.5: mutrans (log(I0/Itrans))
+# Column.6: murefer (log(Itrans/Irefer))
+# Base.file_name: rr
+# Element.edge: K
+# Mono.name: Si 311
+# Mono.d_spacing: 3.13553
+# Mono.settling_time: 0.1
+# Beamline.name: XAFS/XRF Beamline (08-BM)
+# Beamline.collimation: slits
+# Beamline.focusing: no
+# Beamline.harmonic_rejection: mirror coating VCM: Si, VFM: Si
+# Facility.name: SESAME Synchrotron-light
+# Facility.energy: 2.50 GeV
+# Facility.current: 294.640812
+# Facility.xray_source: SESAME Bending Magnet
+# Scan.start_time: 2021-10-19T14:58:09
+# Scan.end_time: 2021-10-19T14:58:15
+# Scan.edge_energy: 332
+# Scan.number: 1/1 -- intervals: 2, samples: 1
+# Detector.IC1: 15cm  1
+# Detector.IC2: 30cm  2
+# Detector.IC3: 15cm  3
+# Element.symbol: Cu
+# Sample.stoichiometry: NONE
+# Sample.prep: dflds;g
+# ///
+# Experiment comments and remarks: NONE
+# User comments and remarks: NONE
+#----
+#(1)energy   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer
+1.524994e+01  1.000000e-16  1.000000e-16  5.065350e-03  0.000000e+00  -3.155603e+01 
+1.525096e+01  1.000000e-16  1.000000e-16  5.261554e-03  0.000000e+00  -3.159403e+01 
+1.525198e+01  1.000000e-16  1.000000e-16  5.101349e-03  0.000000e+00  -3.156311e+01 
+1.525303e+01  1.000000e-16  1.000000e-16  5.040080e-03  0.000000e+00  -3.155103e+01 
+1.525399e+01  1.000000e-16  1.000000e-16  4.947819e-03  0.000000e+00  -3.153255e+01 
+1.525501e+01  1.000000e-16  1.000000e-16  5.185981e-03  0.000000e+00  -3.157957e+01 
+1.525600e+01  1.000000e-16  1.000000e-16  5.185981e-03  0.000000e+00  -3.157957e+01 
+1.525699e+01  1.000000e-16  1.000000e-16  5.110647e-03  0.000000e+00  -3.156493e+01 
+1.525798e+01  1.000000e-16  1.000000e-16  5.070595e-03  0.000000e+00  -3.155706e+01 
+1.525897e+01  1.000000e-16  1.000000e-16  4.959739e-03  0.000000e+00  -3.153496e+01 
+1.526002e+01  1.000000e-16  1.000000e-16  5.052715e-03  0.000000e+00  -3.155353e+01 
+1.526101e+01  1.000000e-16  1.000000e-16  5.140208e-03  0.000000e+00  -3.157070e+01 
+1.526200e+01  1.000000e-16  1.000000e-16  4.970229e-03  0.000000e+00  -3.153707e+01 
+1.526299e+01  1.000000e-16  1.000000e-16  5.159518e-03  0.000000e+00  -3.157445e+01 
+1.526401e+01  1.000000e-16  1.000000e-16  5.064636e-03  0.000000e+00  -3.155589e+01 
+1.526500e+01  1.000000e-16  1.000000e-16  5.087522e-03  0.000000e+00  -3.156040e+01 
+1.526599e+01  1.000000e-16  1.000000e-16  4.856512e-03  0.000000e+00  -3.151393e+01 
+1.526704e+01  1.000000e-16  1.000000e-16  5.159757e-03  0.000000e+00  -3.157450e+01 
+1.526800e+01  1.000000e-16  1.000000e-16  5.024822e-03  0.000000e+00  -3.154800e+01 
+1.526900e+01  1.000000e-16  1.000000e-16  5.047947e-03  0.000000e+00  -3.155259e+01 

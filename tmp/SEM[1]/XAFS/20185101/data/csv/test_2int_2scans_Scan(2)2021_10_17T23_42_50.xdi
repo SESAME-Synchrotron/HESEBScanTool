@@ -1,0 +1,44 @@
+# XDI/1.0 SED_XAFS/0.9
+# Column.1: energy eV
+# Column.2: Ionization Chamber (IC) number 1
+# Column.3: Ionization Chamber (IC) number 2
+# Column.4: Ionization Chamber (IC) number 3
+# Column.5: Transmission (log(IC1 current/ IC2 current))
+# Column.6: Transmission Reference (log(IC2 current/IC3 current))
+# Base.file_name: test_2int_2scans
+# Element.edge: K
+# Mono.name: Si 311
+# Mono.d_spacing: 3.13553
+# Beamline.name: XAFS/XRF Beamline (08-BM)
+# Beamline.collimation: slits
+# Beamline.focusing: no
+# Beamline.harmonic_rejection: mirror coating VCM: Si, VFM: Pt
+# Facility.name: SESAME Synchrotron-light
+# Facility.energy: 2.50 GeV
+# Facility.current: 225.436706
+# Facility.xray_source: SESAME Bending Magnet
+# Scan.start_time: 2021-10-17T23:42:50
+# Scan.end_time: 2021-10-17T23:43:11
+# Scan.edge_energy: 99.889
+# Scan.number: 2/2 -- intervals: 1, samples: 1
+# Detector.IC1: 15cm  N2
+# Detector.IC2: 30cm  N2
+# Detector.IC3: 15cm  N2
+# Element.symbol: Fe
+# Sample.stoichiometry: NONE
+# Sample.prep: Test_xdi_fileI_C
+# ///
+# Experiment comments and remarks: NONE
+# User comments and remarks: NONE
+#----
+#(1)energy   (2)IC1[V]   (3)IC2[V]   (4)IC3[V]   (5)TRANS   (6)TransRef
+1.524997e+01  1.000000e-16  1.000000e-16  5.026252e-03  0.000000e+00  -3.154828e+01 
+1.525096e+01  1.000000e-16  1.000000e-16  4.864140e-03  0.000000e+00  -3.151550e+01 
+1.525198e+01  1.000000e-16  1.000000e-16  5.003128e-03  0.000000e+00  -3.154367e+01 
+1.525300e+01  1.000000e-16  1.000000e-16  5.034597e-03  0.000000e+00  -3.154994e+01 
+1.525402e+01  1.000000e-16  1.000000e-16  5.085615e-03  0.000000e+00  -3.156002e+01 
+1.525498e+01  1.000000e-16  1.000000e-16  5.063920e-03  0.000000e+00  -3.155575e+01 
+1.525600e+01  1.000000e-16  1.000000e-16  4.962123e-03  0.000000e+00  -3.153544e+01 
+1.525699e+01  1.000000e-16  1.000000e-16  4.984294e-03  0.000000e+00  -3.153990e+01 
+1.525798e+01  1.000000e-16  1.000000e-16  4.984294e-03  0.000000e+00  -3.153990e+01 
+1.525900e+01  1.000000e-16  1.000000e-16  4.920165e-03  0.000000e+00  -3.152695e+01 
