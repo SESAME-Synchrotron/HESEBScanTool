@@ -1,0 +1,39 @@
+# XDI/1.0 SED_XAFS/0.9
+# Column.1: energy eV
+# Column.2: Ionization Chamber (IC) number 1
+# Column.3: Ionization Chamber (IC) number 2
+# Column.4: Ionization Chamber (IC) number 3
+# Column.5: Transmission (log(IC1 current/ IC2 current))
+# Column.6: Transmission Reference (log(IC2 current/IC3 current))
+# Base.file_name: Test
+# Scan.edge_energy: 8980.0
+# Mono.name: Si 111
+# Mono.d_spacing: 3.13553
+# Beamline.name: 13ID
+# Beamline.collimation: slits
+# Beamline.focusing: no
+# Beamline.harmonic_rejection: rhodium-coated mirror
+# Facility.name: SESAME Synchrotron
+# Facility.energy: 2.50 GeV
+# Facility.xray_source: SESAME Bending Magnet
+# Scan.start_time: 2021-10-13T23:58:38
+# Detector.IC1: 15cm  N2
+# Detector.IC2: 30cm  N2
+# Detector.IC3: 15cm  N2
+# Sample.name: Cu
+# Sample.prep: Cu metal foil
+# ///
+# Cu foil Room Temperature
+# measured at beamline 08-BM XAFS/XRF Beamline
+#----
+#(1)ENERGY-RBK   (2)IC1[V]   (3)IC2[V]   (4)IC3[V]   (5)TRANS   (6)TransRef
+1.524992e+01  1.000000e-16  1.000000e-16  4.820752e-03  0.000000e+00  -3.150654e+01 
+1.525096e+01  1.000000e-16  1.000000e-16  5.031974e-03  0.000000e+00  -3.154942e+01 
+1.525201e+01  1.000000e-16  1.000000e-16  5.037219e-03  0.000000e+00  -3.155046e+01 
+1.525300e+01  1.000000e-16  1.000000e-16  5.145691e-03  0.000000e+00  -3.157177e+01 
+1.525399e+01  1.000000e-16  1.000000e-16  5.055337e-03  0.000000e+00  -3.155405e+01 
+1.525501e+01  1.000000e-16  1.000000e-16  4.999790e-03  0.000000e+00  -3.154300e+01 
+1.525600e+01  1.000000e-16  1.000000e-16  5.116130e-03  0.000000e+00  -3.156600e+01 
+1.525699e+01  1.000000e-16  1.000000e-16  5.020531e-03  0.000000e+00  -3.154714e+01 
+1.525801e+01  1.000000e-16  1.000000e-16  5.102541e-03  0.000000e+00  -3.156334e+01 
+1.525903e+01  1.000000e-16  1.000000e-16  5.102541e-03  0.000000e+00  -3.156334e+01 

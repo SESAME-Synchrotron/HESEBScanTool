@@ -1,0 +1,50 @@
+# XDI/1.0 SED_XAFS/0.9
+# Column.1: energy eV
+# Column.2: Ionization Chamber (IC) number 1
+# Column.3: Ionization Chamber (IC) number 2
+# Column.4: Ionization Chamber (IC) number 3
+# Column.5: Transmission (log(IC1 current/ IC2 current))
+# Column.6: Transmission Reference (log(IC2 current/IC3 current))
+# Column.7: KETEK-If
+# Column.8: KETEK-FLUOR
+# Column.9: KETEK-ROI_0[c/s]
+# Column.10: KETEK-ROI_1[c/s]
+# Column.11: KETEK-ROI_2[c/s]
+# Column.12: KETEK-ROI_3[c/s]
+# Column.13: KETEK-ROI_4[c/s]
+# Column.14: KETEK-ROI_5[c/s]
+# Column.15: KETEK-ROI_6[c/s]
+# Column.16: KETEK-ROI_7[c/s]
+# Column.17: KETEK-e-time[sec]
+# Column.18: KETEK-DEADTIME[%]
+# Column.19: KETEK-INT_TIME[sec]
+# Column.20: KETEK-OCR
+# Column.21: KETEK-ICR
+# Base.file_name: iiojlkdsn
+# Scan.edge_energy: 8980.0
+# Mono.name: Si 111
+# Mono.d_spacing: 3.13553
+# Beamline.name: 13ID
+# Beamline.collimation: slits
+# Beamline.focusing: no
+# Beamline.harmonic_rejection: rhodium-coated mirror
+# Facility.name: SESAME Synchrotron
+# Facility.energy: 2.50 GeV
+# Facility.xray_source: SESAME Bending Magnet
+# Scan.start_time: 2021-10-12T16:55:16
+# Detector.IC1: 15cm  O3
+# Detector.IC2: 30cm  O3
+# Detector.IC3: 15cm  O3
+# Sample.name: Cu
+# Sample.prep: Cu metal foil
+# ///
+# Cu foil Room Temperature
+# measured at beamline 08-BM XAFS/XRF Beamline
+#----
+#(1)ENERGY-RBK   (2)IC1[V]   (3)IC2[V]   (4)IC3[V]   (5)TRANS   (6)TransRef   (7)KETEK-If   (8)KETEK-FLUOR   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-ROI_3[c/s]   (13)KETEK-ROI_4[c/s]   (14)KETEK-ROI_5[c/s]   (15)KETEK-ROI_6[c/s]   (16)KETEK-ROI_7[c/s]   (17)KETEK-e-time[sec]   (18)KETEK-DEADTIME[%]   (19)KETEK-INT_TIME[sec]   (20)KETEK-OCR   (21)KETEK-ICR
+1.524992e+01 1.000000e-16 1.000000e-16 5.144023e-03 0.000000e+00 -3.157144e+01 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 9.240384e-01 4.469445e-01 9.281869e-01 0.000000e+00 0.000000e+00 
+1.526002e+01 1.000000e-16 1.000000e-16 5.116845e-03 0.000000e+00 -3.156614e+01 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.006346e+00 1.037769e-01 1.007391e+00 0.000000e+00 0.000000e+00 
+1.527005e+01 1.000000e-16 1.000000e-16 5.061775e-03 0.000000e+00 -3.155532e+01 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.006417e+00 1.028177e-01 1.007453e+00 0.000000e+00 0.000000e+00 
+1.528003e+01 1.000000e-16 1.000000e-16 5.075363e-03 0.000000e+00 -3.155800e+01 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.006408e+00 1.183326e-01 1.007600e+00 0.000000e+00 0.000000e+00 
+1.529003e+01 1.000000e-16 1.000000e-16 5.087045e-03 0.000000e+00 -3.156030e+01 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.006652e+00 1.022862e-01 1.007682e+00 0.000000e+00 0.000000e+00 
+1.530007e+01 1.000000e-16 1.000000e-16 5.239621e-03 0.000000e+00 -3.158986e+01 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.006398e+00 1.043745e-01 1.007450e+00 0.000000e+00 0.000000e+00 
