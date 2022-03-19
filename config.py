@@ -68,6 +68,7 @@ class ConfigGUI:
 	def CheckExptype(self):
 		if self.guiObj.UsersExp.isChecked():
 			self.expType = "proposal"
+			self.masterExpType = "proposal"
 			self.cfg["expType"] = self.expType
 			return self.WizardPages.SED.value
 
@@ -218,6 +219,8 @@ class ConfigGUI:
 			if "KETEK" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KETEK")
 				detCheckbox.setChecked(True)
+
+			self.cfg["expType"] = self.masterExpType # to avoid overwriting the choosen exp type when load a config file
 		except:
 			CLIMessage("Problem reading the config file. Try another one","E")
 			return self.WizardPages.editCfg.value
