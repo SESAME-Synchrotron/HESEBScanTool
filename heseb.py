@@ -179,7 +179,7 @@ class HESEBSCAN:
 		#time.sleep(0.1) 
 
 		log.info("Move DCM to energy: {}".format(SP))
-		while not self.PVs["DCM:Energy:Moving"].get():
+		while not self.PVs["DCM:Energy:Moving"].get() and not self.PVs["DCM:Energy:Moving2"].get():
 			#print("DCM moving ...")
 			if curentScanInfo == None:
 				CLIMessage("DCM is moving to start point ... ", "I")
