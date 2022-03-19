@@ -175,7 +175,7 @@ class HESEBSCAN:
 		#time.sleep(0.1)
 
 		self.PVs["DCM:Energy:SP"].put(SP, wait=True)
-		self.PVs["DCM:Move"].put(1, wait=True)
+		#self.PVs["DCM:Move"].put(1, wait=True)
 		#time.sleep(0.1) 
 
 		log.info("Move DCM to energy: {}".format(SP))
@@ -189,7 +189,7 @@ class HESEBSCAN:
 					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "I")
 			self.motors["DCM:Theta"].put("stop_go",3)
 			self.motors["DCM:Y"].put("stop_go",3)
-			self.PVs["DCM:Move"].put(1, wait=True)
+			#self.PVs["DCM:Move"].put(1, wait=True)
 			time.sleep(self.cfg["settlingTime"])
 			
 	def MoveSmpX(self,SP):
