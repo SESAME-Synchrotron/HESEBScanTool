@@ -37,7 +37,7 @@ class HESEBSCAN:
 	def __init__(self,testingMode = "No"):
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
-		self.loadPVS("xafs")
+		self.loadPVS("HESEB")
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
 		#self.cfg["expType"] = config.ConfigGUI(self.paths).masterExpType
