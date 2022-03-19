@@ -176,7 +176,7 @@ class HESEBSCAN:
 
 		self.PVs["DCM:Energy:SP"].put(SP, wait=True)
 		#self.PVs["DCM:Move"].put(1, wait=True)
-		#time.sleep(0.1) 
+		time.sleep(1) 
 
 		log.info("Move DCM to energy: {}".format(SP))
 		while self.PVs["DCM:Energy:Moving"].get() ==0 or self.PVs["DCM:Energy:Moving2"].get() ==0:
