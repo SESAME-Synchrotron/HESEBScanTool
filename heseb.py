@@ -37,10 +37,10 @@ class HESEBSCAN:
 	def __init__(self,testingMode = "No"):
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
-		self.loadPVS("HESEB")
+		self.loadPVS("xafs")
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
-		self.cfg["expType"] = config.ConfigGUI(self.paths).masterExpType
+		#self.cfg["expType"] = config.ConfigGUI(self.paths).masterExpType
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
@@ -623,9 +623,9 @@ class HESEBSCAN:
 		
 	def dataTransfer(self):
 		try:
-			dataTransfer(self.localDataPath, self.paths["remoteServer1"]).scp()
-			#if self.cfg["expType"] == "proposal":
-			#	dataTransfer(self.localDataPath, self.userinfo["Experimental_Data_Path"]).scp()
+			dataTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
+			if self.cfg["expType"] == "proposal":
+				dataTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
 			log.info("Data transfer is done")
 		except:
 			log.error("Problem transfering the data")
