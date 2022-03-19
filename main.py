@@ -12,7 +12,7 @@ except ImportError as error:
 	print("pyepics\nnumpy\nPyQt5\n")
 	sys.exit()
 
-import xafs
+import heseb
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -26,5 +26,5 @@ tMode = args.testingMode
 
 
 if __name__ == "__main__":
-    xafs.XAFSSCAN(testingMode = tMode)
+    heseb.HESEBSCAN(testingMode = tMode)
     sys.exit(app.exit())
