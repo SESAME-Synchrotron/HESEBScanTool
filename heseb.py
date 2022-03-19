@@ -179,7 +179,7 @@ class HESEBSCAN:
 		#time.sleep(0.1) 
 
 		log.info("Move DCM to energy: {}".format(SP))
-		while not self.PVs["DCM:Energy:Moving"].get() or not self.PVs["DCM:Energy:Moving2"].get():
+		while self.PVs["DCM:Energy:Moving"].get() ==0 or self.PVs["DCM:Energy:Moving2"].get() ==0:
 			#print("DCM moving ...")
 			if curentScanInfo == None:
 				CLIMessage("DCM is moving to start point ... ", "I")
@@ -187,8 +187,8 @@ class HESEBSCAN:
 				#print(curentScanInfo)
 				CLIMessage("DCM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
 					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "I")
-			self.motors["DCM:Theta"].put("stop_go",3)
-			self.motors["DCM:Y"].put("stop_go",3)
+			#self.motors["DCM:Theta"].put("stop_go",3)
+			#self.motors["DCM:Y"].put("stop_go",3)
 			#self.PVs["DCM:Move"].put(1, wait=True)
 			time.sleep(self.cfg["settlingTime"])
 			
