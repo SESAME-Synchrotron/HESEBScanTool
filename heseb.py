@@ -48,7 +48,7 @@ class HESEBSCAN:
 		self.detChosen = None 
 		self.userinfo	= Common.loadjson("configrations/userinfo.json")
 		self.initPaths()
-		self.initDCM()
+		self.initPGM()
 		self.initDetectors()
 
 		# Set ^C interrupt to abort the scan
@@ -106,9 +106,7 @@ class HESEBSCAN:
 	def initPaths(self):
 		log.info("Paths initialization")
 		self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
-		#self.BasePath			=	"{}/SEM[{}]/XAFS/{}".format(self.paths['local_data_path'], self.userinfo["Semester"], self.userinfo['Proposal'])
 		self.BasePath			=	"{}/{}-{}".format(self.paths["local_data_path"],self.cfg["DataFileName"],self.creationTime)
-		#self.cfgdirpath			=	"{}/configuration".format(self.BasePath)
 		self.cfgfilepath		=	"{}/{}_config_{}.cfg".format(self.BasePath,self.cfg["DataFileName"],self.creationTime) 
 		self.localDataPath		=   "{}".format(self.BasePath)
 
@@ -122,10 +120,6 @@ class HESEBSCAN:
 
 		self.dataFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
 		self.dataFileFullPath		=	"{}/{}".format(self.localDataPath, self.dataFileName)
-
-		#self.datFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(time.strftime("%Y_%m_%dT%H_%M_%S")))
-		#self.datFilepath		=	"{}/{}".format(self.localDataPath, self.datFileName)
-		#self.expStartTime = str(time.strftime("%Y_%m_%dT%H_%M_%S")) # part of the file name works with all OSs
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
 
 		if not os.path.exists(self.localDataPath): 
@@ -151,44 +145,44 @@ class HESEBSCAN:
 		
 		return itertools.product(Samples,Scans,Intervals)    	
 
-	def initDCM(self):
-		log.info("DCM initialization")
+	def initPGM(self):
+		log.info("PGM initialization")
 		self.PVs["SCAN:pause"].put(0, wait=True) # set pause flag to Fales 
-		self.motors["DCM:Theta"].put("stop_go",0) # Stop
+		self.motors["PGM:Grating"].put("stop_go",0) # Stop
 		time.sleep(0.1)
-		self.motors["DCM:Theta"].put("stop_go",3) # Go
+		self.motors["PGM:Grating"].put("stop_go",3) # Go
 		time.sleep(0.1)
 
-		self.motors["DCM:Y"].put("stop_go",0) # Stop
+		self.motors["PGM:M2"].put("stop_go",0) # Stop
 		time.sleep(0.1)
-		self.motors["DCM:Y"].put("stop_go",3) # Go
+		self.motors["PGM:M2"].put("stop_go",3) # Go
 		time.sleep(0.1)
 
 		self.energy0 = self.cfg["Intervals"][0]["Startpoint"]
-		log.info("Move DCM to initial energy ({})".format(self.energy0))
-		self.MoveDCM(self.energy0)
+		log.info("Move PGM to initial energy ({})".format(self.energy0))
+		self.MovePGM(self.energy0)
 
-	def MoveDCM(self,SP, curentScanInfo=None):
-		self.motors["DCM:Theta"].put("stop_go",0, wait=True) # Stop
+	def MovePGM(self,SP, curentScanInfo=None):
+		self.motors["PGM:Grating"].put("stop_go",0, wait=True) # Stop
 		#time.sleep(0.1)
-		self.motors["DCM:Theta"].put("stop_go",3, wait=True) # Go
+		self.motors["PGM:Grating"].put("stop_go",3, wait=True) # Go
 		#time.sleep(0.1)
 
 		self.PVs["DCM:Energy:SP"].put(SP, wait=True)
 		#self.PVs["DCM:Move"].put(1, wait=True)
 		time.sleep(1) 
 
-		log.info("Move DCM to energy: {}".format(SP))
-		while self.PVs["DCM:Energy:Moving"].get() ==0 or self.PVs["DCM:Energy:Moving2"].get() ==0:
-			#print("DCM moving ...")
+		log.info("Move PGM to energy: {}".format(SP))
+		while self.PVs["PGM:Energy:Moving"].get() ==0 or self.PVs["PGM:Energy:Moving2"].get() ==0:
+			#print("PGM moving ...")
 			if curentScanInfo == None:
-				CLIMessage("DCM is moving to start point ... ", "I")
+				CLIMessage("PGM is moving to start point ... ", "I")
 			else:
 				#print(curentScanInfo)
-				CLIMessage("DCM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
+				CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
 					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
-			#self.motors["DCM:Theta"].put("stop_go",3)
-			#self.motors["DCM:Y"].put("stop_go",3)
+			#self.motors["PGM:Grating"].put("stop_go",3)
+			#self.motors["PGM:M2"].put("stop_go",3)
 			#self.PVs["DCM:Move"].put(1, wait=True)
 			time.sleep(self.cfg["settlingTime"])
 			
@@ -499,7 +493,7 @@ class HESEBSCAN:
 				curentScanInfo.append({"RINGCurrent":self.PVs["RING:Current"].get()})
 				curentScanInfo.append({"sampleTitle":self.cfg["Samplespositions"][sample-1]["sampleTitle"]})
 
-				self.MoveDCM(point, curentScanInfo)
+				self.MovePGM(point, curentScanInfo)
 				args= {}
 				args["FrameDuration"] = FrameDuration
 				args["ICsIntTime"] = ICsIntTime
@@ -529,8 +523,8 @@ class HESEBSCAN:
 					ACQdata={**ACQdata,**det.data}
 					expData.update(ACQdata)
 
-				Energy	=	self.PVs["DCM:Energy:RBV"].get()
-				log.info("reading DCM energy")
+				Energy	=	self.PVs["PGM:Energy:RBV"].get()
+				log.info("reading PGM energy")
 
 				ACQdata["Sample#"] = sample
 				ACQdata["Scan#"] = scan

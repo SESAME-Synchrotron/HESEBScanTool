@@ -1,15 +1,15 @@
 {
 	"PV":{
-		"DCM:Energy:SP":{
+		"PGM:Energy:SP":{
 			"pvname":"I11OH-PGM:setEnergy"
 		},
-		"DCM:Energy:RBV":{
+		"PGM:Energy:RBV":{
 			"pvname":"I11OH-PGM:getEnergy"
 		},
-		"DCM:Energy:Moving":{
+		"PGM:Energy:Moving":{
 			"pvname":"I11R1-MO-MC2:OH-GRATING-STP-ROTX.DMOV"
 		},
-		"DCM:Energy:Moving2":{
+		"PGM:Energy:Moving2":{
 			"pvname":"I11R1-MO-MC2:OH-M2-STP-ROTX.DMOV"
 		},
 		"PLOT:Energy":{
@@ -87,10 +87,10 @@
 
 	},
 	"Motors":{
-		"DCM:Theta":{
+		"PGM:Grating":{
 			"pvname":"I11R1-MO-MC2:OH-GRATING-STP-ROTX"
 		},
-		"DCM:Y":{
+		"PGM:M2":{
 			"pvname":"I11R1-MO-MC2:OH-M2-STP-ROTX"
 		},
 		"SMP:X":{
