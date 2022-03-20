@@ -168,7 +168,7 @@ class HESEBSCAN:
 		self.motors["PGM:Grating"].put("stop_go",3, wait=True) # Go
 		#time.sleep(0.1)
 
-		self.PVs["DCM:Energy:SP"].put(SP, wait=True)
+		self.PVs["PGM:Energy:SP"].put(SP, wait=True)
 		#self.PVs["DCM:Move"].put(1, wait=True)
 		time.sleep(1) 
 
