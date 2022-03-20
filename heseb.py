@@ -186,7 +186,7 @@ class HESEBSCAN:
 			else:
 				#print(curentScanInfo)
 				CLIMessage("DCM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "I")
+					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
 			#self.motors["DCM:Theta"].put("stop_go",3)
 			#self.motors["DCM:Y"].put("stop_go",3)
 			#self.PVs["DCM:Move"].put(1, wait=True)
