@@ -176,7 +176,7 @@ class HESEBSCAN:
 		while self.PVs["PGM:Energy:Moving"].get() ==0 or self.PVs["PGM:Energy:Moving2"].get() ==0:
 			#print("PGM moving ...")
 			if curentScanInfo == None:
-				CLIMessage("PGM is moving to start point ... ", "I")
+				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IG")
 			else:
 				#print(curentScanInfo)
 				CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
