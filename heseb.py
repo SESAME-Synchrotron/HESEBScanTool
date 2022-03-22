@@ -185,6 +185,8 @@ class HESEBSCAN:
 			self.motors["PGM:M2"].put("stop_go",3)
 			#self.PVs["DCM:Move"].put(1, wait=True)
 			time.sleep(self.cfg["settlingTime"])
+
+		time.sleep(self.cfg["settlingTime"])
 			
 	def MoveSmpX(self,SP):
 		log.info("Move sample X to: {}".format(SP))
