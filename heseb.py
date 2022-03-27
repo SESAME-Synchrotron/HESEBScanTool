@@ -433,6 +433,10 @@ class HESEBSCAN:
 				self.detectors.append(KETEK("KETEK",self.paths))
 			elif det == "FICUS":
 				self.detectors.append(FICUS("FICUS",self.paths,self.userinfo))
+			elif det == "PICO1":
+				CLIMessage("PICO1", "E")
+			elif det == "PICO2":
+				CLIMessage("PICO2", "E")
 			elif not det in self.available_detectors:
 				raise Exception("Unknown detector")
 				log.error("Unknown detector is Chosen")
