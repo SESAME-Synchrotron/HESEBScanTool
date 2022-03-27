@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SED | XAFS/XRF Scanning Tool</string>
+   <string>SED | HESEB Scanning Tool</string>
   </property>
   <widget class="QWizardPage" name="ExpType">
    <widget class="QGroupBox" name="groupBox">
@@ -243,7 +243,7 @@
        </widget>
       </item>
       <item row="2" column="1" colspan="2">
-       <widget class="QLineEdit" name="setNumofExafsScans">
+       <widget class="QLineEdit" name="setNumofScans">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -726,7 +726,7 @@
   <tabstop>editIntrv</tabstop>
   <tabstop>setNumofSamples</tabstop>
   <tabstop>editSample</tabstop>
-  <tabstop>setNumofExafsScans</tabstop>
+  <tabstop>setNumofScans</tabstop>
   <tabstop>configureDetectors</tabstop>
   <tabstop>setDataFileName</tabstop>
   <tabstop>edge</tabstop>
