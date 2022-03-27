@@ -102,7 +102,7 @@ class XDIWriter:
 
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
-			f.write("# XDI/1.0 SED_XAFS/0.9\n")
+			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
@@ -183,7 +183,7 @@ class XDIWriter:
 		
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
-			f.write("# XDI/1.0 SED_XAFS/0.9\n")
+			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
@@ -213,7 +213,7 @@ class XDIWriter:
 			f.write("# Mono.name: {}\n".format(self.Mono))
 			f.write("# Mono.d_spacing: {}\n".format(self.d_spacing))
 			f.write("# Mono.settling_time: {}\n".format(self.settlingTime))
-			f.write("# Beamline.name: XAFS/XRF Beamline (08-BM)\n")
+			f.write("# Beamline.name: HESEB | Soft X-ray beamline (ID11)\n")
 			f.write("# Beamline.collimation: slits\n")
 			f.write("# Beamline.focusing: no\n")
 			f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
@@ -252,7 +252,7 @@ class XDIWriter:
 		
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
-			f.write("# XDI/1.0 SED_XAFS/0.9\n")
+			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
@@ -272,7 +272,7 @@ class XDIWriter:
 			f.write("# Mono.name: {}\n".format(self.Mono))
 			f.write("# Mono.d_spacing: {}\n".format(self.d_spacing))
 			f.write("# Mono.settling_time: {}\n".format(self.settlingTime))
-			f.write("# Beamline.name: XAFS/XRF Beamline (08-BM)\n")
+			f.write("# Beamline.name: HESEB | Soft X-ray beamline (ID11)\n")
 			f.write("# Beamline.collimation: slits\n")
 			f.write("# Beamline.focusing: no\n")
 			f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
@@ -309,7 +309,7 @@ class XDIWriter:
 	def createICFXDIFile(self): 
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
-			f.write("# XDI/1.0 SED_XAFS/0.9\n")
+			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
@@ -337,7 +337,7 @@ class XDIWriter:
 			f.write("# Mono.name: {}\n".format(self.Mono))
 			f.write("# Mono.d_spacing: {}\n".format(self.d_spacing))
 			f.write("# Mono.settling_time: {}\n".format(self.settlingTime))
-			f.write("# Beamline.name: XAFS/XRF Beamline (08-BM)\n")
+			f.write("# Beamline.name: HESEB | Soft X-ray beamline (ID11)\n")
 			f.write("# Beamline.collimation: slits\n")
 			f.write("# Beamline.focusing: no\n")
 			f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
