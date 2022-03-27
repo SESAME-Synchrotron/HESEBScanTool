@@ -124,7 +124,7 @@ class ConfigGUI:
 		else:
 			Common.show_message(QtWidgets.QMessageBox.Critical,
 								"Please enter Number of Intervals",
-								"XAFS/XRF scan tool", QtWidgets.QMessageBox.Ok)
+								"HESEB scan tool", QtWidgets.QMessageBox.Ok)
 
 	def Detectors(self):
 		if "detectors" in self.cfg.keys():
@@ -143,7 +143,7 @@ class ConfigGUI:
 		else:
 			Common.show_message(QtWidgets.QMessageBox.Critical,
 								"Please enter Number of samples",
-								"XAFS/XRF scan tool", QtWidgets.QMessageBox.Ok)
+								"HESEB scan tool", QtWidgets.QMessageBox.Ok)
 
 	def BrowseCfgFile(self):
 		try:
@@ -173,7 +173,7 @@ class ConfigGUI:
 	
 			self.guiObj.setNumofIterv.setText(str(NIntervals))
 			self.guiObj.setNumofSamples.setText(str(Nsamples))
-			self.guiObj.setNumofExafsScans.setText(str(Nscans))
+			self.guiObj.setNumofScans.setText(str(Nscans))
 			self.guiObj.settlingTime.setText(str(settlingTime))
 			self.guiObj.setDataFileName.setText(self.cfg["DataFileName"])
 			self.guiObj.edge.setCurrentText(str(self.cfg["ExpMetaData"][3]["edge"]))
@@ -240,7 +240,7 @@ class ConfigGUI:
 				CLIMessage("Please enter valid number of Samples","W")
 				return self.WizardPages.editCfg.value
 
-			Nscans = self.guiObj.setNumofExafsScans.text()
+			Nscans = self.guiObj.setNumofScans.text()
 			if Nscans == '' or not Common.regexvalidation("Nscans", Nscans):
 				CLIMessage("Please enter valid number of scans","W")
 				return self.WizardPages.editCfg.value
@@ -370,7 +370,7 @@ class ConfigGUI:
 					expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
 				else:
 					Common.show_message(QtWidgets.QMessageBox.Critical,
-						"Enter a valid format of the periodic element please !!","XAFS/XRF Scan tool",
+						"Enter a valid format of the periodic element please !!","HESEB scan tool",
 						QtWidgets.QMessageBox.Ok)
 					return self.WizardPages.editCfg.value
 
@@ -385,7 +385,7 @@ class ConfigGUI:
 					expMetaData.append({"energy":self.guiObj.energy.text()})
 				else:
 					Common.show_message(QtWidgets.QMessageBox.Critical,
-						"Enter a valid energy please !!","XAFS/XRF Scan tool",
+						"Enter a valid energy please !!","HESEB scan tool",
 						QtWidgets.QMessageBox.Ok)
 					return self.WizardPages.editCfg.value
 			###################################
@@ -464,7 +464,7 @@ class ConfigGUI:
 		else:
 			self.cfg["Nsamples"] = int(Nsamples)
 
-		Nscans = self.guiObj.setNumofExafsScans.text()
+		Nscans = self.guiObj.setNumofScans.text()
 		if Nscans == '' or not Common.validate("Nscans", Nscans, "Please enter valid Number of scans"):
 			CLIMessage("Pleae enter a valid number of scans", "W")
 			return self.WizardPages.editCfg.value
@@ -595,7 +595,7 @@ class SamplePosGUI:
 		bring default x and y positions 
 		"""
 
-		PVs = readFile("pvlist/xafs.json").readJSON()
+		PVs = readFile("pvlist/HESEB.json").readJSON()
 		XpositionPV = PVs["Motors"]["SMP:X"]["pvname"]
 		YpositionPV = PVs["Motors"]["SMP:Y"]["pvname"] 
 
@@ -693,7 +693,7 @@ class IntervalGUI:
 				#	Common.show_message(QtWidgets.QMessageBox.Critical,
 				#		"Invalid interval(s) settings, "\
 				#		"the the tool will quite now, re-run it again and please make sure that the intervals configrations are correct"
-				#		,"XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+				#		,"HESEB scan tool",QtWidgets.QMessageBox.Ok)
 				#	sys.exit()
 	def setIntervalsNumber(self, cfg):
 		
@@ -809,13 +809,13 @@ class SED:
 		header = next(ProposalData)
 		if not len(header) == len(SED.Header):
 			print("invalid file: missing columns")
-			Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: missing columns","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+			Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: missing columns","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 			sys.exit()
 
 		for col_name in header:
 			if not col_name in SED.Header:
 				print("invalid file: unexpected column(s)")
-				Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: unexpected column(s)","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+				Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: unexpected column(s)","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 				sys.exit()	
 
 		for col in header:
@@ -827,7 +827,7 @@ class SED:
 		if result == True:
 			return propsal_data
 		else:
-			Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: metadata validation failed","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+			Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: metadata validation failed","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 			print(result)
 			sys.exit()
 
@@ -861,13 +861,13 @@ class SED:
 					PathsFile.close()
 					return True
 				except Exception as e:
-					Common.show_message(QtWidgets.QMessageBox.Critical,"local configuration files missing","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+					Common.show_message(QtWidgets.QMessageBox.Critical,"local configuration files missing","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 				return False	
 			else:
 				Common.show_message(QtWidgets.QMessageBox.Critical,"wrong proposal ID or not scheduled","Proposal ID vedrification",QtWidgets.QMessageBox.Ok)
 				return False
 		else:
-			Common.show_message(QtWidgets.QMessageBox.Critical,"invalid proposal ID","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+			Common.show_message(QtWidgets.QMessageBox.Critical,"invalid proposal ID","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 			return False
 
 	def init(self, proposalID):
@@ -886,7 +886,7 @@ class SED:
 					"Scanning_Tool.csv files is not exist", 
 					"Try to start the experiment again, if the problem continues please contact the DCA Group").showCritical()
 			CLIMessage("Error reading today's metadata file","E")
-			#Common.show_message(QtWidgets.QMessageBox.Critical,"Metadata gathering error","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+			#Common.show_message(QtWidgets.QMessageBox.Critical,"Metadata gathering error","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 			#sys.exit()
 
 		#FNULL.close()

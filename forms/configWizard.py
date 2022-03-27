@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/configWizard.ui'
+# Form implementation generated from reading ui file 'configWizard.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -98,10 +98,10 @@ class Ui_Wizard(object):
         self.label_34 = QtWidgets.QLabel(self.widget)
         self.label_34.setObjectName("label_34")
         self.gridLayout_2.addWidget(self.label_34, 2, 0, 1, 1)
-        self.setNumofExafsScans = QtWidgets.QLineEdit(self.widget)
-        self.setNumofExafsScans.setAlignment(QtCore.Qt.AlignCenter)
-        self.setNumofExafsScans.setObjectName("setNumofExafsScans")
-        self.gridLayout_2.addWidget(self.setNumofExafsScans, 2, 1, 1, 2)
+        self.setNumofScans = QtWidgets.QLineEdit(self.widget)
+        self.setNumofScans.setAlignment(QtCore.Qt.AlignCenter)
+        self.setNumofScans.setObjectName("setNumofScans")
+        self.gridLayout_2.addWidget(self.setNumofScans, 2, 1, 1, 2)
         self.label_37 = QtWidgets.QLabel(self.widget)
         self.label_37.setObjectName("label_37")
         self.gridLayout_2.addWidget(self.label_37, 3, 0, 1, 1)
@@ -309,8 +309,8 @@ class Ui_Wizard(object):
         Wizard.setTabOrder(self.setNumofIterv, self.editIntrv)
         Wizard.setTabOrder(self.editIntrv, self.setNumofSamples)
         Wizard.setTabOrder(self.setNumofSamples, self.editSample)
-        Wizard.setTabOrder(self.editSample, self.setNumofExafsScans)
-        Wizard.setTabOrder(self.setNumofExafsScans, self.configureDetectors)
+        Wizard.setTabOrder(self.editSample, self.setNumofScans)
+        Wizard.setTabOrder(self.setNumofScans, self.configureDetectors)
         Wizard.setTabOrder(self.configureDetectors, self.setDataFileName)
         Wizard.setTabOrder(self.setDataFileName, self.edge)
         Wizard.setTabOrder(self.edge, self.sampleName)
@@ -332,7 +332,7 @@ class Ui_Wizard(object):
 
     def retranslateUi(self, Wizard):
         _translate = QtCore.QCoreApplication.translate
-        Wizard.setWindowTitle(_translate("Wizard", "SED | XAFS/XRF Scanning Tool"))
+        Wizard.setWindowTitle(_translate("Wizard", "SED | HESEB Scanning Tool"))
         self.groupBox.setTitle(_translate("Wizard", "Please choose your experiment type"))
         self.UsersExp.setText(_translate("Wizard", "Users Experiment"))
         self.LocalExp.setText(_translate("Wizard", "Local Experiment"))

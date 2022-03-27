@@ -517,6 +517,7 @@ class HESEBSCAN:
 
 				ACQdata={**ACQdata,**det.data}
 				log.info("Collecting data from detectors")
+				log.info("PGM Energy: {}".format(self.PVs["PGM:Energy:RBV"].get()))
 				expData.update(ACQdata)
 
 				log.info("Applying post acquisition for selected detectors if applicable")
