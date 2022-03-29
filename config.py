@@ -220,12 +220,12 @@ class ConfigGUI:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KETEK")
 				detCheckbox.setChecked(True)
 			
-			if "PICO1" in self.cfg["detectors"]:
-				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "PICO1")
+			if "KEITHLEY_I0" in self.cfg["detectors"]:
+				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KEITHLEY_I0")
 				detCheckbox.setChecked(True)
 			
-			if "PICO2" in self.cfg["detectors"]:
-				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "PICO2")
+			if "KEITHLEY_Itrans" in self.cfg["detectors"]:
+				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KEITHLEY_Itrans")
 				detCheckbox.setChecked(True)
 
 			self.cfg["expType"] = self.masterExpType # to avoid overwriting the choosen exp type when load a config file
@@ -780,7 +780,7 @@ class IntervalGUI:
 
 class DetectorsGUI:		
 	def __init__(self):
-		self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "PICO1", "PICO2"]
+		self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)

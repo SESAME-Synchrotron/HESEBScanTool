@@ -19,7 +19,8 @@ class IC(Base):
 		intTime = args["ICsIntTime"]
 		time.sleep(int(intTime)+self.scanLimites["KetekReadoutAvrageTime"])
 		
-		IC0avg = self.PVs["IC0AvrVolt"].get()
+		# IC0avg = self.PVs["IC0AvrVolt"].get()
+		IC0avg = epics.PV("K6487:1:Measure").get()
 		#CLIMessage("IC1 ACQ Done:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "M")
 		#print("+++++++++IC0avg", IC0avg)
 		self.data["IC1[V]"]	=	IC0avg if IC0avg > 5e-10 else 1E-16
@@ -27,7 +28,8 @@ class IC(Base):
 		#print ("self.data[IC1[V]]", self.data["IC1[V]"])
 		
 
-		IC1avg = self.PVs["IC1AvrVolt"].get()
+		IC1avg = self.PVs["IC1AvrVolt"].get() 
+		#IC1avg = epics.PV("K6487:1:Measure").get()
 		#CLIMessage("IC2 ACQ Done:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "M")
 		self.data["IC2[V]"]	=	IC1avg if IC1avg > 5e-10 else 1E-16
 		

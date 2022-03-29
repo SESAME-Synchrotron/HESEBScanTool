@@ -1,3 +1,0 @@
-Sample#,Scan#,Interval,ENERGY-RBK,IC1[V],IC2[V],IC3[V],TRANS,TransRef,If,FLUOR,ROI_0[c/s],ROI_1[c/s],ROI_2[c/s],ROI_3[c/s],ROI_4[c/s],ROI_5[c/s],ROI_6[c/s],ROI_7[c/s],e-time[sec],DEADTIME[%],INT_TIME[sec],OCR,ICR
-0,0,0,0,0,0,1e-16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-0,0,0,0,0,0,1e-16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

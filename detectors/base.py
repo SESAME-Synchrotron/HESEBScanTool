@@ -14,48 +14,56 @@ class Base:
 		"""
 		self.name = name
 		self.data = {}
-		self.data["Sample#"]		=	0
-		self.data["Scan#"]			=	0
-		self.data["Interval"]		=	0
-		self.data["ENERGY-RBK"]		=	0
-		self.data["IC1[V]"]			=	0
-		self.data["IC2[V]"]			=	0
-		self.data["IC3[V]"]			=	0
-		self.data["TRANS"]			=	0
-		self.data["TransRef"]		=	0
+		self.data["Sample#"]					=	0
+		self.data["Scan#"]						=	0
+		self.data["Interval"]					=	0
+		self.data["ENERGY-RBK"]					=	0
+		self.data["IC1[V]"]						=	0
+		self.data["IC2[V]"]						=	0
+		self.data["IC3[V]"]						=	0
+		self.data["TRANS"]						=	0
+		self.data["TransRef"]					=	0
 		if name == "KETEK": 
-			self.data["KETEK-If"] = 0
-			self.data["KETEK-FLUOR"] = 0
-			self.data["KETEK-ROI_0[c/s]"] =	0
-			self.data["KETEK-ROI_1[c/s]"] =	0
-			self.data["KETEK-ROI_2[c/s]"] =	0
-			self.data["KETEK-ROI_3[c/s]"] =	0
-			self.data["KETEK-ROI_4[c/s]"] =	0
-			self.data["KETEK-ROI_5[c/s]"] =	0
-			self.data["KETEK-ROI_6[c/s]"] =	0
-			self.data["KETEK-ROI_7[c/s]"] =	0
-			self.data["KETEK-e-time[sec]"] = 0
-			self.data["KETEK-DEADTIME[%]"] = 0
-			self.data["KETEK-INT_TIME[sec]"] = 0
-			self.data["KETEK-OCR"] = 0
-			self.data["KETEK-ICR"] = 0
+			self.data["KETEK-If"] 				= 	0
+			self.data["KETEK-FLUOR"] 			= 	0
+			self.data["KETEK-ROI_0[c/s]"] 		=	0
+			self.data["KETEK-ROI_1[c/s]"] 		=	0
+			self.data["KETEK-ROI_2[c/s]"] 		=	0
+			self.data["KETEK-ROI_3[c/s]"] 		=	0
+			self.data["KETEK-ROI_4[c/s]"] 		=	0
+			self.data["KETEK-ROI_5[c/s]"] 		=	0
+			self.data["KETEK-ROI_6[c/s]"] 		=	0
+			self.data["KETEK-ROI_7[c/s]"] 		=	0
+			self.data["KETEK-e-time[sec]"] 		= 	0
+			self.data["KETEK-DEADTIME[%]"] 		= 	0
+			self.data["KETEK-INT_TIME[sec]"] 	= 	0
+			self.data["KETEK-OCR"] 				= 	0
+			self.data["KETEK-ICR"] 				= 	0
 		
 		elif name == "FICUS": 
-			self.data["FICUS-If"] = 0
-			self.data["FICUS-FLUOR"] = 0
-			self.data["FICUS-ROI_0[c/s]"] =	0
-			self.data["FICUS-ROI_1[c/s]"] =	0
-			self.data["FICUS-ROI_2[c/s]"] =	0
-			self.data["FICUS-ROI_3[c/s]"] =	0
-			self.data["FICUS-ROI_4[c/s]"] =	0
-			self.data["FICUS-ROI_5[c/s]"] =	0
-			self.data["FICUS-ROI_6[c/s]"] =	0
-			self.data["FICUS-ROI_7[c/s]"] =	0
-			self.data["FICUS-e-time[sec]"] = 0
-			self.data["FICUS-DEADTIME[%]"] = 0
-			self.data["FICUS-INT_TIME[sec]"] = 0
-			self.data["FICUS-OCR"] = 0
-			self.data["FICUS-ICR"] = 0
+			self.data["FICUS-If"] 				= 	0
+			self.data["FICUS-FLUOR"] 			= 	0
+			self.data["FICUS-ROI_0[c/s]"] 		=	0
+			self.data["FICUS-ROI_1[c/s]"] 		=	0
+			self.data["FICUS-ROI_2[c/s]"] 		=	0
+			self.data["FICUS-ROI_3[c/s]"] 		=	0
+			self.data["FICUS-ROI_4[c/s]"] 		=	0
+			self.data["FICUS-ROI_5[c/s]"] 		=	0
+			self.data["FICUS-ROI_6[c/s]"] 		=	0
+			self.data["FICUS-ROI_7[c/s]"] 		=	0
+			self.data["FICUS-e-time[sec]"]		= 	0
+			self.data["FICUS-DEADTIME[%]"]		= 	0
+			self.data["FICUS-INT_TIME[sec]"] 	= 	0
+			self.data["FICUS-OCR"] 				= 	0
+			self.data["FICUS-ICR"] 				= 	0
+
+		elif name == "KEITHLEY_I0": 
+			self.data["KEITHLEY_I0_I0"] 		= 	0 
+			self.data["mutrans"]				= 	0
+		
+		elif name == "KEITHLEY_Itrans": 
+			self.data["KEITHLEY_Itrans_Itrans"] = 	0
+			self.data["mutrans"]				= 	0
 
 
 	def loadPVS(self,name):
