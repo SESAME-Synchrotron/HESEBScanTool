@@ -1,0 +1,12 @@
+{
+	"PV":
+	{
+		"picoAmmeter1Current":{
+			"pvname":"K6487:1:Measure"
+		},
+		"picoAmmeter1CurrentRange":{
+			"pvname":"K6487:1:Measure.SCAN"
+		}
+	}
+	
+}
