@@ -16,6 +16,7 @@ from common import Common
 from detectors.ficus import FICUS
 from detectors.ketek import KETEK
 from detectors.ic import IC
+from detectors.keithley_i0 import KEITHLEY_I0
 from SEDSS.SEDSupplements import CLIMessage
 from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
 import threading
@@ -434,7 +435,7 @@ class HESEBSCAN:
 			elif det == "FICUS":
 				self.detectors.append(FICUS("FICUS",self.paths,self.userinfo))
 			elif det == "KEITHLEY_I0":
-				CLIMessage("KEITHLEY_I0", "E")
+				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0",self.paths,self.userinfo))
 			elif det == "KEITHLEY_Itrans":
 				CLIMessage("KEITHLEY_Itrans", "E")
 			elif not det in self.available_detectors:
@@ -487,7 +488,7 @@ class HESEBSCAN:
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
 			FrameDuration = currentInterval["DetIntTime"]
-			ICsIntTime = currentInterval["IcsIntTime"]
+			picoAmmetersIntTime = currentInterval["picoAmmetersIntTime"]
 			points = self.drange(startpoint,endpoint,stepsize)
 
 			for point in points:
@@ -502,7 +503,7 @@ class HESEBSCAN:
 				self.MovePGM(point, curentScanInfo)
 				args= {}
 				args["FrameDuration"] = FrameDuration
-				args["ICsIntTime"] = ICsIntTime
+				args["picoAmmetersIntTime"] = picoAmmetersIntTime
 				ACQdata = {}
 				detThreadList = []
 

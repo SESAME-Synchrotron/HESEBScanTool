@@ -37,6 +37,7 @@ class ConfigGUI:
 		self.guiObj.setupUi(self.Qwiz)
 
 		self.paths = paths
+		self.allowedPicoIntTime = [10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1]
 
 		self.cfg = {}
 		self.expType = "users"
@@ -61,6 +62,7 @@ class ConfigGUI:
 		self.guiObj.editSample.clicked.connect(self.editSamples)
 		self.guiObj.configureDetectors.clicked.connect(self.Detectors)
 		self.Qwiz.exec_()
+
 	def onClose(self): 
 		CLIMessage("===========    Close the scanning tool    ===========","W")
 		sys.exit()
@@ -200,7 +202,7 @@ class ConfigGUI:
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Startpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.end.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Endpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.step.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Stepsize"]),0))
-				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["IcsIntTime"]),0))
+				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["picoAmmetersIntTime"]),0))
 	
 				cbox = AcqTime(interval,self.cfg["Intervals"][interval]["DetIntTime"])
 				self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
@@ -297,11 +299,18 @@ class ConfigGUI:
 					CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
 
 				try:
-					IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
-					if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time for "\
+					picoAmmIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
+					if picoAmmIntTime == '' or not Common.validate("picoAmmetersIntTime", end,"Please enter valid pico ammeter integration time for "\
 						"interval number {}".format(interval)):
-						CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
+						CLIMessage("Please check/enter the pico ammeter integration time for interval number {}".format(interval), "W") 
 						return self.WizardPages.editCfg.value
+
+					for itemList in self.allowedPicoIntTime: 
+						if float(picoAmmIntTime) == float(itemList):
+							print(self.allowedPicoIntTime.index(float(picoAmmIntTime))+3) # +3 has been added to compensate the index that is not avilable in the self.allowedPicoIntTime but in EPICS IOC
+							
+						CLIMessage("Intervals | Please enter a valid pico ammeter integration time, allowed values are: 10, 5, 2, 1, 0.5, 0.2, 0.1 ONLY","W")
+						#return self.WizardPages.editCfg.value
 				except: 
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
 
@@ -516,12 +525,15 @@ class ConfigGUI:
 			else:
 				intervals[interval]["Stepsize"] = float(stepsize)
 
-			IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
-			if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time"):
-				CLIMessage("Intervals | Please enter a valid IC integration time","W")
+			picoAmmIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
+			if picoAmmIntTime == '' or not Common.validate("picoAmmetersIntTime", end,"Please enter valid pico ammeter integration time"):
+				CLIMessage("Intervals | Please enter a valid pico ammeter integration time","W")
+				return self.WizardPages.editCfg.value
+			if picoAmmIntTime not in self.allowedPicoIntTime: 
+				CLIMessage("Intervals | Please enter a valid pico ammeter integration time, allowed values are: 10, 5, 2, 1, 0.5, 0.2, 0.1 ONLY","W")
 				return self.WizardPages.editCfg.value
 			else:
-				intervals[interval]["IcsIntTime"] = float(IcIntTime)
+				intervals[interval]["picoAmmetersIntTime"] = float(picoAmmIntTime)
 
 			#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
 			intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
@@ -691,7 +703,7 @@ class IntervalGUI:
 				self.Intervals[interval]["Startpoint"] =   self.interval_UI.tableWidget.item(interval, 0).text()
 				self.Intervals[interval]["Endpoint"]   =   self.interval_UI.tableWidget.item(interval, 1).text()
 				self.Intervals[interval]["Stepsize"]   =   self.interval_UI.tableWidget.item(interval, 2).text()
-				self.Intervals[interval]["IcsIntTime"] =   self.interval_UI.tableWidget.item(interval, 3).text()
+				self.Intervals[interval]["picoAmmetersIntTime"] =   self.interval_UI.tableWidget.item(interval, 3).text()
 				self.Intervals[interval]["DetIntTime"] =   self.FicusIntTimeDic[interval]
 			except:
 				pass
@@ -723,7 +735,7 @@ class IntervalGUI:
 					self.Intervals[interval]["Startpoint"] = self.interval_UI.tableWidget.item(interval, 0).text()
 					self.Intervals[interval]["Endpoint"] = self.interval_UI.tableWidget.item(interval, 1).text()
 					self.Intervals[interval]["Stepsize"] = self.interval_UI.tableWidget.item(interval, 2).text()
-					self.Intervals[interval]["IcsIntTime"] = self.interval_UI.tableWidget.item(interval, 3).text()
+					self.Intervals[interval]["picoAmmetersIntTime"] = self.interval_UI.tableWidget.item(interval, 3).text()
 					self.Intervals[interval]["DetIntTime"] = self.FicusIntTimeDic[interval]
 				except:
 					pass 
@@ -737,7 +749,7 @@ class IntervalGUI:
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["Startpoint"]),0))
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.end.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["Endpoint"]),0))
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.step.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["Stepsize"]),0))
-						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["IcsIntTime"]),0))
+						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["picoAmmetersIntTime"]),0))
 
 						cbox = AcqTime(interval,self.Intervals[interval]["DetIntTime"])
 						cbox.currentIndexChanged.connect(self.saveindex)

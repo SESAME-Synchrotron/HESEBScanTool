@@ -9,6 +9,9 @@
 		"PGM:Energy:Moving":{
 			"pvname":"I11R1-MO-MC2:OH-GRATING-STP-ROTX.DMOV"
 		},
+		"PGM:Energy:Reached":{
+			"pvname":"I11R1-MO-MC2:TargetEnergyReached"
+		},
 		"PGM:Energy:Moving2":{
 			"pvname":"I11R1-MO-MC2:OH-M2-STP-ROTX.DMOV"
 		},

@@ -6,7 +6,7 @@
     "Endpoint": "^[0-9][0-9]*.?[0-9]*",
     "Stepsize": "^[0-9][0-9]*.?[0-9]*",
     "DetIntTime": "^[0-9][0-4]?$",
-    "IcsIntTime": "^[0-9][0-9]*.?[0-9]*",
+    "picoAmmetersIntTime": "^[0-9][0-9]*.?[0-9]*",
     "ExtTriggerIntTime": "^[0-9][0-9]*.?[0-9]*",
     "DataFileName": "^[a-z|A-Z|0-9]*[a-z|A-Z|0-9|_]+",
     "Xposition" : "^[-+]?[0-9][0-9]*.?[0-9]*",
