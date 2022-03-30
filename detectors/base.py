@@ -58,11 +58,11 @@ class Base:
 			self.data["FICUS-ICR"] 				= 	0
 
 		elif name == "KEITHLEY_I0": 
-			self.data["KEITHLEY_I0_I0"] 		= 	0 
+			self.data["KEITHLEY_I0"] 			= 	0 
 			self.data["mutrans"]				= 	0
 		
 		elif name == "KEITHLEY_Itrans": 
-			self.data["KEITHLEY_Itrans_Itrans"] = 	0
+			self.data["KEITHLEY_Itrans"] 		= 	0
 			self.data["mutrans"]				= 	0
 
 

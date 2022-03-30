@@ -5,5 +5,7 @@
 	"ICI0LowerLimit":0,
 	"KetekROI0LowerLimit":0,
 	"FicusROI0LowerLimit":0,
-	"KetekReadoutAvrageTime":0.00365
+	"KetekReadoutAvrageTime":0.00365,
+	"KeithleyLowerLimit": 1e-9
+
 }
