@@ -9,7 +9,7 @@ from SEDSS.SEDSupplements import CLIMessage
 
 from .base import Base
 
-class KETEK(Base):
+class KEITHLEY_I0(Base):
 	def __init__(self,name,paths,cfg={}):
 		super().__init__(name)
 
@@ -18,35 +18,20 @@ class KETEK(Base):
 		self.paths	= paths
 		self.cfg = cfg
 
-		self.PVs["ketek_status_rate"].put(9)
-		self.PVs["ketek_data_rate"].put(9)
-		self.PVs["ketek_realtime"].put(0.0)
-		self.PVs["ketek_livetime"].put(0.0)
-
 	def ACQ(self,args):
-		#CLIMessage("KETEK-Start ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")
-		FrameDuration = args["ICsIntTime"]
-		#CLIMessage("KETEK FrameDuration:::: {}".format(FrameDuration), "E")
-		self.PVs["ketek_realtime"].put(FrameDuration)
 		
-		#for tr in range(3):
-		#	if self.PVs["ketek_ok"].get():
-		#		self.PVs["ketek_stop"].put(1)
-		#		#time.sleep(0.1)
+		picoAmmetersIntTime = args["picoAmmetersIntTime"]
+		
+		self.PVs["ketek_realtime"].put(picoAmmetersIntTime)
+		
+		
 		self.PVs["ketek_erasestart"].put(1, wait=True)
-		#time.sleep(FrameDuration)
 		
-		#for tr in range(3):
-		#	if self.PVs["ketek_ok"].get():
-		#		self.PVs["ketek_stop"].put(1)
-		#		#time.sleep(0.1)
-
-
 
 		Elapsedtime					= 	self.data["KETEK-e-time[sec]"]	=	self.PVs["ketek_elapsedtime"].get()
 		ROIsE						=	[self.PVs["ketek_ROI_0"].get() / Elapsedtime,self.PVs["ketek_ROI_1"].get() / Elapsedtime,self.PVs["ketek_ROI_2"].get() / Elapsedtime,self.PVs["ketek_ROI_3"].get() / Elapsedtime,self.PVs["ketek_ROI_4"].get() / Elapsedtime,self.PVs["ketek_ROI_5"].get() / Elapsedtime,self.PVs["ketek_ROI_6"].get() / Elapsedtime,self.PVs["ketek_ROI_7"].get() / Elapsedtime]
 		self.data["KETEK-DEADTIME[%]"]	=	self.PVs["ketek_deadtime"].get()
-		self.data["KETEK-INT_TIME[sec]"]	=	FrameDuration
+		self.data["KETEK-INT_TIME[sec]"]	=	picoAmmetersIntTime
 		self.data["KETEK-If"]				=	ROIsE[0]
 		self.data["KETEK-ROI_0[c/s]"]		=	self.PVs["ketek_ROI_0"].get()
 		self.data["KETEK-ROI_1[c/s]"]		=	self.PVs["ketek_ROI_1"].get()
