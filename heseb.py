@@ -174,7 +174,8 @@ class HESEBSCAN:
 		time.sleep(1) 
 
 		log.info("Move PGM to energy: {}".format(SP))
-		while self.PVs["PGM:Energy:Moving"].get() ==0 or self.PVs["PGM:Energy:Moving2"].get() ==0:
+		#while self.PVs["PGM:Energy:Moving"].get() ==0 or self.PVs["PGM:Energy:Moving2"].get() ==0:
+		while self.PVs["PGM:Energy:Reached"].get() == 0: 
 			#print("PGM moving ...")
 			if curentScanInfo == None:
 				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IG")

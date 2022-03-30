@@ -17,7 +17,7 @@ class IC(Base):
 	def ACQ(self,args):
 		#CLIMessage("IC-Start ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")
 		intTime = args["picoAmmIntTimeIndex"]
-		time.sleep(int(intTime)+self.scanLimites["KetekReadoutAvrageTime"])
+		#time.sleep(int(intTime)+self.scanLimites["KetekReadoutAvrageTime"])
 		
 		# IC0avg = self.PVs["IC0AvrVolt"].get()
 		IC0avg = epics.PV("K6487:1:Measure").get()

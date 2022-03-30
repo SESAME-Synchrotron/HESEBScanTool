@@ -12,7 +12,7 @@ from .base import Base
 class KEITHLEY_I0(Base):
 	def __init__(self,name,paths,cfg={}):
 		super().__init__(name)
-		
+
 		self.loadPVS(name)
 		self.paths	= paths
 		self.cfg = cfg
@@ -26,9 +26,11 @@ class KEITHLEY_I0(Base):
 		picoAmmIntTimeIndex = int(args["picoAmmIntTimeIndex"])
 		self.PVs["picoAmmeter1CurrentRange"].put(picoAmmIntTimeIndex)
 		time.sleep( float( self.allowedPicoIntTime[picoAmmIntTimeIndex - 3] ) )
+		print ("float( self.allowedPicoIntTime[picoAmmIntTimeIndex - 3] )", float( self.allowedPicoIntTime[picoAmmIntTimeIndex - 3] ))
 		
 		try: 
 			self.data["KEITHLEY_I0"] = self.PVs["picoAmmeter1Current"].get()
+			print ("###############################")
 		except:
 			CLIMessage("Warning: Please check the KETEK Detector", "E")
 			pass
