@@ -164,28 +164,35 @@ class HESEBSCAN:
 		self.MovePGM(self.energy0)
 
 	def MovePGM(self,SP, curentScanInfo=None):
-		self.motors["PGM:Grating"].put("stop_go",0, wait=True) # Stop
-		#time.sleep(0.1)
-		self.motors["PGM:Grating"].put("stop_go",3, wait=True) # Go
-		#time.sleep(0.1)
+		# self.motors["PGM:Grating"].put("stop_go",0, wait=True) # Stop
+		# #time.sleep(0.1)
+		# self.motors["PGM:Grating"].put("stop_go",3, wait=True) # Go
+		# # time.sleep(0.1)
 
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True)
-		#self.PVs["DCM:Move"].put(1, wait=True)
-		time.sleep(1) 
-
+		time.sleep(self.cfg["settlingTime"])
 		log.info("Move PGM to energy: {}".format(SP))
+		CLIMessage ("FFF ::: Reached: {}, Grating: {}, M2: {}".format(type (self.PVs["PGM:Energy:Reached"].get()), type(self.motors["PGM:Grating"].get("DMOV")), type(self.motors["PGM:M2"].get("DMOV"))))
+		CLIMessage ("FFF ::: Reached: {}, Grating: {}, M2: {}".format(int(self.PVs["PGM:Energy:Reached"].get()), self.motors["PGM:Grating"].get("DMOV"), self.motors["PGM:M2"].get("DMOV")), "E")
 		#while self.PVs["PGM:Energy:Moving"].get() ==0 or self.PVs["PGM:Energy:Moving2"].get() ==0:
-		while self.PVs["PGM:Energy:Reached"].get() == 0: 
+		flag = 0 
+		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1: 
 			#print("PGM moving ...")
 			if curentScanInfo == None:
-				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IG")
+				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IR")
 			else:
 				#print(curentScanInfo)
 				CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
-			self.motors["PGM:Grating"].put("stop_go",3)
-			self.motors["PGM:M2"].put("stop_go",3)
+					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IR")
+				#CLIMessage("I11R1-MO-MC2:TargetEnergyReached :: {}".format(self.PVs["PGM:Energy:Reached"].get()), "W")
+				if flag == 0: 
+					CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
+					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "W")
+					flag = 1
+			#self.motors["PGM:Grating"].put("stop_go",3)
+			#self.motors["PGM:M2"].put("stop_go",3)
 			#self.PVs["DCM:Move"].put(1, wait=True)
+			#time.sleep(self.cfg["settlingTime"])
 			time.sleep(self.cfg["settlingTime"])
 
 		time.sleep(self.cfg["settlingTime"])
@@ -489,7 +496,8 @@ class HESEBSCAN:
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
 			FrameDuration = currentInterval["DetIntTime"]
-			picoAmmIntTimeIndex = currentInterval["picoAmmIntTimeIndex"]
+			picoAmmIntTime = currentInterval["picoAmmIntTime"]
+			#self.cfg["picoAmmIntTime"] = picoAmmIntTime
 			points = self.drange(startpoint,endpoint,stepsize)
 
 			for point in points:
@@ -504,7 +512,7 @@ class HESEBSCAN:
 				self.MovePGM(point, curentScanInfo)
 				args= {}
 				args["FrameDuration"] = FrameDuration
-				args["picoAmmIntTimeIndex"] = picoAmmIntTimeIndex
+				args["picoAmmIntTime"] = picoAmmIntTime
 				ACQdata = {}
 				detThreadList = []
 
