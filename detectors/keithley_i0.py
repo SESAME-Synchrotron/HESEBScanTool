@@ -17,22 +17,25 @@ class KEITHLEY_I0(Base):
 		self.paths	= paths
 		self.cfg = cfg
 
-		self.allowedPicoIntTime = [10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1]
+		# self.allowedPicoIntTime = [10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1]
 		#the actual allowed IntTimes are ["Passive", "Event"," I/O Intr", 10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1]
 
 
 	def ACQ(self,args):
 		
-		picoAmmIntTimeIndex = int(args["picoAmmIntTimeIndex"])
-		self.PVs["picoAmmeter1CurrentRange"].put(picoAmmIntTimeIndex)
-		time.sleep( float( self.allowedPicoIntTime[picoAmmIntTimeIndex - 3] ) )
-		print ("float( self.allowedPicoIntTime[picoAmmIntTimeIndex - 3] )", float( self.allowedPicoIntTime[picoAmmIntTimeIndex - 3] ))
+		# picoAmmIntTime = int(args["picoAmmIntTime"])
+		# self.PVs["picoAmmeter1CurrentRange"].put(picoAmmIntTime)
 		
+		# time.sleep( float( self.allowedPicoIntTime[picoAmmIntTime - 3] ) )
+		# print ("float( self.allowedPicoIntTime[picoAmmIntTime - 3] )", float( self.allowedPicoIntTime[picoAmmIntTime - 3] ))
 		try: 
-			self.data["KEITHLEY_I0"] = self.PVs["picoAmmeter1Current"].get()
-			print ("###############################")
+			self.PVs["picoAmmeterI0IntTime"].put(args["picoAmmIntTime"])
+			self.PVs["picoAmmeterI0StartAcq"].put(1)
+			time.sleep(args["picoAmmIntTime"])
+			self.data["KEITHLEY_I0"] = self.PVs["picoAmmeterI0AcqReadOut"].get()
+			print ("avrg current ", self.data["KEITHLEY_I0"])
 		except:
-			CLIMessage("Warning: Please check the KETEK Detector", "E")
+			CLIMessage("Warning: Please check the KEITHLEY_I0 Detector", "E")
 			pass
 
 	def postACQ(self,args):
