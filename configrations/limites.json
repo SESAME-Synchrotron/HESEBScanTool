@@ -6,6 +6,9 @@
 	"KetekROI0LowerLimit":0,
 	"FicusROI0LowerLimit":0,
 	"KetekReadoutAvrageTime":0.00365,
-	"KeithleyLowerLimit": 1e-9
+	"KeithleyLowerLimit": 1e-9, 
+	"energyRBVTolerance":0.2,
+	"checkToleranceEvery":0.01,
+	"maxTime2MeetTolerance": 7
 
 }

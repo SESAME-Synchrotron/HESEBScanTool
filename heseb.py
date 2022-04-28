@@ -159,42 +159,54 @@ class HESEBSCAN:
 		self.motors["PGM:M2"].put("stop_go",3) # Go
 		time.sleep(0.1)
 
+		self.PVs["PGM:Energy:Reached"].put(1, wait = True)
+
 		self.energy0 = self.cfg["Intervals"][0]["Startpoint"]
 		log.info("Move PGM to initial energy ({})".format(self.energy0))
 		self.MovePGM(self.energy0)
 
 	def MovePGM(self,SP, curentScanInfo=None):
-		# self.motors["PGM:Grating"].put("stop_go",0, wait=True) # Stop
-		# #time.sleep(0.1)
-		# self.motors["PGM:Grating"].put("stop_go",3, wait=True) # Go
-		# # time.sleep(0.1)
 
-		self.PVs["PGM:Energy:SP"].put(SP, wait=True)
-		time.sleep(self.cfg["settlingTime"])
-		log.info("Move PGM to energy: {}".format(SP))
-		CLIMessage ("FFF ::: Reached: {}, Grating: {}, M2: {}".format(type (self.PVs["PGM:Energy:Reached"].get()), type(self.motors["PGM:Grating"].get("DMOV")), type(self.motors["PGM:M2"].get("DMOV"))))
-		CLIMessage ("FFF ::: Reached: {}, Grating: {}, M2: {}".format(int(self.PVs["PGM:Energy:Reached"].get()), self.motors["PGM:Grating"].get("DMOV"), self.motors["PGM:M2"].get("DMOV")), "E")
-		#while self.PVs["PGM:Energy:Moving"].get() ==0 or self.PVs["PGM:Energy:Moving2"].get() ==0:
-		flag = 0 
-		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1: 
-			#print("PGM moving ...")
+		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
+		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
+		log.info("Move PGM to energy: {}".format(SP)) 
+		"""
+		the following loop tries to put the scan tool in wait state untill the PGM energy is reached by: 
+			1. Keep checking the Grating & M2 motors status (DMOV)
+			2. Keep checking the energy reached PV 
+		Notes: 
+			1. loop conditioning must be satisfied because energy PV is set to 0 before start moving the PGM.
+			2. checkToleranceEvery variable can be changed in limites.josn file 
+		"""
+		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1:
 			if curentScanInfo == None:
 				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IR")
 			else:
-				#print(curentScanInfo)
 				CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
 					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IR")
-				#CLIMessage("I11R1-MO-MC2:TargetEnergyReached :: {}".format(self.PVs["PGM:Energy:Reached"].get()), "W")
-				if flag == 0: 
-					CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "W")
-					flag = 1
-			#self.motors["PGM:Grating"].put("stop_go",3)
-			#self.motors["PGM:M2"].put("stop_go",3)
-			#self.PVs["DCM:Move"].put(1, wait=True)
-			#time.sleep(self.cfg["settlingTime"])
-			time.sleep(self.cfg["settlingTime"])
+			time.sleep(self.scanLimites["checkToleranceEvery"])
 
+		"""
+		the loop below has been added because the one above was not enough to get energy RBV within the allowed tolerances. The main issue is that energy RBV is a PROC PV 
+		relies on many parameters to be calculated, this means, after reaching the target prositions of the PGM motors the final energy RBV needs some time to be calculated. 
+		however, the loop does the following: 
+			1. Periodically checks the energy RBV if it is within the given tolerances, if yes breaks the loop 
+			2. if not, waits until the maximum wait time condition is met. 
+
+		Notes: 
+			1. energyRBVTolerance, checkToleranceEvery & maxTime2MeetTolerance variables can be changed/defined in the "configrations/limites.json" file 
+			2. the three variables above have a big impact on the energy precision and scan time. 
+		"""
+		timeCounter = 0 
+		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
+			CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
+			time.sleep(self.scanLimites["checkToleranceEvery"])
+			timeCounter = timeCounter + 1
+			if timeCounter * self.scanLimites["checkToleranceEvery"] >= self.scanLimites["maxTime2MeetTolerance"]:
+				log.warning("Reaching maximum wait time to reach the target energy")
+				break
+	
+		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 		time.sleep(self.cfg["settlingTime"])
 			
 	def MoveSmpX(self,SP):
@@ -509,6 +521,9 @@ class HESEBSCAN:
 				curentScanInfo.append({"RINGCurrent":self.PVs["RING:Current"].get()})
 				curentScanInfo.append({"sampleTitle":self.cfg["Samplespositions"][sample-1]["sampleTitle"]})
 
+				# tmp, delete the following line 
+				curentScanInfo.append({"TargetSP":point})
+
 				self.MovePGM(point, curentScanInfo)
 				args= {}
 				args["FrameDuration"] = FrameDuration
@@ -645,6 +660,7 @@ class HESEBSCAN:
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
+			self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 			log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
 			os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 			shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))

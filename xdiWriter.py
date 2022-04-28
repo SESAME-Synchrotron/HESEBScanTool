@@ -54,6 +54,8 @@ class XDIWriter:
 		self.userCom = self.cfg["ExpMetaData"][11]["userCom"]
 		self.expCom = self.cfg["ExpMetaData"][12]["expCom"]
 		self.RINGCurrent = self.curentScanInfo[3]["RINGCurrent"]
+		# tmp delete this line belwo. 
+		self.currentSP = self.curentScanInfo[5]["TargetSP"]
 
 		self.personalInfoFlage = 0
 
@@ -157,14 +159,14 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("#(1)energy   (2)I0\n")
+			f.write("#(1)energyRBV  (tmp_EnergySP)   RBV_SP_diff (2)I0\n")
 			f.close()
 
 
 	def fillKEITHLEY_I0(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e \n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"])))
+		f.write("%10.6e  %10.6e  %.9f  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.currentSP),abs(float(self.data["ENERGY-RBK"])-float(self.currentSP)), float(self.data["KEITHLEY_I0"])))
 		f.close()
 
 
