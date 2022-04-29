@@ -40,19 +40,19 @@ class XDIWriter:
 
 
 
-		self.IC1GasMix = self.cfg["ExpMetaData"][0]["IC1GasMix"]
-		self.IC2GasMix = self.cfg["ExpMetaData"][1]["IC2GasMix"]
-		self.IC3GasMix = self.cfg["ExpMetaData"][2]["IC3GasMix"]
-		self.edge = self.cfg["ExpMetaData"][3]["edge"]
-		self.sampleName = self.cfg["ExpMetaData"][4]["sampleName"]
-		self.energy = self.cfg["ExpMetaData"][5]["energy"]
-		self.stoichiometry = self.cfg["ExpMetaData"][6]["stoichiometry"]
-		self.samplePrep = self.cfg["ExpMetaData"][7]["samplePrep"]
-		self.vcm = self.cfg["ExpMetaData"][8]["vcm"]
-		self.vfm = self.cfg["ExpMetaData"][9]["vfm"]
-		self.Mono = self.cfg["ExpMetaData"][10]["Mono"]
-		self.userCom = self.cfg["ExpMetaData"][11]["userCom"]
-		self.expCom = self.cfg["ExpMetaData"][12]["expCom"]
+		# self.IC1GasMix = self.cfg["ExpMetaData"][0]["IC1GasMix"]
+		# self.IC2GasMix = self.cfg["ExpMetaData"][1]["IC2GasMix"]
+		# self.IC3GasMix = self.cfg["ExpMetaData"][2]["IC3GasMix"]
+		self.edge = self.cfg["ExpMetaData"][0]["edge"]
+		self.sampleName = self.cfg["ExpMetaData"][1]["sampleName"]
+		self.energy = self.cfg["ExpMetaData"][2]["energy"]
+		self.stoichiometry = self.cfg["ExpMetaData"][3]["stoichiometry"]
+		self.samplePrep = self.cfg["ExpMetaData"][4]["samplePrep"]
+		self.vcm = self.cfg["ExpMetaData"][5]["vcm"]
+		self.vfm = self.cfg["ExpMetaData"][6]["vfm"]
+		self.Mono = self.cfg["ExpMetaData"][7]["Mono"]
+		self.userCom = self.cfg["ExpMetaData"][8]["userCom"]
+		self.expCom = self.cfg["ExpMetaData"][9]["expCom"]
 		self.RINGCurrent = self.curentScanInfo[3]["RINGCurrent"]
 		# tmp delete this line belwo. 
 		self.currentSP = self.curentScanInfo[5]["TargetSP"]
@@ -149,9 +149,9 @@ class XDIWriter:
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
-			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
-			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
-			f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
+			# f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
+			# f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
+			# f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
 			f.write("# Element.symbol: {}\n".format(self.sampleName))
 			f.write("# Sample.stoichiometry: {}\n".format(self.stoichiometry))
 			f.write("# Sample.prep: {}\n".format(self.samplePrep))
@@ -225,9 +225,9 @@ class XDIWriter:
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
-			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
-			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
-			f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
+			# f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
+			# f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
+			# f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
 			f.write("# Detector.flour: KETEK\n")
 			f.write("# Detector.flour: FICUS\n")
 			f.write("# Element.symbol: {}\n".format(self.sampleName))
@@ -298,9 +298,9 @@ class XDIWriter:
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
-			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
-			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
-			f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
+			# f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
+			# f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
+			# f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
 			f.write("# Detector.flour: KETEK\n")
 			f.write("# Element.symbol: {}\n".format(self.sampleName))
 			f.write("# Sample.stoichiometry: {}\n".format(self.stoichiometry))
@@ -357,9 +357,9 @@ class XDIWriter:
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
-			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
-			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
-			f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
+			# f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
+			# f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
+			# f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
 			f.write("# Element.symbol: {}\n".format(self.sampleName))
 			f.write("# Sample.stoichiometry: {}\n".format(self.stoichiometry))
 			f.write("# Sample.prep: {}\n".format(self.samplePrep))
@@ -422,9 +422,9 @@ class XDIWriter:
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
-			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
-			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
-			f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
+			# f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
+			# f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
+			# f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
 			f.write("# Detector.flour: FICUS\n")
 			f.write("# Element.symbol: {}\n".format(self.sampleName))
 			f.write("# Sample.stoichiometry: {}\n".format(self.stoichiometry))

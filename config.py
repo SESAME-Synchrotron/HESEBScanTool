@@ -193,9 +193,9 @@ class ConfigGUI:
 	
 	
 	
-			self.DetectorsGUI.detectors_UI.IC1GasMix.setText(str(self.cfg["ExpMetaData"][0]["IC1GasMix"]))
-			self.DetectorsGUI.detectors_UI.IC2GasMix.setText(str(self.cfg["ExpMetaData"][1]["IC2GasMix"]))
-			self.DetectorsGUI.detectors_UI.IC3GasMix.setText(str(self.cfg["ExpMetaData"][2]["IC3GasMix"]))
+			# self.DetectorsGUI.detectors_UI.IC1GasMix.setText(str(self.cfg["ExpMetaData"][0]["IC1GasMix"]))
+			# self.DetectorsGUI.detectors_UI.IC2GasMix.setText(str(self.cfg["ExpMetaData"][1]["IC2GasMix"]))
+			# self.DetectorsGUI.detectors_UI.IC3GasMix.setText(str(self.cfg["ExpMetaData"][2]["IC3GasMix"]))
 	
 	
 			for interval in range(len(self.cfg["Intervals"])):
@@ -355,23 +355,23 @@ class ConfigGUI:
 
 			####################### Metadata section ##############################
 
-			if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
-				CLIMessage("Please enter the IC1 gas being used", "W")
-				return self.WizardPages.editCfg.value
-			else:
-				expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
+			# if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
+			# 	CLIMessage("Please enter the IC1 gas being used", "W")
+			# 	return self.WizardPages.editCfg.value
+			# else:
+			# 	expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
 
-			if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
-				CLIMessage("Please enter the IC2 gas being used", "W")
-				return self.WizardPages.editCfg.value
-			else:
-				expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
+			# if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
+			# 	CLIMessage("Please enter the IC2 gas being used", "W")
+			# 	return self.WizardPages.editCfg.value
+			# else:
+			# 	expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
 
-			if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
-				CLIMessage("Please enter the IC3 gas being used", "W")
-				return self.WizardPages.editCfg.value
-			else:
-				expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
+			# if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
+			# 	CLIMessage("Please enter the IC3 gas being used", "W")
+			# 	return self.WizardPages.editCfg.value
+			# else:
+			# 	expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
 
 			if self.guiObj.edge.currentText() == "":
 				CLIMessage("Please choose the element edge", "W")
@@ -804,7 +804,8 @@ class IntervalGUI:
 
 class DetectorsGUI:		
 	def __init__(self):
-		self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
+		#self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
+		self.detectors = ["FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)

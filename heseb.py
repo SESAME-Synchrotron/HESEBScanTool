@@ -168,6 +168,7 @@ class HESEBSCAN:
 	def MovePGM(self,SP, curentScanInfo=None):
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
+		time.sleep(.5)
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
 		log.info("Move PGM to energy: {}".format(SP)) 
 		"""
@@ -197,6 +198,7 @@ class HESEBSCAN:
 			1. energyRBVTolerance, checkToleranceEvery & maxTime2MeetTolerance variables can be changed/defined in the "configrations/limites.json" file 
 			2. the three variables above have a big impact on the energy precision and scan time. 
 		"""
+		print("\n")
 		timeCounter = 0 
 		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
 			CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
