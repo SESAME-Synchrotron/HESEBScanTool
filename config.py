@@ -117,6 +117,7 @@ class ConfigGUI:
 			return self.WizardPages.LoadCfg.value
 
 	def editIntervals(self):
+		global Nintrv
 		Nintrv = self.guiObj.setNumofIterv.text()
 		if Common.regexvalidation("NIntervals", Nintrv):
 			Nintrv = int(Nintrv)
@@ -152,7 +153,7 @@ class ConfigGUI:
 			self.IntervalsGUI	= IntervalGUI()
 			self.SamplesGUI		= SamplePosGUI()
 			self.DetectorsGUI	= DetectorsGUI()
-	
+
 			self.cfgpath = QtWidgets.QFileDialog.getOpenFileName(self.Qwiz, "choose configuration file", "~","*.cfg")[0]
 			try:
 				self.guiObj.filePath.setText(self.cfgpath)
@@ -160,7 +161,7 @@ class ConfigGUI:
 			except:
 				CLIMessage("Could not locate the config file", "W")
 				return self.WizardPages.editCfg.value
-	
+
 			try: 
 				NIntervals = self.cfg["NIntervals"]
 				Nsamples = self.cfg["Nsamples"]
@@ -172,32 +173,32 @@ class ConfigGUI:
 					"Try to load another file").showCritical()
 				CLIMessage("Unable to read configuration file, scanning can not continue!!","E")
 				sys.exit()
-	
+
 			self.guiObj.setNumofIterv.setText(str(NIntervals))
 			self.guiObj.setNumofSamples.setText(str(Nsamples))
 			self.guiObj.setNumofScans.setText(str(Nscans))
 			self.guiObj.settlingTime.setText(str(settlingTime))
 			self.guiObj.setDataFileName.setText(self.cfg["DataFileName"])
-			self.guiObj.edge.setCurrentText(str(self.cfg["ExpMetaData"][3]["edge"]))
-			self.guiObj.sampleName.setText(str(self.cfg["ExpMetaData"][4]["sampleName"]))
-			self.guiObj.energy.setText(self.cfg["ExpMetaData"][5]["energy"])
-			self.guiObj.stoichiometry.setText(str(self.cfg["ExpMetaData"][6]["stoichiometry"]))
-			self.guiObj.samplePrep.setText(str(self.cfg["ExpMetaData"][7]["samplePrep"]))
-			self.guiObj.vcm.setCurrentText(str(self.cfg["ExpMetaData"][8]["vcm"]))
-			self.guiObj.vfm.setCurrentText(str(self.cfg["ExpMetaData"][9]["vfm"]))
-			self.guiObj.Mono.setCurrentText(str(self.cfg["ExpMetaData"][10]["Mono"]))
-			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][11]["userCom"]))
-			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][12]["expCom"]))
-	
-	
-	
-	
-	
+			self.guiObj.edge.setCurrentText(str(self.cfg["ExpMetaData"][0]["edge"]))
+			self.guiObj.sampleName.setText(str(self.cfg["ExpMetaData"][1]["sampleName"]))
+			self.guiObj.energy.setText(self.cfg["ExpMetaData"][2]["energy"])
+			self.guiObj.stoichiometry.setText(str(self.cfg["ExpMetaData"][3]["stoichiometry"]))
+			self.guiObj.samplePrep.setText(str(self.cfg["ExpMetaData"][4]["samplePrep"]))
+			self.guiObj.vcm.setCurrentText(str(self.cfg["ExpMetaData"][5]["vcm"]))
+			self.guiObj.vfm.setCurrentText(str(self.cfg["ExpMetaData"][6]["vfm"]))
+			self.guiObj.Mono.setCurrentText(str(self.cfg["ExpMetaData"][7]["Mono"]))
+			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][8]["userCom"]))
+			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][9]["expCom"]))
+
+
+
+
+
 			# self.DetectorsGUI.detectors_UI.IC1GasMix.setText(str(self.cfg["ExpMetaData"][0]["IC1GasMix"]))
 			# self.DetectorsGUI.detectors_UI.IC2GasMix.setText(str(self.cfg["ExpMetaData"][1]["IC2GasMix"]))
 			# self.DetectorsGUI.detectors_UI.IC3GasMix.setText(str(self.cfg["ExpMetaData"][2]["IC3GasMix"]))
-	
-	
+
+
 			for interval in range(len(self.cfg["Intervals"])):
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Startpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.end.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Endpoint"]),0))
@@ -210,7 +211,7 @@ class ConfigGUI:
 				self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
 				if "ExtTrig" in self.cfg["Intervals"][interval].keys():
 					self.IntervalsGUI.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["ExtTrig"]), 0))
-	
+
 			for sample in range(len(self.cfg["Samplespositions"])):
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Xposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Yposition"]), 0))
@@ -709,8 +710,11 @@ class IntervalGUI:
 		#print ("dffsdfsdfs", len(self.FicusIntTimeDic))
 		global GlobalCfg
 		#print (GlobalCfg)
-		self.Intervals = [{} for i in range(int(len(self.FicusIntTimeDic)))]
-		for interval in range(len(self.FicusIntTimeDic)): 
+		#self.Intervals = [{} for i in range(int(len(self.FicusIntTimeDic)))]
+		self.Intervals = [{} for i in range(int(Nintrv))]
+		#for interval in range(len(self.FicusIntTimeDic)):
+		CLIMessage("Intervals: {},  len(self.FicusIntTimeDic): {}".format(Nintrv, len(self.FicusIntTimeDic)), "E")
+		for interval in range(Nintrv):
 			try:
 				self.Intervals[interval]["Startpoint"] =   self.interval_UI.tableWidget.item(interval, 0).text()
 				self.Intervals[interval]["Endpoint"]   =   self.interval_UI.tableWidget.item(interval, 1).text()
@@ -777,7 +781,8 @@ class IntervalGUI:
 					self._AcqTimes.append(-1)
 
 		else:
-			if len(self.FicusIntTimeDic) == 0:
+			#if len(self.FicusIntTimeDic) == 0:
+			if Nintrv == 0:
 				for interval in range(NIntervals):
 					AcqCbox = AcqTime(interval,-1)
 					AcqCbox.currentIndexChanged.connect(self.saveindex)
