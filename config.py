@@ -209,8 +209,8 @@ class ConfigGUI:
 
 				# cbox = AcqTime(interval,self.cfg["Intervals"][interval]["DetIntTime"])
 				# self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
-				if "ExtTrig" in self.cfg["Intervals"][interval].keys():
-					self.IntervalsGUI.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["ExtTrig"]), 0))
+				# if "ExtTrig" in self.cfg["Intervals"][interval].keys():
+				# 	self.IntervalsGUI.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["ExtTrig"]), 0))
 
 			for sample in range(len(self.cfg["Samplespositions"])):
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Xposition"]), 0))
@@ -690,8 +690,8 @@ class IntervalGUI:
 		end		=	1
 		step	=	2
 		ICInt	=	3
-		DetInt	=	4
-		ExtTrig	=	5
+		# DetInt	=	4
+		# ExtTrig	=	5
 
 		GlobalCfg = {} 
 		
@@ -772,8 +772,8 @@ class IntervalGUI:
 						# self._AcqTimes[interval] = self.Intervals[interval]["DetIntTime"]
 						# self.FicusIntTimeDic[interval] = self.Intervals[interval]["DetIntTime"]
 						# self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
-						if "ExtTrig" in self.Intervals[interval].keys():
-							self.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["ExtTrig"]), 0))
+						# if "ExtTrig" in self.Intervals[interval].keys():
+						# 	self.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["ExtTrig"]), 0))
 				# else:
 				# 	AcqCbox = AcqTime(interval,-1)
 				# 	AcqCbox.currentIndexChanged.connect(self.saveindex)
@@ -815,28 +815,28 @@ class DetectorsGUI:
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)
 
-class AcqTime(QtWidgets.QComboBox):
-   def __init__(self, index,value, parent = None):
-	   super(AcqTime, self).__init__(parent)
-	   self.addItem("5 ms")			#0
-	   self.addItem("7.5 ms")		#1	
-	   self.addItem("10 ms")		#2
-	   self.addItem("25 ms")		#3
-	   self.addItem("50 ms")		#4
-	   self.addItem("75 ms")		#5
-	   self.addItem("100 ms")		#6
-	   self.addItem("250 ms")		#7
-	   self.addItem("500 ms")		#8
-	   self.addItem("750 ms")		#9
-	   self.addItem("1 s")			#10
-	   self.addItem("2.5 s")		#11
-	   self.addItem("5 s")			#12
-	   self.addItem("7.5 s")		#13
-	   self.addItem("10 s")			#14
-	   self.addItem("Ext Trigger")	#15
-	   self.index = index
-	   #print (self.index)
-	   self.setCurrentIndex(value)
+# class AcqTime(QtWidgets.QComboBox):
+#    def __init__(self, index,value, parent = None):
+# 	   super(AcqTime, self).__init__(parent)
+# 	   self.addItem("5 ms")			#0
+# 	   self.addItem("7.5 ms")		#1	
+# 	   self.addItem("10 ms")		#2
+# 	   self.addItem("25 ms")		#3
+# 	   self.addItem("50 ms")		#4
+# 	   self.addItem("75 ms")		#5
+# 	   self.addItem("100 ms")		#6
+# 	   self.addItem("250 ms")		#7
+# 	   self.addItem("500 ms")		#8
+# 	   self.addItem("750 ms")		#9
+# 	   self.addItem("1 s")			#10
+# 	   self.addItem("2.5 s")		#11
+# 	   self.addItem("5 s")			#12
+# 	   self.addItem("7.5 s")		#13
+# 	   self.addItem("10 s")			#14
+# 	   self.addItem("Ext Trigger")	#15
+# 	   self.index = index
+# 	   #print (self.index)
+# 	   self.setCurrentIndex(value)
 
 class SED:
 	Header = ['Proposal', 'Title', 'Proposer', 'Email', 'Beamline', 'Begin', 'End', 'Assigned shifts', 'Assigned hours', 'Semester', 'Experimental_Data_Path']
