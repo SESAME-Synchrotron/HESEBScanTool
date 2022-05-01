@@ -183,7 +183,7 @@
     <property name="title">
      <string>Experiment setup parameters</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>21</x>
@@ -320,7 +320,7 @@
       <rect>
        <x>10</x>
        <y>180</y>
-       <width>201</width>
+       <width>206</width>
        <height>71</height>
       </rect>
      </property>
@@ -332,7 +332,7 @@
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>181</width>
+        <width>193</width>
         <height>32</height>
        </rect>
       </property>
@@ -664,7 +664,7 @@
      <property name="title">
       <string>Monochromator:</string>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -722,6 +722,12 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>UsersExp</tabstop>
+  <tabstop>LocalExp</tabstop>
+  <tabstop>PropsalID</tabstop>
+  <tabstop>Create</tabstop>
+  <tabstop>Load</tabstop>
+  <tabstop>Browse</tabstop>
   <tabstop>setNumofIterv</tabstop>
   <tabstop>editIntrv</tabstop>
   <tabstop>setNumofSamples</tabstop>
@@ -729,6 +735,7 @@
   <tabstop>setNumofScans</tabstop>
   <tabstop>configureDetectors</tabstop>
   <tabstop>setDataFileName</tabstop>
+  <tabstop>settlingTime</tabstop>
   <tabstop>edge</tabstop>
   <tabstop>sampleName</tabstop>
   <tabstop>energy</tabstop>
@@ -740,12 +747,6 @@
   <tabstop>userCom</tabstop>
   <tabstop>expCom</tabstop>
   <tabstop>filePath</tabstop>
-  <tabstop>UsersExp</tabstop>
-  <tabstop>PropsalID</tabstop>
-  <tabstop>Load</tabstop>
-  <tabstop>Create</tabstop>
-  <tabstop>LocalExp</tabstop>
-  <tabstop>Browse</tabstop>
  </tabstops>
  <resources/>
  <connections/>

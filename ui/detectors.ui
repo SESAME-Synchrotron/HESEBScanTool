@@ -48,6 +48,9 @@
     <string>Choose experiment detectors </string>
    </property>
    <widget class="QCheckBox" name="FICUS">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -65,7 +68,7 @@
    </widget>
    <widget class="QCheckBox" name="KETEK">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -246,6 +249,8 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>KEITHLEY_I0</tabstop>
+  <tabstop>KEITHLEY_Itrans</tabstop>
   <tabstop>FICUS</tabstop>
   <tabstop>KETEK</tabstop>
  </tabstops>

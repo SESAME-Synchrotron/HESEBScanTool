@@ -28,11 +28,12 @@ class Ui_Dialog(object):
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
         self.FICUS = QtWidgets.QCheckBox(self.groupBox)
+        self.FICUS.setEnabled(False)
         self.FICUS.setGeometry(QtCore.QRect(10, 160, 61, 26))
         self.FICUS.setChecked(False)
         self.FICUS.setObjectName("FICUS")
         self.KETEK = QtWidgets.QCheckBox(self.groupBox)
-        self.KETEK.setEnabled(True)
+        self.KETEK.setEnabled(False)
         self.KETEK.setGeometry(QtCore.QRect(100, 160, 61, 26))
         self.KETEK.setChecked(False)
         self.KETEK.setObjectName("KETEK")
@@ -97,6 +98,8 @@ class Ui_Dialog(object):
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.KEITHLEY_I0, self.KEITHLEY_Itrans)
+        Dialog.setTabOrder(self.KEITHLEY_Itrans, self.FICUS)
         Dialog.setTabOrder(self.FICUS, self.KETEK)
 
     def retranslateUi(self, Dialog):
