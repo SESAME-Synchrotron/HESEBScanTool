@@ -217,9 +217,9 @@ class ConfigGUI:
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Yposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["sampleTitle"]), 0))
 			
-			if "FICUS" in self.cfg["detectors"]:
-				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "FICUS")
-				detCheckbox.setChecked(True)
+			# if "FICUS" in self.cfg["detectors"]:
+			# 	detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "FICUS")
+			# 	detCheckbox.setChecked(True)
 			
 			if "KETEK" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KETEK")
@@ -699,9 +699,9 @@ class IntervalGUI:
 		self.intervalDialog = QtWidgets.QDialog()
 		self.interval_UI = intervalsForm.Ui_Dialog()
 		self.interval_UI.setupUi(self.intervalDialog)
-		self._AcqTimes = [-1]
-		self.FicusIntTimeDic = {}
-		self.FicusIntTimeDicBCK = {}
+		# self._AcqTimes = [-1]
+		# self.FicusIntTimeDic = {}
+		# self.FicusIntTimeDicBCK = {}
 		self.interval_UI.buttonBox.clicked.connect(self.saveIntervals)
 		self.Intervals = []
 
@@ -713,7 +713,7 @@ class IntervalGUI:
 		#self.Intervals = [{} for i in range(int(len(self.FicusIntTimeDic)))]
 		self.Intervals = [{} for i in range(int(Nintrv))]
 		#for interval in range(len(self.FicusIntTimeDic)):
-		CLIMessage("Intervals: {},  len(self.FicusIntTimeDic): {}".format(Nintrv, len(self.FicusIntTimeDic)), "E")
+		# CLIMessage("Intervals: {},  len(self.FicusIntTimeDic): {}".format(Nintrv, len(self.FicusIntTimeDic)), "E")
 		for interval in range(Nintrv):
 			try:
 				self.Intervals[interval]["Startpoint"] =   self.interval_UI.tableWidget.item(interval, 0).text()
@@ -738,7 +738,7 @@ class IntervalGUI:
 		GlobalCfg = cfg
 
 		#print ("xxxxx",cfg["Intervals"])
-		self._AcqTimes = [-1 for i in range(NIntervals)] 
+		# self._AcqTimes = [-1 for i in range(NIntervals)] 
 		self.interval_UI.tableWidget.setRowCount(NIntervals)
 		if "Intervals" in cfg.keys():
 			if len(cfg["Intervals"]) > len(self.Intervals):
@@ -802,15 +802,15 @@ class IntervalGUI:
 
 		#self.FicusIntTimeDicBCK = self.FicusIntTimeDic
 
-	def saveindex(self,index):
-		senderIndex = self.intervalDialog.sender().index
-		self._AcqTimes[senderIndex] = index
-		self.FicusIntTimeDic[senderIndex]=index
+	# def saveindex(self,index):
+	# 	senderIndex = self.intervalDialog.sender().index
+	# 	self._AcqTimes[senderIndex] = index
+	# 	self.FicusIntTimeDic[senderIndex]=index
 
 class DetectorsGUI:		
 	def __init__(self):
 		#self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
-		self.detectors = ["FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
+		self.detectors = ["KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)
