@@ -509,7 +509,7 @@ class HESEBSCAN:
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
-			FrameDuration = currentInterval["DetIntTime"]
+			#FrameDuration = currentInterval["DetIntTime"]
 			picoAmmIntTime = currentInterval["picoAmmIntTime"]
 			#self.cfg["picoAmmIntTime"] = picoAmmIntTime
 			points = self.drange(startpoint,endpoint,stepsize)
@@ -528,7 +528,7 @@ class HESEBSCAN:
 
 				self.MovePGM(point, curentScanInfo)
 				args= {}
-				args["FrameDuration"] = FrameDuration
+				#args["FrameDuration"] = FrameDuration
 				args["picoAmmIntTime"] = picoAmmIntTime
 				ACQdata = {}
 				detThreadList = []

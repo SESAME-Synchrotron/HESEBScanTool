@@ -98,11 +98,6 @@
    </column>
    <column>
     <property name="text">
-     <string>Det int.time</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
      <string>Ext trigger</string>
     </property>
    </column>
@@ -116,7 +111,7 @@
      <string/>
     </property>
    </item>
-   <item row="0" column="5">
+   <item row="0" column="4">
     <property name="text">
      <string/>
     </property>

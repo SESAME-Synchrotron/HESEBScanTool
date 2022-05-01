@@ -207,8 +207,8 @@ class ConfigGUI:
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["picoAmmIntTime"]),0))
 
 
-				cbox = AcqTime(interval,self.cfg["Intervals"][interval]["DetIntTime"])
-				self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
+				# cbox = AcqTime(interval,self.cfg["Intervals"][interval]["DetIntTime"])
+				# self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
 				if "ExtTrig" in self.cfg["Intervals"][interval].keys():
 					self.IntervalsGUI.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["ExtTrig"]), 0))
 
@@ -318,14 +318,14 @@ class ConfigGUI:
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
 
 				#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
-				intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
+				# intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
 
-				isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
-				if isExtTrigger == 15:
-					ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
-					if ExtTriggerIntTime == '' or not Common.validate(
-							"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-						return self.WizardPages.editCfg.value
+				# isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
+				# if isExtTrigger == 15:
+				# 	ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
+				# 	if ExtTriggerIntTime == '' or not Common.validate(
+				# 			"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
+				# 		return self.WizardPages.editCfg.value
 
 			SamplePositions = [{} for i in range(int(Nsamples))]
 			for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
@@ -549,17 +549,17 @@ class ConfigGUI:
 				intervals[interval]["picoAmmIntTime"] = float(picoAmmIntTime)
 
 			#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
-			intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
+			# intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
 
-			isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
-			if isExtTrigger == 15:
-				ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
-				if ExtTriggerIntTime == '' or not Common.validate(
-						"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-					CLIMessage("Intervals | Please enter a valid External Trigger duration")
-					return self.WizardPages.editCfg.value
-				else:
-					intervals[interval]["ExtTrig"] = float(ExtTriggerIntTime)
+			# isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
+			# if isExtTrigger == 15:
+			# 	ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
+			# 	if ExtTriggerIntTime == '' or not Common.validate(
+			# 			"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
+			# 		CLIMessage("Intervals | Please enter a valid External Trigger duration")
+			# 		return self.WizardPages.editCfg.value
+			# 	else:
+			# 		intervals[interval]["ExtTrig"] = float(ExtTriggerIntTime)
 
 		SamplePositions = [{} for i in range(int(Nsamples))]
 		for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
@@ -720,7 +720,7 @@ class IntervalGUI:
 				self.Intervals[interval]["Endpoint"]   =   self.interval_UI.tableWidget.item(interval, 1).text()
 				self.Intervals[interval]["Stepsize"]   =   self.interval_UI.tableWidget.item(interval, 2).text()
 				self.Intervals[interval]["picoAmmIntTime"] =   self.interval_UI.tableWidget.item(interval, 3).text()
-				self.Intervals[interval]["DetIntTime"] =   self.FicusIntTimeDic[interval]
+				# self.Intervals[interval]["DetIntTime"] =   self.FicusIntTimeDic[interval]
 			except:
 				pass
 				#if GlobalCfg ["loadedConfig"]=="No":
@@ -752,7 +752,7 @@ class IntervalGUI:
 					self.Intervals[interval]["Endpoint"] = self.interval_UI.tableWidget.item(interval, 1).text()
 					self.Intervals[interval]["Stepsize"] = self.interval_UI.tableWidget.item(interval, 2).text()
 					self.Intervals[interval]["picoAmmIntTime"] = self.interval_UI.tableWidget.item(interval, 3).text()
-					self.Intervals[interval]["DetIntTime"] = self.FicusIntTimeDic[interval]
+					# self.Intervals[interval]["DetIntTime"] = self.FicusIntTimeDic[interval]
 				except:
 					pass 
 
@@ -767,38 +767,38 @@ class IntervalGUI:
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.step.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["Stepsize"]),0))
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["picoAmmIntTime"]),0))
 
-						cbox = AcqTime(interval,self.Intervals[interval]["DetIntTime"])
-						cbox.currentIndexChanged.connect(self.saveindex)
-						self._AcqTimes[interval] = self.Intervals[interval]["DetIntTime"]
-						self.FicusIntTimeDic[interval] = self.Intervals[interval]["DetIntTime"]
-						self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
+						# cbox = AcqTime(interval,self.Intervals[interval]["DetIntTime"])
+						# cbox.currentIndexChanged.connect(self.saveindex)
+						# self._AcqTimes[interval] = self.Intervals[interval]["DetIntTime"]
+						# self.FicusIntTimeDic[interval] = self.Intervals[interval]["DetIntTime"]
+						# self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
 						if "ExtTrig" in self.Intervals[interval].keys():
 							self.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["ExtTrig"]), 0))
-				else:
-					AcqCbox = AcqTime(interval,-1)
-					AcqCbox.currentIndexChanged.connect(self.saveindex)
-					self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-					self._AcqTimes.append(-1)
+				# else:
+				# 	AcqCbox = AcqTime(interval,-1)
+				# 	AcqCbox.currentIndexChanged.connect(self.saveindex)
+				# 	self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
+				# 	self._AcqTimes.append(-1)
 
-		else:
-			#if len(self.FicusIntTimeDic) == 0:
-			if Nintrv == 0:
-				for interval in range(NIntervals):
-					AcqCbox = AcqTime(interval,-1)
-					AcqCbox.currentIndexChanged.connect(self.saveindex)
-					self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-					self._AcqTimes.append(-1)
-			else:
-				for interval in range(NIntervals):
-					try:
-						AcqCbox = AcqTime(interval,self.FicusIntTimeDic[interval])
-						AcqCbox.currentIndexChanged.connect(self.saveindex)
-						self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-					except:
-						AcqCbox = AcqTime(interval,-1)
-						AcqCbox.currentIndexChanged.connect(self.saveindex)
-						self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-						self._AcqTimes.append(-1)
+		# else:
+		# 	#if len(self.FicusIntTimeDic) == 0:
+		# 	if Nintrv == 0:
+		# 		for interval in range(NIntervals):
+		# 			AcqCbox = AcqTime(interval,-1)
+		# 			AcqCbox.currentIndexChanged.connect(self.saveindex)
+		# 			self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
+		# 			self._AcqTimes.append(-1)
+		# 	else:
+		# 		for interval in range(NIntervals):
+		# 			try:
+		# 				AcqCbox = AcqTime(interval,self.FicusIntTimeDic[interval])
+		# 				AcqCbox.currentIndexChanged.connect(self.saveindex)
+		# 				self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
+		# 			except:
+		# 				AcqCbox = AcqTime(interval,-1)
+		# 				AcqCbox.currentIndexChanged.connect(self.saveindex)
+		# 				self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
+		# 				self._AcqTimes.append(-1)
 
 		#self.FicusIntTimeDicBCK = self.FicusIntTimeDic
 
