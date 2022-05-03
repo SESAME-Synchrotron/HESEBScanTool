@@ -1,0 +1,24 @@
+{
+	"PV":
+	{
+		"picoAmmeter2Current":{
+			"pvname":"K6487:1:Measure"
+		},
+		"picoAmmeterItransIntTime":{
+			"pvname":"K6487:1:TimePerSampleStep"
+		},
+		"picoAmmeterItransStartAcq":{
+			"pvname":"K6487:1:Acquire.PROC"
+		},
+		"picoAmmeterItransAcqReadOut":{
+			"pvname":"K6487:1:Acquire"
+		},
+		"picoAmmeterItransAutoZero":{
+			"pvname":"K6487:1:AutoZero"
+		},
+		"picoAmmeter2CurrentRange":{
+			"pvname":"K6487:1:Measure.SCAN"
+		}
+	}
+	
+}
