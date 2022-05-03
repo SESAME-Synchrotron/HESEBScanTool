@@ -17,6 +17,7 @@ from detectors.ficus import FICUS
 from detectors.ketek import KETEK
 from detectors.ic import IC
 from detectors.keithley_i0 import KEITHLEY_I0
+from detectors.keithley_itrans import KEITHLEY_ITRANS
 from SEDSS.SEDSupplements import CLIMessage
 from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
 import threading
@@ -459,7 +460,7 @@ class HESEBSCAN:
 			elif det == "KEITHLEY_I0":
 				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0",self.paths,self.userinfo))
 			elif det == "KEITHLEY_Itrans":
-				CLIMessage("KEITHLEY_Itrans", "E")
+				self.detectors.append(KEITHLEY_ITRANS("KEITHLEY_ITRANS",self.paths,self.userinfo))
 			elif not det in self.available_detectors:
 				raise Exception("Unknown detector")
 				log.error("Unknown detector is Chosen")

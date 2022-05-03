@@ -9,58 +9,32 @@ from SEDSS.SEDSupplements import CLIMessage
 
 from .base import Base
 
-class KETEK(Base):
+class KEITHLEY_ITRANS(Base):
 	def __init__(self,name,paths,cfg={}):
 		super().__init__(name)
 
-		#print ("pvname::::", name, "pvpath::::;", paths, "cfg::::", cfg)
 		self.loadPVS(name)
 		self.paths	= paths
 		self.cfg = cfg
 
-		
 
 	def ACQ(self,args):
-		picoAmmetersIntTime = args["picoAmmetersIntTime"]
-		self.PVs["ketek_realtime"].put(picoAmmetersIntTime)
 		
+		# picoAmmIntTime = int(args["picoAmmIntTime"])
+		# self.PVs["picoAmmeter1CurrentRange"].put(picoAmmIntTime)
 		
-		self.PVs["ketek_erasestart"].put(1, wait=True)
-		
-
-
-
-		Elapsedtime					= 	self.data["KETEK-e-time[sec]"]	=	self.PVs["ketek_elapsedtime"].get()
-		ROIsE						=	[self.PVs["ketek_ROI_0"].get() / Elapsedtime,self.PVs["ketek_ROI_1"].get() / Elapsedtime,self.PVs["ketek_ROI_2"].get() / Elapsedtime,self.PVs["ketek_ROI_3"].get() / Elapsedtime,self.PVs["ketek_ROI_4"].get() / Elapsedtime,self.PVs["ketek_ROI_5"].get() / Elapsedtime,self.PVs["ketek_ROI_6"].get() / Elapsedtime,self.PVs["ketek_ROI_7"].get() / Elapsedtime]
-		self.data["KETEK-DEADTIME[%]"]	=	self.PVs["ketek_deadtime"].get()
-		self.data["KETEK-INT_TIME[sec]"]	=	picoAmmetersIntTime
-		self.data["KETEK-If"]				=	ROIsE[0]
-		self.data["KETEK-ROI_0[c/s]"]		=	self.PVs["ketek_ROI_0"].get()
-		self.data["KETEK-ROI_1[c/s]"]		=	self.PVs["ketek_ROI_1"].get()
-		self.data["KETEK-ROI_2[c/s]"]		=	self.PVs["ketek_ROI_2"].get()
-		self.data["KETEK-ROI_3[c/s]"]		=	self.PVs["ketek_ROI_3"].get()
-		self.data["KETEK-ROI_4[c/s]"]		=	self.PVs["ketek_ROI_4"].get()
-		self.data["KETEK-ROI_5[c/s]"]		=	self.PVs["ketek_ROI_5"].get()
-		self.data["KETEK-ROI_6[c/s]"]		=	self.PVs["ketek_ROI_6"].get()
-		self.data["KETEK-ROI_7[c/s]"]		=	self.PVs["ketek_ROI_7"].get()
-		self.data["KETEK-INT_TIME[sec]"]	=	self.PVs["ketek_livetime"].get()
-		self.data["KETEK-OCR"]			=	self.PVs["ketek_dxp_OCR"].get()
-		self.data["KETEK-ICR"]			=	self.PVs["ketek_dxp_ICR"].get()
-
-		#print ("-----", self.data["KETEK-IF"])
-
-		if self.data["KETEK-If"] == 0:
-			CLIMessage("Warning: Please check the KETEK Detector", "W")
-		#CLIMessage("KETEK-End ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")
+		# time.sleep( float( self.allowedPicoIntTime[picoAmmIntTime - 3] ) )
+		# print ("float( self.allowedPicoIntTime[picoAmmIntTime - 3] )", float( self.allowedPicoIntTime[picoAmmIntTime - 3] ))
+		try: 
+			self.PVs["picoAmmeterItransIntTime"].put(args["picoAmmIntTime"])
+			self.PVs["picoAmmeterItransStartAcq"].put(1)
+			time.sleep(args["picoAmmIntTime"])
+			CLIMessage("hhhjjjghgh")
+			self.data["KEITHLEY_Itrans"] = self.PVs["picoAmmeterItransAcqReadOut"].get()
+			print ("avrg current ", self.data["KEITHLEY_Itrans"])
+		except:
+			CLIMessage("Warning: Please check the KEITHLEY_Itrans Detector", "E")
+			pass
 
 	def postACQ(self,args):
-		I0Dp	= self.data["IC1[V]"] = args["IC1[V]"]	
-		ItDp	= self.data["IC2[V]"] = args["IC2[V]"]	
-		It2Dp	= self.data["IC3[V]"] = args["IC3[V]"]	
-		IfDp	= self.data["KETEK-If"]
-		#print("I0Dp: ", I0Dp, "ItDp: ", ItDp, "It2Dp: ", It2Dp, "IfDp:", IfDp )
-		self.data["TRANS"]			=	self.trydiv(I0Dp,ItDp)
-		self.data["TransRef"]		=	self.trydiv(ItDp,It2Dp)
-		#print ("Trans: ", self.data["TRANS"], "TransRef: ", self.data["TransRef"])
-		#self.data["KETEK-FLUOR"]    =	self.trydiv(IfDp,I0Dp)
-		self.data["KETEK-FLUOR"]    =	IfDp/I0Dp
+		pass

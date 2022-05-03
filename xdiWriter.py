@@ -83,7 +83,6 @@ class XDIWriter:
 		"""
 		self.fullFileName = self.filePath +"/" + self.fileName + "_" + self.sampleTitle + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.expStartTime + ".xdi"
 		#print (self.fullFileName)
-		
 		if "KETEK" in self.detChosen:
 			if "FICUS" in self.detChosen:
 				self.createICKFXDIFile()
@@ -95,9 +94,8 @@ class XDIWriter:
 		elif "FICUS" in self.detChosen:
 			self.createICFXDIFile() 
 			self.fillICFDataTable()
-
 		elif "KEITHLEY_I0" in self.detChosen:
-			if "KEITHLEY_Itans"  in self.detChosen: 
+			if "KEITHLEY_Itrans"  in self.detChosen: 
 				if "BRUKER" in self.detChosen: 
 					self.createKEITHLEY_I0_Itrans_Bruker()
 					self.fillKEITHLEY_I0_Itrans_Bruker()
@@ -167,6 +165,60 @@ class XDIWriter:
 		f = open (self.fullFileName, "a")
 		f.write("%10.6e  %10.6e  %.9f  %10.6e \n" 
 		%(float(self.data["ENERGY-RBK"]), float(self.currentSP),abs(float(self.data["ENERGY-RBK"])-float(self.currentSP)), float(self.data["KEITHLEY_I0"])))
+		f.close()
+
+
+	def createKEITHLEY_I0_Itrans(self):
+		
+		if not os.path.exists(self.fullFileName): 
+			f = open (self.fullFileName, "w")
+			f.write("# XDI/1.0 SED_HESEB/0.9\n")
+			f.write("# Column.1: energy eV\n")
+			f.write("# Column.2: I0\n")
+			f.write("# Column.2: Itrans\n")
+			if self.personalInfoFlage == 1:
+				f.write("# Experiment.Type: Proposal\n")
+				f.write("# Proposal.ID: {}\n".format(self.proposalID))
+				f.write("# Proposal.title: {}\n".format(self.propTitle))
+				f.write("# PI: {}\n".format(self.PI))
+				f.write("# PI Email: {}\n".format(self.PIEmail))
+			else: 
+				f.write("# Experiment.Type: Local\n")
+			f.write("# Base.file_name: {}\n".format(self.fileName))
+			f.write("# Element.edge: {}\n".format(self.edge))
+			f.write("# Mono.name: {}\n".format(self.Mono))
+			f.write("# Mono.d_spacing: {}\n".format(self.d_spacing))
+			f.write("# Mono.settling_time: {}\n".format(self.settlingTime))
+			f.write("# Beamline.name: HESEB | Soft X-ray beamline (ID11)\n")
+			f.write("# Beamline.collimation: slits\n")
+			f.write("# Beamline.focusing: no\n")
+			f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
+			f.write("# Facility.name: SESAME Synchrotron-light\n")
+			f.write("# Facility.energy: 2.50 GeV\n")
+			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
+			f.write("# Facility.xray_source: SESAME Bending Magnet\n")
+			f.write("# Scan.start_time: {}\n".format(str(self.expStartTimeDF) ))
+			f.write("# Scan.end_time: xxx\n")
+			f.write("# Scan.edge_energy: {}\n".format(self.energy))
+			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
+			# f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
+			# f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
+			# f.write("# Detector.IC3: 15cm  {}\n".format(self.IC3GasMix))
+			f.write("# Element.symbol: {}\n".format(self.sampleName))
+			f.write("# Sample.stoichiometry: {}\n".format(self.stoichiometry))
+			f.write("# Sample.prep: {}\n".format(self.samplePrep))
+			f.write("# ///\n")
+			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
+			f.write("# User comments and remarks: {}\n".format(self.userCom))
+			f.write("#----\n")
+			f.write("#(1)energyRBV  (tmp_EnergySP)   RBV_SP_diff  (2)I0   (3)Itrans\n")
+			f.close()
+
+
+	def fillKEITHLEY_I0_Itrans(self):
+		f = open (self.fullFileName, "a")
+		f.write("%10.6e  %10.6e  %.9f  %10.6e  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.currentSP),abs(float(self.data["ENERGY-RBK"])-float(self.currentSP)), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
 		f.close()
 
 
