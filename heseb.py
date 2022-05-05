@@ -610,7 +610,6 @@ class HESEBSCAN:
 		except:
 			log.error("Problem transfering the data")
 
-	
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
@@ -620,5 +619,3 @@ class HESEBSCAN:
 			shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 			self.dataTransfer()
 			sys.exit()
-
-			
