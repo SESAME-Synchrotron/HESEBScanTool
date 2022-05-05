@@ -135,7 +135,6 @@ class HESEBSCAN:
 		Samples		=	range(1,self.cfg["Nsamples"]+1)
 		Scans		=	range(1,self.cfg["Nscans"]+1)
 		Intervals	=	range(1,self.cfg["NIntervals"]+1)
-		
 		return itertools.product(Samples,Scans,Intervals)    	
 
 	def initPGM(self):
@@ -145,14 +144,12 @@ class HESEBSCAN:
 		time.sleep(0.1)
 		self.motors["PGM:Grating"].put("stop_go",3) # Go
 		time.sleep(0.1)
-
 		self.motors["PGM:M2"].put("stop_go",0) # Stop
 		time.sleep(0.1)
 		self.motors["PGM:M2"].put("stop_go",3) # Go
 		time.sleep(0.1)
 
 		self.PVs["PGM:Energy:Reached"].put(1, wait = True)
-
 		self.energy0 = self.cfg["Intervals"][0]["Startpoint"]
 		log.info("Move PGM to initial energy ({})".format(self.energy0))
 		self.MovePGM(self.energy0)
@@ -231,7 +228,6 @@ class HESEBSCAN:
 		self.AbsTr2	= []
 		self.If		= []
 		self.AbsFlu	= []
-
 		self.PVs["PLOT:Energy"].put(self.Energy)
 		self.PVs["PLOT:I0"].put(self.I0)
 		self.PVs["PLOT:It"].put(self.It)
@@ -256,7 +252,6 @@ class HESEBSCAN:
 		diffTime = 0 
 		pauseFlag = 0 
 		startTime = time.time()
-
 		while self.PVs["SCAN:pause"].get():
 			pauseFlag = 1
 			diffTime = time.time() - startTime
@@ -265,8 +260,6 @@ class HESEBSCAN:
 		
 		if pauseFlag == 1:
 			log.warning("Scan was paused | pausing time(sec): %f ", diffTime)
-
-	
 	
 	def pauseTrigger(self): 
 		currentOk = True
@@ -276,7 +269,6 @@ class HESEBSCAN:
 		ICI0Ok = True
 		KetekROI0Ok = True
 		FicusROI0Ok = True
-
 		# imported from limites.json 
 		ringLowerCurrent = self.scanLimites["SRLowerCurrent"] 
 		ringUpperCurrent = self.scanLimites["SRUpperCurrent"]
@@ -285,7 +277,6 @@ class HESEBSCAN:
 		FicusROI0LowerLimit = self.scanLimites["FicusROI0LowerLimit"]
 
 		#reading detectors PVs
-		
 		ICsPVs = readFile("pvlist/IC.json").readJSON()
 		ICI0Roi0PV = epics.PV(ICsPVs["PV"]["IC0AvrVolt"]["pvname"])
 		
@@ -294,9 +285,6 @@ class HESEBSCAN:
 
 		FicusPVs = readFile("pvlist/FICUS.json").readJSON()
 		FicusRoisPV = epics.PV(FicusPVs["PV"]["Ficus:ROIs"]["pvname"])
-
-
-
 		"""
 		setup writing flages to avoid continues writing logs in the log file
 		"""
@@ -309,19 +297,13 @@ class HESEBSCAN:
 		FicusROI0LogFlag = 0
 		
 		while True:
-
 			shutter1Status = self.PVs["SHUTTER1:Status"].get()
 			shutter2Status = self.PVs["SHUTTER2:Status"].get()
 			StopperStatus = self.PVs["STOPPER:Status"].get()
-			currentCurrent = self.PVs["RING:Current"].get()
-
-
-			#print ("FE::: ",shutter1Status, "Op:::: ", shutter2Status, "Stopper::::", StopperStatus)
-			
+			currentCurrent = self.PVs["RING:Current"].get()			
 			ICI0Readout = ICI0Roi0PV.get()
 			KetekROI0Readout = ketekRoi0PV.get()
 			FicusROI0Readout = FicusRoisPV.get()
-
 			################### Check current parameters ###############
 			if ringLowerCurrent <= currentCurrent <= ringUpperCurrent:
 				currentOk = True
@@ -423,11 +405,7 @@ class HESEBSCAN:
 				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release 
 			else:
 				self.PVs["SCAN:pause"].put(0)
-				
-
-
 			time.sleep(self.scanLimites["checkLimitesEvery"]) # time in seconds 
-
 
 	def initDetectors(self):
 		#self.available_detectors = ["IC1","IC2","IC3","KETEK","FICUS"]
