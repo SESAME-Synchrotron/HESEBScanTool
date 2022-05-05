@@ -190,36 +190,16 @@ class ConfigGUI:
 			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][8]["userCom"]))
 			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][9]["expCom"]))
 
-
-
-
-
-			# self.DetectorsGUI.detectors_UI.IC1GasMix.setText(str(self.cfg["ExpMetaData"][0]["IC1GasMix"]))
-			# self.DetectorsGUI.detectors_UI.IC2GasMix.setText(str(self.cfg["ExpMetaData"][1]["IC2GasMix"]))
-			# self.DetectorsGUI.detectors_UI.IC3GasMix.setText(str(self.cfg["ExpMetaData"][2]["IC3GasMix"]))
-
-
 			for interval in range(len(self.cfg["Intervals"])):
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Startpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.end.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Endpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.step.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Stepsize"]),0))
-				# -3 in the line of code below added to compensate the indexing that is in the IOC PV but not in the list self.allowedPicoIntTime
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["picoAmmIntTime"]),0))
-
-
-				# cbox = AcqTime(interval,self.cfg["Intervals"][interval]["DetIntTime"])
-				# self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
-				# if "ExtTrig" in self.cfg["Intervals"][interval].keys():
-				# 	self.IntervalsGUI.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["ExtTrig"]), 0))
 
 			for sample in range(len(self.cfg["Samplespositions"])):
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Xposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Yposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["sampleTitle"]), 0))
-			
-			# if "FICUS" in self.cfg["detectors"]:
-			# 	detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "FICUS")
-			# 	detCheckbox.setChecked(True)
 			
 			if "KETEK" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KETEK")
@@ -243,7 +223,6 @@ class ConfigGUI:
 		expMetaData = []
 		try:
 			NIntervals = self.guiObj.setNumofIterv.text()
-			#print(NIntervals, type(NIntervals), "<-")
 			if NIntervals == '' or not Common.regexvalidation("NIntervals",NIntervals):
 				CLIMessage("Please enter valid Number of intervals","W")
 				return self.WizardPages.editCfg.value
@@ -267,8 +246,6 @@ class ConfigGUI:
 			if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
 				CLIMessage("Please enter valid settling time", "W")
 				return self.WizardPages.editCfg.value
-
-
 
 			intervals = [{} for i in range(int(NIntervals))]
 			for interval in range(int(NIntervals)):#range(self.IntervalsGUI.interval_UI.tableWidget.rowCount()):
@@ -307,25 +284,8 @@ class ConfigGUI:
 						"interval number {}".format(interval)):
 						CLIMessage("Please check/enter the pico ammeter integration time for interval number {}".format(interval), "W") 
 						return self.WizardPages.editCfg.value
-					# allowedPicoIntTimeFlage = None
-					# for itemList in self.allowedPicoIntTime: 
-					# 	if float(picoAmmIntTime) == float(itemList):
-					# 		allowedPicoIntTimeFlage = "Yes" 
-					# if allowedPicoIntTimeFlage == None: 
-					# 	CLIMessage("Intervals | Please enter a valid pico ammeter integration time for interval number {}, allowed values are: 10, 5, 2, 1, 0.5, 0.2, 0.1 ONLY".format(interval),"W")
-					# 	return self.WizardPages.editCfg.value
 				except: 
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
-
-				#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
-				# intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
-
-				# isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
-				# if isExtTrigger == 15:
-				# 	ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
-				# 	if ExtTriggerIntTime == '' or not Common.validate(
-				# 			"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-				# 		return self.WizardPages.editCfg.value
 
 			SamplePositions = [{} for i in range(int(Nsamples))]
 			for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
