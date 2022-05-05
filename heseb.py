@@ -411,10 +411,8 @@ class HESEBSCAN:
 		#self.available_detectors = ["IC1","IC2","IC3","KETEK","FICUS"]
 		log.info("Detectors initialization")
 		self.available_detectors = ["IC","KETEK","FICUS"]
-
 		self.Ingtime = [0.005, 0.0075, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10]
 		self.detectors = []
-
 		detlist = self.cfg["detectors"]
 		log.info("Chosen detectors are {}".format(detlist))
 		self.detChosen = detlist
@@ -447,10 +445,7 @@ class HESEBSCAN:
 		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
 		self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
 		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
-
 		points		=	map(lambda intv: self.drange(intv["Startpoint"],intv["Endpoint"],intv["Stepsize"]),self.cfg["Intervals"])
-
-		#added by MZ on Aug 24, 20221
 		expData = {} # Experimental Data 
 
 		for sample,scan,interval in self.generateScanPoints():
