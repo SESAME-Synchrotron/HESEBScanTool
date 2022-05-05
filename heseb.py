@@ -5,13 +5,11 @@ import csv
 import datetime
 import decimal
 import json
-import math
 import os
 import re
 import sys
 import time
 import itertools
-
 from common import Common
 from detectors.ficus import FICUS
 from detectors.ketek import KETEK
@@ -42,7 +40,6 @@ class HESEBSCAN:
 		self.loadPVS("HESEB")
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
-		#self.cfg["expType"] = config.ConfigGUI(self.paths).masterExpType
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
@@ -52,18 +49,14 @@ class HESEBSCAN:
 		self.initPaths()
 		self.initPGM()
 		self.initDetectors()
-
 		# Set ^C interrupt to abort the scan
 		signal.signal(signal.SIGINT, self.signal_handler)
-
 		if testingMode == "No":
 			log.info("Testing mode: No")
 			self.runPauseMonitor()
 		else:
 			log.info("Testing mode: Yes")
-
 		self.start()
-
 
 	def runPauseMonitor(self):
 		log.info("start pause trigger monitor") 
@@ -123,10 +116,8 @@ class HESEBSCAN:
 		self.dataFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
 		self.dataFileFullPath		=	"{}/{}".format(self.localDataPath, self.dataFileName)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
-
 		if not os.path.exists(self.localDataPath): 
 			os.makedirs(self.localDataPath)
-
 	
 	def drange(self,start,stop,step,prec=10):
 		log.info("Calculating energy points")
@@ -169,7 +160,7 @@ class HESEBSCAN:
 	def MovePGM(self,SP, curentScanInfo=None):
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
-		time.sleep(.5)
+		time.sleep(.4)
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
 		log.info("Move PGM to energy: {}".format(SP)) 
 		"""
