@@ -294,9 +294,6 @@ class ConfigGUI:
 					if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
 						CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W") 
 						return self.WizardPages.editCfg.value
-
-
-
 					Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 					if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W") 
@@ -313,26 +310,7 @@ class ConfigGUI:
 					CLIMessage("Please check/enter the sample name in the Samples dialog", "W")
 					return self.WizardPages.editCfg.value
 
-
 			####################### Metadata section ##############################
-
-			# if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
-			# 	CLIMessage("Please enter the IC1 gas being used", "W")
-			# 	return self.WizardPages.editCfg.value
-			# else:
-			# 	expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
-
-			# if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
-			# 	CLIMessage("Please enter the IC2 gas being used", "W")
-			# 	return self.WizardPages.editCfg.value
-			# else:
-			# 	expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
-
-			# if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
-			# 	CLIMessage("Please enter the IC3 gas being used", "W")
-			# 	return self.WizardPages.editCfg.value
-			# else:
-			# 	expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
 
 			if self.guiObj.edge.currentText() == "":
 				CLIMessage("Please choose the element edge", "W")
@@ -409,7 +387,6 @@ class ConfigGUI:
 				expMetaData.append({"expCom":"NONE"})
 			else:
 				expMetaData.append({"expCom":self.guiObj.expCom.text()})
-
 				
 			detectors = []
 			for d in self.DetectorsGUI.detectors:
@@ -425,8 +402,7 @@ class ConfigGUI:
 			return self.WizardPages.startscan.value
 		except:
 			print ("Check config")
-			return self.WizardPages.editCfg.value
-			
+			return self.WizardPages.editCfg.value			
 	
 	def start(self):
 		NIntervals = self.guiObj.setNumofIterv.text()
@@ -464,7 +440,6 @@ class ConfigGUI:
 		else:
 			self.cfg["settlingTime"]=float(settlingTime)
 
-
 		intervals = [{} for i in range(int(NIntervals))]
 		for interval in range(self.IntervalsGUI.interval_UI.tableWidget.rowCount()):
 			start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
@@ -492,35 +467,9 @@ class ConfigGUI:
 			if picoAmmIntTime == '' or not Common.validate("picoAmmetersIntTime", end,"Please enter valid pico ammeter integration time"):
 				CLIMessage("Intervals | Please enter a valid pico ammeter integration time","W")
 				return self.WizardPages.editCfg.value
-
-			# allowedPicoIntTimeFlage = None
-			# for itemList in self.allowedPicoIntTime: 
-			# 	if float(picoAmmIntTime) == float(itemList):
-			# 		allowedPicoIntTimeFlage = "Yes" 
-			# if allowedPicoIntTimeFlage == None: 
-			# 	CLIMessage("Intervals | Please enter a valid pico ammeter integration time for interval number {}, allowed values are: 10, 5, 2, 1, 0.5, 0.2, 0.1 ONLY".format(interval),"W")
-			# 	return self.WizardPages.editCfg.value
-
-			# if picoAmmIntTime not in self.allowedPicoIntTime: 
-			# 	CLIMessage("Intervals | Please enter a valid pico ammeter integration time, allowed values are: 10, 5, 2, 1, 0.5, 0.2, 0.1 ONLY","W")
-			# 	return self.WizardPages.editCfg.value
 			else:
 				# +3 in the line of code below added to compensate the indexing that is in the IOC PV but not in the list self.allowedPicoIntTime
 				intervals[interval]["picoAmmIntTime"] = float(picoAmmIntTime)
-
-			#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
-			# intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
-
-			# isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
-			# if isExtTrigger == 15:
-			# 	ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
-			# 	if ExtTriggerIntTime == '' or not Common.validate(
-			# 			"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-			# 		CLIMessage("Intervals | Please enter a valid External Trigger duration")
-			# 		return self.WizardPages.editCfg.value
-			# 	else:
-			# 		intervals[interval]["ExtTrig"] = float(ExtTriggerIntTime)
-
 		SamplePositions = [{} for i in range(int(Nsamples))]
 		for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
 			Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
@@ -548,9 +497,6 @@ class ConfigGUI:
 			detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
 			if detCheckbox.isChecked():
 				detectors.append(d)
-		
-
-
 
 		self.cfg["detectors"] = detectors
 
@@ -569,6 +515,7 @@ class ConfigGUI:
 			print(e)
 			sys.exit()
 
+
 class SamplePosGUI:
 	class SampleCols(Enum):
 		X	=	0
@@ -583,54 +530,36 @@ class SamplePosGUI:
 	def setSamplesNumber(self, cfg):
 		Nsamples = cfg["Nsamples"]
 		self.sample_UI.samplepositions.setRowCount(Nsamples)
-
 		"""
 		bring default x and y positions 
 		"""
-
 		PVs = readFile("pvlist/HESEB.json").readJSON()
 		XpositionPV = PVs["Motors"]["SMP:X"]["pvname"]
 		YpositionPV = PVs["Motors"]["SMP:Y"]["pvname"] 
-
-		#print("cfg.keys", cfg.keys())
-
-
 		if "Samplespositions" in cfg.keys():
 			for sample in range(Nsamples):
 				sampleTitle = ""
 				Xposition = ""
 				Yposition = ""
-
 				if sample < len(cfg["Samplespositions"]):
-
 					try:
 						Xposition = self.sample_UI.samplepositions.item(sample, 0).text()
 						Yposition = self.sample_UI.samplepositions.item(sample, 1).text()
 						sampleTitle = self.sample_UI.samplepositions.item(sample, 2).text()
 					except:
 						print("")
-
 					try:	
 
 						if Xposition == "" or Yposition == "" or sampleTitle =="": # bring x and y values fro the first time from cfg file
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Xposition"]), 0))
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Yposition"]), 0))
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["sampleTitle"]), 0))
-						
 					except:
 						CLIMessage("Unable to read x and y positions (or Sample Name) from the configuration file for "\
 							"the sample number {}".format(sample), "W")
-
-					#try: 
-					#	
-					#	if sampleTitle == "": 
-					#		
-					#except:
-					#	CLIMessage("Unable to read the sample name for sample number {} from the config file".format(sample), "W")
 		else: 
 			CurentXPosition = caget(XpositionPV)
 			CurentYPosition = caget(YpositionPV)
-			
 			try: # try to get text for the first interval, ... if not set the curent x y positions 
 				XpositionInt0 = self.sample_UI.samplepositions.item(0, 0).text() # x position interval 0
 				YpositionInt0 = self.sample_UI.samplepositions.item(0, 1).text() # y position interval 0 
@@ -644,15 +573,13 @@ class SamplePosGUI:
 				self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(CurentXPosition), 0))
 				self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(CurentYPosition), 0))
 
+
 class IntervalGUI:
 	class IntervalCols(Enum):
 		start	=	0
 		end		=	1
 		step	=	2
 		ICInt	=	3
-		# DetInt	=	4
-		# ExtTrig	=	5
-
 		GlobalCfg = {} 
 		
 	def __init__(self):
@@ -664,7 +591,6 @@ class IntervalGUI:
 		# self.FicusIntTimeDicBCK = {}
 		self.interval_UI.buttonBox.clicked.connect(self.saveIntervals)
 		self.Intervals = []
-
 
 	def saveIntervals(self):
 		#print ("dffsdfsdfs", len(self.FicusIntTimeDic))
@@ -680,32 +606,17 @@ class IntervalGUI:
 				self.Intervals[interval]["Endpoint"]   =   self.interval_UI.tableWidget.item(interval, 1).text()
 				self.Intervals[interval]["Stepsize"]   =   self.interval_UI.tableWidget.item(interval, 2).text()
 				self.Intervals[interval]["picoAmmIntTime"] =   self.interval_UI.tableWidget.item(interval, 3).text()
-				# self.Intervals[interval]["DetIntTime"] =   self.FicusIntTimeDic[interval]
 			except:
 				pass
-				#if GlobalCfg ["loadedConfig"]=="No":
-				#	pass
-				#else: 
-				#	Common.show_message(QtWidgets.QMessageBox.Critical,
-				#		"Invalid interval(s) settings, "\
-				#		"the the tool will quite now, re-run it again and please make sure that the intervals configrations are correct"
-				#		,"HESEB scan tool",QtWidgets.QMessageBox.Ok)
-				#	sys.exit()
 	def setIntervalsNumber(self, cfg):
 		
 		NIntervals = cfg["NIntervals"]
 		global GlobalCfg
 		GlobalCfg = cfg
-
-		#print ("xxxxx",cfg["Intervals"])
-		# self._AcqTimes = [-1 for i in range(NIntervals)] 
 		self.interval_UI.tableWidget.setRowCount(NIntervals)
 		if "Intervals" in cfg.keys():
 			if len(cfg["Intervals"]) > len(self.Intervals):
 				self.Intervals = cfg["Intervals"]
-
-			#print(Intervals)
-
 			for interval in range(NIntervals): 
 				try:
 					self.Intervals[interval]["Startpoint"] = self.interval_UI.tableWidget.item(interval, 0).text()
@@ -715,9 +626,6 @@ class IntervalGUI:
 					# self.Intervals[interval]["DetIntTime"] = self.FicusIntTimeDic[interval]
 				except:
 					pass 
-
-
-
 			self.interval_UI.tableWidget.clearContents()
 			for interval in range(NIntervals):
 				if interval < len(self.Intervals):
@@ -726,47 +634,6 @@ class IntervalGUI:
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.end.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["Endpoint"]),0))
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.step.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["Stepsize"]),0))
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["picoAmmIntTime"]),0))
-
-						# cbox = AcqTime(interval,self.Intervals[interval]["DetIntTime"])
-						# cbox.currentIndexChanged.connect(self.saveindex)
-						# self._AcqTimes[interval] = self.Intervals[interval]["DetIntTime"]
-						# self.FicusIntTimeDic[interval] = self.Intervals[interval]["DetIntTime"]
-						# self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
-						# if "ExtTrig" in self.Intervals[interval].keys():
-						# 	self.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["ExtTrig"]), 0))
-				# else:
-				# 	AcqCbox = AcqTime(interval,-1)
-				# 	AcqCbox.currentIndexChanged.connect(self.saveindex)
-				# 	self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-				# 	self._AcqTimes.append(-1)
-
-		# else:
-		# 	#if len(self.FicusIntTimeDic) == 0:
-		# 	if Nintrv == 0:
-		# 		for interval in range(NIntervals):
-		# 			AcqCbox = AcqTime(interval,-1)
-		# 			AcqCbox.currentIndexChanged.connect(self.saveindex)
-		# 			self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-		# 			self._AcqTimes.append(-1)
-		# 	else:
-		# 		for interval in range(NIntervals):
-		# 			try:
-		# 				AcqCbox = AcqTime(interval,self.FicusIntTimeDic[interval])
-		# 				AcqCbox.currentIndexChanged.connect(self.saveindex)
-		# 				self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-		# 			except:
-		# 				AcqCbox = AcqTime(interval,-1)
-		# 				AcqCbox.currentIndexChanged.connect(self.saveindex)
-		# 				self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,AcqCbox)
-		# 				self._AcqTimes.append(-1)
-
-		#self.FicusIntTimeDicBCK = self.FicusIntTimeDic
-
-	# def saveindex(self,index):
-	# 	senderIndex = self.intervalDialog.sender().index
-	# 	self._AcqTimes[senderIndex] = index
-	# 	self.FicusIntTimeDic[senderIndex]=index
-
 class DetectorsGUI:		
 	def __init__(self):
 		#self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
@@ -775,28 +642,6 @@ class DetectorsGUI:
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)
 
-# class AcqTime(QtWidgets.QComboBox):
-#    def __init__(self, index,value, parent = None):
-# 	   super(AcqTime, self).__init__(parent)
-# 	   self.addItem("5 ms")			#0
-# 	   self.addItem("7.5 ms")		#1	
-# 	   self.addItem("10 ms")		#2
-# 	   self.addItem("25 ms")		#3
-# 	   self.addItem("50 ms")		#4
-# 	   self.addItem("75 ms")		#5
-# 	   self.addItem("100 ms")		#6
-# 	   self.addItem("250 ms")		#7
-# 	   self.addItem("500 ms")		#8
-# 	   self.addItem("750 ms")		#9
-# 	   self.addItem("1 s")			#10
-# 	   self.addItem("2.5 s")		#11
-# 	   self.addItem("5 s")			#12
-# 	   self.addItem("7.5 s")		#13
-# 	   self.addItem("10 s")			#14
-# 	   self.addItem("Ext Trigger")	#15
-# 	   self.index = index
-# 	   #print (self.index)
-# 	   self.setCurrentIndex(value)
 
 class SED:
 	Header = ['Proposal', 'Title', 'Proposer', 'Email', 'Beamline', 'Begin', 'End', 'Assigned shifts', 'Assigned hours', 'Semester', 'Experimental_Data_Path']
