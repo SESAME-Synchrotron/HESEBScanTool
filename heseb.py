@@ -456,9 +456,7 @@ class HESEBSCAN:
 			CLIMessage("Sample# {}".format(sample), "I")
 			CLIMessage("Interval# {}".format(interval), "I")
 			print ("#####################################################")
-			# comminted by MZ 
 			#self.clearPlot()
-
 			# CSS GUI
 			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
 			self.PVs["SCAN:Nscans"].put(self.cfg["Nscans"])
@@ -466,10 +464,8 @@ class HESEBSCAN:
 			self.PVs["SCAN:CurrentSample"].put(sample)
 			self.PVs["SCAN:CurrentScan"].put(scan)
 			self.PVs["SCAN:CurrentInterval"].put(interval)
-
 			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1 
 			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1 
-
 			currentInterval = self.cfg["Intervals"][interval-1]
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]
