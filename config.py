@@ -478,11 +478,8 @@ class ConfigGUI:
 			detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
 			if detCheckbox.isChecked():
 				detectors.append(d)
-
 		self.cfg["detectors"] = detectors
-
 		self.cfg["Intervals"] = intervals
-
 		self.cfg["Samplespositions"] = SamplePositions
 
 	def loadcfgfile(self, cfgfilename):
@@ -567,9 +564,6 @@ class IntervalGUI:
 		self.intervalDialog = QtWidgets.QDialog()
 		self.interval_UI = intervalsForm.Ui_Dialog()
 		self.interval_UI.setupUi(self.intervalDialog)
-		# self._AcqTimes = [-1]
-		# self.FicusIntTimeDic = {}
-		# self.FicusIntTimeDicBCK = {}
 		self.interval_UI.buttonBox.clicked.connect(self.saveIntervals)
 		self.Intervals = []
 
@@ -617,8 +611,7 @@ class IntervalGUI:
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["picoAmmIntTime"]),0))
 class DetectorsGUI:		
 	def __init__(self):
-		#self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
-		self.detectors = ["KETEK", "KEITHLEY_I0", "KEITHLEY_Itrans"]
+		self.detectors = ["KEITHLEY_I0", "KEITHLEY_Itrans"]
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)
@@ -643,7 +636,6 @@ class SED:
 
 		for col in header:
 			data[col] = None
-
 		propsal = next(ProposalData)
 		data = dict(zip(header, propsal))
 		result , propsal_data = self.validatePropsalData(data)
