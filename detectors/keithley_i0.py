@@ -30,7 +30,7 @@ class KEITHLEY_I0(Base):
 			self.PVs["picoAmmeterI0StartAcq"].put(1)
 			time.sleep(args["picoAmmIntTime"])
 			self.data["KEITHLEY_I0"] = self.PVs["picoAmmeterI0AcqReadOut"].get()
-			print ("avrg current ", self.data["KEITHLEY_I0"])
+			print ("avrg current ", self.data["KEITHLEY_I0"], "args[picoAmmIntTime]:  ", args["picoAmmIntTime"])
 		except:
 			CLIMessage("Warning: Please check the KEITHLEY_I0 Detector", "E")
 			pass
