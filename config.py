@@ -4,8 +4,6 @@
 from forms import configWizard, samplespositionForm, intervalsForm, detectorsForm
 from enum import Enum
 from PyQt5 import QtWidgets, QtCore
-
-#import SED
 import json
 import datetime
 import sys
@@ -17,8 +15,6 @@ import epics
 from epics import caget 
 from SEDSS.SEDSupport import readFile
 from SEDSS.SEDSupplements import CLIMessage, UIMessage
-
-
 from  common import Common
 
 class ConfigGUI:
@@ -35,18 +31,13 @@ class ConfigGUI:
 		#self.QCore =
 		self.guiObj = configWizard.Ui_Wizard()
 		self.guiObj.setupUi(self.Qwiz)
-
 		self.paths = paths
-		# self.allowedPicoIntTime = [10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1]
-
 		self.cfg = {}
 		self.expType = "users"
 		self.masterExpType = "proposal" #this is a master exp type to avoid overwriting by loading config file 
-
 		self.IntervalsGUI   = IntervalGUI()
 		self.SamplesGUI     = SamplePosGUI()
 		self.DetectorsGUI   = DetectorsGUI()
-
 		self.guiObj.ExpType.nextId = self.CheckExptype
 		self.guiObj.SED.nextId = self.checkPropsalID
 		self.guiObj.CfgFile.nextId = self.cfgfile
@@ -56,7 +47,6 @@ class ConfigGUI:
 		self.Qwiz.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.onClose)
 		self.Qwiz.setWindowFlag(QtCore.Qt.CustomizeWindowHint) # Need to be set firstly before dealing with windows buttons
 		self.Qwiz.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
-
 		self.guiObj.Browse.clicked.connect(self.BrowseCfgFile)
 		self.guiObj.editIntrv.clicked.connect(self.editIntervals)
 		self.guiObj.editSample.clicked.connect(self.editSamples)
@@ -83,7 +73,6 @@ class ConfigGUI:
 	def getExpType(self):
 		return self.masterExpType
 
-
 	def checkPropsalID(self):
 		proposal_ID = self.guiObj.PropsalID.text()
 		if proposal_ID == '':
@@ -106,7 +95,6 @@ class ConfigGUI:
 			self.cfg["loadedConfig"] = "Yes"
 			return self.WizardPages.LoadCfg.value
 			
-
 	def loadcfg(self):
 		path = self.guiObj.filePath.text()
 		if not path == "":
@@ -128,7 +116,6 @@ class ConfigGUI:
 			Common.show_message(QtWidgets.QMessageBox.Critical,
 								"Please enter Number of Intervals",
 								"HESEB scan tool", QtWidgets.QMessageBox.Ok)
-
 	def Detectors(self):
 		if "detectors" in self.cfg.keys():
 			for Detector in self.cfg["detectors"]:
@@ -153,7 +140,6 @@ class ConfigGUI:
 			self.IntervalsGUI	= IntervalGUI()
 			self.SamplesGUI		= SamplePosGUI()
 			self.DetectorsGUI	= DetectorsGUI()
-
 			self.cfgpath = QtWidgets.QFileDialog.getOpenFileName(self.Qwiz, "choose configuration file", "~","*.cfg")[0]
 			try:
 				self.guiObj.filePath.setText(self.cfgpath)
@@ -200,11 +186,7 @@ class ConfigGUI:
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Xposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Yposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["sampleTitle"]), 0))
-			
-			if "KETEK" in self.cfg["detectors"]:
-				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KETEK")
-				detCheckbox.setChecked(True)
-			
+
 			if "KEITHLEY_I0" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KEITHLEY_I0")
 				detCheckbox.setChecked(True)
@@ -217,7 +199,6 @@ class ConfigGUI:
 		except:
 			CLIMessage("Problem reading the config file. Try another one","E")
 			return self.WizardPages.editCfg.value
-
 
 	def checkConfig(self):
 		expMetaData = []
@@ -654,12 +635,11 @@ class SED:
 			print("invalid file: missing columns")
 			Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: missing columns","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 			sys.exit()
-
 		for col_name in header:
 			if not col_name in SED.Header:
 				print("invalid file: unexpected column(s)")
 				Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: unexpected column(s)","HESEB scan tool",QtWidgets.QMessageBox.Ok)
-				sys.exit()	
+				sys.exit()
 
 		for col in header:
 			data[col] = None
@@ -673,7 +653,6 @@ class SED:
 			Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: metadata validation failed","HESEB scan tool",QtWidgets.QMessageBox.Ok)
 			print(result)
 			sys.exit()
-
 
 	def validatePropsalData(self,propsal):
 		propsal_data    = {}
@@ -715,9 +694,6 @@ class SED:
 
 	def init(self, proposalID):
 		self.proposalID = proposalID
-		#FNULL = open(os.devnull, 'w')
-		#getMetaDataResult = subprocess.call(["./get-metadata.sh"], stdout=FNULL)
-
 		todayProposal = os.path.exists("metadata/Scanning_Tool.csv")
 		if todayProposal:
 			if self.getPropsalData(proposalID):
@@ -729,7 +705,3 @@ class SED:
 					"Scanning_Tool.csv files is not exist", 
 					"Try to start the experiment again, if the problem continues please contact the DCA Group").showCritical()
 			CLIMessage("Error reading today's metadata file","E")
-			#Common.show_message(QtWidgets.QMessageBox.Critical,"Metadata gathering error","HESEB scan tool",QtWidgets.QMessageBox.Ok)
-			#sys.exit()
-
-		#FNULL.close()
