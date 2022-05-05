@@ -470,9 +470,7 @@ class HESEBSCAN:
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
-			#FrameDuration = currentInterval["DetIntTime"]
 			picoAmmIntTime = currentInterval["picoAmmIntTime"]
-			#self.cfg["picoAmmIntTime"] = picoAmmIntTime
 			points = self.drange(startpoint,endpoint,stepsize)
 
 			for point in points:
@@ -486,19 +484,16 @@ class HESEBSCAN:
 
 				# tmp, delete the following line 
 				curentScanInfo.append({"TargetSP":point})
-
 				self.MovePGM(point, curentScanInfo)
 				args= {}
-				#args["FrameDuration"] = FrameDuration
 				args["picoAmmIntTime"] = picoAmmIntTime
 				ACQdata = {}
 				detThreadList = []
-
 				log.info("Prepare a parallel thread for each selected detector")
 				for det in self.detectors:
 					detThreading = threading.Thread(target=det.ACQ, args=(args,), daemon=True)
 					detThreadList.append(detThreading)
-				
+
 				log.info("Start detectors threads")
 				for thread in detThreadList: 
 					thread.start()
@@ -511,7 +506,6 @@ class HESEBSCAN:
 				log.info("Collecting data from detectors")
 				log.info("PGM Energy: {}".format(self.PVs["PGM:Energy:RBV"].get()))
 				expData.update(ACQdata)
-
 				log.info("Applying post acquisition for selected detectors if applicable")
 				for det in self.detectors:
 					det.postACQ(ACQdata)
@@ -526,8 +520,6 @@ class HESEBSCAN:
 				ACQdata["Interval"] = interval
 				ACQdata["ENERGY-RBK"]	=	Energy
 				expData.update(ACQdata)
-
-
 				I0Dp					=	ACQdata["IC1[V]"]	
 				ItDp					=	ACQdata["IC2[V]"]	
 				It2Dp					=	ACQdata["IC3[V]"]	
@@ -595,7 +587,6 @@ class HESEBSCAN:
 			Transfering the data after each scan 
 			"""
 			self.dataTransfer()
-		
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
 		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
