@@ -432,6 +432,8 @@ class HESEBSCAN:
 				raise Exception("Unknown detector")
 				log.error("Unknown detector is Chosen")
 
+	
+
 	def start(self):
 		counter = 0 
 		pauseCounter = 0
@@ -470,7 +472,10 @@ class HESEBSCAN:
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
+			
 			picoAmmIntTime = currentInterval["picoAmmIntTime"]
+			
+			
 			points = self.drange(startpoint,endpoint,stepsize)
 
 			for point in points:

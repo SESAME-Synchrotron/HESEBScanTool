@@ -103,7 +103,7 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
-			f.write("# Column.1: energy eV\n")
+			f.write("# Column.1: PGM energy (eV)\n")
 			f.write("# Column.2: I0\n")
 			if self.personalInfoFlage == 1:
 				f.write("# Experiment.Type: Proposal\n")
@@ -137,14 +137,13 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("#(1)energyRBV  (tmp_EnergySP)   RBV_SP_diff (2)I0\n")
+			f.write("#(1)energy    (2)I0    3 intTime\n")
 			f.close()
-
 
 	def fillKEITHLEY_I0(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %.9f  %10.6e \n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.currentSP),abs(float(self.data["ENERGY-RBK"])-float(self.currentSP)), float(self.data["KEITHLEY_I0"])))
+		f.write("%10.6e  %10.6e   %s\n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), self.data["KEITHLEY_I0_intTime"]))
 		f.close()
 
 
