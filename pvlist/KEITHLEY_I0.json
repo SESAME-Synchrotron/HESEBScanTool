@@ -1,10 +1,10 @@
 {
 	"PV":
 	{
-		"picoAmmeter1Current":{
+		"picoAmmeterI0Current":{
 			"pvname":"K6487:1:Measure"
 		},
-		"picoAmmeterI0IntTime":{
+		"picoAmmeterI0TPSS":{
 			"pvname":"K6487:1:TimePerSampleStep"
 		},
 		"picoAmmeterI0StartAcq":{
@@ -16,9 +16,24 @@
 		"picoAmmeterI0AutoZero":{
 			"pvname":"K6487:1:AutoZero"
 		},
-		"picoAmmeter1CurrentRange":{
+		"picoAmmeterI0CurrentRange":{
 			"pvname":"K6487:1:Measure.SCAN"
+		},
+		"picoAmmeterI0SoftReset":{
+			"pvname":"K6487:1:RST.PROC"
+		},
+		"picoAmmeterI0Damping":{
+			"pvname":"K6487:1:Damping"
+		},
+		"picoAmmeterI0IntTime":{
+			"pvname":"K6487:1:IntegrationTime"
+		},
+		"picoAmmeterI0AVGSamples":{
+			"pvname":"K6487:1:AverageFilterCount"
 		}
+		
+
+
 	}
 	
 }
