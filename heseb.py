@@ -477,7 +477,9 @@ class HESEBSCAN:
 			
 			
 			points = self.drange(startpoint,endpoint,stepsize)
-
+			epics.PV("K6487:1:RST.PROC").put(1)
+			epics.PV("K6487:1:Damping").put(0)
+			epics.PV("K6487:1:TimePerSampleStep").put(0)
 			for point in points:
 				self.checkPause()
 				curentScanInfo = []

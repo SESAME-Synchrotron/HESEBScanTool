@@ -44,7 +44,7 @@ class KEITHLEY_I0(Base):
 			else:
 				break
 			time.sleep(sleepTime)
-			if timerCounter * sleepTime >= 10:
+			if timerCounter * sleepTime >= 20:
 				CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
 				break
 		overallIntTime = timeModule.timer(startTime)
@@ -76,93 +76,89 @@ class KEITHLEY_I0(Base):
 		"""
 		intTime = float(intTime)
 
-		if intTime == 0.25: 
-			NPLC 	 	  = 2
-			ActualIntTime = 0.256
-			return NPLC, ActualIntTime
-		elif intTime == 0.5: 
-			NPLC 	 	  = 2
-			ActualIntTime = 0.501
-			return NPLC, ActualIntTime
-		elif intTime == 0.75: 
-			NPLC 	 	  = 2
-			ActualIntTime = 0.748
-			return NPLC, ActualIntTime
-		elif intTime == 1.0: 
+		if intTime == 0.25: 			# 4 Samples
 			NPLC 	 	  = 1
-			ActualIntTime = 0.994
+			ActualIntTime = 0.27
 			return NPLC, ActualIntTime
-		elif intTime == 1.25: 
+		elif intTime == 0.5: 			# 7 Samples
 			NPLC 	 	  = 1
-			ActualIntTime = 1.241
+			ActualIntTime = 0.45
 			return NPLC, ActualIntTime
-		elif intTime == 1.5: 
-			NPLC 	 	  = 2
-			ActualIntTime = 1.480
+		elif intTime == 0.75: 			# 11 Samples
+			NPLC 	 	  = 1
+			ActualIntTime = 0.74
 			return NPLC, ActualIntTime
-		elif intTime == 1.75: 
-			NPLC 	 	  = 2
-			ActualIntTime = 1.735
+		elif intTime == 1.0: 			# 15 Samples
+			NPLC 	 	  = 1
+			ActualIntTime = 0.94
 			return NPLC, ActualIntTime
-		elif intTime == 2.0: 
-			NPLC 	 	  = 2
-			ActualIntTime = 1.982
+		elif intTime == 1.25: 			# 18 Samples
+			NPLC 	 	  = 1
+			ActualIntTime = 1.12
 			return NPLC, ActualIntTime
-		elif intTime == 2.25: 
+		elif intTime == 1.5: 			# 12 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 2.229
+			ActualIntTime = 1.49
 			return NPLC, ActualIntTime
-		elif intTime == 2.50: 
+		elif intTime == 1.75: 			# 14 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 2.476
+			ActualIntTime = 1.74
 			return NPLC, ActualIntTime
-		elif intTime == 2.75: 
+		elif intTime == 2.0: 			# 16 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 2.722
+			ActualIntTime = 1.99
 			return NPLC, ActualIntTime
-		elif intTime == 3.0: 
+		elif intTime == 2.25: 			# 17 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 3.09
+			ActualIntTime = 2.12
 			return NPLC, ActualIntTime
-		elif intTime == 3.25:
+		elif intTime == 2.50: 			# 19 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 3.21
+			ActualIntTime = 2.37
 			return NPLC, ActualIntTime
-		elif intTime == 3.5:
+		elif intTime == 2.75: 			# 21 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 3.58
+			ActualIntTime = 2.61
 			return NPLC, ActualIntTime
-		elif intTime == 3.75:
+		elif intTime == 3.0: 			# 23 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 3.711
+			ActualIntTime = 2.85
 			return NPLC, ActualIntTime
-		elif intTime == 4.0:
+		elif intTime == 3.25:			# 25 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 4.08
+			ActualIntTime = 3.11
 			return NPLC, ActualIntTime
-		elif intTime == 5.0:
+		elif intTime == 3.5:			# 27 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 5.006
+			ActualIntTime = 3.35
 			return NPLC, ActualIntTime
-		elif intTime == 6.0:
+		elif intTime == 3.75:			# 29 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 5.931
+			ActualIntTime = 3.6
 			return NPLC, ActualIntTime
-		elif intTime == 7.0:
+		elif intTime == 4.0:			# 31 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 7.042
+			ActualIntTime = 3.84
 			return NPLC, ActualIntTime
-		elif intTime == 8.0:
+		elif intTime == 5.0:			# 39 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 7.968
+			ActualIntTime = 4.83
 			return NPLC, ActualIntTime
-		elif intTime == 9.0:
+		elif intTime == 6.0:			# 47 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 9.07
+			ActualIntTime = 5.81
 			return NPLC, ActualIntTime
-		elif intTime == 10:
+		elif intTime == 7.0:			# 54 Samples
 			NPLC 	 	  = 2
-			ActualIntTime = 10.004
+			ActualIntTime = 6.68
+			return NPLC, ActualIntTime
+		elif intTime == 8.0:			# 62 Samples
+			NPLC 	 	  = 2
+			ActualIntTime = 7.66
+			return NPLC, ActualIntTime
+		elif intTime == 9.0:			# 70 Samples
+			NPLC 	 	  = 2
+			ActualIntTime = 8.65
 			return NPLC, ActualIntTime
 
 	def postACQ(self,args):

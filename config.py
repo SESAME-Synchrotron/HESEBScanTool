@@ -265,6 +265,12 @@ class ConfigGUI:
 						"interval number {}".format(interval)):
 						CLIMessage("Please check/enter the pico ammeter integration time for interval number {}".format(interval), "W") 
 						return self.WizardPages.editCfg.value
+					if float(picoAmmIntTime) not in (0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0):
+						UIMessage("Correct KEITHLEY intTime is needed!!" , "The provide integration time for KEITHLEY PICOAMETER is "\
+							"not valid", "Allowed integration time that you can set is: "\
+							"0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0").showWarning()
+						return self.WizardPages.editCfg.value
+
 				except: 
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
 
