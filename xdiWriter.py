@@ -137,13 +137,13 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("#(1)energy    (2)I0    3 intTime\n")
+			f.write("#(1)energy    (2)I0\n")
 			f.close()
 
 	def fillKEITHLEY_I0(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e   %s\n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), self.data["KEITHLEY_I0_intTime"]))
+		f.write("%10.6e  %10.6e\n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"])))
 		f.close()
 
 
