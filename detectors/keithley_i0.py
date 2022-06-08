@@ -44,7 +44,17 @@ class KEITHLEY_I0(Base):
 			else:
 				break
 			time.sleep(sleepTime)
-			if timerCounter * sleepTime >= 20:
+			if timerCounter * sleepTime >= ActualIntTime * 2:
+				"""
+				Maximum waiting time is the double of the actual integration
+				time. 
+				
+				This is needed only when kiethely returns a value that
+				equals the previous collected one!!
+
+				Maybe this part can be removed if we get a precise acquire:stat 
+				PV ...
+				"""
 				CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
 				break
 		overallIntTime = timeModule.timer(startTime)
