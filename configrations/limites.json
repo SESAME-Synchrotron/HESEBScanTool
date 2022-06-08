@@ -2,11 +2,6 @@
 	"checkLimitesEvery":0.5,
 	"SRLowerCurrent":50,
 	"SRUpperCurrent":300,
-	"ICI0LowerLimit":0,
-	"KetekROI0LowerLimit":0,
-	"FicusROI0LowerLimit":0,
-	"KetekReadoutAvrageTime":0.00365,
-	"KeithleyLowerLimit": 1e-9, 
 	"energyRBVTolerance":0.1,
 	"checkToleranceEvery":0.01,
 	"maxTime2MeetTolerance": 5
