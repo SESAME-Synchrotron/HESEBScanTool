@@ -168,8 +168,10 @@ class HESEBSCAN:
 			1. loop conditioning must be satisfied because energy PV is set to 0 before start moving the PGM.
 			2. checkToleranceEvery variable can be changed in limites.josn file 
 		"""
-		CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-					curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
+		if curentScanInfo != None:
+			CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
+				curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
+			
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1:
 			continue 
 			# if curentScanInfo == None:
