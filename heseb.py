@@ -158,7 +158,7 @@ class HESEBSCAN:
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
-		time.sleep(.2) # adding some delay to let the motor stat moving.
+		time.sleep(.1) # adding some delay to let the motor stat moving.
 		log.info("Move PGM to energy: {}".format(SP)) 
 		"""
 		the following loop tries to put the scan tool in wait state untill the PGM energy is reached by: 
@@ -170,9 +170,7 @@ class HESEBSCAN:
 		"""
 		print(curentScanInfo, type(curentScanInfo))
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1:
-			print("1")
 			if curentScanInfo == None:
-				print("2")
 				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IR")
 			else:
 				CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
