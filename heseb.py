@@ -170,7 +170,9 @@ class HESEBSCAN:
 		"""
 		print(curentScanInfo, type(curentScanInfo))
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1:
+			print("1")
 			if curentScanInfo == None:
+				print("2")
 				CLIMessage("PGM is moving to start energy {}... ".format(SP), "IR")
 			else:
 				CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
