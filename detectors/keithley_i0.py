@@ -55,23 +55,18 @@ class KEITHLEY_I0(Base):
 
 	def getNPLC_IntTime(self, intTime):
 		"""
-		This method is used to return Number of Power Line Cycles (NPLC) and 
-		average count (AVER:COUN) that are used to define the keithley intigration
-		time. 
-
-		Note: the integration time that the user is entered should be multiple of 0.25, 
-		this is not a restrection from keithley but in real life choosing an integration time 
-		between 0.25 to 5 second is very common. 
-
-		but, in keithley, and because we use the averaging filter of the device, it is 
-		difficult to get the exact integration time as it should be, because this time
-		is calculated by this equation: 
-
+		As we use the averaging filter of KIETHELY, the device it self does not 
+		accept integration time to be entered directlly. The actual integration time 
+		is defined by this equation:  
 			3∗NPLC/50∗(NumSamples∗1.0285)+ε
 
 		where: 
 			ε = 0.0076172
 			3: collapses to 1 when AutoZero is disabled.
+		
+		By providing NPLC and the pre-caculated ActualIntTime, the IOC can 
+		calculate the NumSamples and then send it as well as the NPLC to the keithley 
+		device. 
 
 		"""
 		intTime = float(intTime)
