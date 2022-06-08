@@ -157,7 +157,7 @@ class HESEBSCAN:
 	def MovePGM(self,SP, curentScanInfo=None):
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
-		time.sleep(.4) # adding some delay to let the motor stat moving.
+		time.sleep(.5) # adding some delay to let the motor stat moving.
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
 		log.info("Move PGM to energy: {}".format(SP)) 
 		"""
