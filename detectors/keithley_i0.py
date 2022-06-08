@@ -27,9 +27,9 @@ class KEITHLEY_I0(Base):
 		sleepTime = 0.0001
 		timerCounter = 0 
 
-		CLIMessage("{}".format(args), "E")
+		#CLIMessage("{}".format(args), "E")
 		NPLC, ActualIntTime = self.getNPLC_IntTime(args["picoAmmIntTime"])
-		print(NPLC, ActualIntTime)
+		#print(NPLC, ActualIntTime)
 		self.PVs["picoAmmeterI0TPSS"].put(ActualIntTime)
 		self.PVs["picoAmmeterI0IntTime"].put(NPLC) ## int. time 
 		time.sleep(0.2)
@@ -48,7 +48,7 @@ class KEITHLEY_I0(Base):
 				CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
 				break
 		overallIntTime = timeModule.timer(startTime)
-		CLIMessage("Collection time:: {}".format(overallIntTime), "E")
+		#CLIMessage("Collection time:: {}".format(overallIntTime), "E")
 		self.data["KEITHLEY_I0"] = self.PVs["picoAmmeterI0AcqReadOut"].get()
 		## AN_: temp for testing the integration tiome, DELETE IT..
 		self.data["KEITHLEY_I0_intTime"] = overallIntTime

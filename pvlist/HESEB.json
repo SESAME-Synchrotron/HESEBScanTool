@@ -73,7 +73,7 @@
 		"pvname":"SRC01-DI-DCCT1:getDcctCurrent"
 		},
 		"SHUTTER1:Status":{
-			"pvname":"FE08-VA-PHSH:getStatus"
+			"pvname":"I11FE-VA-PSH:getStatus"
 		},
 		"SHUTTER2:Status":{
 			"pvname":"D08-OP-VA-PHSH:getStatus"
@@ -91,10 +91,10 @@
 			"pvname":"I11R1-MO-MC2:OH-M2-STP-ROTX"
 		},
 		"SMP:X":{
-			"pvname":"IOC:m3"
+			"pvname":"motorSimIOC:FE-M1-STP-TRSX1"
 		},
 		"SMP:Y":{
-			"pvname":"IOC:m4"
+			"pvname":"motorSimIOC:FE-M1-STP-TRSY1"
 		}
 	}
 }
