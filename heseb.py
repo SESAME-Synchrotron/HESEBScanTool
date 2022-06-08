@@ -152,7 +152,7 @@ class HESEBSCAN:
 		self.PVs["PGM:Energy:Reached"].put(1, wait = True)
 		self.energy0 = self.cfg["Intervals"][0]["Startpoint"]
 		log.info("Move PGM to initial energy ({})".format(self.energy0))
-		self.MovePGM(self.energy0, None)
+		self.MovePGM(self.energy0)
 
 	def MovePGM(self,SP, curentScanInfo=None):
 
