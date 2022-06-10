@@ -293,9 +293,10 @@ class HESEBSCAN:
 			photonShutterStatus = self.PVs["photonShutter:Status"].get()
 			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
 			#StopperStatus = self.PVs["STOPPER:Status"].get()
-			currentCurrent = self.PVs["RING:Current"].get()			
-			KeithelyI0ReadOut = KeithelyI0ReadOut.get()
-			
+			currentCurrent = self.PVs["RING:Current"].get()
+			xx = KeithelyI0ReadOut.get()	
+			KeithelyI0ReadOut = xx
+
 			################### Check current parameters ###############
 			if ringLowerCurrent <= currentCurrent <= ringUpperCurrent:
 				currentOk = True
