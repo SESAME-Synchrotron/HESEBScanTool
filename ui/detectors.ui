@@ -55,31 +55,12 @@
      <rect>
       <x>10</x>
       <y>160</y>
-      <width>61</width>
+      <width>151</width>
       <height>26</height>
      </rect>
     </property>
     <property name="text">
-     <string>FICUS</string>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="KETEK">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>160</y>
-      <width>61</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>KETEK</string>
+     <string>Bruker Xflash 630s</string>
     </property>
     <property name="checked">
      <bool>false</bool>
@@ -204,6 +185,9 @@
     </property>
    </widget>
    <widget class="QCheckBox" name="KEITHLEY_Itrans">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -255,7 +239,6 @@
   <tabstop>KEITHLEY_I0</tabstop>
   <tabstop>KEITHLEY_Itrans</tabstop>
   <tabstop>FICUS</tabstop>
-  <tabstop>KETEK</tabstop>
  </tabstops>
  <resources/>
  <connections>
