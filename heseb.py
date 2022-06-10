@@ -294,7 +294,7 @@ class HESEBSCAN:
 			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
 			#StopperStatus = self.PVs["STOPPER:Status"].get()
 			currentCurrent = self.PVs["RING:Current"].get()
-			xx = KeithelyI0ReadOut.get()	
+			xx = epics.PV(KeithelyI0PV["PV"]["picoAmmeterI0AcqReadOut"]["pvname"]).get()
 			KeithelyI0ReadOut = xx
 
 			################### Check current parameters ###############
