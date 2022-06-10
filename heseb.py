@@ -272,7 +272,7 @@ class HESEBSCAN:
 		currentOk = True
 		photonShutterOk = True
 		radiationShutterOk = True
-		KeithelyI0Ok = True
+		KeithelyI0OK = True
 		ringLowerCurrent = self.scanLimites["SRLowerCurrent"] 
 		ringUpperCurrent = self.scanLimites["SRUpperCurrent"]
 		KeithelyI0LowerLimit = self.scanLimites["KEITHELY_I0LowerRBV"]
