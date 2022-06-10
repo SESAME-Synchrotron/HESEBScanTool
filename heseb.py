@@ -294,8 +294,7 @@ class HESEBSCAN:
 			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
 			#StopperStatus = self.PVs["STOPPER:Status"].get()
 			currentCurrent = self.PVs["RING:Current"].get()
-			xx = epics.PV(KeithelyI0PV["PV"]["picoAmmeterI0AcqReadOut"]["pvname"]).get()
-			KeithelyI0ReadOut = xx
+			KeithelyI0ReadOut = epics.PV(KeithelyI0PV["PV"]["picoAmmeterI0AcqReadOut"]["pvname"]).get()
 
 			################### Check current parameters ###############
 			if ringLowerCurrent <= currentCurrent <= ringUpperCurrent:
@@ -312,7 +311,7 @@ class HESEBSCAN:
 
 			################### Check photonShutter parameters ###############
 			#print (self.PVs["photonShutter:Status"].get())
-			if photonShutterStatus == 3: # shutter is open 1, closed 0
+			if photonShutterStatus == 1: # shutter is open 1, closed 0
 				photonShutterOk = True
 				if photonShutterLogFlag == 1: 
 					log.warning("Photon Shutter status is returned to allowed limites, now it is: open")
