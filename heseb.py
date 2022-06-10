@@ -344,7 +344,7 @@ class HESEBSCAN:
 							.format(KeithelyI0ReadOut))
 						KeithelyI0LogFlag = 0
 				else:
-					KeithelyI0OK == False
+					KeithelyI0OK = False
 					if KeithelyI0LogFlag == 0: 
 						log.warning("Scan is paused | Keithely_I0 readout({}) is below the allowed limit ({})"
 							.format(KeithelyI0ReadOut,KeithelyI0LowerLimit))
