@@ -72,14 +72,11 @@
 		"RING:Current":{
 		"pvname":"SRC01-DI-DCCT1:getDcctCurrent"
 		},
-		"SHUTTER1:Status":{
-			"pvname":"I11FE-VA-PSH:getStatus"
+		"photonShutter:Status":{
+			"pvname":"I11FE-VA-PSH:Main"
 		},
-		"SHUTTER2:Status":{
-			"pvname":"D08-OP-VA-PHSH:getStatus"
-		},
-		"STOPPER:Status":{
-			"pvname":"FE08-VA-PHST:getStatus"
+		"radiationShutter:Status":{
+			"pvname":"I11FE-VA-PHST:Main"
 		}
 
 	},

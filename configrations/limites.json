@@ -4,5 +4,6 @@
 	"SRUpperCurrent":300,
 	"energyRBVTolerance":0.1,
 	"checkToleranceEvery":0.01,
-	"maxTime2MeetTolerance": 10
+	"maxTime2MeetTolerance": 10, 
+	"KEITHELY_I0LowerRBV": 1E-12
 }

@@ -171,7 +171,7 @@ class HESEBSCAN:
 		if curentScanInfo != None:
 			CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
 				curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
-			
+
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1:
 			continue 
 			# if curentScanInfo == None:
@@ -270,47 +270,32 @@ class HESEBSCAN:
 	
 	def pauseTrigger(self): 
 		currentOk = True
-		shutter1Ok = True
-		shutter2Ok = True
-		stopperOk = True
-		ICI0Ok = True
-		KetekROI0Ok = True
-		FicusROI0Ok = True
-		# imported from limites.json 
+		photonShutterOk = True
+		radiationShutterOk = True
+		KeithelyI0Ok = True
 		ringLowerCurrent = self.scanLimites["SRLowerCurrent"] 
 		ringUpperCurrent = self.scanLimites["SRUpperCurrent"]
-		ICI0LowerLimit = self.scanLimites["ICI0LowerLimit"]
-		KetekROI0LowerLimit = self.scanLimites["KetekROI0LowerLimit"]
-		FicusROI0LowerLimit = self.scanLimites["FicusROI0LowerLimit"]
+		KeithelyI0LowerLimit = self.scanLimites["KEITHELY_I0LowerRBV"]
 
 		#reading detectors PVs
-		ICsPVs = readFile("pvlist/IC.json").readJSON()
-		ICI0Roi0PV = epics.PV(ICsPVs["PV"]["IC0AvrVolt"]["pvname"])
+		KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
+		KeithelyI0ReadOut = epics.PV(KeithelyI0PV["PV"]["picoAmmeterI0AcqReadOut"]["pvname"])
 		
-		KetekPVs = readFile("pvlist/KETEK.json").readJSON()
-		ketekRoi0PV = epics.PV(KetekPVs["PV"]["ketek_ROI_0"]["pvname"])
-
-		FicusPVs = readFile("pvlist/FICUS.json").readJSON()
-		FicusRoisPV = epics.PV(FicusPVs["PV"]["Ficus:ROIs"]["pvname"])
 		"""
 		setup writing flages to avoid continues writing logs in the log file
 		"""
 		currentLogFlag = 0
-		shutter1LogFlag = 0
-		shutter2LogFlag = 0
-		stopperLogFlag = 0
-		ICI0LogFlag = 0
-		KetekROI0LogFlag = 0
-		FicusROI0LogFlag = 0
+		photonShutterLogFlag = 0
+		radiationShutterLogFlag = 0
+		KeithelyI0LogFlag = 0
 		
 		while True:
-			shutter1Status = self.PVs["SHUTTER1:Status"].get()
-			shutter2Status = self.PVs["SHUTTER2:Status"].get()
-			StopperStatus = self.PVs["STOPPER:Status"].get()
+			photonShutterStatus = self.PVs["photonShutter:Status"].get()
+			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
+			#StopperStatus = self.PVs["STOPPER:Status"].get()
 			currentCurrent = self.PVs["RING:Current"].get()			
-			ICI0Readout = ICI0Roi0PV.get()
-			KetekROI0Readout = ketekRoi0PV.get()
-			FicusROI0Readout = FicusRoisPV.get()
+			KeithelyI0ReadOut = KeithelyI0ReadOut.get()
+			
 			################### Check current parameters ###############
 			if ringLowerCurrent <= currentCurrent <= ringUpperCurrent:
 				currentOk = True
@@ -324,91 +309,50 @@ class HESEBSCAN:
 					log.warning("Scan is paused | SR current is: {} mA.".format(currentCurrent))
 					currentLogFlag = 1
 
-			################### Check Shutter1 parameters ###############
-			#print (self.PVs["SHUTTER1:Status"].get())
-			if shutter1Status == 3: # shutter is open 1, closed 0
-				shutter1Ok = True
-				if shutter1LogFlag == 1: 
-					log.warning("Shutter1 status is returned to allowed limites, now it is: open")
-					shutter1LogFlag = 0
+			################### Check photonShutter parameters ###############
+			#print (self.PVs["photonShutter:Status"].get())
+			if photonShutterStatus == 3: # shutter is open 1, closed 0
+				photonShutterOk = True
+				if photonShutterLogFlag == 1: 
+					log.warning("Photon Shutter status is returned to allowed limites, now it is: open")
+					photonShutterLogFlag = 0
 			else:
-				shutter1Ok = False
-				if shutter1LogFlag == 0:
-					log.warning("Scan is paused | Shutter1 status is: closed")
-					shutter1LogFlag = 1
+				photonShutterOk = False
+				if photonShutterLogFlag == 0:
+					log.warning("Scan is paused | Photon shutter status is: closed")
+					photonShutterLogFlag = 1
 
-			################### Check Shutter2 parameters ###############
-			if shutter2Status == 3: # shutter is open 1, closed 0
-				shutter2Ok = True
-				if shutter2LogFlag == 1: 
-					log.warning("Shutter2 status is returned to allowed limites, now it is: open")
-					shutter2LogFlag =0
+			################### Check radiationShutter parameters ###############
+			if radiationShutterStatus == 3: # shutter is open 1, closed 0
+				radiationShutterOk = True
+				if radiationShutterLogFlag == 1: 
+					log.warning("Radiation shutter status is returned to allowed limites, now it is: open")
+					radiationShutterLogFlag =0
 			else:
-				shutter2Ok = False
-				if shutter2LogFlag == 0:
-					log.warning("Scan is paused | Shutter2 status is: closed")
-					shutter2LogFlag = 1
-			################### Check stopper parameters ###############
-			if StopperStatus == 3: # stopper is open 1, closed 0
-				stopperOk = True
-				if stopperLogFlag == 1: 
-					log.warning("stopper status is returned to allowed limites, now it is: open")
-					stopperLogFlag = 0 
-			else:
-				stopperOk = False
-				if stopperLogFlag == 0:
-					log.warning("Scan is paused | stopper status is: closed")
-					stopperLogFlag = 1
+				radiationShutterOk = False
+				if radiationShutterLogFlag == 0:
+					log.warning("Scan is paused | Radiation shutter status is: closed")
+					radiationShutterLogFlag = 1
 
 			#################### Check ROIs if current, shutters and stopper are okay ###############
-			if currentOk and shutter1Ok and shutter2Ok and stopperOk == True:
-				#################### Check ICROI0 ####################
-				if ICI0Readout >= ICI0LowerLimit:
-					ICI0Ok = True
-					if ICI0LogFlag == 1: 
-						log.warning("ICI0 value is returned to allowed limites, it is now {}"
-							.format(ICI0Readout))
-						ICI0LogFlag = 0
+			if currentOk and photonShutterOk and radiationShutterOk  == True:
+				#################### Check Keithely_I0 ####################
+				if KeithelyI0ReadOut >= KeithelyI0LowerLimit:
+					KeithelyI0OK = True
+					if KeithelyI0LogFlag == 1: 
+						log.warning("Keithely_I0 value is returned to allowed limites, it is now {}"
+							.format(KeithelyI0ReadOut))
+						KeithelyI0LogFlag = 0
 				else:
-					ICI0Ok == False
-					if ICI0LogFlag == 0: 
-						log.warning("Scan is paused | ICI0 readout({}) is below the allowed limit ({})"
-							.format(ICI0Readout,ICI0LowerLimit))
-						ICI0LogFlag = 1
-
-				#################### Check KETEKROI0 ####################
-				if "KETEK" in self.detChosen: 
-					if KetekROI0Readout >= KetekROI0LowerLimit:
-						KetekROI0Ok = True
-						if KetekROI0LogFlag == 1: 
-							log.warning("ketek_ROI_0 value is returned to allowed limites, it is now {}"
-								.format(KetekROI0Readout))
-							KetekROI0LogFlag = 0
-					else:
-						KetekROI0Ok == False
-						if KetekROI0LogFlag == 0: 
-							log.warning("Scan is paused | ketek_ROI_0 readout({}) is below the allowed limit ({})"
-								.format(KetekROI0Readout,KetekROI0LowerLimit))
-							KetekROI0LogFlag = 1
-
-				#################### Check FICUSROI0 ####################
-				if "FICUS" in self.detChosen:
-					if FicusROI0Readout[0] >= FicusROI0LowerLimit:
-						FicusROI0Ok = True
-						if FicusROI0LogFlag == 1: 
-							log.warning("FICUS_ROI_0 value is returned to allowed limites, it is now {}"
-								.format(FicusROI0Readout))
-							FicusROI0LogFlag = 0
-					else:
-						FicusROI0Ok == False
-						if FicusROI0LogFlag == 0: 
-							log.warning("Scan is paused | FICUS_ROI_0 readout({}) is below the allowed limit ({})"
-								.format(FicusROI0Readout,FicusROI0LowerLimit))
-							FicusROI0LogFlag = 1
+					KeithelyI0OK == False
+					if KeithelyI0LogFlag == 0: 
+						log.warning("Scan is paused | Keithely_I0 readout({}) is below the allowed limit ({})"
+							.format(KeithelyI0ReadOut,KeithelyI0LowerLimit))
+						KeithelyI0LogFlag = 1
 
 			# if any of below is false, pause the scan 
-			if False in (currentOk, shutter1Ok, shutter2Ok, stopperOk, 
-				ICI0Ok, KetekROI0Ok, FicusROI0Ok): 
+			if False in (currentOk, photonShutterOk, radiationShutterOk, 
+				KeithelyI0OK): 
 				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release 
 			else:
 				self.PVs["SCAN:pause"].put(0)
@@ -534,7 +478,7 @@ class HESEBSCAN:
 				ACQdata["Interval"] = interval
 				ACQdata["ENERGY-RBK"]	=	Energy
 				expData.update(ACQdata)
-				I0Dp					=	ACQdata["IC1[V]"]	
+				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				ItDp					=	ACQdata["IC2[V]"]	
 				It2Dp					=	ACQdata["IC3[V]"]	
 				AbsorptionTrDp			=	ACQdata["TRANS"]
