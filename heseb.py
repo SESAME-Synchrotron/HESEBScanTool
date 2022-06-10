@@ -311,7 +311,7 @@ class HESEBSCAN:
 
 			################### Check photonShutter parameters ###############
 			#print (self.PVs["photonShutter:Status"].get())
-			if photonShutterStatus == 1: # shutter is open 1, closed 0
+			if photonShutterStatus == 1: # shutter is open 1, undefined 0, 2 closed, 3 interlocked 
 				photonShutterOk = True
 				if photonShutterLogFlag == 1: 
 					log.warning("Photon Shutter status is returned to allowed limites, now it is: open")
@@ -323,7 +323,7 @@ class HESEBSCAN:
 					photonShutterLogFlag = 1
 
 			################### Check radiationShutter parameters ###############
-			if radiationShutterStatus == 3: # shutter is open 1, closed 0
+			if radiationShutterStatus == 1: # shutter is open 1, undefined 0, 2 closed, 3 interlocked
 				radiationShutterOk = True
 				if radiationShutterLogFlag == 1: 
 					log.warning("Radiation shutter status is returned to allowed limites, now it is: open")
