@@ -22,9 +22,6 @@
 		"picoAmmeterI0SoftReset":{
 			"pvname":"K6487:1:RST.PROC"
 		},
-		"picoAmmeterI0Damping":{
-			"pvname":"K6487:1:Damping"
-		},
 		"picoAmmeterI0IntTime":{
 			"pvname":"K6487:1:IntegrationTime"
 		},
