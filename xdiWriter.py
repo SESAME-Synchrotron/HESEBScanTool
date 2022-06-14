@@ -187,14 +187,14 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("#(1)energyRBV  (tmp_EnergySP)   RBV_SP_diff  (2)I0   (3)Itrans\n")
+			f.write("#(1)energyRBV   (2)I0   (3)Itrans\n")
 			f.close()
 
 
 	def fillKEITHLEY_I0_Itrans(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %.9f  %10.6e  %10.6e \n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.currentSP),abs(float(self.data["ENERGY-RBK"])-float(self.currentSP)), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
+		f.write("%10.6e  %10.6e  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
 		f.close()
 
 	def onClose(self): 

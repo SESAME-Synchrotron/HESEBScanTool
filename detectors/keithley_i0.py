@@ -20,7 +20,7 @@ class KEITHLEY_I0(Base):
 
 		self.PVs["picoAmmeterI0SoftReset"].put(1) # apply soft reset before start collecting data 
 		self.PVs["picoAmmeterI0Damping"].put(0) # disable damping 
-		self.PVs["picoAmmeterI0TPSS"].put(0) # disable damping 
+		self.PVs["picoAmmeterI0TPSS"].put(0) # put 0 in time per step sample 
 
 
 	def ACQ(self,args):
@@ -44,7 +44,7 @@ class KEITHLEY_I0(Base):
 			else:
 				break
 			time.sleep(sleepTime)
-			if timerCounter * sleepTime >= ActualIntTime * 2:
+			if timerCounter * sleepTime >= ActualIntTime * 5:
 				"""
 				Maximum waiting time is the double of the actual integration
 				time. 
