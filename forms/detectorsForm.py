@@ -68,7 +68,7 @@ class Ui_Dialog(object):
         self.label_5.setGeometry(QtCore.QRect(10, 70, 161, 20))
         self.label_5.setObjectName("label_5")
         self.KEITHLEY_I0 = QtWidgets.QCheckBox(self.groupBox)
-        self.KEITHLEY_I0.setEnabled(True)
+        self.KEITHLEY_I0.setEnabled(False)
         self.KEITHLEY_I0.setGeometry(QtCore.QRect(10, 90, 151, 26))
         self.KEITHLEY_I0.setChecked(True)
         self.KEITHLEY_I0.setObjectName("KEITHLEY_I0")
@@ -107,7 +107,7 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#499d30;\">Fluorescence</span></p></body></html>"))
         self.label_5.setText(_translate("Dialog", "pico ammeters:"))
         self.KEITHLEY_I0.setText(_translate("Dialog", "KEITHLEY 6487 (I0)"))
-        self.KEITHLEY_Itrans.setText(_translate("Dialog", "KEITHLEY 6487 (Itrans)"))
+        self.KEITHLEY_Itrans.setText(_translate("Dialog", "KEITHLEY 6485 (Itrans)"))
 
 
 if __name__ == "__main__":
