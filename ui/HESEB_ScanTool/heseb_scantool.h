@@ -2,6 +2,7 @@
 #define HESEB_SCANTOOL_H
 
 #include <QMainWindow>
+#include <qepicspv.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class HESEB_ScanTool; }
@@ -20,5 +21,7 @@ private slots:
 
 private:
     Ui::HESEB_ScanTool *ui;
+
+    QEpicsPV* ScanPath;
 };
 #endif // HESEB_SCANTOOL_H
