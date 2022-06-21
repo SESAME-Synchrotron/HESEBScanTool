@@ -240,16 +240,19 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         qepushbutton = new QEPushButton(centralwidget);
         qepushbutton->setObjectName(QStringLiteral("qepushbutton"));
+        qepushbutton->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_2->addWidget(qepushbutton, 0, 1, 1, 1);
 
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_2->addWidget(pushButton, 0, 0, 1, 1);
 
         qepushbutton_2 = new QEPushButton(centralwidget);
         qepushbutton_2->setObjectName(QStringLiteral("qepushbutton_2"));
+        qepushbutton_2->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_2->addWidget(qepushbutton_2, 0, 2, 1, 1);
 
@@ -266,6 +269,7 @@ public:
         font1.setUnderline(false);
         font1.setKerning(false);
         qepushbutton_3->setFont(font1);
+        qepushbutton_3->setCursor(QCursor(Qt::PointingHandCursor));
         qepushbutton_3->setAutoFillBackground(true);
 
         gridLayout_2->addWidget(qepushbutton_3, 0, 3, 1, 1);
@@ -330,7 +334,9 @@ public:
         sizePolicy1.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
         label_16->setSizePolicy(sizePolicy1);
         QFont font3;
-        font3.setPointSize(15);
+        font3.setPointSize(12);
+        font3.setBold(true);
+        font3.setWeight(75);
         label_16->setFont(font3);
         label_16->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
