@@ -405,7 +405,9 @@ moc_client.cpp: /usr/local/epics-qt/include/qepicspv.h \
 		/usr/lib64/qt5/bin/moc
 	/usr/lib64/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I/usr/include/c++/4.8.5 -I/usr/include/c++/4.8.5/x86_64-redhat-linux -I/usr/include/c++/4.8.5/backward -I/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include -I/usr/local/include -I/usr/include client.h -o moc_client.cpp
 
-moc_heseb_scantool.cpp: heseb_scantool.h \
+moc_heseb_scantool.cpp: /usr/local/epics-qt/include/qepicspv.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		heseb_scantool.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
 	/usr/lib64/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I/usr/include/c++/4.8.5 -I/usr/include/c++/4.8.5/x86_64-redhat-linux -I/usr/include/c++/4.8.5/backward -I/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include -I/usr/local/include -I/usr/include heseb_scantool.h -o moc_heseb_scantool.cpp
@@ -607,11 +609,29 @@ client.o: client.cpp client.h \
 		/opt/epics/base/include/caeventmask.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o client.cpp
 
-main.o: main.cpp heseb_scantool.h
+main.o: main.cpp heseb_scantool.h \
+		/usr/local/epics-qt/include/qepicspv.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 heseb_scantool.o: heseb_scantool.cpp heseb_scantool.h \
-		ui_heseb_scantool.h
+		/usr/local/epics-qt/include/qepicspv.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		ui_heseb_scantool.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heseb_scantool.o heseb_scantool.cpp
 
 moc_client.o: moc_client.cpp 
