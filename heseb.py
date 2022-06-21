@@ -24,6 +24,7 @@ import threading
 import log
 import shutil 
 import signal
+import subprocess
 
 try:
 	import PyQt5
@@ -382,7 +383,19 @@ class HESEBSCAN:
 				raise Exception("Unknown detector")
 				log.error("Unknown detector is Chosen")
 
-	
+	def plotting(self):
+		#################### Plotting ####################
+		if "KEITHLEY_Itrans" in self.cfg["detectors"]:
+			plotting = self.paths["HESEB_ScanTool_I0_It"]
+			log.info("HESEB_ScanTool_I0_It started")
+		
+		else:
+			plotting = self.paths["HESEB_ScanTool_I0"]
+			log.info("HESEB_ScanTool_I0 started")
+		
+		self.plot = plotting
+		subprocess.Popen(self.plot)
+
 
 	def start(self):
 		counter = 0 
@@ -399,6 +412,8 @@ class HESEBSCAN:
 		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
 		points		=	map(lambda intv: self.drange(intv["Startpoint"],intv["Endpoint"],intv["Stepsize"]),self.cfg["Intervals"])
 		expData = {} # Experimental Data 
+
+		self.plotting()
 
 		for sample,scan,interval in self.generateScanPoints():
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
