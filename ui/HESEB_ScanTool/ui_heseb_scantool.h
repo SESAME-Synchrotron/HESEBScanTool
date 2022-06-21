@@ -318,7 +318,7 @@ public:
 
         gridLayout_7 = new QGridLayout();
         gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
-        horizontalSpacer = new QSpacerItem(360, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(340, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
 
         gridLayout_7->addItem(horizontalSpacer, 0, 0, 2, 1);
 
@@ -330,7 +330,7 @@ public:
         sizePolicy1.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
         label_16->setSizePolicy(sizePolicy1);
         QFont font3;
-        font3.setPointSize(10);
+        font3.setPointSize(15);
         label_16->setFont(font3);
         label_16->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
@@ -399,7 +399,7 @@ public:
         qelabel_9->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "I11OH-PGM:getEnergy", Q_NULLPTR)));
         label_8->setText(QApplication::translate("HESEB_ScanTool", "Sample", Q_NULLPTR));
         label_11->setText(QApplication::translate("HESEB_ScanTool", "out of", Q_NULLPTR));
-        lblTitle_2->setText(QApplication::translate("HESEB_ScanTool", "<html><head/><body><p>DCA | HESEB | SCAN TOOL</p></body></html>", Q_NULLPTR));
+        lblTitle_2->setText(QApplication::translate("HESEB_ScanTool", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_ </span>I<span style=\" vertical-align:sub;\">Trans(A) vs. </span>Energy<span style=\" vertical-align:sub;\">(eV)</span></p></body></html>", Q_NULLPTR));
         qepushbutton->setText(QApplication::translate("HESEB_ScanTool", "Pause", Q_NULLPTR));
         qepushbutton->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:XAFSPause", Q_NULLPTR)));
         pushButton->setText(QApplication::translate("HESEB_ScanTool", "...", Q_NULLPTR));

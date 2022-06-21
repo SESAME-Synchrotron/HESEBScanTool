@@ -239,7 +239,7 @@ left: 10px;
 padding: 0 3px 0 3px;</string>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;DCA | HESEB | SCAN TOOL&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;DCA | HESEB | SCAN TOOL | I&lt;span style=&quot; vertical-align:sub;&quot;&gt;0(A)_ &lt;/span&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;Trans(A) vs. &lt;/span&gt;Energy&lt;span style=&quot; vertical-align:sub;&quot;&gt;(eV)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -494,7 +494,7 @@ transform: rotate(-90deg);
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>360</width>
+          <width>340</width>
           <height>20</height>
          </size>
         </property>
@@ -510,7 +510,7 @@ transform: rotate(-90deg);
         </property>
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>15</pointsize>
          </font>
         </property>
         <property name="text">
@@ -531,7 +531,7 @@ transform: rotate(-90deg);
         </property>
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>15</pointsize>
          </font>
         </property>
         <property name="text">
