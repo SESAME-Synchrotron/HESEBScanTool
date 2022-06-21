@@ -239,16 +239,19 @@ public:
         gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
         qepushbutton_7 = new QEPushButton(centralwidget);
         qepushbutton_7->setObjectName(QStringLiteral("qepushbutton_7"));
+        qepushbutton_7->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_16->addWidget(qepushbutton_7, 0, 1, 1, 1);
 
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        pushButton_3->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_16->addWidget(pushButton_3, 0, 0, 1, 1);
 
         qepushbutton_8 = new QEPushButton(centralwidget);
         qepushbutton_8->setObjectName(QStringLiteral("qepushbutton_8"));
+        qepushbutton_8->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_16->addWidget(qepushbutton_8, 0, 2, 1, 1);
 
@@ -265,6 +268,7 @@ public:
         font1.setUnderline(false);
         font1.setKerning(false);
         qepushbutton_9->setFont(font1);
+        qepushbutton_9->setCursor(QCursor(Qt::PointingHandCursor));
         qepushbutton_9->setAutoFillBackground(true);
 
         gridLayout_16->addWidget(qepushbutton_9, 0, 3, 1, 1);
@@ -286,7 +290,7 @@ public:
         sizePolicy1.setHeightForWidth(label_41->sizePolicy().hasHeightForWidth());
         label_41->setSizePolicy(sizePolicy1);
         QFont font2;
-        font2.setPointSize(10);
+        font2.setPointSize(15);
         label_41->setFont(font2);
         label_41->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
@@ -369,7 +373,7 @@ public:
     void retranslateUi(QMainWindow *HESEB_ScanTool_I0)
     {
         HESEB_ScanTool_I0->setWindowTitle(QApplication::translate("HESEB_ScanTool_I0", "HESEB_ScanTool_I0", Q_NULLPTR));
-        lblTitle_4->setText(QApplication::translate("HESEB_ScanTool_I0", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0</span></p></body></html>", Q_NULLPTR));
+        lblTitle_4->setText(QApplication::translate("HESEB_ScanTool_I0", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A) vs. </span>Energy<span style=\" vertical-align:sub;\">(eV)</span></p></body></html>", Q_NULLPTR));
         qelabel_21->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool_I0", "SCAN:Nsamples", Q_NULLPTR)));
         label_30->setText(QApplication::translate("HESEB_ScanTool_I0", "Energy (eV)", Q_NULLPTR));
         qelabel_22->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool_I0", "SCAN:CurrentSample", Q_NULLPTR)));
