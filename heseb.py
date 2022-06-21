@@ -105,6 +105,7 @@ class HESEBSCAN:
 		self.BasePath			=	"{}/{}-{}".format(self.paths["local_data_path"],self.cfg["DataFileName"],self.creationTime)
 		self.cfgfilepath		=	"{}/{}_config_{}.cfg".format(self.BasePath,self.cfg["DataFileName"],self.creationTime) 
 		self.localDataPath		=   "{}".format(self.BasePath)
+		self.PVs["SCAN:PATH"].put(self.localDataPath)
 
 		if not os.path.exists(self.BasePath):
 			log.info("Create base directory: {}".format(self.BasePath))
@@ -402,6 +403,8 @@ class HESEBSCAN:
 		pauseCounter = 0
 		startTime = time.time()
 
+		self.PVs["Start:Time:Scan"].put(startTime)
+
 		self.clearPlot()
 
 		log.info("Start data collection ...")
@@ -553,6 +556,8 @@ class HESEBSCAN:
 					pass
 				else:
 					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, curentScanInfo)
+					elapsedScanTime = timeModule.timer(startTime)
+					self.PVs["Elapsed:Time:Scan"].put(elapsedScanTime)
 
 				counter = counter +1
 			"""

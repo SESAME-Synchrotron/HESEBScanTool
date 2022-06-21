@@ -48,6 +48,18 @@
 		"USERINFO:EndTime":{
 			"pvname":"USERINFO:EndTime"
 		},
+		"Elapsed:Time:Scan":{
+			"pvname":"ELAPSE:TIME:SCAN"
+		},
+		"Start:Time:Scan":{
+			"pvname":"START:TIME:SCAN"
+		},
+		"EXPERIMENT:LOGS":{
+			"pvname":"EXPERIMENT:LOGS"
+		},
+		"SCAN:Path":{
+			"pvname":"SCAN:PATH"
+		},
 		"SCAN:pause":{
 			"pvname":"SCAN:XAFSPause"
 		},
