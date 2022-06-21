@@ -1,6 +1,5 @@
 #include "heseb_scantool.h"
 #include "ui_heseb_scantool.h"
-#include <QGraphicsRotation>
 
 #include <QFileDialog>
 

@@ -15,6 +15,9 @@ public:
     HESEB_ScanTool_I0(QWidget *parent = nullptr);
     ~HESEB_ScanTool_I0();
 
+private slots:
+    void on_pushButton_3_clicked();
+
 private:
     Ui::HESEB_ScanTool_I0 *ui;
 };
