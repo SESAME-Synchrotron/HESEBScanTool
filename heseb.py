@@ -500,8 +500,7 @@ class HESEBSCAN:
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				ItDp					=	ACQdata["IC2[V]"]	
-				It2Dp					=	ACQdata["IC3[V]"]self.PVs["PLOT:I0"].put(0)
-					self.PVs["PLOT:It"].put(0)	
+				It2Dp					=	ACQdata["IC3[V]"]
 				AbsorptionTrDp			=	ACQdata["TRANS"]
 				AbsorptionTr2Dp			=	ACQdata["TransRef"]
 
