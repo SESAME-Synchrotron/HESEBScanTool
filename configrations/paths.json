@@ -5,5 +5,5 @@
   "log_file": "/tmp/xafscan.log",
   "remoteServer1": "root@10.1.100.11:/home/XAFS-Instant-Data/autoCopied",
   "HESEB_ScanTool_I0": "/home/control/bin/HESEB_ScanTool_I0",
-  "HESEB_ScanTool_I0_It": "/home/control/bin/HESEB_ScanTool"
+  "HESEB_ScanTool_I0_It": "/home/control/bin/HESEB_ScanTool_I0_It"
 }
