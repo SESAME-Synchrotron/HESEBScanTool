@@ -49,10 +49,10 @@
 			"pvname":"USERINFO:EndTime"
 		},
 		"SCAN:Elapse":{
-			"pvname":"SCAN:ELAPSE:TIME"
+			"pvname":"SCAN:ELAPSE"
 		},
 		"SCAN:Start":{
-			"pvname":"SCAN:START:TIME"
+			"pvname":"SCAN:START"
 		},
 		"EXPERIMENT:LOGS":{
 			"pvname":"EXPERIMENT:LOGS"
@@ -62,6 +62,9 @@
 		},
 		"SCAN:pause":{
 			"pvname":"SCAN:XAFSPause"
+		},
+		"SCAN:Stop":{
+			"pvname":"SCAN:STOP"
 		},
 		"SCAN:Nsamples":{
 			"pvname":"SCAN:Nsamples"
