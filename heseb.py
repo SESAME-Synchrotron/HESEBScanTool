@@ -36,7 +36,7 @@ except ImportError as e:
 
 class HESEBSCAN:
 	def __init__(self,testingMode = "No"):
-		self.PVs["SCAN:STOP"].put(0)            # disable stop function
+		self.PVs["SCAN:Stop"].put(0)            # disable stop function
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
@@ -431,7 +431,7 @@ class HESEBSCAN:
 
 		self.plotting()
 
-		self.stopScan = self.PVs["SCAN:STOP"].get()
+		self.stopScan = self.PVs["SCAN:Stop"].get()
 
 		for sample,scan,interval in self.generateScanPoints():
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
@@ -587,7 +587,7 @@ class HESEBSCAN:
 				break
 
 		self.stopScanning()
-		
+
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
 		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
