@@ -57,6 +57,18 @@ class KEITHLEY_I0(Base):
 				"""
 				CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
 				break
+
+		# while True:
+		# 	if self.PVs["picoAmmeterI0StartAcq"].get() == 0:
+		# 		break
+		# 		print ("break")
+		# 	else:
+		# 		pass
+		# 		print ("pass", self.PVs["picoAmmeterI0StartAcq"].get(), "   ", type(self.PVs["picoAmmeterI0StartAcq"].get()))
+
+		# while int (self.PVs["picoAmmeterI0StartAcq"].get()) != 0:
+		# 	continue
+
 		overallIntTime = timeModule.timer(startTime)
 		#CLIMessage("Collection time:: {}".format(overallIntTime), "E")
 		self.data["KEITHLEY_I0"] = self.PVs["picoAmmeterI0AcqReadOut"].get()

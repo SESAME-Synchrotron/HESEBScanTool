@@ -25,6 +25,5 @@ HESEB_ScanTool::~HESEB_ScanTool()
 void HESEB_ScanTool::on_pushButton_clicked()
 {
     QString path = this->ScanPath->get().toString();
-    QString path1 = "/home" ;
-    QString file = QFileDialog::getOpenFileName(this, "Open", path1);
+    QString file = QFileDialog::getOpenFileName(this, "Open", path);
 }
