@@ -121,6 +121,7 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib64/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib64/qt5/mkspecs/features/spec_post.prf \
+		../HESEB_ScanTool_I0/.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
@@ -218,6 +219,7 @@ Makefile: ../HESEB_ScanTool_I0/HESEB_ScanTool_I0.pro /usr/lib64/qt5/mkspecs/linu
 		/usr/lib64/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib64/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib64/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
@@ -306,6 +308,7 @@ Makefile: ../HESEB_ScanTool_I0/HESEB_ScanTool_I0.pro /usr/lib64/qt5/mkspecs/linu
 /usr/lib64/qt5/mkspecs/features/qt_config.prf:
 /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib64/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib64/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib64/qt5/mkspecs/features/toolchain.prf:
 /usr/lib64/qt5/mkspecs/features/default_pre.prf:
@@ -408,7 +411,9 @@ moc_client.cpp: /usr/local/epics-qt/include/qepicspv.h \
 		/usr/lib64/qt5/bin/moc
 	/usr/lib64/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0 -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/4.8.5 -I/usr/include/c++/4.8.5/x86_64-redhat-linux -I/usr/include/c++/4.8.5/backward -I/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include -I/usr/local/include -I/usr/include ../HESEB_ScanTool_I0/client.h -o moc_client.cpp
 
-moc_heseb_scantool_i0.cpp: ../HESEB_ScanTool_I0/heseb_scantool_i0.h \
+moc_heseb_scantool_i0.cpp: /usr/local/epics-qt/include/qepicspv.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_I0/heseb_scantool_i0.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
 	/usr/lib64/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0 -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/4.8.5 -I/usr/include/c++/4.8.5/x86_64-redhat-linux -I/usr/include/c++/4.8.5/backward -I/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include -I/usr/local/include -I/usr/include ../HESEB_ScanTool_I0/heseb_scantool_i0.h -o moc_heseb_scantool_i0.cpp
@@ -610,10 +615,14 @@ client.o: ../HESEB_ScanTool_I0/client.cpp ../HESEB_ScanTool_I0/client.h \
 		/opt/epics/base/include/caeventmask.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o ../HESEB_ScanTool_I0/client.cpp
 
-main.o: ../HESEB_ScanTool_I0/main.cpp ../HESEB_ScanTool_I0/heseb_scantool_i0.h
+main.o: ../HESEB_ScanTool_I0/main.cpp ../HESEB_ScanTool_I0/heseb_scantool_i0.h \
+		/usr/local/epics-qt/include/qepicspv.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../HESEB_ScanTool_I0/main.cpp
 
 heseb_scantool_i0.o: ../HESEB_ScanTool_I0/heseb_scantool_i0.cpp ../HESEB_ScanTool_I0/heseb_scantool_i0.h \
+		/usr/local/epics-qt/include/qepicspv.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		../HESEB_ScanTool_I0/ui_heseb_scantool_i0.h \
 		/usr/local/epics-qt/include/QEFrame.h \
 		/usr/local/epics-qt/include/QEWidget.h \
@@ -626,7 +635,6 @@ heseb_scantool_i0.o: ../HESEB_ScanTool_I0/heseb_scantool_i0.cpp ../HESEB_ScanToo
 		/usr/local/epics-qt/include/QCaEventFilter.h \
 		/usr/local/epics-qt/include/QCaEventUpdate.h \
 		/usr/local/epics-qt/include/UserMessage.h \
-		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		/usr/local/epics-qt/include/QCaAlarmInfo.h \
 		/usr/local/epics-qt/include/QCaDateTime.h \
 		/usr/local/epics-qt/include/QCaConnectionInfo.h \

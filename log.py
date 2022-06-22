@@ -12,19 +12,19 @@ logPV = (epics.PV("EXPERIMENT:LOGS"))
 
 def info(msg, *args, **kwargs):
     logger.info(msg, *args, **kwargs)
-    logPV.put("info: " + msg)
+    # logPV.put("info: " + msg)
 
 def error(msg, *args, **kwargs):
     logger.error(msg, *args, **kwargs)
-    logPV.put("error: " + msg)
+    # logPV.put("error: " + msg)
 
 def warning(msg, *args, **kwargs):
     logger.warning(msg, *args, **kwargs)
-    logPV.put("warning: " + msg)
+    # logPV.put("warning: " + msg)
 
 def debug(msg, *args, **kwargs):
     logger.debug(msg, *args, **kwargs)
-    logPV.put("debug: " + msg)
+    # logPV.put("debug: " + msg)
 
 def setup_custom_logger(lfname=None, stream_to_console=True):
 
