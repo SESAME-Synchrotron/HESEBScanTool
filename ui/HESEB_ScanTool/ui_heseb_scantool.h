@@ -73,12 +73,12 @@ public:
     QGridLayout *gridLayout_7;
     QSimpleShape *qsimpleshape_2;
     QSimpleShape *qsimpleshape_8;
-    QLabel *label_17;
-    QSpacerItem *horizontalSpacer;
     QLabel *label_15;
     QLabel *label_16;
+    QSpacerItem *horizontalSpacer;
     QELabel *qelabel_13;
     QPushButton *pushButton;
+    QLabel *label_17;
 
     void setupUi(QMainWindow *HESEB_ScanTool)
     {
@@ -369,15 +369,6 @@ public:
 
         gridLayout_7->addWidget(qsimpleshape_8, 3, 2, 1, 1);
 
-        label_17 = new QLabel(centralwidget);
-        label_17->setObjectName(QStringLiteral("label_17"));
-
-        gridLayout_7->addWidget(label_17, 0, 0, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(50, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
-
-        gridLayout_7->addItem(horizontalSpacer, 2, 0, 2, 1);
-
         label_15 = new QLabel(centralwidget);
         label_15->setObjectName(QStringLiteral("label_15"));
         QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -403,10 +394,14 @@ public:
 
         gridLayout_7->addWidget(label_16, 3, 3, 1, 1);
 
+        horizontalSpacer = new QSpacerItem(50, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+        gridLayout_7->addItem(horizontalSpacer, 2, 0, 2, 1);
+
         qelabel_13 = new QELabel(centralwidget);
         qelabel_13->setObjectName(QStringLiteral("qelabel_13"));
 
-        gridLayout_7->addWidget(qelabel_13, 0, 1, 1, 1);
+        gridLayout_7->addWidget(qelabel_13, 0, 1, 2, 1);
 
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -417,7 +412,12 @@ public:
         pushButton->setSizePolicy(sizePolicy3);
         pushButton->setCursor(QCursor(Qt::PointingHandCursor));
 
-        gridLayout_7->addWidget(pushButton, 0, 2, 1, 1);
+        gridLayout_7->addWidget(pushButton, 0, 2, 2, 1);
+
+        label_17 = new QLabel(centralwidget);
+        label_17->setObjectName(QStringLiteral("label_17"));
+
+        gridLayout_7->addWidget(label_17, 0, 0, 2, 1);
 
 
         gridLayout_8->addLayout(gridLayout_7, 3, 2, 1, 1);
@@ -495,11 +495,11 @@ public:
         qelabel_8->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "motorSimIOC:FE-M1-STP-TRSY1", Q_NULLPTR)));
         qelabel_5->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:NIntervals", Q_NULLPTR)));
         lblTitle_2->setText(QApplication::translate("HESEB_ScanTool", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_ </span>I<span style=\" vertical-align:sub;\">Trans(A) vs. </span>Energy<span style=\" vertical-align:sub;\">(eV)</span></p></body></html>", Q_NULLPTR));
-        label_17->setText(QApplication::translate("HESEB_ScanTool", "File Path:", Q_NULLPTR));
         label_15->setText(QApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">0</span></p></body></html>", Q_NULLPTR));
         label_16->setText(QApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", Q_NULLPTR));
         qelabel_13->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:PATH", Q_NULLPTR)));
         pushButton->setText(QApplication::translate("HESEB_ScanTool", "...", Q_NULLPTR));
+        label_17->setText(QApplication::translate("HESEB_ScanTool", "File Path:", Q_NULLPTR));
     } // retranslateUi
 
 };
