@@ -78,31 +78,24 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" rowspan="2">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Maximum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>50</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
       <item row="0" column="0" rowspan="2">
        <widget class="QLabel" name="label_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>File Path:</string>
+         <string>SED Path:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1" rowspan="2" colspan="2">
        <widget class="QELabel" name="qelabel_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
         <property name="variable" stdset="0">
          <string>SCAN:PATH</string>
         </property>
@@ -398,7 +391,7 @@ padding: 0 3px 0 3px;</string>
          <string>SCAN:XAFSPause</string>
         </property>
         <property name="clickText">
-         <string>0</string>
+         <string>1</string>
         </property>
        </widget>
       </item>
@@ -435,33 +428,76 @@ padding: 0 3px 0 3px;</string>
     </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="1">
-       <widget class="QELabel" name="qelabel_2">
-        <property name="variable" stdset="0">
-         <string>START:TIME:SCAN</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QELabel" name="qelabel">
-        <property name="variable" stdset="0">
-         <string>ELAPSE:TIME:SCAN</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Start time</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="0" column="3">
        <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Elapse time</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QELabel" name="qelabel">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="variable" stdset="0">
+         <string>ELAPSE:TIME:SCAN</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QELabel" name="qelabel_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="variable" stdset="0">
+         <string>START:TIME:SCAN</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -477,7 +513,7 @@ padding: 0 3px 0 3px;</string>
       <item row="1" column="0" rowspan="2">
        <widget class="QELabel" name="qelabel_30">
         <property name="variable" stdset="0">
-         <string/>
+         <string>EXPERIMENT:LOGS</string>
         </property>
        </widget>
       </item>

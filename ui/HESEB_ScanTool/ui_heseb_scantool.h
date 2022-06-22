@@ -38,9 +38,10 @@ public:
     QELabel *qelabel_10;
     QGridLayout *gridLayout_9;
     QLabel *label_12;
-    QELabel *qelabel_11;
-    QLabel *label;
     QELabel *qelabel_12;
+    QLabel *label;
+    QELabel *qelabel_11;
+    QSpacerItem *horizontalSpacer_2;
     QGridLayout *gridLayout_4;
     QLabel *label_14;
     QEPlotter *qeplotter;
@@ -108,23 +109,38 @@ public:
         gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
         label_12 = new QLabel(centralwidget);
         label_12->setObjectName(QStringLiteral("label_12"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label_12->sizePolicy().hasHeightForWidth());
+        label_12->setSizePolicy(sizePolicy);
 
-        gridLayout_9->addWidget(label_12, 0, 2, 1, 1);
-
-        qelabel_11 = new QELabel(centralwidget);
-        qelabel_11->setObjectName(QStringLiteral("qelabel_11"));
-
-        gridLayout_9->addWidget(qelabel_11, 0, 1, 1, 1);
-
-        label = new QLabel(centralwidget);
-        label->setObjectName(QStringLiteral("label"));
-
-        gridLayout_9->addWidget(label, 0, 0, 1, 1);
+        gridLayout_9->addWidget(label_12, 0, 3, 1, 1);
 
         qelabel_12 = new QELabel(centralwidget);
         qelabel_12->setObjectName(QStringLiteral("qelabel_12"));
+        qelabel_12->setFrameShape(QFrame::StyledPanel);
+        qelabel_12->setAlignment(Qt::AlignCenter);
 
-        gridLayout_9->addWidget(qelabel_12, 0, 3, 1, 1);
+        gridLayout_9->addWidget(qelabel_12, 0, 4, 1, 1);
+
+        label = new QLabel(centralwidget);
+        label->setObjectName(QStringLiteral("label"));
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
+
+        gridLayout_9->addWidget(label, 0, 0, 1, 1);
+
+        qelabel_11 = new QELabel(centralwidget);
+        qelabel_11->setObjectName(QStringLiteral("qelabel_11"));
+        qelabel_11->setFrameShape(QFrame::StyledPanel);
+        qelabel_11->setAlignment(Qt::AlignCenter);
+
+        gridLayout_9->addWidget(qelabel_11, 0, 1, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        gridLayout_9->addItem(horizontalSpacer_2, 0, 2, 1, 1);
 
 
         gridLayout_8->addLayout(gridLayout_9, 1, 0, 1, 1);
@@ -323,11 +339,11 @@ public:
         gridLayout_6->setSizeConstraint(QLayout::SetMinimumSize);
         lblTitle_2 = new QLabel(centralwidget);
         lblTitle_2->setObjectName(QStringLiteral("lblTitle_2"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(lblTitle_2->sizePolicy().hasHeightForWidth());
-        lblTitle_2->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(lblTitle_2->sizePolicy().hasHeightForWidth());
+        lblTitle_2->setSizePolicy(sizePolicy1);
         QFont font2;
         font2.setPointSize(16);
         lblTitle_2->setFont(font2);
@@ -350,11 +366,11 @@ public:
         gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
         qsimpleshape_2 = new QSimpleShape(centralwidget);
         qsimpleshape_2->setObjectName(QStringLiteral("qsimpleshape_2"));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(qsimpleshape_2->sizePolicy().hasHeightForWidth());
-        qsimpleshape_2->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(qsimpleshape_2->sizePolicy().hasHeightForWidth());
+        qsimpleshape_2->setSizePolicy(sizePolicy2);
         qsimpleshape_2->setShape(QSimpleShape::roundRectangle);
         qsimpleshape_2->setProperty("colour0", QVariant(QColor(23, 69, 243)));
 
@@ -362,8 +378,8 @@ public:
 
         qsimpleshape_8 = new QSimpleShape(centralwidget);
         qsimpleshape_8->setObjectName(QStringLiteral("qsimpleshape_8"));
-        sizePolicy1.setHeightForWidth(qsimpleshape_8->sizePolicy().hasHeightForWidth());
-        qsimpleshape_8->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(qsimpleshape_8->sizePolicy().hasHeightForWidth());
+        qsimpleshape_8->setSizePolicy(sizePolicy2);
         qsimpleshape_8->setShape(QSimpleShape::roundRectangle);
         qsimpleshape_8->setProperty("colour0", QVariant(QColor(255, 0, 0)));
 
@@ -371,11 +387,11 @@ public:
 
         label_15 = new QLabel(centralwidget);
         label_15->setObjectName(QStringLiteral("label_15"));
-        QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(label_15->sizePolicy().hasHeightForWidth());
-        label_15->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(label_15->sizePolicy().hasHeightForWidth());
+        label_15->setSizePolicy(sizePolicy3);
         QFont font3;
         font3.setPointSize(12);
         font3.setBold(true);
@@ -387,8 +403,8 @@ public:
 
         label_16 = new QLabel(centralwidget);
         label_16->setObjectName(QStringLiteral("label_16"));
-        sizePolicy2.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
-        label_16->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
+        label_16->setSizePolicy(sizePolicy3);
         label_16->setFont(font3);
         label_16->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
@@ -400,22 +416,25 @@ public:
 
         qelabel_13 = new QELabel(centralwidget);
         qelabel_13->setObjectName(QStringLiteral("qelabel_13"));
+        qelabel_13->setFrameShape(QFrame::StyledPanel);
 
         gridLayout_7->addWidget(qelabel_13, 0, 1, 2, 1);
 
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy4);
         pushButton->setCursor(QCursor(Qt::PointingHandCursor));
 
         gridLayout_7->addWidget(pushButton, 0, 2, 2, 1);
 
         label_17 = new QLabel(centralwidget);
         label_17->setObjectName(QStringLiteral("label_17"));
+        sizePolicy.setHeightForWidth(label_17->sizePolicy().hasHeightForWidth());
+        label_17->setSizePolicy(sizePolicy);
 
         gridLayout_7->addWidget(label_17, 0, 0, 2, 1);
 
@@ -433,11 +452,11 @@ public:
     {
         HESEB_ScanTool->setWindowTitle(QApplication::translate("HESEB_ScanTool", "HESEB_ScanTool", Q_NULLPTR));
         label_7->setText(QApplication::translate("HESEB_ScanTool", "Scan tool status ", Q_NULLPTR));
-        qelabel_10->setProperty("variable", QVariant(QString()));
+        qelabel_10->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "EXPERIMENT:LOGS", Q_NULLPTR)));
         label_12->setText(QApplication::translate("HESEB_ScanTool", "Elapse time", Q_NULLPTR));
-        qelabel_11->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "START:TIME:SCAN", Q_NULLPTR)));
-        label->setText(QApplication::translate("HESEB_ScanTool", "Start time", Q_NULLPTR));
         qelabel_12->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "ELAPSE:TIME:SCAN", Q_NULLPTR)));
+        label->setText(QApplication::translate("HESEB_ScanTool", "Start time", Q_NULLPTR));
+        qelabel_11->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "START:TIME:SCAN", Q_NULLPTR)));
         label_14->setText(QApplication::translate("HESEB_ScanTool", "Current (A)", Q_NULLPTR));
         qeplotter->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool", "PLOT:Energy", Q_NULLPTR)));
         qeplotter->setProperty("DataVariableA", QVariant(QApplication::translate("HESEB_ScanTool", "PLOT:I0", Q_NULLPTR)));
@@ -474,8 +493,8 @@ public:
         qepushbutton->setText(QApplication::translate("HESEB_ScanTool", "Pause", Q_NULLPTR));
         qepushbutton->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:XAFSPause", Q_NULLPTR)));
         qepushbutton_3->setText(QApplication::translate("HESEB_ScanTool", "Stop!!", Q_NULLPTR));
-        qepushbutton_3->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:XAFSPause", Q_NULLPTR)));
-        qepushbutton_3->setClickText(QApplication::translate("HESEB_ScanTool", "0", Q_NULLPTR));
+        qepushbutton_3->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:PATH", Q_NULLPTR)));
+        qepushbutton_3->setClickText(QApplication::translate("HESEB_ScanTool", "1", Q_NULLPTR));
         label_11->setText(QApplication::translate("HESEB_ScanTool", "out of", Q_NULLPTR));
         label_9->setText(QApplication::translate("HESEB_ScanTool", "out of", Q_NULLPTR));
         qelabel_9->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "I11OH-PGM:getEnergy", Q_NULLPTR)));
@@ -499,7 +518,7 @@ public:
         label_16->setText(QApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", Q_NULLPTR));
         qelabel_13->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:PATH", Q_NULLPTR)));
         pushButton->setText(QApplication::translate("HESEB_ScanTool", "...", Q_NULLPTR));
-        label_17->setText(QApplication::translate("HESEB_ScanTool", "File Path:", Q_NULLPTR));
+        label_17->setText(QApplication::translate("HESEB_ScanTool", "SED Path:", Q_NULLPTR));
     } // retranslateUi
 
 };
