@@ -42,7 +42,7 @@ class HESEBSCAN:
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
-		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
+		#log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
 		CLIMessage(" Confegrations to be implemented: {}".format(self.cfg), "M")
 		self.detChosen = None 
@@ -403,7 +403,10 @@ class HESEBSCAN:
 		pauseCounter = 0
 		startTime = time.time()
 
-		self.PVs["Start:Time:Scan"].put(startTime)
+		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
+
+		self.PVs["SCAN:Start"].put(self.startScanTime)
+		log.info(f"Scan started at: {self.startScanTime}")
 
 		self.clearPlot()
 
@@ -497,7 +500,8 @@ class HESEBSCAN:
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				ItDp					=	ACQdata["IC2[V]"]	
-				It2Dp					=	ACQdata["IC3[V]"]	
+				It2Dp					=	ACQdata["IC3[V]"]self.PVs["PLOT:I0"].put(0)
+					self.PVs["PLOT:It"].put(0)	
 				AbsorptionTrDp			=	ACQdata["TRANS"]
 				AbsorptionTr2Dp			=	ACQdata["TransRef"]
 
@@ -556,8 +560,11 @@ class HESEBSCAN:
 					pass
 				else:
 					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, curentScanInfo)
+					
 					elapsedScanTime = timeModule.timer(startTime)
-					self.PVs["Elapsed:Time:Scan"].put(elapsedScanTime)
+					
+					self.PVs["SCAN:Elapse"].put(elapsedScanTime)
+					log.info(f"Elapse time scan for scan point{counter} is: {elapsedScanTime}")
 
 				counter = counter +1
 			"""
