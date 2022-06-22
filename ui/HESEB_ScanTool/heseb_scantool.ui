@@ -57,7 +57,7 @@
          <set>Qt::AlignCenter</set>
         </property>
         <property name="variable" stdset="0">
-         <string>ELAPSE:TIME:SCAN</string>
+         <string>SCAN:ELAPSE</string>
         </property>
        </widget>
       </item>
@@ -83,7 +83,7 @@
          <set>Qt::AlignCenter</set>
         </property>
         <property name="variable" stdset="0">
-         <string>START:TIME:SCAN</string>
+         <string>SCAN:START</string>
         </property>
        </widget>
       </item>

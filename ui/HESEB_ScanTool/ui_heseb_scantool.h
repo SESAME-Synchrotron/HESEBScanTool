@@ -454,9 +454,9 @@ public:
         label_7->setText(QApplication::translate("HESEB_ScanTool", "Scan tool status ", Q_NULLPTR));
         qelabel_10->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "EXPERIMENT:LOGS", Q_NULLPTR)));
         label_12->setText(QApplication::translate("HESEB_ScanTool", "Elapse time", Q_NULLPTR));
-        qelabel_12->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "ELAPSE:TIME:SCAN", Q_NULLPTR)));
+        qelabel_12->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:ELAPSE", Q_NULLPTR)));
         label->setText(QApplication::translate("HESEB_ScanTool", "Start time", Q_NULLPTR));
-        qelabel_11->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "START:TIME:SCAN", Q_NULLPTR)));
+        qelabel_11->setProperty("variable", QVariant(QApplication::translate("HESEB_ScanTool", "SCAN:START", Q_NULLPTR)));
         label_14->setText(QApplication::translate("HESEB_ScanTool", "Current (A)", Q_NULLPTR));
         qeplotter->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool", "PLOT:Energy", Q_NULLPTR)));
         qeplotter->setProperty("DataVariableA", QVariant(QApplication::translate("HESEB_ScanTool", "PLOT:I0", Q_NULLPTR)));

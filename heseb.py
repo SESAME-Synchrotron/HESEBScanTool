@@ -36,10 +36,13 @@ except ImportError as e:
 
 class HESEBSCAN:
 	def __init__(self,testingMode = "No"):
-		self.PVs["SCAN:Stop"].put(0)            # disable stop function
+		# 
+		#epics.PV("SCAN:STOP").put(0)
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
+		self.PVs["SCAN:Stop"].put(0)  # disable stop function
+
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
@@ -413,14 +416,10 @@ class HESEBSCAN:
 		pauseCounter = 0
 		startTime = time.time()
 
-<<<<<<< HEAD
-		self.PVs["Start:Time:Scan"].put(str(startTime))
-=======
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
 		self.PVs["SCAN:Start"].put(self.startScanTime)
 		log.info(f"Scan started at: {self.startScanTime}")
->>>>>>> ada3e4de10cd7424aa4c84f01f6d13ac1de30546
 
 		self.clearPlot()
 
@@ -434,8 +433,6 @@ class HESEBSCAN:
 		expData = {} # Experimental Data 
 
 		self.plotting()
-
-		self.stopScan = self.PVs["SCAN:Stop"].get()
 
 		for sample,scan,interval in self.generateScanPoints():
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
@@ -576,23 +573,19 @@ class HESEBSCAN:
 				else:
 					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, curentScanInfo)
 					
-					elapsedScanTime = timeModule.timer(startTime)
-<<<<<<< HEAD
-					self.PVs["Elapsed:Time:Scan"].put(str(elapsedScanTime))
-					
-=======
+					elapsedScanTime = timeModule.timer(startTime)					
 					
 					self.PVs["SCAN:Elapse"].put(elapsedScanTime)
 					log.info(f"Elapse time scan for scan point{counter} is: {elapsedScanTime}")
 
->>>>>>> ada3e4de10cd7424aa4c84f01f6d13ac1de30546
 				counter = counter +1
 			"""
 			Transfering the data after each scan 
 			"""
 			self.dataTransfer()
-
-			if self.stopScan == 1:   # exit from for loop when stop is clicked
+			self.stopScan = self.PVs["SCAN:Stop"].get()
+			if int(self.stopScan) == 1:   # exit from for loop when stop is clicked
+				print ("nbknbkfbk")
 				break
 
 		self.stopScanning()
