@@ -48,11 +48,11 @@
 		"USERINFO:EndTime":{
 			"pvname":"USERINFO:EndTime"
 		},
-		"Elapsed:Time:Scan":{
-			"pvname":"ELAPSE:TIME:SCAN"
+		"SCAN:Elapse":{
+			"pvname":"SCAN:ELAPSE:TIME"
 		},
-		"Start:Time:Scan":{
-			"pvname":"START:TIME:SCAN"
+		"SCAN:Start":{
+			"pvname":"SCAN:START:TIME"
 		},
 		"EXPERIMENT:LOGS":{
 			"pvname":"EXPERIMENT:LOGS"
