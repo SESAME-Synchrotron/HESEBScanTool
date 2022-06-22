@@ -36,6 +36,7 @@ except ImportError as e:
 
 class HESEBSCAN:
 	def __init__(self,testingMode = "No"):
+		self.PVs["SCAN:STOP"].put(0)            # disable stop function
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
@@ -358,6 +359,15 @@ class HESEBSCAN:
 			else:
 				self.PVs["SCAN:pause"].put(0)
 			time.sleep(self.scanLimites["checkLimitesEvery"]) # time in seconds 
+	
+	def stopScanning(self):
+	
+		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
+		log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
+		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
+		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
+		self.dataTransfer()
+		sys.exit()
 
 	def initDetectors(self):
 		#self.available_detectors = ["IC1","IC2","IC3","KETEK","FICUS"]
@@ -420,6 +430,8 @@ class HESEBSCAN:
 		expData = {} # Experimental Data 
 
 		self.plotting()
+
+		self.stopScan = self.PVs["SCAN:STOP"].get()
 
 		for sample,scan,interval in self.generateScanPoints():
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
@@ -570,6 +582,12 @@ class HESEBSCAN:
 			Transfering the data after each scan 
 			"""
 			self.dataTransfer()
+
+			if self.stopScan == 1:   # exit from for loop when stop is clicked
+				break
+
+		self.stopScanning()
+		
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
 		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
