@@ -36,13 +36,14 @@ except ImportError as e:
 
 class HESEBSCAN:
 	def __init__(self,testingMode = "No"):
+		self.PVs["SCAN:Stop"].put(0)            # disable stop function
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
-		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
+		#log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
 		CLIMessage(" Confegrations to be implemented: {}".format(self.cfg), "M")
 		self.detChosen = None 
@@ -358,6 +359,15 @@ class HESEBSCAN:
 			else:
 				self.PVs["SCAN:pause"].put(0)
 			time.sleep(self.scanLimites["checkLimitesEvery"]) # time in seconds 
+	
+	def stopScanning(self):
+	
+		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
+		log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
+		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
+		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
+		self.dataTransfer()
+		sys.exit()
 
 	def initDetectors(self):
 		#self.available_detectors = ["IC1","IC2","IC3","KETEK","FICUS"]
@@ -403,7 +413,14 @@ class HESEBSCAN:
 		pauseCounter = 0
 		startTime = time.time()
 
+<<<<<<< HEAD
 		self.PVs["Start:Time:Scan"].put(str(startTime))
+=======
+		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
+
+		self.PVs["SCAN:Start"].put(self.startScanTime)
+		log.info(f"Scan started at: {self.startScanTime}")
+>>>>>>> ada3e4de10cd7424aa4c84f01f6d13ac1de30546
 
 		self.clearPlot()
 
@@ -417,6 +434,8 @@ class HESEBSCAN:
 		expData = {} # Experimental Data 
 
 		self.plotting()
+
+		self.stopScan = self.PVs["SCAN:Stop"].get()
 
 		for sample,scan,interval in self.generateScanPoints():
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
@@ -497,7 +516,7 @@ class HESEBSCAN:
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				ItDp					=	ACQdata["IC2[V]"]	
-				It2Dp					=	ACQdata["IC3[V]"]	
+				It2Dp					=	ACQdata["IC3[V]"]
 				AbsorptionTrDp			=	ACQdata["TRANS"]
 				AbsorptionTr2Dp			=	ACQdata["TransRef"]
 
@@ -556,14 +575,28 @@ class HESEBSCAN:
 					pass
 				else:
 					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, curentScanInfo)
+					
 					elapsedScanTime = timeModule.timer(startTime)
+<<<<<<< HEAD
 					self.PVs["Elapsed:Time:Scan"].put(str(elapsedScanTime))
 					
+=======
+					
+					self.PVs["SCAN:Elapse"].put(elapsedScanTime)
+					log.info(f"Elapse time scan for scan point{counter} is: {elapsedScanTime}")
+
+>>>>>>> ada3e4de10cd7424aa4c84f01f6d13ac1de30546
 				counter = counter +1
 			"""
 			Transfering the data after each scan 
 			"""
 			self.dataTransfer()
+
+			if self.stopScan == 1:   # exit from for loop when stop is clicked
+				break
+
+		self.stopScanning()
+
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
 		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
