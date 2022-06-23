@@ -23,14 +23,17 @@ private slots:
     void on_Start_clicked();
 
 
+    void on_Stop_clicked();
+
 private:
     Ui::HESEB_ScanTool_PICO *ui;
 
     int* NPLC;
     float* ActIntTime;
 
+    int* stopCheck;
+
     QEpicsPV* picoReadOut;
-
-
+    QEpicsPV* plotting;
 };
 #endif // HESEB_SCANTOOL_PICO_H

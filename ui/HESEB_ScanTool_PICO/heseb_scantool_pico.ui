@@ -96,13 +96,13 @@ padding: 0 3px 0 3px;</string>
          <bool>false</bool>
         </property>
         <property name="DataVariableX" stdset="0">
-         <string>PLOT:Energy</string>
+         <string/>
         </property>
         <property name="DataVariableA" stdset="0">
          <string>PLOT:I0</string>
         </property>
         <property name="DataVariableB" stdset="0">
-         <string>PLOT:It</string>
+         <string/>
         </property>
         <property name="DataVariableC" stdset="0">
          <string/>

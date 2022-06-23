@@ -1,19 +1,22 @@
 #include "heseb_scantool_pico.h"
 #include "ui_heseb_scantool_pico.h"
+
 #include <stdlib.h>
 #include <iostream>
+
 #include <qstring.h>
 #include <string>
+
 #include <QMessageBox>
+
 #include <qepicspv.h>
 #include <client.h>
-#include <time.h>
-#include <QTime>
-#include <qtimer.h>
-#include <QTimer>
-#include <ctime>
+
+#include <unistd.h>
+#include <vector>
 
 using namespace std;
+
 HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::HESEB_ScanTool_PICO)
@@ -22,11 +25,14 @@ HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
 
     this->NPLC           = new int;
     this->ActIntTime     = new float;
+    this->stopCheck      = new int;
 
     *NPLC = 0;
     *ActIntTime = 0;
+    *stopCheck = 0;
 
     this->picoReadOut = new QEpicsPV("K6487:1:Acquire");
+    this->plotting    = new QEpicsPV("PLOT:I0");
 }
 
 HESEB_ScanTool_PICO::~HESEB_ScanTool_PICO()
@@ -160,6 +166,11 @@ void HESEB_ScanTool_PICO::on_Int_time_editingFinished()
 
 void HESEB_ScanTool_PICO::on_Start_clicked()
 {
+    float sleepTime = 0.001;
+    int timerCounter = 0;
+    stopCheck = 0;
+    std::vector<float> data;
+    int a[] = {};
     Client::writePV("K6487:1:RST.PROC",1);
     Client::writePV("K6487:1:Damping",0);
     Client::writePV("K6487:1:TimePerSampleStep",0);
@@ -167,7 +178,34 @@ void HESEB_ScanTool_PICO::on_Start_clicked()
     Client::writePV("K6487:1:TimePerSampleStep",*ActIntTime);
     Client::writePV("K6487:1:IntegrationTime",*NPLC);
 
+    sleep(sleepTime);
+
     Client::writePV("K6487:1:Acquire.PROC",1);
 
+    float pico_ReadOut = this->picoReadOut->get().toFloat();
 
+    while (true && *stopCheck != 1){
+
+        if (pico_ReadOut == this->picoReadOut->get().toFloat()){
+
+            data.push_back(this->picoReadOut->get().toFloat());
+            timerCounter =+1;
+        }
+        else {
+            break;
+        }
+
+        sleep(sleepTime);
+        if (((static_cast<float>(timerCounter))* sleepTime) >= (*ActIntTime * 5)){
+
+            QMessageBox::warning(this,"-","Collection time has reached the maximum allowed time");
+            break;
+        }
+    }
+    Client::writeArray("PLOT:I0", data, 100000);
+}
+
+void HESEB_ScanTool_PICO::on_Stop_clicked()
+{
+    *stopCheck = 1;
 }
