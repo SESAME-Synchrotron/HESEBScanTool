@@ -414,6 +414,7 @@ class HESEBSCAN:
 	def start(self):
 		counter = 0 
 		pauseCounter = 0
+		breakTag = 0 
 		startTime = time.time()
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
@@ -579,14 +580,23 @@ class HESEBSCAN:
 					log.info(f"Elapse time scan for scan point{counter} is: {elapsedScanTime}")
 
 				counter = counter +1
+
+				self.stopScan = self.PVs["SCAN:Stop"].get()
+				print (self.stopScan, "type :: ", type(self.stopScan))
+				if int(self.stopScan) == 1:   # exit from for loop (child) when stop is clicked
+					log.warning("Scan tool has been stopped by human action")
+					breakTag = 1
+					break
+
 			"""
 			Transfering the data after each scan 
 			"""
+
 			self.dataTransfer()
-			self.stopScan = self.PVs["SCAN:Stop"].get()
-			if int(self.stopScan) == 1:   # exit from for loop when stop is clicked
-				print ("nbknbkfbk")
+
+			if breakTag == 1: 		# exit from for loop (parent) when stop is clicked
 				break
+			
 
 		self.stopScanning()
 
