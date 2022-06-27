@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <qepicspv.h>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class HESEB_ScanTool_I0; }
@@ -19,9 +20,15 @@ public:
 private slots:
     void on_pushButton_3_clicked();
 
+    void logs();
+
+    void path();
+
 private:
     Ui::HESEB_ScanTool_I0 *ui;
 
-    QEpicsPV* ScanPath;
+    QString SED_Path;
+    QTimer* checkLogs;
+    QTimer* checkPath;
 };
 #endif // HESEB_SCANTOOL_I0_H

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'heseb_scantool_pico.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.7
+** Created by: Qt User Interface Compiler version 5.9.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -20,6 +20,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
 #include "QEFrame.h"
 #include "QEPlotter.h"
@@ -38,11 +39,12 @@ public:
     QEPlotter *qeplotter;
     QLabel *label_14;
     QGridLayout *gridLayout;
+    QPushButton *Start;
     QPushButton *Stop;
     QLineEdit *Int_time;
     QLabel *label;
-    QPushButton *Start;
     QSpacerItem *horizontalSpacer;
+    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *HESEB_ScanTool_PICO)
     {
@@ -127,8 +129,16 @@ public:
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        Start = new QPushButton(centralwidget);
+        Start->setObjectName(QStringLiteral("Start"));
+        Start->setCursor(QCursor(Qt::PointingHandCursor));
+        Start->setStyleSheet(QStringLiteral("border-color: rgb(0, 0, 0);"));
+
+        gridLayout->addWidget(Start, 0, 3, 1, 1);
+
         Stop = new QPushButton(centralwidget);
         Stop->setObjectName(QStringLiteral("Stop"));
+        Stop->setCursor(QCursor(Qt::PointingHandCursor));
         Stop->setStyleSheet(QLatin1String("background-color: rgb(255, 0, 0);\n"
 "border-color: rgb(0, 0, 0);"));
 
@@ -151,12 +161,6 @@ public:
 
         gridLayout->addWidget(label, 0, 0, 1, 1);
 
-        Start = new QPushButton(centralwidget);
-        Start->setObjectName(QStringLiteral("Start"));
-        Start->setStyleSheet(QStringLiteral("border-color: rgb(0, 0, 0);"));
-
-        gridLayout->addWidget(Start, 0, 3, 1, 1);
-
         horizontalSpacer = new QSpacerItem(100, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 0, 2, 1, 1);
@@ -165,6 +169,9 @@ public:
         gridLayout_2->addLayout(gridLayout, 1, 0, 1, 1);
 
         HESEB_ScanTool_PICO->setCentralWidget(centralwidget);
+        statusBar = new QStatusBar(HESEB_ScanTool_PICO);
+        statusBar->setObjectName(QStringLiteral("statusBar"));
+        HESEB_ScanTool_PICO->setStatusBar(statusBar);
 
         retranslateUi(HESEB_ScanTool_PICO);
 
@@ -176,9 +183,9 @@ public:
         HESEB_ScanTool_PICO->setWindowTitle(QApplication::translate("HESEB_ScanTool_PICO", "HESEB_ScanTool_PICO", Q_NULLPTR));
         lblTitle_2->setText(QApplication::translate("HESEB_ScanTool_PICO", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_ </span>Time<span style=\" vertical-align:sub;\">(s)</span></p></body></html>", Q_NULLPTR));
         label_13->setText(QApplication::translate("HESEB_ScanTool_PICO", "<html><head/><body><p>Time(s)</p></body></html>", Q_NULLPTR));
-        qeplotter->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool_PICO", "PLOT:Energy", Q_NULLPTR)));
+        qeplotter->setProperty("DataVariableX", QVariant(QString()));
         qeplotter->setProperty("DataVariableA", QVariant(QApplication::translate("HESEB_ScanTool_PICO", "PLOT:I0", Q_NULLPTR)));
-        qeplotter->setProperty("DataVariableB", QVariant(QApplication::translate("HESEB_ScanTool_PICO", "PLOT:It", Q_NULLPTR)));
+        qeplotter->setProperty("DataVariableB", QVariant(QString()));
         qeplotter->setProperty("DataVariableC", QVariant(QString()));
         qeplotter->setProperty("SizeVariableX", QVariant(QApplication::translate("HESEB_ScanTool_PICO", "PLOT:Energy.NORD", Q_NULLPTR)));
         qeplotter->setProperty("SizeVariableA", QVariant(QApplication::translate("HESEB_ScanTool_PICO", "PLOT:I0.NORD", Q_NULLPTR)));
@@ -205,10 +212,10 @@ public:
             << QString()
             << QString()));
         label_14->setText(QApplication::translate("HESEB_ScanTool_PICO", "Current (A)", Q_NULLPTR));
+        Start->setText(QApplication::translate("HESEB_ScanTool_PICO", "Start ", Q_NULLPTR));
         Stop->setText(QApplication::translate("HESEB_ScanTool_PICO", "Stop", Q_NULLPTR));
         Int_time->setPlaceholderText(QApplication::translate("HESEB_ScanTool_PICO", "Enter Integration Time ... * The allowable values are: {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9}", Q_NULLPTR));
         label->setText(QApplication::translate("HESEB_ScanTool_PICO", "Integration Time", Q_NULLPTR));
-        Start->setText(QApplication::translate("HESEB_ScanTool_PICO", "Start ", Q_NULLPTR));
     } // retranslateUi
 
 };
