@@ -13,7 +13,7 @@
 #include <client.h>
 
 #include <unistd.h>
-#include <vector>
+#include <QTimer>
 
 using namespace std;
 
@@ -25,21 +25,28 @@ HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
 
     this->NPLC           = new int;
     this->ActIntTime     = new float;
-    this->stopCheck      = new int;
+    this->startAcq       = false;
+    this->sleepTime      = 100;
+    this->timerCounter   = 0;
+    this->data           = new long double[2000];
 
     *NPLC = 0;
     *ActIntTime = 0;
-    *stopCheck = 0;
 
     this->picoReadOut = new QEpicsPV("K6487:1:Acquire");
     this->plotting    = new QEpicsPV("PLOT:I0");
+
+    acquireTimer = new QTimer(this);
+    this->acquireTimer->start(100);
+
+    connect(acquireTimer,SIGNAL(timeout()),this,SLOT(startAcquire()));
+    string intTime = ui->Int_time->text().toStdString();
 }
 
 HESEB_ScanTool_PICO::~HESEB_ScanTool_PICO()
 {
     delete ui;
 }
-
 
 void HESEB_ScanTool_PICO::on_Int_time_editingFinished()
 {
@@ -156,56 +163,66 @@ void HESEB_ScanTool_PICO::on_Int_time_editingFinished()
     }
     else {
 
-        QMessageBox::warning(this,"Invalid Value","Please select one of these options: {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9}");
+        QMessageBox::information(this,"Invalid Value","Please select one of these options: {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9}");
     }
-
-    cout<<"NPLC: "<<*NPLC<<endl;
-    cout<<"ActIntTime: "<<*ActIntTime<<endl;
-
 }
 
 void HESEB_ScanTool_PICO::on_Start_clicked()
 {
-    float sleepTime = 0.001;
-    int timerCounter = 0;
-    stopCheck = 0;
-    std::vector<float> data;
-    int a[] = {};
-    Client::writePV("K6487:1:RST.PROC",1);
-    Client::writePV("K6487:1:Damping",0);
-    Client::writePV("K6487:1:TimePerSampleStep",0);
 
-    Client::writePV("K6487:1:TimePerSampleStep",*ActIntTime);
-    Client::writePV("K6487:1:IntegrationTime",*NPLC);
-
-    sleep(sleepTime);
-
-    Client::writePV("K6487:1:Acquire.PROC",1);
-
-    float pico_ReadOut = this->picoReadOut->get().toFloat();
-
-    while (true && *stopCheck != 1){
-
-        if (pico_ReadOut == this->picoReadOut->get().toFloat()){
-
-            data.push_back(this->picoReadOut->get().toFloat());
-            timerCounter =+1;
-        }
-        else {
-            break;
-        }
-
-        sleep(sleepTime);
-        if (((static_cast<float>(timerCounter))* sleepTime) >= (*ActIntTime * 5)){
-
-            QMessageBox::warning(this,"-","Collection time has reached the maximum allowed time");
-            break;
-        }
+    if (ui->Int_time->text().toStdString() == "")
+    {
+        QMessageBox::information(this,"Warning!","No integration time, please insert a value ....");
     }
-    Client::writeArray("PLOT:I0", data, 100000);
+    else {
+
+        this->startAcq = true;
+
+        Client::writePV("K6487:1:RST.PROC",1);
+        Client::writePV("K6487:1:Damping",0);
+        Client::writePV("K6487:1:TimePerSampleStep",0);
+
+        Client::writePV("K6487:1:TimePerSampleStep",*ActIntTime);
+        Client::writePV("K6487:1:IntegrationTime",*NPLC);
+
+        usleep(this->sleepTime);
+
+        this->pico_ReadOut = this->picoReadOut->get().toFloat();
+        Client::writePV("K6487:1:Acquire.PROC",1);
+    }
 }
 
 void HESEB_ScanTool_PICO::on_Stop_clicked()
 {
-    *stopCheck = 1;
+    this->startAcq = false;
+    this->timerCounter = 0;
+    this->i = 0;
+}
+
+void HESEB_ScanTool_PICO::startAcquire()
+{
+    if (this->startAcq){
+
+        if (this->pico_ReadOut == this->picoReadOut->get().toFloat()){
+
+            data[i] = this->picoReadOut->get().toDouble();
+            i++;
+            timerCounter =+1;
+            ui->statusBar->setStatusTip("Acquiring ...");
+        }
+        else
+        {
+            ui->statusBar->setStatusTip("Acquiring finished");
+            this->startAcq = false;
+            this->timerCounter = 0;
+            this->i = 0;
+        }
+
+        usleep(sleepTime);
+        if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5)){
+
+            QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+        }
+    }
+    Client::writeArray("PLOT:I0", data, i);
 }
