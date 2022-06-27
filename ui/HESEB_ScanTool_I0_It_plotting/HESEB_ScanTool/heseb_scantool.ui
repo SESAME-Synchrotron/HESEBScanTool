@@ -19,15 +19,39 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
        <widget class="QLabel" name="label_7">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Scan tool status </string>
         </property>
+        <property name="margin">
+         <number>5</number>
+        </property>
        </widget>
       </item>
-      <item row="1" column="0" rowspan="2">
-       <widget class="QELabel" name="qelabel_10">
-        <property name="variable" stdset="0">
-         <string>EXPERIMENT:LOGS</string>
+      <item row="1" column="0">
+       <widget class="QLabel" name="logs">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="indent">
+         <number>6</number>
         </property>
        </widget>
       </item>
@@ -329,7 +353,7 @@ transform: rotate(-90deg);
          <string>Stop!!</string>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:PATH</string>
+         <string>SCAN:STOP</string>
         </property>
         <property name="clickText">
          <string>1</string>
@@ -558,6 +582,29 @@ padding: 0 3px 0 3px;</string>
     </item>
     <item row="3" column="2">
      <layout class="QGridLayout" name="gridLayout_7">
+      <item row="3" column="3">
+       <widget class="QLabel" name="label_16">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;Trans.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="2">
        <widget class="QSimpleShape" name="qsimpleshape_2">
         <property name="sizePolicy">
@@ -578,23 +625,19 @@ padding: 0 3px 0 3px;</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
-       <widget class="QSimpleShape" name="qsimpleshape_8">
+      <item row="0" column="2" rowspan="2">
+       <widget class="QPushButton" name="pushButton">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="shape">
-         <enum>QSimpleShape::roundRectangle</enum>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
-        <property name="colour0" stdset="0">
-         <color>
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
+        <property name="text">
+         <string>...</string>
         </property>
        </widget>
       </item>
@@ -621,26 +664,36 @@ padding: 0 3px 0 3px;</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <widget class="QLabel" name="label_16">
+      <item row="0" column="0" rowspan="2">
+       <widget class="QLabel" name="label_17">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;Trans.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>SED Path:</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QSimpleShape" name="qsimpleshape_8">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="shape">
+         <enum>QSimpleShape::roundRectangle</enum>
+        </property>
+        <property name="colour0" stdset="0">
+         <color>
+          <red>255</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
         </property>
        </widget>
       </item>
@@ -661,41 +714,18 @@ padding: 0 3px 0 3px;</string>
        </spacer>
       </item>
       <item row="0" column="1" rowspan="2">
-       <widget class="QELabel" name="qelabel_13">
+       <widget class="QLabel" name="path">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="variable" stdset="0">
-         <string>SCAN:PATH</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" rowspan="2">
-       <widget class="QPushButton" name="pushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
         <property name="text">
-         <string>...</string>
+         <string/>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QLabel" name="label_17">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>SED Path:</string>
+        <property name="indent">
+         <number>6</number>
         </property>
        </widget>
       </item>
