@@ -122,6 +122,14 @@ class HESEBSCAN:
 		self.dataFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
 		self.dataFileFullPath		=	"{}/{}".format(self.localDataPath, self.dataFileName)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
+
+		"""
+		Writing the data path into file to be available to the plotting tool. 
+		"""
+		with open("./tmp/SEDPath.txt",'w') as SEDPath:
+			SEDPath.write("dd")
+			SEDPath.close()
+
 		if not os.path.exists(self.localDataPath): 
 			os.makedirs(self.localDataPath)
 	
