@@ -68,7 +68,7 @@ void HESEB_ScanTool_I0::logs()
 
 void HESEB_ScanTool_I0::path()
 {
-    ifstream file("/home/control/SED_Scantool.log");
+    ifstream file("/tmp/SEDPath.txt");
 
        if (file)
        {
