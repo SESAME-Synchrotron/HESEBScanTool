@@ -9,7 +9,7 @@ This is a scanning tool for collecting experimental data from Helmholtz SESAME S
 * Automatic data transfer to data center (after each scan)
 * Input data validation 
 * Public documentation targeting end-users (how-to)
-## Scanning tool | more to be done: 
+# Scanning tool | more to be done: 
 * Adapt Bruker XFlash detector. 
 * Finalize automatic proposal and user metadata extraction from users DB.
 * Store the data in HDF5 dxFile format 
