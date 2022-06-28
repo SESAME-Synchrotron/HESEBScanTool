@@ -3,7 +3,7 @@ Installing HESEB Scan Tool
 
 This page includes information about the needed packages to run the scan tool. 
 
-Prerequisites:
+Prerequisites
 --------------
 
 The following should be installed on the computer before running the scanning tool: 
@@ -13,7 +13,7 @@ The following should be installed on the computer before running the scanning to
 * QT 5.xx Anas to add text here. 
 
 
-Python virtual environment:
+Python virtual environment
 ---------------------------
 The venv module of python provides support for creating **virtual environments** that is isolated from system site directories. Normally, each virtual environment has its own Python binary (which matches the version of the binary that was used to create this environment) and can have its own independent set of installed Python packages in its site directories. 
 
@@ -38,7 +38,7 @@ resource your bashrc:
 
 	source ~/.bashrc
 
-Packages and libraries:
+Packages and libraries
 -----------------------
 
 The tool needs set of python packages and Qt libraries installed and configured.
@@ -83,7 +83,7 @@ Qt and its libraries:
 
 Anas to add text here. 
 
-Clone and run the scanning tool:
+Clone and run the scanning tool
 --------------------------------
 
 .. note:: Make sure that the python environment is activated before proceeding with this section 
