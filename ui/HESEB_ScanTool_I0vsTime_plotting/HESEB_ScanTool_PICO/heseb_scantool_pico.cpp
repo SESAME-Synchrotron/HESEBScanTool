@@ -26,6 +26,8 @@ HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
     this->NPLC           = new int;
     this->ActIntTime     = new float;
     this->startAcq       = false;
+    this->checkAcq       = false;
+    this->go             = false;
     this->sleepTime      = 100;
     this->timerCounter   = 0;
     this->data           = new long double[2000];
@@ -217,8 +219,12 @@ void HESEB_ScanTool_PICO::checkAcquire()
 void HESEB_ScanTool_PICO::on_Stop_clicked()
 {
     this->startAcq = false;
+    this->checkAcq = false;
+    this->go = false;
     this->timerCounter = 0;
     this->i = 0;
+    ui->statusBar->setStatusTip("Stopped");
+
 }
 
 void HESEB_ScanTool_PICO::startAcquire()
@@ -248,12 +254,13 @@ void HESEB_ScanTool_PICO::startAcquire()
         usleep(sleepTime);
         if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5)){
 
-            QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
-
             this->go = false;
             this->checkAcq = false;
-
             this->startAcq = false;
+            ui->statusBar->setStatusTip("Acquiring finished");
+
+            QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+
         }
 
         Client::writeArray("PLOT:I0", data, i);
