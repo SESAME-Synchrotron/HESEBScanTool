@@ -130,3 +130,5 @@ dmypy.json
 .pyre/
 .DS_Store
 *.pptx
+ui/build-HESEB_ScanTool_I0-Desktop-Debug*
+ui/build-HESEB_ScanTool_PICO-Desktop-Debug*
