@@ -590,7 +590,7 @@ class HESEBSCAN:
 				counter = counter +1
 
 				self.stopScan = self.PVs["SCAN:Stop"].get()
-				print (self.stopScan, "type :: ", type(self.stopScan))
+				#print (self.stopScan, "type :: ", type(self.stopScan))
 				if int(self.stopScan) == 1:   # exit from for loop (child) when stop is clicked
 					log.warning("Scan tool has been stopped by human action")
 					breakTag = 1
