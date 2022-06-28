@@ -29,6 +29,8 @@ private slots:
 
     void startAcquire();
 
+    void checkAcquire();
+
 private:
     Ui::HESEB_ScanTool_PICO *ui;
 
@@ -40,12 +42,16 @@ private:
     QEpicsPV* plotting;
 
     QTimer* acquireTimer;
+    QTimer* chkkAcquire;
 
     long double* data;
     bool startAcq;
+    bool checkAcq;
+    bool go;
     int i;
 
     unsigned int sleepTime;
     int timerCounter;
+    int samples;
 };
 #endif // HESEB_SCANTOOL_PICO_H
