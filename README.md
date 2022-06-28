@@ -5,6 +5,7 @@ This is a scanning tool for collecting experimental data from Helmholtz SESAME S
 * Collect data from detectors simultaneously (currently from two detectors Keithley Model 6487 and Model 6485)
 * Runs as “unattended scanning mode”
 * Enable data writing in xdi files
+* Online data visualization
 * Online / offline logging 
 * Automatic data transfer to data center (after each scan)
 * Input data validation 
