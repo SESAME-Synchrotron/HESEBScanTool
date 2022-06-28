@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../HESEB_ScanTool_PICO/heseb_scantool_pico.h"
+#include "../HESEB_ScanTool_I0vsTime_plotting/HESEB_ScanTool_PICO/heseb_scantool_pico.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
