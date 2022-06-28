@@ -15,7 +15,9 @@ The scanning tool is GUI based that helps users to easily understand the scannin
    :maxdepth: 3
    :caption: Contents:
 
+   features
    install
+   runScan
 
 
 
