@@ -113,8 +113,16 @@ By clicking “Next”, if all is fine, the last GUI will pop up as shown below:
 .. figure:: /images/finish.png
    :align: center
    :alt: last GUI, ready to go
-   :scale: 90%
+   :scale: 70%
 
    *Figure 8: Last GUI, ready to start the scan*
 
 
+Once scan is started, interactive logs will be printed on the terminal showing exactly what is being processed. Also, an interactive data visualization tool will start plotting the experimental data 
+
+.. figure:: /images/plotLogging.png
+   :align: center
+   :alt: Data visualization 
+   :scale: 70%
+
+   *Figure 9: data visualization of the experimental data*
