@@ -42,7 +42,7 @@ class HESEBSCAN:
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
 		self.PVs["SCAN:Stop"].put(0)  # disable stop function
-
+		self.PVs["Calibration:Energy"].put(1)   # disable I0 vs time plotting
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
