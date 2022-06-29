@@ -64,9 +64,57 @@ Next GUI is meant to enter new experiment configurations **or** see/edit a loade
 
    *Figure 4: Main configuration GUI*
 
+The user can enter many intervals, each interval has  start energy (eV), end energy (eV), energy move step size (eV) and integration time of the picoAmmeters.  
 
 
+.. figure:: /images/intervals.png
+   :align: center
+   :alt: configuration GUI
+   :scale: 90%
+
+   *Figure 5: Ranges across intervals*
+
+You can define many samples and align them with respect to the beam (depending on the number of holders installed on the sample stage). Through this GUI you can change the sample position horizontally and vertically in order to target the right position of the sample. Also, for each sample you must assign name where it will be used as part of the experimental file name.
 
 
+.. figure:: /images/sampleName.png
+   :align: center
+   :alt: sample position and name 
+   :scale: 90%
+
+   *Figure 6: sample position and name*
+
+.. note:: sample name is added as part of the experimental file name
+
+Detectors popup window allows you to choose among the available transmission and florescence detectors, I0 (PicoAmmeter1) is already chosen by default all the time, the possible choices are: 
+
+* I0 
+* I0 and Itrans
+* I0, Itrans and Bruker XFlash 
+* I0 and Bruker XFlash 
+
+
+.. figure:: /images/chooseDet.png
+   :align: center
+   :alt: Detectors popup window
+   :scale: 90%
+
+   *Figure 7: detectors choosing window*
+
+
+.. note:: Bruker XFlash detector is disabled because it is not yet integrated with the scanning tool
+
+Other scan parameters in the main confirmation GUI like “Experiment metadata”, “Mirror coating” and “Comments” are used to provide some experimental meta data. 
+
+.. note:: Some experiment metadata fields are mandatory because they are needed to comply with xdi file format.  
+
+By clicking “Next”, if all is fine, the last GUI will pop up as shown below:
+
+.. figure:: /images/finish.png
+   :align: center
+   :alt: last GUI, ready to go
+   :scale: 90%
+
+   *Figure 8: Last GUI, ready to start the scan*
 
 
