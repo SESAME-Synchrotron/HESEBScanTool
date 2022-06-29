@@ -127,7 +127,7 @@ class HESEBSCAN:
 		Writing the data path into file to be available to the plotting tool. 
 		"""
 		with open("./tmp/SEDPath.txt",'w') as SEDPath:
-			SEDPath.write("dd")
+			SEDPath.write(self.localDataPath)
 			SEDPath.close()
 
 		if not os.path.exists(self.localDataPath): 
