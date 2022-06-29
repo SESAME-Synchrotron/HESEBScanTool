@@ -217,7 +217,6 @@ void HESEB_ScanTool_PICO::checkAcquire()
     }
 }
 
-
 void HESEB_ScanTool_PICO::on_Stop_clicked()
 {
     Client::writePV("CALIB:ENERGY",1);
@@ -227,7 +226,6 @@ void HESEB_ScanTool_PICO::on_Stop_clicked()
     this->timerCounter = 0;
     this->i = 0;
     ui->statusBar->setStatusTip("Stopped");
-
 }
 
 void HESEB_ScanTool_PICO::startAcquire()
@@ -239,10 +237,10 @@ void HESEB_ScanTool_PICO::startAcquire()
 
             timerCounter =+1;
             ui->statusBar->setStatusTip("Acquiring finished");
-            this->go = false;
-            this->checkAcq = false;
 
-            this->startAcq = false;
+//            this->go = false;
+//            this->checkAcq = false;
+//            this->startAcq = false;
         }
         else
         {
@@ -251,7 +249,6 @@ void HESEB_ScanTool_PICO::startAcquire()
             ui->statusBar->setStatusTip("Acquiring ...");
             this->go = false;
             this->checkAcq = true;
-
         }
 
         usleep(sleepTime);
@@ -263,7 +260,6 @@ void HESEB_ScanTool_PICO::startAcquire()
             ui->statusBar->setStatusTip("Acquiring finished");
 
             QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
-
         }
 
         Client::writeArray("PLOT:I0", data, i);
