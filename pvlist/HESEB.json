@@ -66,7 +66,7 @@
 		"SCAN:Stop":{
 			"pvname":"SCAN:STOP"
 		},
-		"Calibration Energy":{
+		"Calibration:Energy":{
 			"pvname":"CALIB:ENERGY"
 		},
 		"SCAN:Nsamples":{
