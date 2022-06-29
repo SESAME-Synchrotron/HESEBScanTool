@@ -1,2 +1,2 @@
-Experimental file layout and format
-===================================
+Experimental data file layout and format
+========================================

@@ -1,4 +1,4 @@
-Current features and future plan
+Current features and future plans
 =================================
 
 Current featues

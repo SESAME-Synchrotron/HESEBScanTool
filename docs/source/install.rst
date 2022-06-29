@@ -1,5 +1,5 @@
-Installing HESEB Scan Tool
-===========================
+Installing HESEB scanning tool
+==============================
 
 This page includes information about the needed packages to run the scan tool. 
 
