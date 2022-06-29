@@ -198,19 +198,6 @@ transform: rotate(-90deg);
     </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="3">
-       <widget class="QPushButton" name="Start">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-color: rgb(0, 0, 0);</string>
-        </property>
-        <property name="text">
-         <string>Start </string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="4">
        <widget class="QPushButton" name="Stop">
         <property name="cursor">
@@ -253,6 +240,19 @@ border-color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Integration Time</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="Start">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-color: rgb(0, 0, 0);</string>
+        </property>
+        <property name="text">
+         <string>Start </string>
         </property>
        </widget>
       </item>
