@@ -118,7 +118,9 @@ By clicking “Next”, if all is fine, the last GUI will pop up as shown below:
    *Figure 8: Last GUI, ready to start the scan*
 
 
-Once scan is started, interactive logs will be printed on the terminal showing exactly what is being processed. Also, an interactive data visualization tool will start plotting the experimental data 
+Once scan is started, interactive logs will be printed on the terminal showing exactly what is being processed. Also, an interactive data visualization tool will start plotting the experimental data.
+
+Anas to add more information about the visualization tool
 
 .. figure:: /images/plotLogging.png
    :align: center
