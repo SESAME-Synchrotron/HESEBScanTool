@@ -126,4 +126,4 @@ Anas to add more information about the visualization tool
    :align: center
    :alt: Data visualization 
 
-   *Figure 9: data visualization of the experimental data*
+   *Figure 10: data visualization of the experimental data*
