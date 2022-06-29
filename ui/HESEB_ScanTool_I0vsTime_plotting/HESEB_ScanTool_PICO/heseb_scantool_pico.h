@@ -40,6 +40,7 @@ private:
 
     QEpicsPV* picoReadOut;
     QEpicsPV* plotting;
+    QEpicsPV* calibEnergy;
 
     QTimer* acquireTimer;
     QTimer* chkkAcquire;

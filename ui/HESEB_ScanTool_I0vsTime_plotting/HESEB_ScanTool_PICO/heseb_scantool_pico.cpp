@@ -37,6 +37,7 @@ HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
 
     this->picoReadOut = new QEpicsPV("K6487:1:Acquire");
     this->plotting    = new QEpicsPV("PLOT:I0");
+    this->calibEnergy = new QEpicsPV("CALIB:ENERGY");
 
     acquireTimer = new QTimer(this);
     this->acquireTimer->start(100);
@@ -184,6 +185,7 @@ void HESEB_ScanTool_PICO::on_Start_clicked()
     }
     else {
 
+        Client::writePV("CALIB:ENERGY",0);
         this->startAcq = true;      
         this->checkAcq = true;
         this->i = 0;
@@ -192,7 +194,7 @@ void HESEB_ScanTool_PICO::on_Start_clicked()
 
 void HESEB_ScanTool_PICO::checkAcquire()
 {
-    if (this->startAcq)
+    if (this->startAcq && this->calibEnergy->get().toBool() == 0)
     {
         if (this->checkAcq)
         {
@@ -218,6 +220,7 @@ void HESEB_ScanTool_PICO::checkAcquire()
 
 void HESEB_ScanTool_PICO::on_Stop_clicked()
 {
+    Client::writePV("CALIB:ENERGY",1);
     this->startAcq = false;
     this->checkAcq = false;
     this->go = false;
@@ -229,7 +232,7 @@ void HESEB_ScanTool_PICO::on_Stop_clicked()
 
 void HESEB_ScanTool_PICO::startAcquire()
 {
-    if (this->go){
+    if (this->go && this->calibEnergy->get().toBool() == 0){
 
         this->checkAcq = false;
         if (this->pico_ReadOut == this->picoReadOut->get().toFloat()){
