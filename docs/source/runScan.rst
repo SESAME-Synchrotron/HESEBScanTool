@@ -123,6 +123,5 @@ Once scan is started, interactive logs will be printed on the terminal showing e
 .. figure:: /images/plotLogging.png
    :align: center
    :alt: Data visualization 
-   :scale: 70%
 
    *Figure 9: data visualization of the experimental data*
