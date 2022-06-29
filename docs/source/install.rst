@@ -8,6 +8,7 @@ Prerequisites
 
 The following should be installed on the computer before running the scanning tool: 
 
+* Linux redhat based OS (This work has been done under CentOS 7.4, however, there should be no reason to not work on other distributions)
 * EPICS HESEB IOCs (for more info, refere to this link: Rami and Amor to add text here.)
 * Python 3.9 
 * QT 5.xx Anas to add text here. 
