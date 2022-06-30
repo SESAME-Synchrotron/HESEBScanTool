@@ -5,7 +5,6 @@
 #include <qepicspv.h>
 #include <QTimer>
 #include <QPushButton>
-#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class HESEB_ScanTool_PICO; }
@@ -45,7 +44,7 @@ private:
     QTimer* acquireTimer;
     QTimer* chkkAcquire;
 
-    long double* data;
+    float* data;
     bool startAcq;
     bool checkAcq;
     bool go;

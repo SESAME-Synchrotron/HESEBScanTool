@@ -366,7 +366,8 @@ class HESEBSCAN:
 
 			# if any of below is false, pause the scan 
 			if False in (currentOk, photonShutterOk, radiationShutterOk, KeithelyI0OK): 
-				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release 
+				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release
+				print("PAUSE inside trigger func")
 			else:
 				self.PVs["SCAN:pause"].put(0)
 			time.sleep(self.scanLimites["checkLimitesEvery"]) # time in seconds 
