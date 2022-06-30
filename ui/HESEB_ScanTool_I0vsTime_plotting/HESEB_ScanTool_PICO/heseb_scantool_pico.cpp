@@ -30,7 +30,7 @@ HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
     this->go             = false;
     this->sleepTime      = 100;
     this->timerCounter   = 0;
-    this->data           = new long double[2000];
+    this->data           = new float[2000];
 
     *NPLC = 0;
     *ActIntTime = 0;
@@ -230,13 +230,15 @@ void HESEB_ScanTool_PICO::on_Stop_clicked()
 
 void HESEB_ScanTool_PICO::startAcquire()
 {
+    cout<<"TT"<<endl;
     if (this->go && this->calibEnergy->get().toBool() == 0){
+//        cout<<"TT_inside_first_if"<<endl;
 
         this->checkAcq = false;
         if (this->pico_ReadOut == this->picoReadOut->get().toFloat()){
 
             timerCounter =+1;
-            ui->statusBar->setStatusTip("Acquiring finished");
+            ui->statusBar->setStatusTip("Acquiring ...");
 
 //            this->go = false;
 //            this->checkAcq = false;
@@ -244,15 +246,18 @@ void HESEB_ScanTool_PICO::startAcquire()
         }
         else
         {
-            data[i] = this->picoReadOut->get().toDouble();
+//            cout<<"TT_inside_first_else"<<endl;
+            ui->statusBar->setStatusTip("Acquiring finished");
+
+            data[i] = this->picoReadOut->get().toFloat();
             i++;
-            ui->statusBar->setStatusTip("Acquiring ...");
             this->go = false;
             this->checkAcq = true;
         }
 
         usleep(sleepTime);
-        if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5)){
+        if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5000)){
+            cout<<"TT"<<(static_cast<unsigned int>(timerCounter))* sleepTime<<endl;
 
             this->go = false;
             this->checkAcq = false;
@@ -262,6 +267,6 @@ void HESEB_ScanTool_PICO::startAcquire()
             QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
         }
 
-        Client::writeArray("PLOT:I0", data, i);
+        Client::writeArray("PLOT:I0", data, 2000);
     }
 }
