@@ -29,7 +29,7 @@ HESEB_ScanTool_I0::HESEB_ScanTool_I0(QWidget *parent)
 
 
     checkLogs = new QTimer(this);
-    this->checkLogs->start(500);
+    this->checkLogs->start(100);
 
     connect(checkLogs,SIGNAL(timeout()),this,SLOT(logs()));
 
@@ -53,7 +53,7 @@ void HESEB_ScanTool_I0::on_pushButton_3_clicked()
 
 void HESEB_ScanTool_I0::logs()
 {
-    ifstream file("/home/control/SED_Scantool.log");
+    ifstream file("/home/control/HESEBScanTool/SED_Scantool.log");
 
        if (file)
        {
@@ -68,7 +68,7 @@ void HESEB_ScanTool_I0::logs()
 
 void HESEB_ScanTool_I0::path()
 {
-    ifstream file("/tmp/SEDPath.txt");
+    ifstream file("/home/control/HESEBScanTool/tmp/SEDPath.txt");
 
        if (file)
        {
