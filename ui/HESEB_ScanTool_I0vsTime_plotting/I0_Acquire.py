@@ -122,6 +122,7 @@ dataIndex = []
 
 while(CalibrationEnergy == 0):
 
+    CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
     sleepTime = 0.0001
     timerCounter = 0 
 
@@ -159,8 +160,9 @@ while(CalibrationEnergy == 0):
     epics.PV("PLOT:It").put(data)
     epics.PV("PLOT:HESEB:It").put(dataIndex)
 
-
+CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
 if (CalibrationEnergy == 1):
 
     sys.exit()
+
 
