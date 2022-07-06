@@ -1,6 +1,6 @@
 #include "heseb_scantool_pico.h"
 #include "ui_heseb_scantool_pico.h"
-
+#include <cstdlib>
 #include <stdlib.h>
 #include <iostream>
 
@@ -14,6 +14,7 @@
 
 #include <unistd.h>
 #include <QTimer>
+#include "client.h"
 
 using namespace std;
 
@@ -28,24 +29,26 @@ HESEB_ScanTool_PICO::HESEB_ScanTool_PICO(QWidget *parent)
     this->startAcq       = false;
     this->checkAcq       = false;
     this->go             = false;
-    this->sleepTime      = 100;
+    this->sleepTime      = 1000000;
     this->timerCounter   = 0;
-    this->data           = new float[2000];
+    this->data           = new double[2000];
+    this->dataIndex      = new double[2000];
 
     *NPLC = 0;
     *ActIntTime = 0;
 
-    this->picoReadOut = new QEpicsPV("K6487:1:Acquire");
-    this->plotting    = new QEpicsPV("PLOT:I0");
+    this->picoReadOut = new QEpicsPV("K6485:1:Acquire");
+    this->plotting    = new QEpicsPV("PLOT:It");
     this->calibEnergy = new QEpicsPV("CALIB:ENERGY");
 
+
     acquireTimer = new QTimer(this);
-    this->acquireTimer->start(100);
+    this->acquireTimer->start(700);
 
     QObject::connect(this->acquireTimer, SIGNAL(timeout()), this, SLOT(startAcquire()));
 
     chkkAcquire = new QTimer(this);
-    this->chkkAcquire->start(100);
+    this->chkkAcquire->start(700);
 
     QObject::connect(this->chkkAcquire, SIGNAL(timeout()), this, SLOT(checkAcquire()));
 
@@ -65,25 +68,21 @@ void HESEB_ScanTool_PICO::on_Int_time_editingFinished()
 
         *NPLC = 1;
         *ActIntTime = 0.27;
-
     }
     else if (intTime == "0.5" || intTime == ".5"){      // 7 Samples
 
         *NPLC = 1;
         *ActIntTime = 0.45;
-
     }
     else if (intTime == "0.75" || intTime == ".75"){    // 11 Samples
 
         *NPLC = 1;
         *ActIntTime = 0.74;
-
     }
     else if (intTime == "1"){                           // 15 Samples
 
         *NPLC = 1;
         *ActIntTime = 0.94;
-
     }
     else if (intTime == "1.25"){                        // 18 Samples
 
@@ -166,7 +165,6 @@ void HESEB_ScanTool_PICO::on_Int_time_editingFinished()
         *ActIntTime = 7.66;
     }
     else if (intTime == "9"){                           // 70 Samples
-
         *NPLC = 2;
         *ActIntTime = 8.65;
     }
@@ -186,34 +184,16 @@ void HESEB_ScanTool_PICO::on_Start_clicked()
     else {
 
         Client::writePV("CALIB:ENERGY",0);
-        this->startAcq = true;      
+        Client::writePV("PLOT:It", 0);
+        Client::writePV("PLOT:HESEB:It", 0);
+
+        this->startAcq = true;
         this->checkAcq = true;
         this->i = 0;
-    }
-}
 
-void HESEB_ScanTool_PICO::checkAcquire()
-{
-    if (this->startAcq && this->calibEnergy->get().toBool() == 0)
-    {
-        if (this->checkAcq)
-        {
-            this->timerCounter = 0;
+        Client::writePV("K6485:1:TimePerSampleStep",*ActIntTime);
+        Client::writePV("K6485:1:IntegrationTime",*NPLC);
 
-            Client::writePV("K6487:1:RST.PROC",1);
-            Client::writePV("K6487:1:Damping",0);
-            Client::writePV("K6487:1:TimePerSampleStep",0);
-
-            Client::writePV("K6487:1:TimePerSampleStep",*ActIntTime);
-            Client::writePV("K6487:1:IntegrationTime",*NPLC);
-
-            usleep(this->sleepTime);
-
-            this->pico_ReadOut = this->picoReadOut->get().toFloat();
-
-            Client::writePV("K6487:1:Acquire.PROC",1);
-            this->go = true;
-        }
     }
 }
 
@@ -225,20 +205,43 @@ void HESEB_ScanTool_PICO::on_Stop_clicked()
     this->go = false;
     this->timerCounter = 0;
     this->i = 0;
-    ui->statusBar->setStatusTip("Stopped");
+    ui->Status->setText("Stopped");
+
 }
+
+void HESEB_ScanTool_PICO::checkAcquire()
+{
+    if (this->startAcq && this->calibEnergy->get().toBool() == 0)
+    {
+        if (this->checkAcq)
+        {
+            this->timerCounter = 0;
+
+            Client::writePV("K6485:1:RST.PROC",1);
+//            Client::writePV("K6485:1:Damping",0);
+            Client::writePV("K6485:1:TimePerSampleStep",0);
+
+            usleep(this->sleepTime/2);
+
+            this->pico_ReadOut = this->picoReadOut->get().toFloat();
+
+            Client::writePV("K6485:1:Acquire.PROC",1);
+            usleep(this->sleepTime/4);
+            this->go = true;
+        }
+    }
+}
+
 
 void HESEB_ScanTool_PICO::startAcquire()
 {
-    cout<<"TT"<<endl;
     if (this->go && this->calibEnergy->get().toBool() == 0){
-//        cout<<"TT_inside_first_if"<<endl;
-
+   cout<<timerCounter;
         this->checkAcq = false;
         if (this->pico_ReadOut == this->picoReadOut->get().toFloat()){
-
             timerCounter =+1;
-            ui->statusBar->setStatusTip("Acquiring ...");
+       //i->Status->setText("Acquiring ...");
+            cout<<timerCounter;
 
 //            this->go = false;
 //            this->checkAcq = false;
@@ -246,27 +249,43 @@ void HESEB_ScanTool_PICO::startAcquire()
         }
         else
         {
-//            cout<<"TT_inside_first_else"<<endl;
-            ui->statusBar->setStatusTip("Acquiring finished");
+            ui->Status->setText("Acquiring finished");
+//            if (i<1800)
+//            {
+                dataIndex[i] = static_cast<double>(i);
+                data[i] = this->picoReadOut->get().toDouble();
+                i++;
+//            }
+            Client::writeArray("PLOT:HESEB:It", dataIndex, 2000);
+            Client::writeArray("PLOT:It", data, 2000);
+//            }
 
-            data[i] = this->picoReadOut->get().toFloat();
-            i++;
+//              int status = ca_pend_io(1);
+//              cout<<status<<endl;
+  //            chid pvID;
+  //            ca_search("PLOT:It", &pvID);
+  //          ca_array_put(DBF_DOUBLE, 2000,pvID,data);
+
+
             this->go = false;
             this->checkAcq = true;
         }
 
         usleep(sleepTime);
-        if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5000)){
-            cout<<"TT"<<(static_cast<unsigned int>(timerCounter))* sleepTime<<endl;
+        if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5000000)){
 
             this->go = false;
             this->checkAcq = false;
             this->startAcq = false;
-            ui->statusBar->setStatusTip("Acquiring finished");
+            ui->Status->setText("Acquiring finished");
 
-            QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+            //QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+            dataIndex[i]=static_cast<double>(i);
+            data[i]=this->picoReadOut->get().toDouble();
+            i++;
+            Client::writeArray("PLOT:HESEB:It", dataIndex, 2000);
+            Client::writeArray("PLOT:It", data, 2000);
         }
 
-        Client::writeArray("PLOT:I0", data, 2000);
     }
 }

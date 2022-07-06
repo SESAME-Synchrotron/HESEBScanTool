@@ -30,7 +30,7 @@ HESEB_ScanTool_I0vsTime::HESEB_ScanTool_I0vsTime(QWidget *parent)
 
     this->calibEnergy = new QEpicsPV("CALIB:ENERGY");
     this->intTime     = new QEpicsPV("INT:TIME");
-    this->actIntTime  = new QEpicsPV("K6485:1:TimePerSampleStep");
+    this->actIntTime  = new QEpicsPV("K6487:1:TimePerSampleStep");
     this->maxTime     = new QEpicsPV("MAX:TIME");
 
     Client::writePV("INT:TIME",0);
@@ -38,7 +38,7 @@ HESEB_ScanTool_I0vsTime::HESEB_ScanTool_I0vsTime(QWidget *parent)
     chkkAcquire = new QTimer(this);
     this->chkkAcquire->start(500);
 
-    QObject::connect(this->chkkAcquire, SIGNAL(timeout()), this, SLOT(checkAcquire()));
+//    QObject::connect(this->chkkAcquire, SIGNAL(timeout()), this, SLOT(checkAcquire()));
 
     string intTime = ui->Int_time->text().toStdString();
 }
@@ -171,8 +171,9 @@ void HESEB_ScanTool_I0vsTime::on_Start_clicked()
     else {
 
         Client::writePV("CALIB:ENERGY",0);
+        Client::writePV("PLOT:I0", 0);
         Client::writePV("PLOT:It", 0);
-        Client::writePV("PLOT:HESEB:It", 0);
+        Client::writePV("PLOT:INDEX", 0);
 
         QProcess *Acquire = new QProcess(0);
         QDir::setCurrent("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting");
@@ -187,10 +188,10 @@ void HESEB_ScanTool_I0vsTime::checkAcquire()
     if (this->calibEnergy->get().toBool() == 0)
     {
         usleep(this->sleepTime);
-        if (this->maxTime->get().toFloat() >= this->actIntTime->get().toFloat() * 5)
-        {
-              QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
-        }
+//        if (this->maxTime->get().toFloat() >= this->actIntTime->get().toFloat() * 5)
+//        {
+////              QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+//        }
     }
 }
 
@@ -200,5 +201,9 @@ void HESEB_ScanTool_I0vsTime::on_Stop_clicked()
 
     ui->Status->setText("Stopped");
     Client::writePV("INT:TIME",0);
+    usleep(1000000);
 
+    QProcess *Acquire = new QProcess(0);
+    QDir::setCurrent("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting");
+    Acquire->start("gnome-terminal -x ./stopAcquire.sh");
 }

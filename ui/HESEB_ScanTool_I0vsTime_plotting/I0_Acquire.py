@@ -108,9 +108,9 @@ def getNPLC_IntTime(intTime):
 
 intTime_ = epics.PV("INT:TIME").get()
 NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
-epics.PV("K6485:1:RST.PROC").put(1) # apply soft reset before start collecting data 
-epics.PV("K6485:1:Damping").put(0) # disable damping 
-epics.PV("K6485:1:TimePerSampleStep").put(0) # put 0 in time per step sample
+epics.PV("K6487:1:RST.PROC").put(1) # apply soft reset before start collecting data 
+epics.PV("K6487:1:Damping").put(0) # disable damping 
+epics.PV("K6487:1:TimePerSampleStep").put(0) # put 0 in time per step sample
 CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
 epics.PV("MAX:TIME").put(0)
 
@@ -124,22 +124,22 @@ while(CalibrationEnergy == 0):
     sleepTime = 0.0001
     timerCounter = 0 
 
-    epics.PV("K6485:1:TimePerSampleStep").put(ActualIntTime)
-    epics.PV("K6485:1:IntegrationTime").put(NPLC) ## int. time 
+    epics.PV("K6487:1:TimePerSampleStep").put(ActualIntTime)
+    epics.PV("K6487:1:IntegrationTime").put(NPLC) ## int. time 
     time.sleep(0.2)
 
-    picoReadOut = epics.PV("K6485:1:Acquire").get()
-    epics.PV("K6485:1:Acquire.PROC").put(1)
+    picoReadOut = epics.PV("K6487:1:Acquire").get()
+    epics.PV("K6487:1:Acquire.PROC").put(1)
 
     while True:
 
-        if picoReadOut == epics.PV("K6485:1:Acquire").get():
+        if picoReadOut == epics.PV("K6487:1:Acquire").get():
             pass
             timerCounter = timerCounter + 1
 
         else:
 
-            data.append(epics.PV("K6485:1:Acquire").get())
+            data.append(epics.PV("K6487:1:Acquire").get())
             dataIndex.append(i)
             break
 
@@ -149,8 +149,8 @@ while(CalibrationEnergy == 0):
         	
             maxTime = timerCounter * sleepTime
             epics.PV("MAX:TIME").put(maxTime)
-            data.append(epics.PV("K6485:1:Acquire").get())
-            dataIndex.append(i)
+            # data.append(epics.PV("K6487:1:Acquire").get())
+            # dataIndex.append(i)
             """
             Maximum waiting time is the double of the actual integration
             time. 
@@ -163,8 +163,8 @@ while(CalibrationEnergy == 0):
             break
         
     i= i+1
-    epics.PV("PLOT:It").put(data)
-    epics.PV("PLOT:HESEB:It").put(dataIndex)
+    epics.PV("PLOT:I0").put(data)
+    epics.PV("PLOT:INDEX").put(dataIndex)
 
 CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
 if (CalibrationEnergy == 1):
