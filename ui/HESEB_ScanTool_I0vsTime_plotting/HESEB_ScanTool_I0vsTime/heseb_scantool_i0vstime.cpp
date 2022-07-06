@@ -25,13 +25,18 @@ HESEB_ScanTool_I0vsTime::HESEB_ScanTool_I0vsTime(QWidget *parent)
 {
     ui->setupUi(this);
 
+
+    this->sleepTime      = 100000;
+
     this->calibEnergy = new QEpicsPV("CALIB:ENERGY");
     this->intTime     = new QEpicsPV("INT:TIME");
+    this->actIntTime  = new QEpicsPV("K6485:1:TimePerSampleStep");
+    this->maxTime     = new QEpicsPV("MAX:TIME");
 
     Client::writePV("INT:TIME",0);
 
     chkkAcquire = new QTimer(this);
-    this->chkkAcquire->start(100);
+    this->chkkAcquire->start(500);
 
     QObject::connect(this->chkkAcquire, SIGNAL(timeout()), this, SLOT(checkAcquire()));
 
@@ -42,7 +47,6 @@ HESEB_ScanTool_I0vsTime::~HESEB_ScanTool_I0vsTime()
 {
     delete ui;
 }
-
 
 void HESEB_ScanTool_I0vsTime::on_Int_time_editingFinished()
 {
@@ -160,7 +164,6 @@ void HESEB_ScanTool_I0vsTime::on_Int_time_editingFinished()
 
 void HESEB_ScanTool_I0vsTime::on_Start_clicked()
 {
-
     if (ui->Int_time->text().toStdString() == "")
     {
         QMessageBox::information(this,"Warning!","No integration time, please insert a value ....");
@@ -173,7 +176,9 @@ void HESEB_ScanTool_I0vsTime::on_Start_clicked()
 
         QProcess *Acquire = new QProcess(0);
         QDir::setCurrent("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting");
-        Acquire->start("gnome-terminal -x ./I0_Acquire.py ");
+        Acquire->start("gnome-terminal -x ./startAcquire.sh");
+
+        ui->Status->setText("In Process...");
     }
 }
 
@@ -181,11 +186,11 @@ void HESEB_ScanTool_I0vsTime::checkAcquire()
 {
     if (this->calibEnergy->get().toBool() == 0)
     {
-      usleep(this->sleepTime);
-
-      this->pico_ReadOut = this->picoReadOut->get().toFloat();
-
-      QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+        usleep(this->sleepTime);
+        if (this->maxTime->get().toFloat() >= this->actIntTime->get().toFloat() * 5)
+        {
+              QMessageBox::information(this,"-","Collection time has reached the maximum allowed time");
+        }
     }
 }
 
@@ -196,44 +201,4 @@ void HESEB_ScanTool_I0vsTime::on_Stop_clicked()
     ui->Status->setText("Stopped");
     Client::writePV("INT:TIME",0);
 
-}
-
-void HESEB_ScanTool_I0vsTime::startAcquire()
-{
-    if (this->calibEnergy->get().toBool() == 0){
-
-        this->checkAcq = false;
-        if (this->pico_ReadOut == this->picoReadOut->get().toFloat()){
-            timerCounter =+1;
-            ui->Status->setText("Acquiring ...");
-
-//            this->go = false;
-//            this->checkAcq = false;
-//            this->startAcq = false;
-        }
-        else
-        {
-            ui->Status->setText("Acquiring finished");
-//            if (i<1800)
-//            {
-                dataIndex[i] = static_cast<double>(i);
-                data[i] = this->picoReadOut->get().toDouble();
-                i++;
-//            }
-//            Client::writeArray("PLOT:HESEB:It", dataIndex, 2000);
-//            Client::writeArray("PLOT:It", data, 2000);
-//            }
-
-        usleep(sleepTime);
-        if (((static_cast<unsigned int>(timerCounter))* sleepTime) >= (*ActIntTime * 5000)){
-
-            this->go = false;
-            this->checkAcq = false;
-            this->startAcq = false;
-            ui->Status->setText("Acquiring finished");
-
-        }
-
-    }
-}
 }

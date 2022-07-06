@@ -21,8 +21,6 @@ private slots:
 
     void on_Stop_clicked();
 
-    void startAcquire();
-
     void checkAcquire();
 
 public:
@@ -32,28 +30,14 @@ public:
 private:
     Ui::HESEB_ScanTool_I0vsTime *ui;
 
-    int* NPLC;
-    float* ActIntTime;
-    float pico_ReadOut;
-
-    QEpicsPV* picoReadOut;
-    QEpicsPV* plotting;
     QEpicsPV* calibEnergy;
     QEpicsPV* intTime;
+    QEpicsPV* actIntTime;
+    QEpicsPV* maxTime;
 
     QTimer* acquireTimer;
     QTimer* chkkAcquire;
 
-    double* data;
-    bool startAcq;
-    bool checkAcq;
-    bool go;
-    int i;
-
     unsigned int sleepTime;
-    int timerCounter;
-    int samples;
-
-    double* dataIndex;
 };
 #endif // HESEB_SCANTOOL_I0VSTIME_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1894</width>
-    <height>1127</height>
+    <width>1282</width>
+    <height>664</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -139,6 +139,15 @@ border-color: rgb(0, 0, 0);</string>
         </property>
         <property name="statusIsVisible" stdset="0">
          <bool>false</bool>
+        </property>
+        <property name="xMaximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="yMinimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="yMaximum">
+         <double>1.000000000000000</double>
         </property>
         <property name="DataVariableX" stdset="0">
          <string>PLOT:HESEB:It</string>
