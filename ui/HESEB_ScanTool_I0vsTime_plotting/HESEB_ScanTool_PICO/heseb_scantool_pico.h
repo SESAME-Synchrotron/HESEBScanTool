@@ -40,11 +40,12 @@ private:
     QEpicsPV* picoReadOut;
     QEpicsPV* plotting;
     QEpicsPV* calibEnergy;
+    QEpicsPV* intTime;
 
     QTimer* acquireTimer;
     QTimer* chkkAcquire;
 
-    float* data;
+    double* data;
     bool startAcq;
     bool checkAcq;
     bool go;
@@ -53,5 +54,7 @@ private:
     unsigned int sleepTime;
     int timerCounter;
     int samples;
+
+    double* dataIndex;
 };
 #endif // HESEB_SCANTOOL_PICO_H

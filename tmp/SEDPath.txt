@@ -1,1 +1,1 @@
-/home/control/HESEBScanTool/DATA/TestByDCA-20220630T093010
+/home/control/HESEBScanTool/DATA/MonoScan-20220704T120103

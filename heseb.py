@@ -42,6 +42,7 @@ class HESEBSCAN:
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
 		self.PVs["SCAN:Stop"].put(0)  # disable stop function
+		self.PVs["SCAN:pause"].put(0) # flush scan pause pv 
 		self.PVs["Calibration:Energy"].put(1)   # disable I0 vs time plotting
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
@@ -367,7 +368,6 @@ class HESEBSCAN:
 			# if any of below is false, pause the scan 
 			if False in (currentOk, photonShutterOk, radiationShutterOk, KeithelyI0OK): 
 				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release
-				print("PAUSE inside trigger func")
 			else:
 				self.PVs["SCAN:pause"].put(0)
 			time.sleep(self.scanLimites["checkLimitesEvery"]) # time in seconds 
