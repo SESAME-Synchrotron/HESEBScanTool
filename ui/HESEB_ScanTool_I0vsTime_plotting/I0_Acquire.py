@@ -121,7 +121,7 @@ dataIndex = []
 while(CalibrationEnergy == 0):
 
     CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
-    sleepTime = 0.0001
+    sleepTime = 0.001
     timerCounter = 0 
 
     epics.PV("K6487:1:TimePerSampleStep").put(ActualIntTime)
@@ -165,6 +165,14 @@ while(CalibrationEnergy == 0):
     i= i+1
     epics.PV("PLOT:I0").put(data)
     epics.PV("PLOT:INDEX").put(dataIndex)
+
+    if i % 100 == 0:
+
+    	print(i)
+    	epics.PV("K6487:1:RST:PROC").put(1)
+    	epics.PV("K6487:1:Damping").put(0)
+    	epics.PV("K6487:1:TimePerSampleStep").put(0)
+    	
 
 CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
 if (CalibrationEnergy == 1):
