@@ -120,10 +120,43 @@ By clicking “Next”, if all is fine, the last GUI will pop up as shown below:
 
 Once scan is started, interactive logs will be printed on the terminal showing exactly what is being processed. Also, an interactive data visualization tool will start plotting the experimental data.
 
-Anas to add more information about the visualization tool
-
 .. figure:: /images/plotLogging.png
    :align: center
    :alt: Data visualization 
 
-   *Figure 10: data visualization of the experimental data*
+   *Figure 9: data visualization of the experimental data*
+
+The interactive data visualization tool of the experimental data is devided to three sections:
+
+   1. Monitoring section
+   2. Control section
+   3. Plotting section
+
+As shown in the figure.10, the main information about the monitoring section are:
+
+   * Start time: the current starting time of the experiment.
+   * Elapse time: the scanning time for each sample.
+   * Sample # out of #: the number of samples for the experiment.
+   * Scans # out of #: the number of scans for the experiment.
+   * Intervals # out of #: the number of intervals for the experiment.
+   * Sample X: the position of sample X.
+   * Sample Y: the position of sample Y.
+   * Energy (eV): the current energy of the beamline.
+   * Scan tool status: the logs and information of the experiment.
+
+The main functions about the control section are:
+
+   * Pause: pasuse the scan.
+   * Resume: resume the scan.
+   * Stop: stop the scan.
+   * SED Path: the directory of the experiment.
+
+The main information about the plotting section are:
+
+   * plotting the energy (eV) of the beamline vs. pico ammeter current acquired (A).  
+
+.. figure:: /images/I0_Energy.png
+   :align: center
+   :alt: Data visualization 
+
+   *Figure 10: data visualization Tool*
