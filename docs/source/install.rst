@@ -11,7 +11,7 @@ The following should be installed on the computer before running the scanning to
 * Linux redhat based OS (This work has been done under CentOS 7.4, however, there should be no reason to not work on other distributions)
 * EPICS HESEB IOCs (for more info, refere to this link: Rami and Amor to add text here.)
 * Python 3.9 
-* QT 5.xx Anas to add text here. 
+* QT 4.1.0 based on 5.9.7. 
 
 
 Python virtual environment
@@ -82,7 +82,27 @@ The list below contains the list of python packages needed for the scanning tool
 Qt and its libraries: 
 .....................
 
-Anas to add text here. 
+	1. Request epics.repo from control group.
+	2. Move the repo to: ``/etc/yum.repos.d``.
+	3. Request the ``qt-creator-opensource-linux-x86_64-4.13.3.run``
+	4. Install qt-creator-opensource-linux-x86_64-4.13.3.run. 
+	5. Install epics-qt, qt5, qwt, or anything related to *qt* packages by ``yum`` command.
+	6. Go to ``.bashrc`` and copy the following:
+
+	::
+
+		export EPICS_BASE='/opt/epics/base'
+		export EPICS_HOST_ARCH=linux-x86_64
+		export PATH=${PATH}:/opt/qtcreator-4.13.3/bin/
+		export QWT_ROOT=/usr/local/qwt-6.1.3
+		export QWT_INCLUDE_PATH=${QWT_ROOT}/include
+		export QE_TARGET_DIR=/usr/local/epics-qt
+		export PATH=${EPICS_BASE}/bin/$EPICS_HOST_ARCH:${QE_TARGET_DIR}/bin/${EPICS_HOST_ARCH}:/usr/lib64/qt5/bin:${PATH}
+		export LD_LIBRARY_PATH=${EPICS_BASE}/lib/${EPICS_HOST_ARCH}:/usr/local/qwt-6.1.3/lib:${QE_TARGET_DIR}/lib/${EPICS_HOST_ARCH}:${QE_TARGET_DIR}/lib/${EPICS_HOST_ARCH}/designer
+		export QT_PLUGIN_PATH=${QT_PLUGIN_PATH}:${QWT_ROOT}/plugins:$QE_TARGET_DIR/lib/$EPICS_HOST_ARCH
+
+	6. ``source .bashrc`` 
+	7. To validate your setup, create a new project and open the designer, you should get qwt and epics qt widgets shown.
 
 Clone and run the scanning tool
 --------------------------------
