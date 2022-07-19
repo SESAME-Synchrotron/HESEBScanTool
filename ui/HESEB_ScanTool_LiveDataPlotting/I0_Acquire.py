@@ -137,7 +137,7 @@ def dataToWaveForm():
             for line in I0IndexLines:
                 I0Index.append(int(line.strip()))
                 #print (I0Index)
-                # epics.PV("PLOT:INDEX").put(I0Index, wait = True)
+                # epics.PV("I0:PLOT:INDEX").put(I0Index, wait = True)
                 #time.sleep(1)
         else:
             pass
@@ -156,7 +156,7 @@ def dataToWaveForm():
             print("No file")
             pass
         epics.PV("PLOT:I0").put(I0Data, wait = True)
-        epics.PV("PLOT:INDEX").put(I0Index, wait = True)
+        epics.PV("I0:PLOT:INDEX").put(I0Index, wait = True)
         
         print("----------------------------------------")
         
@@ -167,8 +167,8 @@ def dataToWaveForm():
     print ("Sleep")
 
 try:
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting/I0.txt")
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting/I0_Index.txt")
+	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/I0.txt")
+	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/I0_Index.txt")
 except:
    print ("did not find the file")
    pass
@@ -179,24 +179,24 @@ p1.start()
 
 
 
-intTime_ = epics.PV("INT:TIME").get()
+intTime_ = epics.PV("I0:INT:TIME").get()
 NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
 epics.PV("K6487:1:RST.PROC").put(1) # apply soft reset before start collecting data 
 epics.PV("K6487:1:Damping").put(0) # disable damping 
 epics.PV("K6487:1:TimePerSampleStep").put(0) # put 0 in time per step sample
-CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
+I0_run = epics.PV("I0:RUN").get()
 time.sleep(0.1)
 
 i = 0
 data = []
 dataIndex = []
 
-epics.PV("PLOT:I0").put(data, wait = True)
-epics.PV("PLOT:I0Index").put(dataIndex, wait = True)
+#epics.PV("PLOT:I0").put(data, wait = True)
+#epics.PV("I0:PLOT:Index").put(dataIndex, wait = True)
 
-while(CalibrationEnergy == 0):
+while(I0_run == 0):
 
-    CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
+    I0_run = epics.PV("I0:RUN").get()
     sleepTime = 0.1
     timerCounter = 0 
 
@@ -232,8 +232,8 @@ while(CalibrationEnergy == 0):
     append_new_line ("I0_Index.txt", str(i))
 
 
-CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
-if (CalibrationEnergy == 1):
+I0_run = epics.PV("I0:RUN").get()
+if (I0_run == 1):
 
     sys.exit()
 

@@ -2,22 +2,7 @@ import epics
 import sys
 import time
 from datetime import datetime 
-import multiprocessing
-import os 
-from os.path import exists
 
-def append_new_line(file_name, text_to_append):
-    """Append given text as a new line at the end of file"""
-    # Open the file in append & read mode ('a+')
-    with open(file_name, "a+") as file_object:
-        # Move read cursor to the start of file.
-        file_object.seek(0)
-        # If file is not empty then append '\n'
-        data = file_object.read()
-        if len(data) > 0:
-            file_object.write("\n")
-        # Append text at the end of file
-        file_object.write(text_to_append)
 
 def getNPLC_IntTime(intTime):
 	"""
@@ -121,121 +106,76 @@ def getNPLC_IntTime(intTime):
 		return NPLC, ActualIntTime
 
 
-def dataToWaveForm():
-    I0Data = []
-    I0Index = []
-    fileExistTrigger = 0
-
-    while True:
-        I0Data = []
-        I0Index = []
-        
-        if os.path.exists("I0_Index.txt"):
-            I0IndexFile = open('I0_Index.txt', 'r')
-            I0IndexLines = I0IndexFile.readlines()
-            # Strips the newline character
-            for line in I0IndexLines:
-                I0Index.append(int(line.strip()))
-                #print (I0Index)
-                # epics.PV("PLOT:INDEX").put(I0Index, wait = True)
-                #time.sleep(1)
-        else:
-            pass
-
-        if os.path.exists("I0.txt"):
-            print("FFFFFFF")
-            I0File = open('I0.txt', 'r')
-            I0Lines = I0File.readlines()
-            # Strips the newline character
-            for line1 in I0Lines:
-                I0Data.append(float(line1.strip()))
-                print(I0Data)
-                # epics.PV("PLOT:I0").put(I0Data, wait = True)
-                #time.sleep(1)
-        else:
-            print("No file")
-            pass
-        epics.PV("PLOT:I0").put(I0Data, wait = True)
-        epics.PV("PLOT:INDEX").put(I0Index, wait = True)
-        
-        print("----------------------------------------")
-        
-       
-        time.sleep(1)
-
-    time.sleep(1)
-    print ("Sleep")
-
-try:
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting/I0.txt")
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting/I0_Index.txt")
-except:
-   print ("did not find the file")
-   pass
-
-
-p1 = multiprocessing.Process(target=dataToWaveForm, args=())
-p1.start()
-
-
-
 intTime_ = epics.PV("INT:TIME").get()
 NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
 epics.PV("K6487:1:RST.PROC").put(1) # apply soft reset before start collecting data 
 epics.PV("K6487:1:Damping").put(0) # disable damping 
 epics.PV("K6487:1:TimePerSampleStep").put(0) # put 0 in time per step sample
 CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
-time.sleep(0.1)
+epics.PV("MAX:TIME").put(0)
 
 i = 0
 data = []
 dataIndex = []
 
-epics.PV("PLOT:I0").put(data, wait = True)
-epics.PV("PLOT:I0Index").put(dataIndex, wait = True)
-
 while(CalibrationEnergy == 0):
 
     CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
-    sleepTime = 0.1
+    sleepTime = 0.001
     timerCounter = 0 
 
     epics.PV("K6487:1:TimePerSampleStep").put(ActualIntTime)
     epics.PV("K6487:1:IntegrationTime").put(NPLC) ## int. time 
-    
+    time.sleep(0.2)
 
     picoReadOut = epics.PV("K6487:1:Acquire").get()
     epics.PV("K6487:1:Acquire.PROC").put(1)
-    time.sleep(0.1)
 
     while True:
-        currentPicoRead = epics.PV("K6487:1:Acquire").get()
-        if picoReadOut == currentPicoRead:
+
+        if picoReadOut == epics.PV("K6487:1:Acquire").get():
             pass
             timerCounter = timerCounter + 1
 
         else:
 
-            #data.append(epics.PV("K6487:1:Acquire").get())
+            data.append(epics.PV("K6487:1:Acquire").get())
             dataIndex.append(i)
             break
 
         time.sleep(sleepTime)
 
-        if timerCounter * sleepTime >= ActualIntTime * 1.5:
+        if timerCounter * sleepTime >= ActualIntTime * 5:
+        	
+            maxTime = timerCounter * sleepTime
+            epics.PV("MAX:TIME").put(maxTime)
+            # data.append(epics.PV("K6487:1:Acquire").get())
+            # dataIndex.append(i)
+            """
+            Maximum waiting time is the double of the actual integration
+            time. 
+            
+            This is needed only when kiethely returns a value that
+            equals the previous collected one!!
+            Maybe this part can be removed if we get a precise acquire:stat 
+            PV ...
+            """
             break
-  
         
     i= i+1
-  
-    append_new_line ("I0.txt", str(currentPicoRead))
-    append_new_line ("I0_Index.txt", str(i))
+    epics.PV("PLOT:I0").put(data)
+    epics.PV("PLOT:INDEX").put(dataIndex)
 
+    if i % 100 == 0:
+
+    	print(i)
+    	epics.PV("K6487:1:RST:PROC").put(1)
+    	epics.PV("K6487:1:Damping").put(0)
+    	epics.PV("K6487:1:TimePerSampleStep").put(0)
+    	
 
 CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
 if (CalibrationEnergy == 1):
 
     sys.exit()
 
-if __name__ == "__main__":
-    print("dddss")

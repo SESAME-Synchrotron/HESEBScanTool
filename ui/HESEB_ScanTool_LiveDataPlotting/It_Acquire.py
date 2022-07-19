@@ -122,41 +122,41 @@ def getNPLC_IntTime(intTime):
 
 
 def dataToWaveForm():
-    I0Data = []
-    I0Index = []
+    ItData = []
+    ItIndex = []
     fileExistTrigger = 0
 
     while True:
-        I0Data = []
-        I0Index = []
+        ItData = []
+        ItIndex = []
         
-        if os.path.exists("I0_Index.txt"):
-            I0IndexFile = open('I0_Index.txt', 'r')
-            I0IndexLines = I0IndexFile.readlines()
+        if os.path.exists("It_Index.txt"):
+            ItIndexFile = open('It_Index.txt', 'r')
+            ItIndexLines = ItIndexFile.readlines()
             # Strips the newline character
-            for line in I0IndexLines:
-                I0Index.append(int(line.strip()))
-                #print (I0Index)
-                # epics.PV("PLOT:INDEX").put(I0Index, wait = True)
+            for line in ItIndexLines:
+                ItIndex.append(int(line.strip()))
+                #print (ItIndex)
+                # epics.PV("It:PLOT:INDEX").put(ItIndex, wait = True)
                 #time.sleep(1)
         else:
             pass
 
-        if os.path.exists("I0.txt"):
+        if os.path.exists("It.txt"):
             print("FFFFFFF")
-            I0File = open('I0.txt', 'r')
-            I0Lines = I0File.readlines()
+            ItFile = open('It.txt', 'r')
+            ItLines = ItFile.readlines()
             # Strips the newline character
-            for line1 in I0Lines:
-                I0Data.append(float(line1.strip()))
-                print(I0Data)
-                # epics.PV("PLOT:I0").put(I0Data, wait = True)
+            for line1 in ItLines:
+                ItData.append(float(line1.strip()))
+                print(ItData)
+                # epics.PV("PLOT:It").put(ItData, wait = True)
                 #time.sleep(1)
         else:
             print("No file")
             pass
-        epics.PV("PLOT:I0").put(I0Data, wait = True)
-        epics.PV("PLOT:INDEX").put(I0Index, wait = True)
+        epics.PV("PLOT:It").put(ItData, wait = True)
+        epics.PV("It:PLOT:INDEX").put(ItIndex, wait = True)
         
         print("----------------------------------------")
         
@@ -167,8 +167,8 @@ def dataToWaveForm():
     print ("Sleep")
 
 try:
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting/I0.txt")
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0vsTime_plotting/I0_Index.txt")
+	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/It.txt")
+	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/It_Index.txt")
 except:
    print ("did not find the file")
    pass
@@ -179,44 +179,43 @@ p1.start()
 
 
 
-intTime_ = epics.PV("INT:TIME").get()
+intTime_ = epics.PV("It:INT:TIME").get()
 NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
-epics.PV("K6487:1:RST.PROC").put(1) # apply soft reset before start collecting data 
-epics.PV("K6487:1:Damping").put(0) # disable damping 
-epics.PV("K6487:1:TimePerSampleStep").put(0) # put 0 in time per step sample
-CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
+epics.PV("K6485:1:RST.PROC").put(1) # apply soft reset before start collecting data 
+epics.PV("K6485:1:TimePerSampleStep").put(0) # put 0 in time per step sample
+It_run = epics.PV("It:RUN").get()
 time.sleep(0.1)
 
 i = 0
 data = []
 dataIndex = []
 
-epics.PV("PLOT:I0").put(data, wait = True)
-epics.PV("PLOT:I0Index").put(dataIndex, wait = True)
+#epics.PV("PLOT:It").put(data, wait = True)
+#epics.PV("It:PLOT:Index").put(dataIndex, wait = True)
 
-while(CalibrationEnergy == 0):
+while(It_run == 0):
 
-    CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
+    It_run = epics.PV("It:RUN").get()
     sleepTime = 0.1
     timerCounter = 0 
 
-    epics.PV("K6487:1:TimePerSampleStep").put(ActualIntTime)
-    epics.PV("K6487:1:IntegrationTime").put(NPLC) ## int. time 
+    epics.PV("K6485:1:TimePerSampleStep").put(ActualIntTime)
+    epics.PV("K6485:1:IntegrationTime").put(NPLC) ## int. time 
     
 
-    picoReadOut = epics.PV("K6487:1:Acquire").get()
-    epics.PV("K6487:1:Acquire.PROC").put(1)
+    picoReadOut = epics.PV("K6485:1:Acquire").get()
+    epics.PV("K6485:1:Acquire.PROC").put(1)
     time.sleep(0.1)
 
     while True:
-        currentPicoRead = epics.PV("K6487:1:Acquire").get()
+        currentPicoRead = epics.PV("K6485:1:Acquire").get()
         if picoReadOut == currentPicoRead:
             pass
             timerCounter = timerCounter + 1
 
         else:
 
-            #data.append(epics.PV("K6487:1:Acquire").get())
+            #data.append(epics.PV("K6485:1:Acquire").get())
             dataIndex.append(i)
             break
 
@@ -228,12 +227,12 @@ while(CalibrationEnergy == 0):
         
     i= i+1
   
-    append_new_line ("I0.txt", str(currentPicoRead))
-    append_new_line ("I0_Index.txt", str(i))
+    append_new_line ("It.txt", str(currentPicoRead))
+    append_new_line ("It_Index.txt", str(i))
 
 
-CalibrationEnergy = epics.PV("CALIB:ENERGY").get()
-if (CalibrationEnergy == 1):
+It_run = epics.PV("It:RUN").get()
+if (It_run == 1):
 
     sys.exit()
 
