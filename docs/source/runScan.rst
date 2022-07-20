@@ -166,12 +166,12 @@ The main information about the plotting section are:
 Live Data Plotting
 -------------------
 
-Live data collection by countinuous moving of PGM dependging on predifined integration time.
+Live data collection by countinuous moving of PGM depending on predefined integration time.
 
 The live data plotting tool is located in the home directory of the control user. To access it:
 ::
-	$ cd  
-	$ cd bin/
+   $ cd  
+   $ cd bin/
    $ ./HESEB_ScanTool_LiveDataVisualization
 
 The main GUI will appear as shown in figure.11:
