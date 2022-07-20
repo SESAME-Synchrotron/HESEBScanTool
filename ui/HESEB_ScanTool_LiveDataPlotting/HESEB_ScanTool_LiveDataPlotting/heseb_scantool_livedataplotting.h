@@ -21,6 +21,7 @@ class HESEB_ScanTool_LiveDataPlotting : public QMainWindow
 public:
     HESEB_ScanTool_LiveDataPlotting(QWidget *parent = nullptr);
     ~HESEB_ScanTool_LiveDataPlotting();
+    float interlock;
 
 private slots:
     void on_I0_clicked();

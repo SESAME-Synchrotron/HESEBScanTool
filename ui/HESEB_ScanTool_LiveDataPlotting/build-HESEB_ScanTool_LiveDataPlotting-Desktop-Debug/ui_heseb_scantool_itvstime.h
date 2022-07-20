@@ -40,8 +40,8 @@ public:
     QGridLayout *gridLayout_8;
     QLabel *label_17;
     QLabel *label_18;
-    QLabel *Status;
     QEPlotter *qeplotter_4;
+    QLabel *Status;
 
     void setupUi(QDialog *HESEB_ScanTool_ItvsTime)
     {
@@ -147,11 +147,6 @@ public:
 
         gridLayout_8->addWidget(label_18, 0, 0, 1, 1);
 
-        Status = new QLabel(HESEB_ScanTool_ItvsTime);
-        Status->setObjectName(QStringLiteral("Status"));
-
-        gridLayout_8->addWidget(Status, 2, 0, 1, 2);
-
         qeplotter_4 = new QEPlotter(HESEB_ScanTool_ItvsTime);
         qeplotter_4->setObjectName(QStringLiteral("qeplotter_4"));
         qeplotter_4->setProperty("pvItemsIsVisible", QVariant(false));
@@ -161,6 +156,12 @@ public:
         qeplotter_4->setYMaximum(1);
 
         gridLayout_8->addWidget(qeplotter_4, 0, 1, 1, 1);
+
+        Status = new QLabel(HESEB_ScanTool_ItvsTime);
+        Status->setObjectName(QStringLiteral("Status"));
+        Status->setStyleSheet(QStringLiteral("background-color: rgb(255, 255, 0);"));
+
+        gridLayout_8->addWidget(Status, 2, 0, 1, 1);
 
 
         gridLayout->addLayout(gridLayout_8, 2, 0, 1, 1);
@@ -181,11 +182,11 @@ public:
         Stop->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Stop", Q_NULLPTR));
         label_17->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "<html><head/><body><p>Time(s) = Index * Int. Time</p></body></html>", Q_NULLPTR));
         label_18->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Current (A)", Q_NULLPTR));
+        qeplotter_4->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "It:PLOT:INDEX", Q_NULLPTR)));
+        qeplotter_4->setProperty("DataVariableA", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "PLOT:It", Q_NULLPTR)));
+        qeplotter_4->setProperty("SizeVariableX", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "It:PLOT:INDEX.NORD", Q_NULLPTR)));
+        qeplotter_4->setProperty("SizeVariableA", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "PLOT:It.NORD", Q_NULLPTR)));
         Status->setText(QString());
-        qeplotter_4->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "PLOT:INDEX", Q_NULLPTR)));
-        qeplotter_4->setProperty("DataVariableA", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "PLOT:I0", Q_NULLPTR)));
-        qeplotter_4->setProperty("SizeVariableX", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "PLOT:INDEX.NORD", Q_NULLPTR)));
-        qeplotter_4->setProperty("SizeVariableA", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "PLOT:I0.NORD", Q_NULLPTR)));
     } // retranslateUi
 
 };

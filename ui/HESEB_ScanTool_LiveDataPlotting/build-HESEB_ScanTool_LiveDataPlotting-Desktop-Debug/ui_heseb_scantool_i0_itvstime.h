@@ -22,6 +22,7 @@
 #include <QtWidgets/QSpacerItem>
 #include "QEFrame.h"
 #include "QEPlotter.h"
+#include "QSimpleShape.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -37,9 +38,15 @@ public:
     QLineEdit *Int_time;
     QSpacerItem *horizontalSpacer_3;
     QPushButton *Stop;
+    QGridLayout *gridLayout_2;
+    QSimpleShape *qsimpleshape_2;
+    QSimpleShape *qsimpleshape_8;
+    QLabel *label_16;
+    QLabel *label_19;
+    QSpacerItem *horizontalSpacer;
     QGridLayout *gridLayout_8;
-    QLabel *label_17;
     QLabel *label_18;
+    QLabel *label_17;
     QLabel *Status;
     QEPlotter *qeplotter_4;
 
@@ -118,26 +125,74 @@ public:
 
         gridLayout->addLayout(gridLayout_9, 1, 0, 1, 1);
 
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        qsimpleshape_2 = new QSimpleShape(HESEB_ScanTool_I0_ItvsTime);
+        qsimpleshape_2->setObjectName(QStringLiteral("qsimpleshape_2"));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(qsimpleshape_2->sizePolicy().hasHeightForWidth());
+        qsimpleshape_2->setSizePolicy(sizePolicy1);
+        qsimpleshape_2->setShape(QSimpleShape::roundRectangle);
+        qsimpleshape_2->setProperty("colour0", QVariant(QColor(23, 69, 243)));
+
+        gridLayout_2->addWidget(qsimpleshape_2, 1, 1, 1, 1);
+
+        qsimpleshape_8 = new QSimpleShape(HESEB_ScanTool_I0_ItvsTime);
+        qsimpleshape_8->setObjectName(QStringLiteral("qsimpleshape_8"));
+        sizePolicy1.setHeightForWidth(qsimpleshape_8->sizePolicy().hasHeightForWidth());
+        qsimpleshape_8->setSizePolicy(sizePolicy1);
+        qsimpleshape_8->setShape(QSimpleShape::roundRectangle);
+        qsimpleshape_8->setProperty("colour0", QVariant(QColor(255, 0, 0)));
+
+        gridLayout_2->addWidget(qsimpleshape_8, 0, 1, 1, 1);
+
+        label_16 = new QLabel(HESEB_ScanTool_I0_ItvsTime);
+        label_16->setObjectName(QStringLiteral("label_16"));
+        QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
+        label_16->setSizePolicy(sizePolicy2);
+        QFont font2;
+        font2.setPointSize(12);
+        font2.setBold(true);
+        font2.setWeight(75);
+        label_16->setFont(font2);
+        label_16->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_2->addWidget(label_16, 1, 2, 1, 1);
+
+        label_19 = new QLabel(HESEB_ScanTool_I0_ItvsTime);
+        label_19->setObjectName(QStringLiteral("label_19"));
+        sizePolicy2.setHeightForWidth(label_19->sizePolicy().hasHeightForWidth());
+        label_19->setSizePolicy(sizePolicy2);
+        label_19->setFont(font2);
+        label_19->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_2->addWidget(label_19, 0, 2, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(950, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer, 0, 0, 3, 1);
+
+
+        gridLayout->addLayout(gridLayout_2, 2, 0, 1, 1);
+
         gridLayout_8 = new QGridLayout();
         gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
-        label_17 = new QLabel(HESEB_ScanTool_I0_ItvsTime);
-        label_17->setObjectName(QStringLiteral("label_17"));
-        QFont font2;
-        font2.setFamily(QStringLiteral("Monospace"));
-        font2.setPointSize(14);
-        font2.setItalic(false);
-        font2.setUnderline(false);
-        font2.setStrikeOut(false);
-        font2.setKerning(true);
-        font2.setStyleStrategy(QFont::PreferDefault);
-        label_17->setFont(font2);
-        label_17->setAlignment(Qt::AlignCenter);
-
-        gridLayout_8->addWidget(label_17, 1, 1, 1, 1);
-
         label_18 = new QLabel(HESEB_ScanTool_I0_ItvsTime);
         label_18->setObjectName(QStringLiteral("label_18"));
-        label_18->setFont(font2);
+        QFont font3;
+        font3.setFamily(QStringLiteral("Monospace"));
+        font3.setPointSize(14);
+        font3.setItalic(false);
+        font3.setUnderline(false);
+        font3.setStrikeOut(false);
+        font3.setKerning(true);
+        font3.setStyleStrategy(QFont::PreferDefault);
+        label_18->setFont(font3);
         label_18->setLayoutDirection(Qt::LeftToRight);
         label_18->setStyleSheet(QLatin1String(".label_14{\n"
 "transform: rotate(-90deg);\n"
@@ -146,6 +201,13 @@ public:
         label_18->setWordWrap(false);
 
         gridLayout_8->addWidget(label_18, 0, 0, 1, 1);
+
+        label_17 = new QLabel(HESEB_ScanTool_I0_ItvsTime);
+        label_17->setObjectName(QStringLiteral("label_17"));
+        label_17->setFont(font3);
+        label_17->setAlignment(Qt::AlignCenter);
+
+        gridLayout_8->addWidget(label_17, 1, 1, 1, 1);
 
         Status = new QLabel(HESEB_ScanTool_I0_ItvsTime);
         Status->setObjectName(QStringLiteral("Status"));
@@ -163,7 +225,7 @@ public:
         gridLayout_8->addWidget(qeplotter_4, 0, 1, 1, 1);
 
 
-        gridLayout->addLayout(gridLayout_8, 2, 0, 1, 1);
+        gridLayout->addLayout(gridLayout_8, 3, 0, 1, 1);
 
 
         retranslateUi(HESEB_ScanTool_I0_ItvsTime);
@@ -179,13 +241,17 @@ public:
         Start->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Start ", Q_NULLPTR));
         Int_time->setPlaceholderText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Enter Integration Time ... * The allowable values are: {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9}", Q_NULLPTR));
         Stop->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Stop", Q_NULLPTR));
-        label_17->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>Time(s) = Index * Int. Time</p></body></html>", Q_NULLPTR));
+        label_16->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", Q_NULLPTR));
+        label_19->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">0</span></p></body></html>", Q_NULLPTR));
         label_18->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Current (A)", Q_NULLPTR));
+        label_17->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>Time(s) = Index * Int. Time</p></body></html>", Q_NULLPTR));
         Status->setText(QString());
-        qeplotter_4->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "PLOT:INDEX", Q_NULLPTR)));
+        qeplotter_4->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "I0:PLOT:INDEX", Q_NULLPTR)));
         qeplotter_4->setProperty("DataVariableA", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "PLOT:I0", Q_NULLPTR)));
-        qeplotter_4->setProperty("SizeVariableX", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "PLOT:INDEX.NORD", Q_NULLPTR)));
+        qeplotter_4->setProperty("DataVariableB", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "PLOT:It", Q_NULLPTR)));
+        qeplotter_4->setProperty("SizeVariableX", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "I0:PLOT:INDEX.NORD", Q_NULLPTR)));
         qeplotter_4->setProperty("SizeVariableA", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "PLOT:I0.NORD", Q_NULLPTR)));
+        qeplotter_4->setProperty("SizeVariableB", QVariant(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "PLOT:It.NORD", Q_NULLPTR)));
     } // retranslateUi
 
 };

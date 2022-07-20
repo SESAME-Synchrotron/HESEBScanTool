@@ -15,6 +15,8 @@ HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent
     this->timer = new QTimer;
     this->timer->start(500);
 
+    interlock = 0;
+
     connect(this->timer,SIGNAL(timeout()),this, SLOT(check()));
 }
 
@@ -39,6 +41,7 @@ void HESEB_ScanTool_LiveDataPlotting::on_I0_It_clicked()
 {
     I0_Itrans = new HESEB_ScanTool_I0_ItvsTime(this);
     I0_Itrans->show();
+    interlock = 1;
 }
 
 void HESEB_ScanTool_LiveDataPlotting::on_help_clicked()
@@ -65,15 +68,21 @@ void HESEB_ScanTool_LiveDataPlotting::check()
     else
         ui->It_sts->setText("Stopped");
 
-    if ((this->It_run->get().toFloat() == 0 or this->I0_run->get().toFloat() == 0) and ui->I0_It->isEnabled())
+    if (this->It_run->get().toFloat() == 0 and this->I0_run->get().toFloat() == 0 and interlock == 1)
     {
         ui->both_sts->setText("In Process ...");
+        ui->I0->setEnabled(false);
+        ui->It->setEnabled(false);
     }
 
     else
+    {
         ui->both_sts->setText("Stopped");
+        ui->I0->setEnabled(true);
+        ui->It->setEnabled(true);
+    }
 
-    if (this->It_run->get().toFloat() == 0 or this->I0_run->get().toFloat() == 0)
+    if ((this->It_run->get().toFloat() == 0 or this->I0_run->get().toFloat() == 0))
         ui->I0_It->setEnabled(false);
     else
         ui->I0_It->setEnabled(true);
