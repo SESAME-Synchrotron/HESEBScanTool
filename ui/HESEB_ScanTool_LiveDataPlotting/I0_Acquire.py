@@ -6,18 +6,24 @@ import multiprocessing
 import os 
 from os.path import exists
 
+I0dataFileName = "I0.txt"
+I0indexFileName = "I0_Index.txt"
+
+I0dataFilePath = f"/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/{I0dataFileName}"
+I0indexFilePath = f"/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/{I0indexFileName}"
+
 def append_new_line(file_name, text_to_append):
-    """Append given text as a new line at the end of file"""
-    # Open the file in append & read mode ('a+')
-    with open(file_name, "a+") as file_object:
-        # Move read cursor to the start of file.
-        file_object.seek(0)
-        # If file is not empty then append '\n'
-        data = file_object.read()
-        if len(data) > 0:
-            file_object.write("\n")
-        # Append text at the end of file
-        file_object.write(text_to_append)
+	"""Append given text as a new line at the end of file"""
+	
+	with open(file_name, "a+") as file_object:		# Open the file in append & read mode ('a+').
+		
+		file_object.seek(0)							# Move read cursor to the start of file.       
+		data = file_object.read()					
+		
+		if len(data) > 0:
+			file_object.write("\n")					# If file is not empty then append '\n'.  
+
+		file_object.write(text_to_append)			# Append text at the end of file.
 
 def getNPLC_IntTime(intTime):
 	"""
@@ -120,71 +126,61 @@ def getNPLC_IntTime(intTime):
 		ActualIntTime = 8.65
 		return NPLC, ActualIntTime
 
-
 def dataToWaveForm():
-    I0Data = []
-    I0Index = []
-    fileExistTrigger = 0
 
-    while True:
-        I0Data = []
-        I0Index = []
-        
-        if os.path.exists("I0_Index.txt"):
-            I0IndexFile = open('I0_Index.txt', 'r')
-            I0IndexLines = I0IndexFile.readlines()
-            # Strips the newline character
-            for line in I0IndexLines:
-                I0Index.append(int(line.strip()))
-                #print (I0Index)
-                # epics.PV("I0:PLOT:INDEX").put(I0Index, wait = True)
-                #time.sleep(1)
-        else:
-            pass
+	I0Data = []
+	I0Index = []
 
-        if os.path.exists("I0.txt"):
-            print("FFFFFFF")
-            I0File = open('I0.txt', 'r')
-            I0Lines = I0File.readlines()
-            # Strips the newline character
-            for line1 in I0Lines:
-                I0Data.append(float(line1.strip()))
-                print(I0Data)
-                # epics.PV("PLOT:I0").put(I0Data, wait = True)
-                #time.sleep(1)
-        else:
-            print("No file")
-            pass
-        epics.PV("PLOT:I0").put(I0Data, wait = True)
-        epics.PV("I0:PLOT:INDEX").put(I0Index, wait = True)
-        
-        print("----------------------------------------")
-        
-       
-        time.sleep(1)
+	while True:
+		I0Data = []
+		I0Index = []
+		
+		if os.path.exists(I0indexFileName):
+			I0IndexFile = open(I0indexFileName, 'r')
+			I0IndexLines = I0IndexFile.readlines()					
 
-    time.sleep(1)
-    print ("Sleep")
+			for line in I0IndexLines:
+				I0Index.append(int(line.strip()))			# Strips the newline character.
+		
+		else:
+			pass
+
+		if os.path.exists(I0dataFileName):
+			I0File = open(I0dataFileName, 'r')
+			I0Lines = I0File.readlines()						
+
+			for line1 in I0Lines:
+				I0Data.append(float(line1.strip()))			# Strips the newline character.
+		else:
+			print("No file")
+			pass
+		
+		epics.PV("PLOT:I0").put(I0Data, wait = True)
+		epics.PV("I0:PLOT:INDEX").put(I0Index, wait = True)
+		
+		print("----------------------------------------")
+			   
+		time.sleep(1)
+
+	time.sleep(1)
+	print ("Sleep")
 
 try:
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/I0.txt")
-	os.remove("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/I0_Index.txt")
+	os.remove(I0dataFilePath)
+	os.remove(I0indexFilePath)
 except:
    print ("did not find the file")
    pass
 
-
 p1 = multiprocessing.Process(target=dataToWaveForm, args=())
 p1.start()
 
-
-
-intTime_ = epics.PV("I0:INT:TIME").get()
+intTime_ = epics.PV("I0:INT:TIME").get()		# Integration time from GUI.
 NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
-epics.PV("K6487:1:RST.PROC").put(1) # apply soft reset before start collecting data 
-epics.PV("K6487:1:Damping").put(0) # disable damping 
-epics.PV("K6487:1:TimePerSampleStep").put(0) # put 0 in time per step sample
-I0_run = epics.PV("I0:RUN").get()
+epics.PV("K6487:1:RST.PROC").put(1)				# Apply soft reset before start collecting data.
+epics.PV("K6487:1:Damping").put(0) 				# disable damping 
+epics.PV("K6487:1:TimePerSampleStep").put(0) 	# put 0 in time per step sample
+I0_run = epics.PV("I0:RUN").get()				# I0:RUN >> trigger to start (0:Start, 1:Stop).
 time.sleep(0.1)
 
 i = 0
@@ -194,48 +190,39 @@ dataIndex = []
 #epics.PV("PLOT:I0").put(data, wait = True)
 #epics.PV("I0:PLOT:Index").put(dataIndex, wait = True)
 
-while(I0_run == 0):
+while(I0_run == 0 and i<3001):
 
-    I0_run = epics.PV("I0:RUN").get()
-    sleepTime = 0.1
-    timerCounter = 0 
+	I0_run = epics.PV("I0:RUN").get()
+	sleepTime = 0.1
+	timerCounter = 0 
 
-    epics.PV("K6487:1:TimePerSampleStep").put(ActualIntTime)
-    epics.PV("K6487:1:IntegrationTime").put(NPLC) ## int. time 
-    
+	epics.PV("K6487:1:TimePerSampleStep").put(ActualIntTime)
+	epics.PV("K6487:1:IntegrationTime").put(NPLC) 				# int. time 
+	
+	picoReadOut = epics.PV("K6487:1:Acquire").get()
+	epics.PV("K6487:1:Acquire.PROC").put(1)
+	time.sleep(0.1)
 
-    picoReadOut = epics.PV("K6487:1:Acquire").get()
-    epics.PV("K6487:1:Acquire.PROC").put(1)
-    time.sleep(0.1)
+	while True:
+		currentPicoRead = epics.PV("K6487:1:Acquire").get()
+		if picoReadOut == currentPicoRead:
+			pass
+			timerCounter = timerCounter + 1
 
-    while True:
-        currentPicoRead = epics.PV("K6487:1:Acquire").get()
-        if picoReadOut == currentPicoRead:
-            pass
-            timerCounter = timerCounter + 1
+		else:
+			dataIndex.append(i)
+			break
 
-        else:
+		time.sleep(sleepTime)
 
-            #data.append(epics.PV("K6487:1:Acquire").get())
-            dataIndex.append(i)
-            break
-
-        time.sleep(sleepTime)
-
-        if timerCounter * sleepTime >= ActualIntTime * 1.5:
-            break
+		if timerCounter * sleepTime >= ActualIntTime * 1.5:
+			break
+		
+	i= i+1
   
-        
-    i= i+1
-  
-    append_new_line ("I0.txt", str(currentPicoRead))
-    append_new_line ("I0_Index.txt", str(i))
-
+	append_new_line (I0dataFileName, str(currentPicoRead))
+	append_new_line (I0indexFileName, str(i))
 
 I0_run = epics.PV("I0:RUN").get()
-if (I0_run == 1):
-
-    sys.exit()
-
-if __name__ == "__main__":
-    print("dddss")
+if (I0_run == 1 and i>=3000):
+	sys.exit()
