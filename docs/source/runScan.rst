@@ -126,6 +126,7 @@ Once scan is started, interactive logs will be printed on the terminal showing e
 
    *Figure 9: data visualization of the experimental data*
 
+
 The interactive data visualization tool of the experimental data is devided to three sections:
 
    1. Monitoring section
@@ -164,3 +165,77 @@ The main information about the plotting section are:
 
 Live Data Plotting
 -------------------
+
+Live data collection by countinuous moving of PGM dependging on predifined integration time.
+
+The live data plotting tool is located in the home directory of the control user. To access it:
+::
+	$ cd  
+	$ cd bin/
+   $ ./HESEB_ScanTool_LiveDataVisualization
+
+The main GUI will appear as shown in figure.11:
+
+.. figure:: /images/liveDataVisualization
+   :align: center
+   :alt: Data Visualization
+	
+   *Figure 11: Data View Tool*
+
+The main buttons and status labels are:
+
+   * I0: open (I0 vs Time) collection tool.
+   * It: open (It vs Time) collection tool.
+   * help: open the GUI documentation.
+   * status labels: running >> In Process... , not running >> Stopped
+
+After selection, the main visualization tool will appear as shown in figure.12.
+
+.. figure:: /images/VisualizationTool.png
+   :align: center
+   :alt: Visualization Tool 
+
+   *Figure 12: Live Data Plotting*
+
+The live data plotting is tool devided to:
+
+   1. Control section
+   2. Plotting section
+
+As shown in the previous figure, the main functions of the control section are:
+
+   * integration Time: user input, based on specific values.
+   * Start: start collection.
+   * Stop: stop collection.
+
+The main functions of the plotting section are:
+
+   * previous state.
+   * next state.
+   * white background.
+   * black background.
+   
+   * linear scale of Y-axis.
+   * log scale of Y-axis.
+   * My: manual scale of Y-axis.
+   * Ay: data range of Y-axis.
+   * Dy: dynamic scale of Y-axis.
+   * N: normalized scale.
+   * F: fractional scale.
+   
+   * linear scale of X-axis.
+   * log scale of X-axis.
+   * Mx: manual scale of X-axis.
+   * Ax: data range of X-axis.
+   * Dx: dynamic scale of X-axis.
+
+   * M: manual scale of X-Y axes.
+   * play -real time-.
+   * pause.
+   * load configurations.
+   * save configurations.
+
+
+
+
+
