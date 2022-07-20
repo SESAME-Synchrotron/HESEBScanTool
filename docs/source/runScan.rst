@@ -160,3 +160,7 @@ The main information about the plotting section are:
    :alt: Data visualization 
 
    *Figure 10: data visualization Tool*
+
+
+Live Data Plotting
+-------------------
