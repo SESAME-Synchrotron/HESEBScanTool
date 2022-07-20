@@ -152,24 +152,19 @@ def dataToWaveForm():
 			for line1 in I0Lines:
 				I0Data.append(float(line1.strip()))			# Strips the newline character.
 		else:
-			print("No file")
 			pass
 		
 		epics.PV("PLOT:I0").put(I0Data, wait = True)
 		epics.PV("I0:PLOT:INDEX").put(I0Index, wait = True)
-		
-		print("----------------------------------------")
-			   
+				  
 		time.sleep(1)
 
 	time.sleep(1)
-	print ("Sleep")
 
 try:
 	os.remove(I0dataFilePath)
 	os.remove(I0indexFilePath)
 except:
-   print ("did not find the file")
    pass
 
 p1 = multiprocessing.Process(target=dataToWaveForm, args=())
@@ -224,5 +219,5 @@ while(I0_run == 0 and i<3001):
 	append_new_line (I0indexFileName, str(i))
 
 I0_run = epics.PV("I0:RUN").get()
-if (I0_run == 1 and i>=3000):
+if (I0_run == 1 or i>=3000):
 	sys.exit()
