@@ -60,7 +60,7 @@ padding: 0 3px 0 3px;</string>
       <item row="3" column="1">
        <widget class="QPushButton" name="I0_It">
         <property name="text">
-         <string>I0_Itrans</string>
+         <string/>
         </property>
        </widget>
       </item>

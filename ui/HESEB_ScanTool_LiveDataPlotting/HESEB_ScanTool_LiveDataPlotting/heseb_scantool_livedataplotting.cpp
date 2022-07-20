@@ -3,6 +3,9 @@
 
 #include <qobject.h>
 #include <QObject>
+#include <QDesktopServices>
+#include <QUrl>
+
 HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::HESEB_ScanTool_LiveDataPlotting)
@@ -48,6 +51,7 @@ void HESEB_ScanTool_LiveDataPlotting::on_help_clicked()
 {
     help = new Help(this);
 //    help->show();
+    QDesktopServices::openUrl(QUrl("https://hesebscantool.readthedocs.io/en/latest/runScan.html#live-data-plotting"));
 }
 
 void HESEB_ScanTool_LiveDataPlotting::check()
@@ -70,14 +74,14 @@ void HESEB_ScanTool_LiveDataPlotting::check()
 
     if (this->It_run->get().toFloat() == 0 and this->I0_run->get().toFloat() == 0 and interlock == 1)
     {
-        ui->both_sts->setText("In Process ...");
+//        ui->both_sts->setText("In Process ...");
         ui->I0->setEnabled(false);
         ui->It->setEnabled(false);
     }
 
     else
     {
-        ui->both_sts->setText("Stopped");
+//        ui->both_sts->setText("Stopped");
         ui->I0->setEnabled(true);
         ui->It->setEnabled(true);
     }
