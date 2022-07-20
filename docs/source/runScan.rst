@@ -176,7 +176,7 @@ The live data plotting tool is located in the home directory of the control user
 
 The main GUI will appear as shown in figure.11:
 
-.. figure:: /images/liveDataVisualization
+.. figure:: /images/liveDataVisualization.png
    :align: center
    :alt: Data Visualization
 	
