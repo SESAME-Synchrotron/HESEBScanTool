@@ -69,6 +69,12 @@
 		"Calibration:Energy":{
 			"pvname":"CALIB:ENERGY"
 		},
+		"I0:TRIGGER":{
+			"pvname":"I0:RUN"
+		},
+		"It:TRIGGER":{
+			"pvname":"It:RUN"
+		},
 		"SCAN:Nsamples":{
 			"pvname":"SCAN:Nsamples"
 		},
