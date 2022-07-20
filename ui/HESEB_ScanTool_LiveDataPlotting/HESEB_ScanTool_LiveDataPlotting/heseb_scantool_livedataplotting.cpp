@@ -40,7 +40,7 @@ void HESEB_ScanTool_LiveDataPlotting::on_It_clicked()
 void HESEB_ScanTool_LiveDataPlotting::on_I0_It_clicked()
 {
     I0_Itrans = new HESEB_ScanTool_I0_ItvsTime(this);
-    I0_Itrans->show();
+//    I0_Itrans->show();
     interlock = 1;
 }
 
