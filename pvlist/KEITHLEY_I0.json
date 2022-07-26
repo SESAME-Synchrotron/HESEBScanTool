@@ -42,7 +42,20 @@
 		},
 		"voltageSourceVoltage":{
 			"pvname":"K6487:1:SourceVoltage"
+		},
+		"voltageSourceEnableRBV":{
+			"pvname":"K6487:1:SourceEnableRBV"
+		},
+		"voltageSourceRangeRBV":{
+			"pvname":"K6487:1:SourceRangeRBV"
+		},
+		"voltageSourceCurrentLimitRBV":{
+			"pvname":"K6487:1:SourceIlimitRBV"
+		},
+		"voltageSourceVoltageRBV":{
+			"pvname":"K6487:1:SourceVoltageRBV"
 		}
+		
 	}
 	
 }

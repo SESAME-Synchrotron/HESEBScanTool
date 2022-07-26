@@ -20,7 +20,6 @@ class KEITHLEY_I0(Base):
 		self.voltageSourceRange 		= voltageSourceParam[1]
 		self.voltageSourceCurrentLimit  = voltageSourceParam[2]
 
-		
 		self.PVs["picoAmmeterI0SoftReset"].put(1) # apply soft reset before start collecting data 
 		self.PVs["picoAmmeterI0Damping"].put(0) # disable damping 
 		self.PVs["picoAmmeterI0TPSS"].put(0) # put 0 in time per step sample 
