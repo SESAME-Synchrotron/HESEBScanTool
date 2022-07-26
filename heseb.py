@@ -41,12 +41,18 @@ class HESEBSCAN:
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
-
+		self.loadPVS("KEITHLEY_I0")
 		self.PVs["SCAN:Stop"].put(0)  			# disable stop function
 		self.PVs["SCAN:pause"].put(0) 			# flush scan pause pv 
 		self.PVs["Calibration:Energy"].put(1)   # disable I0 vs time plotting
 		self.PVs["I0:TRIGGER"].put(1)   		# disable I0 vs time plotting
 		self.PVs["It:TRIGGER"].put(1)  		    # disable It vs time plotting
+		
+		self.voltageSourcePARAM = []
+		# get the values of voltage source parameters before reset 
+		self.voltageSourcePARAM.append(self.PVs["voltageSourceEnable"].get())
+		self.voltageSourcePARAM.append(self.PVs["voltageSourceRange"].get())
+		self.voltageSourcePARAM.append(self.PVs["voltageSourceCurrentLimit"].get())
 
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
@@ -91,17 +97,20 @@ class HESEBSCAN:
 				CLIMessage("{} : is connected".format(pvname), "I")
 				self.PVs[entry] = PVobj
 
-		for entry,mtrname in JsonPVlist["Motors"].items():
-			pvname=mtrname["pvname"]
-			MTRobj = epics.Motor(pvname)
-			if MTRobj is None:
-				#print("{} : is not connected\n".format(pvname))
-				CLIMessage("{} : is not connected".format(pvname), "E")
-				DisconnectedPvs.append("{}\n".format(pvname))
-			else:
-				#print("{} : is connected\n".format(pvname))
-				CLIMessage("{} : is connected".format(pvname), "I")
-				self.motors[entry] = MTRobj
+		try:
+			for entry,mtrname in JsonPVlist["Motors"].items():
+				pvname=mtrname["pvname"]
+				MTRobj = epics.Motor(pvname)
+				if MTRobj is None:
+					#print("{} : is not connected\n".format(pvname))
+					CLIMessage("{} : is not connected".format(pvname), "E")
+					DisconnectedPvs.append("{}\n".format(pvname))
+				else:
+					#print("{} : is connected\n".format(pvname))
+					CLIMessage("{} : is connected".format(pvname), "I")
+					self.motors[entry] = MTRobj
+		except:
+			pass
 
 		if len(DisconnectedPvs):
 			log.error("Disconnected PVs: {}".format(DisconnectedPvs))
@@ -403,7 +412,7 @@ class HESEBSCAN:
 			elif det == "FICUS":
 				self.detectors.append(FICUS("FICUS",self.paths,self.userinfo))
 			elif det == "KEITHLEY_I0":
-				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0",self.paths,self.userinfo))
+				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0",self.paths,self.userinfo,self.voltageSourcePARAM))
 			elif det == "KEITHLEY_Itrans":
 				self.detectors.append(KEITHLEY_ITRANS("KEITHLEY_ITRANS",self.paths,self.userinfo))
 			elif not det in self.available_detectors:
