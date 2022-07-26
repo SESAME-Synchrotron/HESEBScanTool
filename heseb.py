@@ -386,7 +386,8 @@ class HESEBSCAN:
 			time.sleep(self.scanLimites["checkLimitesEvery"]) # time in seconds 
 	
 	def stopScanning(self):
-	
+		
+		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 		log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
@@ -648,6 +649,7 @@ class HESEBSCAN:
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
+			self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 			self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 			log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
 			os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
