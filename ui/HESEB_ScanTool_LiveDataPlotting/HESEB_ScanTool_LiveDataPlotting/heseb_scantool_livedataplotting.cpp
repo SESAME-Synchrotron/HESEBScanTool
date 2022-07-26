@@ -12,6 +12,8 @@ HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent
 {
     ui->setupUi(this);
 
+    ui->I0_It->setEnabled(false);
+
     this->I0_run     = new QEpicsPV("I0:RUN");
     this->It_run     = new QEpicsPV("It:RUN");
 
