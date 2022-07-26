@@ -30,10 +30,19 @@
 		},
 		"picoAmmeterI0AVGSamples":{
 			"pvname":"K6487:1:AverageFilterCount"
+		},
+		"voltageSourceEnable":{
+			"pvname":"K6487:1:SourceEnable"
+		},
+		"voltageSourceRange":{
+			"pvname":"K6487:1:SourceRange"
+		},
+		"voltageSourceCurrentLimit":{
+			"pvname":"K6487:1:SourceIlimit"
+		},
+		"voltageSourceVoltage":{
+			"pvname":"K6487:1:SourceVoltage"
 		}
-		
-
-
 	}
 	
 }
