@@ -59,8 +59,15 @@ padding: 0 3px 0 3px;</string>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="3" column="1">
        <widget class="QPushButton" name="I0_It">
+        <property name="styleSheet">
+         <string notr="true">border-color: rgb(239, 239, 239);
+background-color: rgb(239, 239, 239);</string>
+        </property>
         <property name="text">
          <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -130,7 +137,7 @@ padding: 0 3px 0 3px;</string>
       <item row="2" column="0">
        <widget class="QLabel" name="both_sts">
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="text">
          <string/>
