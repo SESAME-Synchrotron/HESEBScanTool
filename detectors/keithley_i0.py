@@ -13,13 +13,13 @@ from .base import Base
 class KEITHLEY_I0(Base):
 	def __init__(self,name,paths,cfg={}, voltageSourceParam=[]):
 		super().__init__(name)
-
 		self.loadPVS(name)
 		self.paths	= paths
 		self.cfg = cfg
 		self.voltageSourceEnable 		= voltageSourceParam[0]
 		self.voltageSourceRange 		= voltageSourceParam[1]
 		self.voltageSourceCurrentLimit  = voltageSourceParam[2]
+
 		
 		self.PVs["picoAmmeterI0SoftReset"].put(1) # apply soft reset before start collecting data 
 		self.PVs["picoAmmeterI0Damping"].put(0) # disable damping 

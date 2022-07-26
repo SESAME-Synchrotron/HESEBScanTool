@@ -385,7 +385,7 @@ class HESEBSCAN:
 		
 		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
-		log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
+		log.warning("Stop button has been pressed, runinig scan is terminated !!")
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
@@ -481,9 +481,9 @@ class HESEBSCAN:
 			
 			
 			points = self.drange(startpoint,endpoint,stepsize)
-			epics.PV("K6487:1:RST.PROC").put(1)
-			epics.PV("K6487:1:Damping").put(0)
-			epics.PV("K6487:1:TimePerSampleStep").put(0)
+			# epics.PV("K6487:1:RST.PROC").put(1)
+			# epics.PV("K6487:1:Damping").put(0)
+			# epics.PV("K6487:1:TimePerSampleStep").put(0)
 			for point in points:
 				self.checkPause()
 				curentScanInfo = []
@@ -614,10 +614,7 @@ class HESEBSCAN:
 			self.dataTransfer()
 
 			if breakTag == 1: 		# exit from for loop (parent) when stop is clicked
-				break
-			
-
-		self.stopScanning()
+				self.stopScanning()
 
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
@@ -632,6 +629,7 @@ class HESEBSCAN:
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
+		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		
 	def dataTransfer(self):
 		try:
@@ -645,6 +643,7 @@ class HESEBSCAN:
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
+			epics.PV("K6487:1:SourceEnable").put(0)
 			self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 			self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 			log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
