@@ -50,9 +50,9 @@ class HESEBSCAN:
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
 		self.voltageSourcePARAM = []
 		# get the values of voltage source parameters before reset 
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnable"]["pvname"]).get())
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRange"]["pvname"]).get())
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimit"]["pvname"]).get())
+		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnableRBV"]["pvname"]).get())
+		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRangeRBV"]["pvname"]).get())
+		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimitRBV"]["pvname"]).get())
 
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
@@ -643,7 +643,6 @@ class HESEBSCAN:
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
-			epics.PV("K6487:1:SourceEnable").put(0)
 			self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 			self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 			log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
