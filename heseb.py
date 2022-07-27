@@ -532,7 +532,7 @@ class HESEBSCAN:
 				ACQdata["ENERGY-RBK"]	=	Energy
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
-				ItDp					=	ACQdata["IC2[V]"]	
+				ItDp					=	ACQdata["KEITHLEY_Itrans"]	
 				It2Dp					=	ACQdata["IC3[V]"]
 				AbsorptionTrDp			=	ACQdata["TRANS"]
 				AbsorptionTr2Dp			=	ACQdata["TransRef"]
