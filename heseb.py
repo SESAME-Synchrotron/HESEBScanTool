@@ -57,7 +57,7 @@ class HESEBSCAN:
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["K6487:1:SourceVoltageRBV"]["pvname"]).get())
 
 
-		if (self.voltageSourcePARAM[1] == ("50 V" or 0 or "500 V" or 1)):   # check voltage source validation (for Safety)
+		if (self.voltageSourcePARAM[1] == ("50 V" or 1 or "500 V" or 2)):   # check voltage source validation (for Safety)
 			subprocess.Popen("./voltageSourceValidation.sh")
 
 		self.paths		= Common.loadjson("configrations/paths.json")
