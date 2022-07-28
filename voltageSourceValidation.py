@@ -33,8 +33,8 @@ while True:
             if voltageSourceValue in {1,2}:
                 if (pausingStatus == 1) or pointsStatus == epics.PV(HESEB_PVs["PV"]["PGM:Energy:RBV"]["pvname"]).get():
 
-                    epics.PV("SCAN:STOP").put(1)
-                    UIMessage("Scan is stopped","Scan has been stopped","No scan activities have been seen over the last one minute.")
+                    epics.PV("VOLTAGE:VALIDATION").put(1)
+                    # UIMessage("Scan is stopped","Scan has been stopped","No scan activities have been seen over the last one minute.")
                     sys.exit()
                     
     time.sleep(1)
