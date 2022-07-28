@@ -54,6 +54,9 @@
 		"SCAN:Start":{
 			"pvname":"SCAN:START"
 		},
+		"VOLTAGE:Validation":{
+			"pvname":"VOLTAGE:VALIDATION"
+		},
 		"EXPERIMENT:LOGS":{
 			"pvname":"EXPERIMENT:LOGS"
 		},
