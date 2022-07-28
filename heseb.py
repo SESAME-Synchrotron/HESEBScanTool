@@ -54,11 +54,7 @@ class HESEBSCAN:
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnable"]["pvname"]).get())
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRange"]["pvname"]).get())
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimit"]["pvname"]).get())
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["K6487:1:SourceVoltageRBV"]["pvname"]).get())
-
-
-		if (self.voltageSourcePARAM[1] == ("50 V" or 1 or "500 V" or 2)):   # check voltage source validation (for Safety)
-			subprocess.Popen("./voltageSourceValidation.sh")
+		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceVoltageRBV"]["pvname"]).get())
 
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
@@ -78,6 +74,9 @@ class HESEBSCAN:
 			self.runPauseMonitor()
 		else:
 			log.info("Testing mode: Yes")
+
+		if self.voltageSourcePARAM[1] in {1,2}:   # check voltage source validation (for Safety), 1 >> for 50V ... 2 >> 500V
+			subprocess.Popen("./voltageSourceValidation.sh")
 		self.start()
 
 	def runPauseMonitor(self):
@@ -538,7 +537,7 @@ class HESEBSCAN:
 				ACQdata["ENERGY-RBK"]	=	Energy
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
-				ItDp					=	ACQdata["KEITHLEY_Itrans"]	
+				
 				It2Dp					=	ACQdata["IC3[V]"]
 
 				# AbsorptionTrDp			=	ACQdata["TRANS"]
@@ -561,6 +560,11 @@ class HESEBSCAN:
 				try except below has been added to retrieve detector-specific data. 
 				this is needed when more than one detector is chosen for the experiment 
 				"""
+
+				try:
+					ItDp					=	ACQdata["KEITHLEY_Itrans"]
+				except:
+					pass
 
 				try: 
 					IfDp					=	ACQdata["If"]
@@ -585,7 +589,10 @@ class HESEBSCAN:
 
 				self.Energy.append(Energy)
 				self.I0.append(I0Dp)
-				self.It.append(ItDp)
+				try:
+					self.It.append(ItDp)
+				except:
+					pass
 				self.It2.append(It2Dp)
 				self.AbsTr.append(AbsorptionTrDp)
 				self.AbsTr2.append(AbsorptionTr2Dp)

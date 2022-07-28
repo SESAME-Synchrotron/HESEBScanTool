@@ -30,7 +30,7 @@ class KEITHLEY_I0(Base):
 		self.PVs["voltageSourceEnable"].put(self.voltageSourceEnable)
 		self.PVs["voltageSourceRange"].put(self.voltageSourceRange)
 		self.PVs["voltageSourceCurrentLimit"].put(self.voltageSourceCurrentLimit)
-		self.PVs["K6487:1:SourceVoltage"].put(self.voltageSourcevalue)
+		self.PVs["voltageSourceVoltage"].put(self.voltageSourcevalue)
 
 
 	def ACQ(self,args):
