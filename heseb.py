@@ -25,6 +25,7 @@ import log
 import shutil 
 import signal
 import subprocess
+import math
 
 try:
 	import PyQt5
@@ -534,7 +535,13 @@ class HESEBSCAN:
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				ItDp					=	ACQdata["KEITHLEY_Itrans"]	
 				It2Dp					=	ACQdata["IC3[V]"]
-				AbsorptionTrDp			=	ACQdata["TRANS"]
+				
+				# AbsorptionTrDp			=	ACQdata["TRANS"]
+				try:
+					AbsorptionTrDp =  math.log(I0Dp / ItDp)
+				except:
+					AbsorptionTrDp = 0
+
 				AbsorptionTr2Dp			=	ACQdata["TransRef"]
 
 				"""
