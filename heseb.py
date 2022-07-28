@@ -54,6 +54,11 @@ class HESEBSCAN:
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnable"]["pvname"]).get())
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRange"]["pvname"]).get())
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimit"]["pvname"]).get())
+		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["K6487:1:SourceVoltageRBV"]["pvname"]).get())
+
+
+		if (self.voltageSourcePARAM[1] == ("50 V" or 1 or "500 V" or 2)):   # check voltage source validation (for Safety)
+			subprocess.Popen("./voltageSourceValidation.sh")
 
 		self.paths		= Common.loadjson("configrations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
@@ -535,7 +540,7 @@ class HESEBSCAN:
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				ItDp					=	ACQdata["KEITHLEY_Itrans"]	
 				It2Dp					=	ACQdata["IC3[V]"]
-				
+
 				# AbsorptionTrDp			=	ACQdata["TRANS"]
 				try:
 					AbsorptionTrDp =  math.log(I0Dp / ItDp)
