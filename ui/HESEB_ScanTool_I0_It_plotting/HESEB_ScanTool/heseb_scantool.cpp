@@ -6,6 +6,8 @@
 #include <string>
 
 #include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
 #include <qepicspv.h>
 #include <qstring.h>
 
@@ -43,10 +45,10 @@ HESEB_ScanTool::~HESEB_ScanTool()
     delete ui;
 }
 
-
 void HESEB_ScanTool::on_pushButton_clicked()
 {
     QString file = QFileDialog::getOpenFileName(this, "Open",SED_Path);
+    QDesktopServices::openUrl(QUrl(file, QUrl::TolerantMode));
 }
 
 void HESEB_ScanTool::logs()
