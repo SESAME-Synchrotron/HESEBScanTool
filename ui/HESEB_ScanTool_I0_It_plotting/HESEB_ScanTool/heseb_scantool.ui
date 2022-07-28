@@ -139,8 +139,14 @@
         <property name="DataVariableX" stdset="0">
          <string>PLOT:Energy</string>
         </property>
+        <property name="DataVariableA" stdset="0">
+         <string>PLOT:AbsTr</string>
+        </property>
         <property name="SizeVariableX" stdset="0">
          <string>PLOT:Energy.NORD</string>
+        </property>
+        <property name="SizeVariableA" stdset="0">
+         <string>PLOT:AbsTr.NORD</string>
         </property>
         <property name="ColourA">
          <color>
