@@ -38,6 +38,6 @@ while True:
 
                     epics.PV("VOLTAGE:VALIDATION").put(1)
                     # UIMessage("Scan is stopped","Scan has been stopped","No scan activities have been seen over the last one minute.")
-                    sys.exit()
+                    # sys.exit()
                     
     time.sleep(1)
