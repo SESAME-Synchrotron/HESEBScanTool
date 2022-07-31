@@ -24,6 +24,9 @@ while True:
     pausingStatus       = epics.PV(HESEB_PVs["PV"]["SCAN:pause"]["pvname"]).get()
     pointsStatus        = epics.PV(HESEB_PVs["PV"]["PGM:Energy:RBV"]["pvname"]).get()
     
+    if epics.PV("SCAN:STOP").get() == 1:
+        sys.exit()
+        
     if voltageSourceValue in {1,2}:
         if (pausingStatus == 1) or pointsStatus == epics.PV(HESEB_PVs["PV"]["PGM:Energy:RBV"]["pvname"]).get():
             
