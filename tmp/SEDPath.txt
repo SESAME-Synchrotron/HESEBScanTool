@@ -1,1 +1,1 @@
-/home/control/HESEBScanTool/DATA/MonoScan-20220728T200523
+/home/control/HESEBScanTool/DATA/MonoScan-20220731T084531
