@@ -76,8 +76,8 @@ class HESEBSCAN:
 		else:
 			log.info("Testing mode: Yes")
 
-		if self.voltageSourcePARAM[1] in {1,2}:   # check voltage source validation (for Safety), 1 >> for 50V ... 2 >> 500V
-			subprocess.Popen("./voltageSourceValidation.sh")
+		# if self.voltageSourcePARAM[1] in {1,2}:   # check voltage source validation (for Safety), 1 >> for 50V ... 2 >> 500V
+		subprocess.Popen("./voltageSourceValidation.sh")
 		self.start()
 
 	def runPauseMonitor(self):
