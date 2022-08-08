@@ -135,7 +135,7 @@ The interactive data visualization tool of the experimental data is devided to t
 
 As shown in the figure.10, the main information about the monitoring section are:
 
-   * Start time: experiment staring time.
+   * Start time: experiment starting time.
    * Elapsed time: elapsed time for each sample.
    * Sample # out of #: experiment samples.
    * Scans # out of #: experiment scans.
@@ -170,7 +170,7 @@ Live data collection by countinuous moving of PGM depending on predefined integr
 
 The live data plotting tool is located in the home directory of the control user. To access it:
 ::
-   $ ./HESEB_ScanTool_LiveDataVisualization
+   $ HESEB_ScanTool_LiveDataVisualization
 
 The main GUI will appear as shown in figure.11:
 
