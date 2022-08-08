@@ -47,26 +47,30 @@ class KEITHLEY_I0(Base):
 		picoReadOut = self.PVs["picoAmmeterI0AcqReadOut"].get()
 		startTime = time.time()
 		self.PVs["picoAmmeterI0StartAcq"].put(1)
-		while True:
-			if picoReadOut == self.PVs["picoAmmeterI0AcqReadOut"].get():
-				pass
-				timerCounter = timerCounter + 1
-			else:
-				break
-			time.sleep(sleepTime)
-			if timerCounter * sleepTime >= ActualIntTime * 5:
-				"""
-				Maximum waiting time is the double of the actual integration
-				time. 
-				
-				This is needed only when kiethely returns a value that
-				equals the previous collected one!!
 
-				Maybe this part can be removed if we get a precise acquire:stat 
-				PV ...
-				"""
-				CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
-				break
+		while self.PVs["picoAmmeterI0StartAcq"].get() == 1:
+				time.sleep(.01)
+
+		# while True:
+		# 	if picoReadOut == self.PVs["picoAmmeterI0AcqReadOut"].get():
+		# 		pass
+		# 		timerCounter = timerCounter + 1
+		# 	else:
+		# 		break
+		# 	time.sleep(sleepTime)
+		# 	if timerCounter * sleepTime >= ActualIntTime * 5:
+		# 		"""
+		# 		Maximum waiting time is the double of the actual integration
+		# 		time. 
+				
+		# 		This is needed only when kiethely returns a value that
+		# 		equals the previous collected one!!
+
+		# 		Maybe this part can be removed if we get a precise acquire:stat 
+		# 		PV ...
+		# 		"""
+		# 		CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
+		# 		break
 
 		# while True:
 		# 	if self.PVs["picoAmmeterI0StartAcq"].get() == 0:
