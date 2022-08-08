@@ -135,11 +135,11 @@ The interactive data visualization tool of the experimental data is devided to t
 
 As shown in the figure.10, the main information about the monitoring section are:
 
-   * Start time: the current starting time of the experiment.
-   * Elapse time: the scanning time for each sample.
-   * Sample # out of #: the number of samples for the experiment.
-   * Scans # out of #: the number of scans for the experiment.
-   * Intervals # out of #: the number of intervals for the experiment.
+   * Start time: experiment starting time.
+   * Elapsed time: elapsed time for each sample.
+   * Sample # out of #: experiment samples.
+   * Scans # out of #: experiment scans.
+   * Intervals # out of #: experiment intervals.
    * Sample X: the position of sample X.
    * Sample Y: the position of sample Y.
    * Energy (eV): the current energy of the beamline.
@@ -170,9 +170,7 @@ Live data collection by countinuous moving of PGM depending on predefined integr
 
 The live data plotting tool is located in the home directory of the control user. To access it:
 ::
-   $ cd  
-   $ cd bin/
-   $ ./HESEB_ScanTool_LiveDataVisualization
+   $ HESEB_ScanTool_LiveDataVisualization
 
 The main GUI will appear as shown in figure.11:
 
