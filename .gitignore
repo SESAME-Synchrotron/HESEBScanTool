@@ -132,3 +132,8 @@ dmypy.json
 *.pptx
 ui/build-HESEB_ScanTool_I0-Desktop-Debug*
 ui/build-HESEB_ScanTool_PICO-Desktop-Debug*
+ui/HESEB_ScanTool_LiveDataPlotting/I0.txt
+ui/HESEB_ScanTool_LiveDataPlotting/It.txt
+ui/HESEB_ScanTool_LiveDataPlotting/I0_Index.txt
+ui/HESEB_ScanTool_LiveDataPlotting/It_Index.txt
+
