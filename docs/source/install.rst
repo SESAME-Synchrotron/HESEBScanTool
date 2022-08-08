@@ -82,12 +82,11 @@ The list below contains the list of python packages needed for the scanning tool
 Qt and its libraries: 
 .....................
 
-	1. Request epics.repo from SESAME's local repo.
-	2. Move the repo to: ``/etc/yum.repos.d``.
-	3. Request the ``qt-creator-opensource-linux-x86_64-4.13.3.run``
-	4. Install qt-creator-opensource-linux-x86_64-4.13.3.run. 
-	5. Install epics-qt, qt5, qwt, or anything related to *qt* packages by ``yum`` command.
-	6. Go to ``.bashrc`` and copy the following:
+	1. Install epics from SESAME's local repo.
+	2. Download Qt creator: https://drive.sesame.org.jo/owncloud/index.php/s/LO3GLyDkPMWZKU9.
+	3. Install qt-creator-opensource-linux-x86_64-4.13.3.run. 
+	4. Install epics-qt, qt5, qwt, or anything related to *qt* packages by ``yum`` command.
+	5. Go to ``.bashrc`` and copy the following:
 
 	::
 
