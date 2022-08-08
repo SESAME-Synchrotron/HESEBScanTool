@@ -197,21 +197,27 @@ while(I0_run == 0 and i<3001):
 	picoReadOut = epics.PV("K6487:1:Acquire").get()
 	epics.PV("K6487:1:Acquire.PROC").put(1)
 	time.sleep(0.1)
+###############################################################
+	while epics.PV("K6487:1:Acquire.PROC").get() == 1:
+		time.sleep(.1)
 
-	while True:
-		currentPicoRead = epics.PV("K6487:1:Acquire").get()
-		if picoReadOut == currentPicoRead:
-			pass
-			timerCounter = timerCounter + 1
+	currentPicoRead = epics.PV("K6487:1:Acquire").get()
+	dataIndex.append(i)
+###############################################################
+	# while True:
+	# 	currentPicoRead = epics.PV("K6487:1:Acquire").get()
+	# 	if picoReadOut == currentPicoRead:
+	# 		pass
+	# 		timerCounter = timerCounter + 1
 
-		else:
-			dataIndex.append(i)
-			break
+	# 	else:
+	# 		dataIndex.append(i)
+	# 		break
 
-		time.sleep(sleepTime)
+	# 	time.sleep(sleepTime)
 
-		if timerCounter * sleepTime >= ActualIntTime * 1.5:
-			break
+	# 	if timerCounter * sleepTime >= ActualIntTime * 1.5:
+	# 		break
 		
 	i= i+1
   
