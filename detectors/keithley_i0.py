@@ -49,7 +49,7 @@ class KEITHLEY_I0(Base):
 		self.PVs["picoAmmeterI0StartAcq"].put(1)
 
 		while self.PVs["picoAmmeterI0StartAcq"].get() == 1:
-				time.sleep(.01)
+			time.sleep(.01)
 
 		# while True:
 		# 	if picoReadOut == self.PVs["picoAmmeterI0AcqReadOut"].get():
