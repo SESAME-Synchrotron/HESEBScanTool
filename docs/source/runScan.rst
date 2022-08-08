@@ -178,7 +178,7 @@ The main GUI will appear as shown in figure.11:
    :align: center
    :alt: Data Visualization
 	
-   *Figure 11: Data View Tool*
+   *Figure 11: Live Data Visualization Tool*
 
 The main buttons and status labels are:
 
