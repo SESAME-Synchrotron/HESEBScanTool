@@ -37,8 +37,8 @@ class KEITHLEY_ITRANS(Base):
 		startTime = time.time()
 		self.PVs["picoAmmeterItransStartAcq"].put(1)
 
-		while self.PVs["picoAmmeterI0StartAcq"].get() == 1:
-				time.sleep(.01)
+		while self.PVs["picoAmmeterItransStartAcq"].get() == 1:
+			time.sleep(.01)
 		# while True:
 		# 	if picoReadOut == self.PVs["picoAmmeterItransAcqReadOut"].get():
 		# 		pass
