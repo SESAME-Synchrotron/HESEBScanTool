@@ -82,7 +82,7 @@ The list below contains the list of python packages needed for the scanning tool
 Qt and its libraries: 
 .....................
 
-	1. Request epics.repo from control group.
+	1. Request epics.repo from SESAME's local repo.
 	2. Move the repo to: ``/etc/yum.repos.d``.
 	3. Request the ``qt-creator-opensource-linux-x86_64-4.13.3.run``
 	4. Install qt-creator-opensource-linux-x86_64-4.13.3.run. 
