@@ -197,8 +197,16 @@ while(It_run == 0 and i<3001):
 	epics.PV("K6485:1:Acquire.PROC").put(1)
 	time.sleep(0.1)
 
-	while epics.PV("K6485:1:Acquire.PROC").get() == 1:
-			time.sleep(.01)
+	# while epics.PV("K6485:1:Acquire.PROC").get() == 1:
+	# 		time.sleep(.01)
+
+	while True:
+		if epics.PV("K6485:1:Acquire.PROC").get()== 0:
+			break
+			print ("break")
+		else:
+			pass
+			print ("pass", epics.PV("K6485:1:Acquire.PROC").get(), "   ", type(epics.PV("K6485:1:Acquire.PROC").get()))
 
 	currentPicoRead = epics.PV("K6485:1:Acquire").get()
 	dataIndex.append(i)
