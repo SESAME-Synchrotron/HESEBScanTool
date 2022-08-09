@@ -204,7 +204,7 @@ class HESEBSCAN:
 			CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
 				curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
 
-		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get()) != 1:
+		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
 			continue 
 			# if curentScanInfo == None:
 			# 	#CLIMessage("PGM is moving to start energy {}... ".format(SP), "IR")
