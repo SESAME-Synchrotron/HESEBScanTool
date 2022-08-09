@@ -42,13 +42,14 @@ class KEITHLEY_I0(Base):
 		#print(NPLC, ActualIntTime)
 		self.PVs["picoAmmeterI0TPSS"].put(ActualIntTime)
 		self.PVs["picoAmmeterI0IntTime"].put(NPLC) ## int. time 
-		time.sleep(0.2)
 		# try: 
 		picoReadOut = self.PVs["picoAmmeterI0AcqReadOut"].get()
 		startTime = time.time()
 		self.PVs["picoAmmeterI0StartAcq"].put(1)
+		time.sleep(0.1)
 
-		while self.PVs["picoAmmeterI0StartAcq"].get() == 1:
+		while self.PVs["picoAmmeterI0StartAcq"].get(use_monitor=False):
+		# while epics.PV("K6487:1:Acquire.PROC").get():
 			time.sleep(.01)
 
 		# while True:
