@@ -18,6 +18,8 @@
 #include <QProcess>
 #include <QDir>
 
+#include "morevar.h"
+
 using namespace std;
 
 HESEB_ScanTool_I0vsTime::HESEB_ScanTool_I0vsTime(QWidget *parent) :
@@ -183,4 +185,10 @@ void HESEB_ScanTool_I0vsTime::on_Stop_clicked()
     QProcess *Acquire = new QProcess(0);
     QDir::setCurrent("/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting");
     Acquire->start("gnome-terminal -x ./I0_stopAcquire.sh");
+}
+
+void HESEB_ScanTool_I0vsTime::on_pushButton_clicked()
+{
+    morevar = new moreVar(this);
+    morevar -> show();
 }

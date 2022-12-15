@@ -16,7 +16,8 @@ SOURCES += \
     heseb_scantool_i0vstime.cpp \
     heseb_scantool_itvstime.cpp \
     main.cpp \
-    heseb_scantool_livedataplotting.cpp
+    heseb_scantool_livedataplotting.cpp \
+    morevar.cpp
 
 HEADERS += \
     client.h \
@@ -24,14 +25,16 @@ HEADERS += \
     heseb_scantool_i0_itvstime.h \
     heseb_scantool_i0vstime.h \
     heseb_scantool_itvstime.h \
-    heseb_scantool_livedataplotting.h
+    heseb_scantool_livedataplotting.h \
+    morevar.h
 
 FORMS += \
     help.ui \
     heseb_scantool_i0_itvstime.ui \
     heseb_scantool_i0vstime.ui \
     heseb_scantool_itvstime.ui \
-    heseb_scantool_livedataplotting.ui
+    heseb_scantool_livedataplotting.ui \
+    morevar.ui
 
 unix:!macx: LIBS += -L$(QE_TARGET_DIR)/lib/linux-x86_64/ -lQEFramework
 unix:!macx: LIBS += -L$$(QE_TARGET_DIR)/lib/linux-x86_64/designer -lQEPlugin

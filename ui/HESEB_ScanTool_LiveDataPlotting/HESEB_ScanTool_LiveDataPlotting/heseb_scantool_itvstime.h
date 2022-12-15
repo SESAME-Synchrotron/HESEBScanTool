@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <qepicspv.h>
 #include <QTimer>
+#include "morevar.h"
 
 namespace Ui {
 class HESEB_ScanTool_ItvsTime;
@@ -22,12 +23,19 @@ private slots:
 
     void on_Stop_clicked();
 
+    //void on_pushButton_clicked();
+
+    void on_PVsReadout_clicked();
+
 public:
     explicit HESEB_ScanTool_ItvsTime(QWidget *parent = nullptr);
     ~HESEB_ScanTool_ItvsTime();
 
 private:
     Ui::HESEB_ScanTool_ItvsTime *ui;
+    HESEB_ScanTool_ItvsTime* OtherPVs;
+
+    moreVar *morevar;
 
     QEpicsPV* run;
     QEpicsPV* intTime;

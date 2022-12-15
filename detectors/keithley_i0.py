@@ -50,7 +50,7 @@ class KEITHLEY_I0(Base):
 
 		while self.PVs["picoAmmeterI0StartAcq"].get(use_monitor=False):
 		# while epics.PV("K6487:1:Acquire.PROC").get():
-			time.sleep(.01)
+			time.sleep(.001)
 
 		# while True:
 		# 	if picoReadOut == self.PVs["picoAmmeterI0AcqReadOut"].get():

@@ -56,12 +56,14 @@ SOURCES       = ../HESEB_ScanTool_LiveDataPlotting/client.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/main.cpp \
-		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp moc_client.cpp \
+		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.cpp moc_client.cpp \
 		moc_help.cpp \
 		moc_heseb_scantool_i0_itvstime.cpp \
 		moc_heseb_scantool_i0vstime.cpp \
 		moc_heseb_scantool_itvstime.cpp \
-		moc_heseb_scantool_livedataplotting.cpp
+		moc_heseb_scantool_livedataplotting.cpp \
+		moc_morevar.cpp
 OBJECTS       = client.o \
 		help.o \
 		heseb_scantool_i0_itvstime.o \
@@ -69,12 +71,14 @@ OBJECTS       = client.o \
 		heseb_scantool_itvstime.o \
 		main.o \
 		heseb_scantool_livedataplotting.o \
+		morevar.o \
 		moc_client.o \
 		moc_help.o \
 		moc_heseb_scantool_i0_itvstime.o \
 		moc_heseb_scantool_i0vstime.o \
 		moc_heseb_scantool_itvstime.o \
-		moc_heseb_scantool_livedataplotting.o
+		moc_heseb_scantool_livedataplotting.o \
+		moc_morevar.o
 DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/common/unix.conf \
 		/usr/lib64/qt5/mkspecs/common/linux.conf \
@@ -162,13 +166,15 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h \
-		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.h ../HESEB_ScanTool_LiveDataPlotting/client.cpp \
+		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h ../HESEB_ScanTool_LiveDataPlotting/client.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/help.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.cpp \
 		../HESEB_ScanTool_LiveDataPlotting/main.cpp \
-		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp
+		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.cpp
 QMAKE_TARGET  = HESEB_ScanTool_LiveDataVisualization
 DESTDIR       = ../../../../bin/
 TARGET        = ../../../../bin/HESEB_ScanTool_LiveDataVisualization
@@ -177,7 +183,7 @@ TARGET        = ../../../../bin/HESEB_ScanTool_LiveDataVisualization
 first: all
 ####### Build rules
 
-$(TARGET): /usr/lib64/libQt5UiTools.a ui_help.h ui_heseb_scantool_i0_itvstime.h ui_heseb_scantool_i0vstime.h ui_heseb_scantool_itvstime.h ui_heseb_scantool_livedataplotting.h $(OBJECTS)  
+$(TARGET): /usr/lib64/libQt5UiTools.a ui_help.h ui_heseb_scantool_i0_itvstime.h ui_heseb_scantool_i0vstime.h ui_heseb_scantool_itvstime.h ui_heseb_scantool_livedataplotting.h ui_morevar.h $(OBJECTS)  
 	@test -d ../../../../bin/ || mkdir -p ../../../../bin/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -373,9 +379,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib64/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../HESEB_ScanTool_LiveDataPlotting/client.h ../HESEB_ScanTool_LiveDataPlotting/help.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../HESEB_ScanTool_LiveDataPlotting/client.cpp ../HESEB_ScanTool_LiveDataPlotting/help.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.cpp ../HESEB_ScanTool_LiveDataPlotting/main.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../HESEB_ScanTool_LiveDataPlotting/help.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../HESEB_ScanTool_LiveDataPlotting/client.h ../HESEB_ScanTool_LiveDataPlotting/help.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.h ../HESEB_ScanTool_LiveDataPlotting/morevar.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../HESEB_ScanTool_LiveDataPlotting/client.cpp ../HESEB_ScanTool_LiveDataPlotting/help.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.cpp ../HESEB_ScanTool_LiveDataPlotting/main.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp ../HESEB_ScanTool_LiveDataPlotting/morevar.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../HESEB_ScanTool_LiveDataPlotting/help.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.ui ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.ui ../HESEB_ScanTool_LiveDataPlotting/morevar.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -407,9 +413,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib64/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/lib64/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_client.cpp moc_help.cpp moc_heseb_scantool_i0_itvstime.cpp moc_heseb_scantool_i0vstime.cpp moc_heseb_scantool_itvstime.cpp moc_heseb_scantool_livedataplotting.cpp
+compiler_moc_header_make_all: moc_client.cpp moc_help.cpp moc_heseb_scantool_i0_itvstime.cpp moc_heseb_scantool_i0vstime.cpp moc_heseb_scantool_itvstime.cpp moc_heseb_scantool_livedataplotting.cpp moc_morevar.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_client.cpp moc_help.cpp moc_heseb_scantool_i0_itvstime.cpp moc_heseb_scantool_i0vstime.cpp moc_heseb_scantool_itvstime.cpp moc_heseb_scantool_livedataplotting.cpp
+	-$(DEL_FILE) moc_client.cpp moc_help.cpp moc_heseb_scantool_i0_itvstime.cpp moc_heseb_scantool_i0vstime.cpp moc_heseb_scantool_itvstime.cpp moc_heseb_scantool_livedataplotting.cpp moc_morevar.cpp
 moc_client.cpp: /usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		/opt/epics/base/include/cadef.h \
@@ -442,6 +448,7 @@ moc_help.cpp: ../HESEB_ScanTool_LiveDataPlotting/help.h \
 
 moc_heseb_scantool_i0_itvstime.cpp: /usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
@@ -449,6 +456,7 @@ moc_heseb_scantool_i0_itvstime.cpp: /usr/local/epics-qt/include/qepicspv.h \
 
 moc_heseb_scantool_i0vstime.cpp: /usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
@@ -456,6 +464,7 @@ moc_heseb_scantool_i0vstime.cpp: /usr/local/epics-qt/include/qepicspv.h \
 
 moc_heseb_scantool_itvstime.cpp: /usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
@@ -464,6 +473,7 @@ moc_heseb_scantool_itvstime.cpp: /usr/local/epics-qt/include/qepicspv.h \
 moc_heseb_scantool_livedataplotting.cpp: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h \
 		/usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/help.h \
@@ -472,11 +482,16 @@ moc_heseb_scantool_livedataplotting.cpp: ../HESEB_ScanTool_LiveDataPlotting/hese
 		/usr/lib64/qt5/bin/moc
 	/usr/lib64/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/HESEB_ScanTool_LiveDataPlotting -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/4.8.5 -I/usr/include/c++/4.8.5/x86_64-redhat-linux -I/usr/include/c++/4.8.5/backward -I/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include -I/usr/local/include -I/usr/include ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.h -o moc_heseb_scantool_livedataplotting.cpp
 
+moc_morevar.cpp: ../HESEB_ScanTool_LiveDataPlotting/morevar.h \
+		moc_predefs.h \
+		/usr/lib64/qt5/bin/moc
+	/usr/lib64/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/HESEB_ScanTool_LiveDataPlotting -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/4.8.5 -I/usr/include/c++/4.8.5/x86_64-redhat-linux -I/usr/include/c++/4.8.5/backward -I/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include -I/usr/local/include -I/usr/include ../HESEB_ScanTool_LiveDataPlotting/morevar.h -o moc_morevar.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_help.h ui_heseb_scantool_i0_itvstime.h ui_heseb_scantool_i0vstime.h ui_heseb_scantool_itvstime.h ui_heseb_scantool_livedataplotting.h
+compiler_uic_make_all: ui_help.h ui_heseb_scantool_i0_itvstime.h ui_heseb_scantool_i0vstime.h ui_heseb_scantool_itvstime.h ui_heseb_scantool_livedataplotting.h ui_morevar.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_help.h ui_heseb_scantool_i0_itvstime.h ui_heseb_scantool_i0vstime.h ui_heseb_scantool_itvstime.h ui_heseb_scantool_livedataplotting.h
+	-$(DEL_FILE) ui_help.h ui_heseb_scantool_i0_itvstime.h ui_heseb_scantool_i0vstime.h ui_heseb_scantool_itvstime.h ui_heseb_scantool_livedataplotting.h ui_morevar.h
 ui_help.h: ../HESEB_ScanTool_LiveDataPlotting/help.ui \
 		/usr/lib64/qt5/bin/uic
 	/usr/lib64/qt5/bin/uic ../HESEB_ScanTool_LiveDataPlotting/help.ui -o ui_help.h
@@ -734,6 +749,43 @@ ui_heseb_scantool_livedataplotting.h: ../HESEB_ScanTool_LiveDataPlotting/heseb_s
 		/usr/lib64/qt5/bin/uic
 	/usr/lib64/qt5/bin/uic ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.ui -o ui_heseb_scantool_livedataplotting.h
 
+ui_morevar.h: ../HESEB_ScanTool_LiveDataPlotting/morevar.ui \
+		/usr/lib64/qt5/bin/uic \
+		/usr/local/epics-qt/include/QELineEdit.h \
+		/usr/local/epics-qt/include/QEWidget.h \
+		/usr/local/epics-qt/include/VariableManager.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/VariableNameManager.h \
+		/usr/local/epics-qt/include/ContainerProfile.h \
+		/usr/local/epics-qt/include/persistanceManager.h \
+		/usr/local/epics-qt/include/QEEmitter.h \
+		/usr/local/epics-qt/include/QEToolTip.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h \
+		/usr/local/epics-qt/include/QEDragDrop.h \
+		/usr/local/epics-qt/include/QEActionRequests.h \
+		/usr/local/epics-qt/include/QEFormMapper.h \
+		/usr/local/epics-qt/include/styleManager.h \
+		/usr/local/epics-qt/include/contextMenu.h \
+		/usr/local/epics-qt/include/standardProperties.h \
+		/usr/local/epics-qt/include/QEStringFormattingMethods.h \
+		/usr/local/epics-qt/include/QEGenericEdit.h \
+		/usr/local/epics-qt/include/QESingleVariableMethods.h \
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h
+	/usr/lib64/qt5/bin/uic ../HESEB_ScanTool_LiveDataPlotting/morevar.ui -o ui_morevar.h
+
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
 compiler_yacc_impl_make_all:
@@ -768,62 +820,14 @@ client.o: ../HESEB_ScanTool_LiveDataPlotting/client.cpp ../HESEB_ScanTool_LiveDa
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o ../HESEB_ScanTool_LiveDataPlotting/client.cpp
 
 help.o: ../HESEB_ScanTool_LiveDataPlotting/help.cpp ../HESEB_ScanTool_LiveDataPlotting/help.h \
-		../HESEB_ScanTool_LiveDataPlotting/ui_help.h
+		ui_help.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o help.o ../HESEB_ScanTool_LiveDataPlotting/help.cpp
 
 heseb_scantool_i0_itvstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h \
 		/usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
-		../HESEB_ScanTool_LiveDataPlotting/ui_heseb_scantool_i0_itvstime.h \
-		/usr/local/epics-qt/include/QEFrame.h \
-		/usr/local/epics-qt/include/QEWidget.h \
-		/usr/local/epics-qt/include/VariableManager.h \
-		/usr/local/epics-qt/include/QCaObject.h \
-		/usr/local/epics-qt/include/CaObject.h \
-		/usr/local/epics-qt/include/Generic.h \
-		/usr/local/epics-qt/include/CaRef.h \
-		/usr/local/epics-qt/include/QCaStateMachine.h \
-		/usr/local/epics-qt/include/QCaEventFilter.h \
-		/usr/local/epics-qt/include/QCaEventUpdate.h \
-		/usr/local/epics-qt/include/UserMessage.h \
-		/usr/local/epics-qt/include/QCaAlarmInfo.h \
-		/usr/local/epics-qt/include/QCaDateTime.h \
-		/usr/local/epics-qt/include/QCaConnectionInfo.h \
-		/usr/local/epics-qt/include/VariableNameManager.h \
-		/usr/local/epics-qt/include/ContainerProfile.h \
-		/usr/local/epics-qt/include/persistanceManager.h \
-		/usr/local/epics-qt/include/QEEmitter.h \
-		/usr/local/epics-qt/include/QEToolTip.h \
-		/usr/local/epics-qt/include/QEString.h \
-		/usr/local/epics-qt/include/QEStringFormatting.h \
-		/usr/local/epics-qt/include/QELocalEnumeration.h \
-		/usr/local/epics-qt/include/QEDragDrop.h \
-		/usr/local/epics-qt/include/QEActionRequests.h \
-		/usr/local/epics-qt/include/QEFormMapper.h \
-		/usr/local/epics-qt/include/styleManager.h \
-		/usr/local/epics-qt/include/contextMenu.h \
-		/usr/local/epics-qt/include/standardProperties.h \
-		/usr/local/epics-qt/include/managePixmaps.h \
-		/usr/local/epics-qt/include/QEPlotter.h \
-		/usr/local/epics-qt/include/QEFloatingArray.h \
-		/usr/local/epics-qt/include/QEFloatingFormatting.h \
-		/usr/local/epics-qt/include/QEIntegerFormatting.h \
-		/usr/local/epics-qt/include/QEAbstractDynamicWidget.h \
-		/usr/local/epics-qt/include/QEExpressionEvaluation.h \
-		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
-		/usr/local/epics-qt/include/QEResizeableFrame.h \
-		/usr/local/epics-qt/include/QEGraphicNames.h \
-		/usr/local/epics-qt/include/QEStripChartRangeDialog.h \
-		/usr/local/epics-qt/include/QEDialog.h \
-		/usr/local/epics-qt/include/QETwinScaleSelectDialog.h \
-		/usr/local/epics-qt/include/QEPlotterNames.h \
-		/usr/local/epics-qt/include/QEPlotterItemDialog.h \
-		/usr/local/epics-qt/include/QEPlotterMenu.h \
-		/usr/local/epics-qt/include/QEPlotterState.h \
-		/usr/local/epics-qt/include/QEPlotterToolBar.h \
-		/usr/local/epics-qt/include/QEOneToOne.h \
-		/usr/local/epics-qt/include/QSimpleShape.h \
-		/usr/local/epics-qt/include/QEScanTimers.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
+		ui_heseb_scantool_i0_itvstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/client.h \
 		/opt/epics/base/include/cadef.h \
 		/opt/epics/base/include/epicsThread.h \
@@ -848,54 +852,8 @@ heseb_scantool_i0_itvstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_
 heseb_scantool_i0vstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h \
 		/usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
-		../HESEB_ScanTool_LiveDataPlotting/ui_heseb_scantool_i0vstime.h \
-		/usr/local/epics-qt/include/QEFrame.h \
-		/usr/local/epics-qt/include/QEWidget.h \
-		/usr/local/epics-qt/include/VariableManager.h \
-		/usr/local/epics-qt/include/QCaObject.h \
-		/usr/local/epics-qt/include/CaObject.h \
-		/usr/local/epics-qt/include/Generic.h \
-		/usr/local/epics-qt/include/CaRef.h \
-		/usr/local/epics-qt/include/QCaStateMachine.h \
-		/usr/local/epics-qt/include/QCaEventFilter.h \
-		/usr/local/epics-qt/include/QCaEventUpdate.h \
-		/usr/local/epics-qt/include/UserMessage.h \
-		/usr/local/epics-qt/include/QCaAlarmInfo.h \
-		/usr/local/epics-qt/include/QCaDateTime.h \
-		/usr/local/epics-qt/include/QCaConnectionInfo.h \
-		/usr/local/epics-qt/include/VariableNameManager.h \
-		/usr/local/epics-qt/include/ContainerProfile.h \
-		/usr/local/epics-qt/include/persistanceManager.h \
-		/usr/local/epics-qt/include/QEEmitter.h \
-		/usr/local/epics-qt/include/QEToolTip.h \
-		/usr/local/epics-qt/include/QEString.h \
-		/usr/local/epics-qt/include/QEStringFormatting.h \
-		/usr/local/epics-qt/include/QELocalEnumeration.h \
-		/usr/local/epics-qt/include/QEDragDrop.h \
-		/usr/local/epics-qt/include/QEActionRequests.h \
-		/usr/local/epics-qt/include/QEFormMapper.h \
-		/usr/local/epics-qt/include/styleManager.h \
-		/usr/local/epics-qt/include/contextMenu.h \
-		/usr/local/epics-qt/include/standardProperties.h \
-		/usr/local/epics-qt/include/managePixmaps.h \
-		/usr/local/epics-qt/include/QEPlotter.h \
-		/usr/local/epics-qt/include/QEFloatingArray.h \
-		/usr/local/epics-qt/include/QEFloatingFormatting.h \
-		/usr/local/epics-qt/include/QEIntegerFormatting.h \
-		/usr/local/epics-qt/include/QEAbstractDynamicWidget.h \
-		/usr/local/epics-qt/include/QEExpressionEvaluation.h \
-		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
-		/usr/local/epics-qt/include/QEResizeableFrame.h \
-		/usr/local/epics-qt/include/QEGraphicNames.h \
-		/usr/local/epics-qt/include/QEStripChartRangeDialog.h \
-		/usr/local/epics-qt/include/QEDialog.h \
-		/usr/local/epics-qt/include/QETwinScaleSelectDialog.h \
-		/usr/local/epics-qt/include/QEPlotterNames.h \
-		/usr/local/epics-qt/include/QEPlotterItemDialog.h \
-		/usr/local/epics-qt/include/QEPlotterMenu.h \
-		/usr/local/epics-qt/include/QEPlotterState.h \
-		/usr/local/epics-qt/include/QEPlotterToolBar.h \
-		/usr/local/epics-qt/include/QEOneToOne.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
+		ui_heseb_scantool_i0vstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/client.h \
 		/opt/epics/base/include/cadef.h \
 		/opt/epics/base/include/epicsThread.h \
@@ -920,54 +878,8 @@ heseb_scantool_i0vstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0v
 heseb_scantool_itvstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.cpp ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h \
 		/usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
-		../HESEB_ScanTool_LiveDataPlotting/ui_heseb_scantool_itvstime.h \
-		/usr/local/epics-qt/include/QEFrame.h \
-		/usr/local/epics-qt/include/QEWidget.h \
-		/usr/local/epics-qt/include/VariableManager.h \
-		/usr/local/epics-qt/include/QCaObject.h \
-		/usr/local/epics-qt/include/CaObject.h \
-		/usr/local/epics-qt/include/Generic.h \
-		/usr/local/epics-qt/include/CaRef.h \
-		/usr/local/epics-qt/include/QCaStateMachine.h \
-		/usr/local/epics-qt/include/QCaEventFilter.h \
-		/usr/local/epics-qt/include/QCaEventUpdate.h \
-		/usr/local/epics-qt/include/UserMessage.h \
-		/usr/local/epics-qt/include/QCaAlarmInfo.h \
-		/usr/local/epics-qt/include/QCaDateTime.h \
-		/usr/local/epics-qt/include/QCaConnectionInfo.h \
-		/usr/local/epics-qt/include/VariableNameManager.h \
-		/usr/local/epics-qt/include/ContainerProfile.h \
-		/usr/local/epics-qt/include/persistanceManager.h \
-		/usr/local/epics-qt/include/QEEmitter.h \
-		/usr/local/epics-qt/include/QEToolTip.h \
-		/usr/local/epics-qt/include/QEString.h \
-		/usr/local/epics-qt/include/QEStringFormatting.h \
-		/usr/local/epics-qt/include/QELocalEnumeration.h \
-		/usr/local/epics-qt/include/QEDragDrop.h \
-		/usr/local/epics-qt/include/QEActionRequests.h \
-		/usr/local/epics-qt/include/QEFormMapper.h \
-		/usr/local/epics-qt/include/styleManager.h \
-		/usr/local/epics-qt/include/contextMenu.h \
-		/usr/local/epics-qt/include/standardProperties.h \
-		/usr/local/epics-qt/include/managePixmaps.h \
-		/usr/local/epics-qt/include/QEPlotter.h \
-		/usr/local/epics-qt/include/QEFloatingArray.h \
-		/usr/local/epics-qt/include/QEFloatingFormatting.h \
-		/usr/local/epics-qt/include/QEIntegerFormatting.h \
-		/usr/local/epics-qt/include/QEAbstractDynamicWidget.h \
-		/usr/local/epics-qt/include/QEExpressionEvaluation.h \
-		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
-		/usr/local/epics-qt/include/QEResizeableFrame.h \
-		/usr/local/epics-qt/include/QEGraphicNames.h \
-		/usr/local/epics-qt/include/QEStripChartRangeDialog.h \
-		/usr/local/epics-qt/include/QEDialog.h \
-		/usr/local/epics-qt/include/QETwinScaleSelectDialog.h \
-		/usr/local/epics-qt/include/QEPlotterNames.h \
-		/usr/local/epics-qt/include/QEPlotterItemDialog.h \
-		/usr/local/epics-qt/include/QEPlotterMenu.h \
-		/usr/local/epics-qt/include/QEPlotterState.h \
-		/usr/local/epics-qt/include/QEPlotterToolBar.h \
-		/usr/local/epics-qt/include/QEOneToOne.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
+		ui_heseb_scantool_itvstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/client.h \
 		/opt/epics/base/include/cadef.h \
 		/opt/epics/base/include/epicsThread.h \
@@ -993,6 +905,7 @@ main.o: ../HESEB_ScanTool_LiveDataPlotting/main.cpp ../HESEB_ScanTool_LiveDataPl
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h \
 		/usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/help.h
@@ -1002,11 +915,16 @@ heseb_scantool_livedataplotting.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scan
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0_itvstime.h \
 		/usr/local/epics-qt/include/qepicspv.h \
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0vstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itvstime.h \
 		../HESEB_ScanTool_LiveDataPlotting/help.h \
-		../HESEB_ScanTool_LiveDataPlotting/ui_heseb_scantool_livedataplotting.h
+		ui_heseb_scantool_livedataplotting.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heseb_scantool_livedataplotting.o ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp
+
+morevar.o: ../HESEB_ScanTool_LiveDataPlotting/morevar.cpp ../HESEB_ScanTool_LiveDataPlotting/morevar.h \
+		ui_morevar.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o morevar.o ../HESEB_ScanTool_LiveDataPlotting/morevar.cpp
 
 moc_client.o: moc_client.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_client.o moc_client.cpp
@@ -1025,6 +943,9 @@ moc_heseb_scantool_itvstime.o: moc_heseb_scantool_itvstime.cpp
 
 moc_heseb_scantool_livedataplotting.o: moc_heseb_scantool_livedataplotting.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_heseb_scantool_livedataplotting.o moc_heseb_scantool_livedataplotting.cpp
+
+moc_morevar.o: moc_morevar.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_morevar.o moc_morevar.cpp
 
 ####### Install
 
