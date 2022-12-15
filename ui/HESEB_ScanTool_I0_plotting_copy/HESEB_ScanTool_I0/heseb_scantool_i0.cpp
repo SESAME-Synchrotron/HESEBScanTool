@@ -11,8 +11,6 @@
 #include <qepicspv.h>
 #include <qstring.h>
 
-#include "morevar.h"
-
 using namespace std;
 string getLastLine(ifstream& in)
 {
@@ -83,12 +81,4 @@ void HESEB_ScanTool_I0::path()
        }
 //       else
 //          cout << "Unable to open file.\n";
-}
-
-
-
-void HESEB_ScanTool_I0::on_readMorePVs_clicked()
-{
-    morevar = new moreVar(this);
-    morevar -> show();
 }

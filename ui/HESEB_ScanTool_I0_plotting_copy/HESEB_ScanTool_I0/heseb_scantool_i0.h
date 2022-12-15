@@ -5,8 +5,6 @@
 #include <qepicspv.h>
 #include <QTimer>
 
-#include "morevar.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class HESEB_ScanTool_I0; }
 QT_END_NAMESPACE
@@ -26,15 +24,11 @@ private slots:
 
     void path();
 
-
-    void on_readMorePVs_clicked();
-
 private:
     Ui::HESEB_ScanTool_I0 *ui;
 
     QString SED_Path;
     QTimer* checkLogs;
     QTimer* checkPath;
-    moreVar *morevar;
 };
 #endif // HESEB_SCANTOOL_I0_H
