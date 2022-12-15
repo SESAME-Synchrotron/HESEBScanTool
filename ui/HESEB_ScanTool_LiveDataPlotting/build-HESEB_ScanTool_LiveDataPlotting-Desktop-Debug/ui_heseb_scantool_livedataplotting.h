@@ -33,8 +33,8 @@ public:
     QGridLayout *gridLayout_2;
     QPushButton *I0_It;
     QSpacerItem *horizontalSpacer;
-    QPushButton *I0;
     QPushButton *It;
+    QPushButton *I0;
     QSpacerItem *horizontalSpacer_2;
     QGridLayout *gridLayout_3;
     QLabel *I0_sts;
@@ -50,7 +50,7 @@ public:
     {
         if (HESEB_ScanTool_LiveDataPlotting->objectName().isEmpty())
             HESEB_ScanTool_LiveDataPlotting->setObjectName(QStringLiteral("HESEB_ScanTool_LiveDataPlotting"));
-        HESEB_ScanTool_LiveDataPlotting->resize(515, 226);
+        HESEB_ScanTool_LiveDataPlotting->resize(515, 243);
         centralwidget = new QWidget(HESEB_ScanTool_LiveDataPlotting);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout_5 = new QGridLayout(centralwidget);
@@ -87,26 +87,29 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         I0_It = new QPushButton(centralwidget);
         I0_It->setObjectName(QStringLiteral("I0_It"));
+        I0_It->setStyleSheet(QLatin1String("border-color: rgb(239, 239, 239);\n"
+"background-color: rgb(239, 239, 239);"));
+        I0_It->setFlat(true);
 
-        gridLayout_2->addWidget(I0_It, 3, 1, 1, 1);
+        gridLayout_2->addWidget(I0_It, 2, 1, 1, 1);
 
         horizontalSpacer = new QSpacerItem(100, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(horizontalSpacer, 1, 0, 3, 1);
-
-        I0 = new QPushButton(centralwidget);
-        I0->setObjectName(QStringLiteral("I0"));
-
-        gridLayout_2->addWidget(I0, 1, 1, 1, 1);
+        gridLayout_2->addItem(horizontalSpacer, 0, 0, 3, 1);
 
         It = new QPushButton(centralwidget);
         It->setObjectName(QStringLiteral("It"));
 
-        gridLayout_2->addWidget(It, 2, 1, 1, 1);
+        gridLayout_2->addWidget(It, 1, 1, 1, 1);
+
+        I0 = new QPushButton(centralwidget);
+        I0->setObjectName(QStringLiteral("I0"));
+
+        gridLayout_2->addWidget(I0, 0, 1, 1, 1);
 
         horizontalSpacer_2 = new QSpacerItem(100, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_2->addItem(horizontalSpacer_2, 1, 2, 3, 1);
+        gridLayout_2->addItem(horizontalSpacer_2, 0, 2, 3, 1);
 
 
         gridLayout_5->addLayout(gridLayout_2, 1, 0, 1, 1);
@@ -122,7 +125,7 @@ public:
 
         both_sts = new QLabel(centralwidget);
         both_sts->setObjectName(QStringLiteral("both_sts"));
-        both_sts->setFrameShape(QFrame::StyledPanel);
+        both_sts->setFrameShape(QFrame::NoFrame);
         both_sts->setAlignment(Qt::AlignCenter);
 
         gridLayout_3->addWidget(both_sts, 2, 0, 1, 1);
@@ -170,9 +173,9 @@ public:
     {
         HESEB_ScanTool_LiveDataPlotting->setWindowTitle(QApplication::translate("HESEB_ScanTool_LiveDataPlotting", "HESEB_ScanTool_LiveDataPlotting", Q_NULLPTR));
         lblTitle_2->setText(QApplication::translate("HESEB_ScanTool_LiveDataPlotting", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | LIVE DATA PLOTTING</p></body></html>", Q_NULLPTR));
-        I0_It->setText(QApplication::translate("HESEB_ScanTool_LiveDataPlotting", "I0_Itrans", Q_NULLPTR));
-        I0->setText(QApplication::translate("HESEB_ScanTool_LiveDataPlotting", "I0", Q_NULLPTR));
+        I0_It->setText(QString());
         It->setText(QApplication::translate("HESEB_ScanTool_LiveDataPlotting", "Itrans", Q_NULLPTR));
+        I0->setText(QApplication::translate("HESEB_ScanTool_LiveDataPlotting", "I0", Q_NULLPTR));
         I0_sts->setText(QString());
         both_sts->setText(QString());
         It_sts->setText(QString());
