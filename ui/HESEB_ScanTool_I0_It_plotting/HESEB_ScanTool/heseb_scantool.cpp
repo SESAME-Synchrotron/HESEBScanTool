@@ -1,4 +1,4 @@
-#include "heseb_scantool.h"
+﻿#include "heseb_scantool.h"
 #include "ui_heseb_scantool.h"
 
 #include <iostream>
@@ -10,6 +10,8 @@
 #include <QUrl>
 #include <qepicspv.h>
 #include <qstring.h>
+
+# include "morevar.h"
 
 using namespace std;
 string getLastLine(ifstream& in)
@@ -79,4 +81,10 @@ void HESEB_ScanTool::path()
        }
 //       else
 //          cout << "Unable to open file.\n";
+}
+
+void HESEB_ScanTool::on_morevar_clicked()
+{
+    morevar = new moreVar(this);
+    morevar->show();
 }
