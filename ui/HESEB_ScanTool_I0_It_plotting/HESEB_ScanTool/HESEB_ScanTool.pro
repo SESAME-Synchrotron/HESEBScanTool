@@ -12,14 +12,17 @@ TARGET = $$(HOME)/bin/HESEB_ScanTool_I0_It
 SOURCES += \
     client.cpp \
     main.cpp \
-    heseb_scantool.cpp
+    heseb_scantool.cpp \
+    morevar.cpp
 
 HEADERS += \
     client.h \
-    heseb_scantool.h
+    heseb_scantool.h \
+    morevar.h
 
 FORMS += \
-    heseb_scantool.ui
+    heseb_scantool.ui \
+    morevar.ui
 
 unix:!macx: LIBS += -L$(QE_TARGET_DIR)/lib/linux-x86_64/ -lQEFramework
 unix:!macx: LIBS += -L$$(QE_TARGET_DIR)/lib/linux-x86_64/designer -lQEPlugin
