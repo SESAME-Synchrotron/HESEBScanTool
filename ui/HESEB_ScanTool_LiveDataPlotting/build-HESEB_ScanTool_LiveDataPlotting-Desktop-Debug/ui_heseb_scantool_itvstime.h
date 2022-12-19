@@ -37,9 +37,9 @@ public:
     QLabel *label;
     QLineEdit *Int_time;
     QSpacerItem *horizontalSpacer_3;
-    QPushButton *PVsReadout;
     QPushButton *Start;
     QPushButton *Stop;
+    QPushButton *PVsReadout;
     QGridLayout *gridLayout_8;
     QLabel *label_17;
     QLabel *label_18;
@@ -103,11 +103,6 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_3);
 
-        PVsReadout = new QPushButton(HESEB_ScanTool_ItvsTime);
-        PVsReadout->setObjectName(QStringLiteral("PVsReadout"));
-
-        horizontalLayout->addWidget(PVsReadout);
-
         Start = new QPushButton(HESEB_ScanTool_ItvsTime);
         Start->setObjectName(QStringLiteral("Start"));
         Start->setCursor(QCursor(Qt::PointingHandCursor));
@@ -122,6 +117,11 @@ public:
 "border-color: rgb(0, 0, 0);"));
 
         horizontalLayout->addWidget(Stop);
+
+        PVsReadout = new QPushButton(HESEB_ScanTool_ItvsTime);
+        PVsReadout->setObjectName(QStringLiteral("PVsReadout"));
+
+        horizontalLayout->addWidget(PVsReadout);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -186,9 +186,9 @@ public:
         lblTitle_4->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | Itrans<span style=\" vertical-align:sub;\">(A)_ </span>Time<span style=\" vertical-align:sub;\">(s)</span></p></body></html>", Q_NULLPTR));
         label->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Integration Time", Q_NULLPTR));
         Int_time->setPlaceholderText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Enter Integration Time ... * The allowable values are: {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9}", Q_NULLPTR));
-        PVsReadout->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "BL Parameters", Q_NULLPTR));
         Start->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Start ", Q_NULLPTR));
         Stop->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Stop", Q_NULLPTR));
+        PVsReadout->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "BL Parameters", Q_NULLPTR));
         label_17->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "<html><head/><body><p>Time(s) = Index * Int. Time</p></body></html>", Q_NULLPTR));
         label_18->setText(QApplication::translate("HESEB_ScanTool_ItvsTime", "Current (A)", Q_NULLPTR));
         qeplotter_4->setProperty("DataVariableX", QVariant(QApplication::translate("HESEB_ScanTool_ItvsTime", "It:PLOT:INDEX", Q_NULLPTR)));
