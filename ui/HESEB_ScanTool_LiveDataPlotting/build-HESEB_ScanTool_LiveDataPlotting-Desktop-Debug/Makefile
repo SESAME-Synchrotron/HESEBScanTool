@@ -751,7 +751,7 @@ ui_heseb_scantool_livedataplotting.h: ../HESEB_ScanTool_LiveDataPlotting/heseb_s
 
 ui_morevar.h: ../HESEB_ScanTool_LiveDataPlotting/morevar.ui \
 		/usr/lib64/qt5/bin/uic \
-		/usr/local/epics-qt/include/QELineEdit.h \
+		/usr/local/epics-qt/include/QELabel.h \
 		/usr/local/epics-qt/include/QEWidget.h \
 		/usr/local/epics-qt/include/VariableManager.h \
 		/usr/local/epics-qt/include/QCaObject.h \
@@ -780,10 +780,10 @@ ui_morevar.h: ../HESEB_ScanTool_LiveDataPlotting/morevar.ui \
 		/usr/local/epics-qt/include/styleManager.h \
 		/usr/local/epics-qt/include/contextMenu.h \
 		/usr/local/epics-qt/include/standardProperties.h \
-		/usr/local/epics-qt/include/QEStringFormattingMethods.h \
-		/usr/local/epics-qt/include/QEGenericEdit.h \
+		/usr/local/epics-qt/include/managePixmaps.h \
 		/usr/local/epics-qt/include/QESingleVariableMethods.h \
-		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
+		/usr/local/epics-qt/include/QEStringFormattingMethods.h
 	/usr/lib64/qt5/bin/uic ../HESEB_ScanTool_LiveDataPlotting/morevar.ui -o ui_morevar.h
 
 compiler_yacc_decl_make_all:
@@ -828,6 +828,55 @@ heseb_scantool_i0_itvstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		ui_heseb_scantool_i0_itvstime.h \
+		/usr/local/epics-qt/include/QEFrame.h \
+		/usr/local/epics-qt/include/QEWidget.h \
+		/usr/local/epics-qt/include/VariableManager.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/VariableNameManager.h \
+		/usr/local/epics-qt/include/ContainerProfile.h \
+		/usr/local/epics-qt/include/persistanceManager.h \
+		/usr/local/epics-qt/include/QEEmitter.h \
+		/usr/local/epics-qt/include/QEToolTip.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h \
+		/usr/local/epics-qt/include/QEDragDrop.h \
+		/usr/local/epics-qt/include/QEActionRequests.h \
+		/usr/local/epics-qt/include/QEFormMapper.h \
+		/usr/local/epics-qt/include/styleManager.h \
+		/usr/local/epics-qt/include/contextMenu.h \
+		/usr/local/epics-qt/include/standardProperties.h \
+		/usr/local/epics-qt/include/managePixmaps.h \
+		/usr/local/epics-qt/include/QEPlotter.h \
+		/usr/local/epics-qt/include/QEFloatingArray.h \
+		/usr/local/epics-qt/include/QEFloatingFormatting.h \
+		/usr/local/epics-qt/include/QEIntegerFormatting.h \
+		/usr/local/epics-qt/include/QEAbstractDynamicWidget.h \
+		/usr/local/epics-qt/include/QEExpressionEvaluation.h \
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
+		/usr/local/epics-qt/include/QEResizeableFrame.h \
+		/usr/local/epics-qt/include/QEGraphicNames.h \
+		/usr/local/epics-qt/include/QEStripChartRangeDialog.h \
+		/usr/local/epics-qt/include/QEDialog.h \
+		/usr/local/epics-qt/include/QETwinScaleSelectDialog.h \
+		/usr/local/epics-qt/include/QEPlotterNames.h \
+		/usr/local/epics-qt/include/QEPlotterItemDialog.h \
+		/usr/local/epics-qt/include/QEPlotterMenu.h \
+		/usr/local/epics-qt/include/QEPlotterState.h \
+		/usr/local/epics-qt/include/QEPlotterToolBar.h \
+		/usr/local/epics-qt/include/QEOneToOne.h \
+		/usr/local/epics-qt/include/QSimpleShape.h \
+		/usr/local/epics-qt/include/QEScanTimers.h \
 		../HESEB_ScanTool_LiveDataPlotting/client.h \
 		/opt/epics/base/include/cadef.h \
 		/opt/epics/base/include/epicsThread.h \
@@ -854,6 +903,53 @@ heseb_scantool_i0vstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_i0v
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		ui_heseb_scantool_i0vstime.h \
+		/usr/local/epics-qt/include/QEFrame.h \
+		/usr/local/epics-qt/include/QEWidget.h \
+		/usr/local/epics-qt/include/VariableManager.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/VariableNameManager.h \
+		/usr/local/epics-qt/include/ContainerProfile.h \
+		/usr/local/epics-qt/include/persistanceManager.h \
+		/usr/local/epics-qt/include/QEEmitter.h \
+		/usr/local/epics-qt/include/QEToolTip.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h \
+		/usr/local/epics-qt/include/QEDragDrop.h \
+		/usr/local/epics-qt/include/QEActionRequests.h \
+		/usr/local/epics-qt/include/QEFormMapper.h \
+		/usr/local/epics-qt/include/styleManager.h \
+		/usr/local/epics-qt/include/contextMenu.h \
+		/usr/local/epics-qt/include/standardProperties.h \
+		/usr/local/epics-qt/include/managePixmaps.h \
+		/usr/local/epics-qt/include/QEPlotter.h \
+		/usr/local/epics-qt/include/QEFloatingArray.h \
+		/usr/local/epics-qt/include/QEFloatingFormatting.h \
+		/usr/local/epics-qt/include/QEIntegerFormatting.h \
+		/usr/local/epics-qt/include/QEAbstractDynamicWidget.h \
+		/usr/local/epics-qt/include/QEExpressionEvaluation.h \
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
+		/usr/local/epics-qt/include/QEResizeableFrame.h \
+		/usr/local/epics-qt/include/QEGraphicNames.h \
+		/usr/local/epics-qt/include/QEStripChartRangeDialog.h \
+		/usr/local/epics-qt/include/QEDialog.h \
+		/usr/local/epics-qt/include/QETwinScaleSelectDialog.h \
+		/usr/local/epics-qt/include/QEPlotterNames.h \
+		/usr/local/epics-qt/include/QEPlotterItemDialog.h \
+		/usr/local/epics-qt/include/QEPlotterMenu.h \
+		/usr/local/epics-qt/include/QEPlotterState.h \
+		/usr/local/epics-qt/include/QEPlotterToolBar.h \
+		/usr/local/epics-qt/include/QEOneToOne.h \
 		../HESEB_ScanTool_LiveDataPlotting/client.h \
 		/opt/epics/base/include/cadef.h \
 		/opt/epics/base/include/epicsThread.h \
@@ -880,6 +976,53 @@ heseb_scantool_itvstime.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_itv
 		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		../HESEB_ScanTool_LiveDataPlotting/morevar.h \
 		ui_heseb_scantool_itvstime.h \
+		/usr/local/epics-qt/include/QEFrame.h \
+		/usr/local/epics-qt/include/QEWidget.h \
+		/usr/local/epics-qt/include/VariableManager.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/VariableNameManager.h \
+		/usr/local/epics-qt/include/ContainerProfile.h \
+		/usr/local/epics-qt/include/persistanceManager.h \
+		/usr/local/epics-qt/include/QEEmitter.h \
+		/usr/local/epics-qt/include/QEToolTip.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h \
+		/usr/local/epics-qt/include/QEDragDrop.h \
+		/usr/local/epics-qt/include/QEActionRequests.h \
+		/usr/local/epics-qt/include/QEFormMapper.h \
+		/usr/local/epics-qt/include/styleManager.h \
+		/usr/local/epics-qt/include/contextMenu.h \
+		/usr/local/epics-qt/include/standardProperties.h \
+		/usr/local/epics-qt/include/managePixmaps.h \
+		/usr/local/epics-qt/include/QEPlotter.h \
+		/usr/local/epics-qt/include/QEFloatingArray.h \
+		/usr/local/epics-qt/include/QEFloatingFormatting.h \
+		/usr/local/epics-qt/include/QEIntegerFormatting.h \
+		/usr/local/epics-qt/include/QEAbstractDynamicWidget.h \
+		/usr/local/epics-qt/include/QEExpressionEvaluation.h \
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
+		/usr/local/epics-qt/include/QEResizeableFrame.h \
+		/usr/local/epics-qt/include/QEGraphicNames.h \
+		/usr/local/epics-qt/include/QEStripChartRangeDialog.h \
+		/usr/local/epics-qt/include/QEDialog.h \
+		/usr/local/epics-qt/include/QETwinScaleSelectDialog.h \
+		/usr/local/epics-qt/include/QEPlotterNames.h \
+		/usr/local/epics-qt/include/QEPlotterItemDialog.h \
+		/usr/local/epics-qt/include/QEPlotterMenu.h \
+		/usr/local/epics-qt/include/QEPlotterState.h \
+		/usr/local/epics-qt/include/QEPlotterToolBar.h \
+		/usr/local/epics-qt/include/QEOneToOne.h \
 		../HESEB_ScanTool_LiveDataPlotting/client.h \
 		/opt/epics/base/include/cadef.h \
 		/opt/epics/base/include/epicsThread.h \
@@ -923,7 +1066,40 @@ heseb_scantool_livedataplotting.o: ../HESEB_ScanTool_LiveDataPlotting/heseb_scan
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heseb_scantool_livedataplotting.o ../HESEB_ScanTool_LiveDataPlotting/heseb_scantool_livedataplotting.cpp
 
 morevar.o: ../HESEB_ScanTool_LiveDataPlotting/morevar.cpp ../HESEB_ScanTool_LiveDataPlotting/morevar.h \
-		ui_morevar.h
+		ui_morevar.h \
+		/usr/local/epics-qt/include/QELineEdit.h \
+		/usr/local/epics-qt/include/QEWidget.h \
+		/usr/local/epics-qt/include/VariableManager.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/VariableNameManager.h \
+		/usr/local/epics-qt/include/ContainerProfile.h \
+		/usr/local/epics-qt/include/persistanceManager.h \
+		/usr/local/epics-qt/include/QEEmitter.h \
+		/usr/local/epics-qt/include/QEToolTip.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h \
+		/usr/local/epics-qt/include/QEDragDrop.h \
+		/usr/local/epics-qt/include/QEActionRequests.h \
+		/usr/local/epics-qt/include/QEFormMapper.h \
+		/usr/local/epics-qt/include/styleManager.h \
+		/usr/local/epics-qt/include/contextMenu.h \
+		/usr/local/epics-qt/include/standardProperties.h \
+		/usr/local/epics-qt/include/QEStringFormattingMethods.h \
+		/usr/local/epics-qt/include/QEGenericEdit.h \
+		/usr/local/epics-qt/include/QESingleVariableMethods.h \
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o morevar.o ../HESEB_ScanTool_LiveDataPlotting/morevar.cpp
 
 moc_client.o: moc_client.cpp 

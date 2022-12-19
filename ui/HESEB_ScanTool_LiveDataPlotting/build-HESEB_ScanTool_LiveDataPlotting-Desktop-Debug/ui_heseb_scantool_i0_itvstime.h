@@ -33,11 +33,11 @@ public:
     QGridLayout *gridLayout_7;
     QLabel *lblTitle_4;
     QGridLayout *gridLayout_9;
+    QPushButton *Stop;
+    QLineEdit *Int_time;
     QLabel *label;
     QPushButton *Start;
     QSpacerItem *horizontalSpacer_3;
-    QPushButton *Stop;
-    QLineEdit *Int_time;
     QPushButton *pushButton;
     QGridLayout *gridLayout_2;
     QSimpleShape *qsimpleshape_2;
@@ -87,23 +87,6 @@ public:
 
         gridLayout_9 = new QGridLayout();
         gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
-        label = new QLabel(HESEB_ScanTool_I0_ItvsTime);
-        label->setObjectName(QStringLiteral("label"));
-        label->setFrameShape(QFrame::StyledPanel);
-
-        gridLayout_9->addWidget(label, 0, 0, 1, 1);
-
-        Start = new QPushButton(HESEB_ScanTool_I0_ItvsTime);
-        Start->setObjectName(QStringLiteral("Start"));
-        Start->setCursor(QCursor(Qt::PointingHandCursor));
-        Start->setStyleSheet(QStringLiteral("border-color: rgb(0, 0, 0);"));
-
-        gridLayout_9->addWidget(Start, 0, 4, 1, 1);
-
-        horizontalSpacer_3 = new QSpacerItem(100, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        gridLayout_9->addItem(horizontalSpacer_3, 0, 2, 1, 1);
-
         Stop = new QPushButton(HESEB_ScanTool_I0_ItvsTime);
         Stop->setObjectName(QStringLiteral("Stop"));
         Stop->setCursor(QCursor(Qt::PointingHandCursor));
@@ -123,10 +106,27 @@ public:
 
         gridLayout_9->addWidget(Int_time, 0, 1, 1, 1);
 
+        label = new QLabel(HESEB_ScanTool_I0_ItvsTime);
+        label->setObjectName(QStringLiteral("label"));
+        label->setFrameShape(QFrame::StyledPanel);
+
+        gridLayout_9->addWidget(label, 0, 0, 1, 1);
+
+        Start = new QPushButton(HESEB_ScanTool_I0_ItvsTime);
+        Start->setObjectName(QStringLiteral("Start"));
+        Start->setCursor(QCursor(Qt::PointingHandCursor));
+        Start->setStyleSheet(QStringLiteral("border-color: rgb(0, 0, 0);"));
+
+        gridLayout_9->addWidget(Start, 0, 4, 1, 1);
+
+        horizontalSpacer_3 = new QSpacerItem(100, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        gridLayout_9->addItem(horizontalSpacer_3, 0, 2, 1, 1);
+
         pushButton = new QPushButton(HESEB_ScanTool_I0_ItvsTime);
         pushButton->setObjectName(QStringLiteral("pushButton"));
 
-        gridLayout_9->addWidget(pushButton, 0, 3, 1, 1);
+        gridLayout_9->addWidget(pushButton, 0, 6, 1, 1);
 
 
         gridLayout->addLayout(gridLayout_9, 1, 0, 1, 1);
@@ -243,10 +243,10 @@ public:
     {
         HESEB_ScanTool_I0_ItvsTime->setWindowTitle(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Dialog", Q_NULLPTR));
         lblTitle_4->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_</span>Itrans<span style=\" vertical-align:sub;\">(A) </span>Time<span style=\" vertical-align:sub;\">(s)</span></p></body></html>", Q_NULLPTR));
-        label->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Integration Time", Q_NULLPTR));
-        Start->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Start ", Q_NULLPTR));
         Stop->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Stop", Q_NULLPTR));
         Int_time->setPlaceholderText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Enter Integration Time ... * The allowable values are: {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9}", Q_NULLPTR));
+        label->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Integration Time", Q_NULLPTR));
+        Start->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "Start ", Q_NULLPTR));
         pushButton->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "BL Parameters", Q_NULLPTR));
         label_16->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", Q_NULLPTR));
         label_19->setText(QApplication::translate("HESEB_ScanTool_I0_ItvsTime", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">0</span></p></body></html>", Q_NULLPTR));

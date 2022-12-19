@@ -101,13 +101,6 @@ padding: 0 3px 0 3px;</string>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="PVsReadout">
-       <property name="text">
-        <string>BL Parameters</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="Start">
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
@@ -131,6 +124,13 @@ border-color: rgb(0, 0, 0);</string>
        </property>
        <property name="text">
         <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PVsReadout">
+       <property name="text">
+        <string>BL Parameters</string>
        </property>
       </widget>
      </item>

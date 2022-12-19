@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# SESAME - HESEB: 
+**/build-HESEB/**
 # C extensions
 *.so
 # Data folder 
