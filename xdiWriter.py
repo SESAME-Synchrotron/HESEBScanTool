@@ -43,9 +43,9 @@ class XDIWriter:
 		self.energy = self.cfg["ExpMetaData"][2]["energy"]
 		self.stoichiometry = self.cfg["ExpMetaData"][3]["stoichiometry"]
 		self.samplePrep = self.cfg["ExpMetaData"][4]["samplePrep"]
-		self.vcm = self.cfg["ExpMetaData"][5]["vcm"]
-		self.vfm = self.cfg["ExpMetaData"][6]["vfm"]
-		self.Mono = self.cfg["ExpMetaData"][7]["Mono"]
+		# self.vcm = self.cfg["ExpMetaData"][5]["vcm"]
+		# self.vfm = self.cfg["ExpMetaData"][6]["vfm"]
+		# self.Mono = self.cfg["ExpMetaData"][7]["Mono"]
 		self.userCom = self.cfg["ExpMetaData"][8]["userCom"]
 		self.expCom = self.cfg["ExpMetaData"][9]["expCom"]
 		self.RINGCurrent = self.curentScanInfo[3]["RINGCurrent"]
@@ -66,7 +66,7 @@ class XDIWriter:
 			except: 
 				pass
 
-		self.d_spacing = 3.1356 if self.Mono == "Si 111" else 1.6374
+		self.d_spacing = 3.1356 #if self.Mono == "Si 111" else 1.6374
 
 		self.createXDIFile()
 
@@ -115,13 +115,13 @@ class XDIWriter:
 				f.write("# Experiment.Type: Local\n")
 			f.write("# Base.file_name: {}\n".format(self.fileName))
 			f.write("# Element.edge: {}\n".format(self.edge))
-			f.write("# Mono.name: {}\n".format(self.Mono))
+			# f.write("# Mono.name: {}\n".format(self.Mono))
 			f.write("# Mono.d_spacing: {}\n".format(self.d_spacing))
 			f.write("# Mono.settling_time: {}\n".format(self.settlingTime))
 			f.write("# Beamline.name: HESEB | Soft X-ray beamline (ID11)\n")
 			f.write("# Beamline.collimation: slits\n")
 			f.write("# Beamline.focusing: no\n")
-			f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
+			# f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
 			f.write("# Facility.name: SESAME Synchrotron-light\n")
 			f.write("# Facility.energy: 2.50 GeV\n")
 			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
@@ -165,13 +165,13 @@ class XDIWriter:
 				f.write("# Experiment.Type: Local\n")
 			f.write("# Base.file_name: {}\n".format(self.fileName))
 			f.write("# Element.edge: {}\n".format(self.edge))
-			f.write("# Mono.name: {}\n".format(self.Mono))
+			# f.write("# Mono.name: {}\n".format(self.Mono))
 			f.write("# Mono.d_spacing: {}\n".format(self.d_spacing))
 			f.write("# Mono.settling_time: {}\n".format(self.settlingTime))
 			f.write("# Beamline.name: HESEB | Soft X-ray beamline (ID11)\n")
 			f.write("# Beamline.collimation: slits\n")
 			f.write("# Beamline.focusing: no\n")
-			f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
+			# f.write("# Beamline.harmonic_rejection: mirror coating VCM: {}, VFM: {}\n".format(self.vcm, self.vfm))
 			f.write("# Facility.name: SESAME Synchrotron-light\n")
 			f.write("# Facility.energy: 2.50 GeV\n")
 			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
