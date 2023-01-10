@@ -171,9 +171,9 @@ class ConfigGUI:
 			self.guiObj.energy.setText(self.cfg["ExpMetaData"][2]["energy"])
 			self.guiObj.stoichiometry.setText(str(self.cfg["ExpMetaData"][3]["stoichiometry"]))
 			self.guiObj.samplePrep.setText(str(self.cfg["ExpMetaData"][4]["samplePrep"]))
-			self.guiObj.vcm.setCurrentText(str(self.cfg["ExpMetaData"][5]["vcm"]))
-			self.guiObj.vfm.setCurrentText(str(self.cfg["ExpMetaData"][6]["vfm"]))
-			self.guiObj.Mono.setCurrentText(str(self.cfg["ExpMetaData"][7]["Mono"]))
+			# self.guiObj.vcm.setCurrentText(str(self.cfg["ExpMetaData"][5]["vcm"]))
+			# self.guiObj.vfm.setCurrentText(str(self.cfg["ExpMetaData"][6]["vfm"]))
+			# self.guiObj.Mono.setCurrentText(str(self.cfg["ExpMetaData"][7]["Mono"]))
 			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][8]["userCom"]))
 			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][9]["expCom"]))
 
@@ -348,23 +348,23 @@ class ConfigGUI:
 			else:
 				expMetaData.append({"samplePrep":self.guiObj.samplePrep.text()})
 
-			if self.guiObj.vcm.currentText() == "":
-				CLIMessage("Mirror coating | Please choose vcm element", "W")
-				return self.WizardPages.editCfg.value
-			else:
-				expMetaData.append({"vcm":self.guiObj.vcm.currentText()})
+			# if self.guiObj.vcm.currentText() == "":
+			# 	CLIMessage("Mirror coating | Please choose vcm element", "W")
+			# 	return self.WizardPages.editCfg.value
+			# else:
+			# 	expMetaData.append({"vcm":self.guiObj.vcm.currentText()})
 
-			if self.guiObj.vfm.currentText() == "":
-				CLIMessage("Mirror coating | Please choose vfm element", "W")
-				return self.WizardPages.editCfg.value
-			else:
-				expMetaData.append({"vfm":self.guiObj.vfm.currentText()})
+			# if self.guiObj.vfm.currentText() == "":
+			# 	CLIMessage("Mirror coating | Please choose vfm element", "W")
+			# 	return self.WizardPages.editCfg.value
+			# else:
+			# 	expMetaData.append({"vfm":self.guiObj.vfm.currentText()})
 
-			if self.guiObj.Mono.currentText() == "":
-				CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
-				return self.WizardPages.editCfg.value
-			else:
-				expMetaData.append({"Mono":self.guiObj.Mono.currentText()})
+			# if self.guiObj.Mono.currentText() == "":
+			# 	CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
+			# 	return self.WizardPages.editCfg.value
+			# else:
+			# 	expMetaData.append({"Mono":self.guiObj.Mono.currentText()})
 
 			if self.guiObj.userCom.text() == "":
 				expMetaData.append({"userCom":"NONE"})
