@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>460</width>
-    <height>718</height>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -303,7 +303,7 @@
       <x>9</x>
       <y>260</y>
       <width>421</width>
-      <height>371</height>
+      <height>281</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -315,94 +315,11 @@
     <property name="title">
      <string>Experiment metadata:</string>
     </property>
-    <widget class="QGroupBox" name="groupBox_5">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>180</y>
-       <width>206</width>
-       <height>71</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Mirror coating:</string>
-     </property>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>193</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>VCM:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="vcm">
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Si</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Pt</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>VFM:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="vfm">
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Si</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Pt</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
     <widget class="QGroupBox" name="ExpCommentsGroupBox">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
+       <y>180</y>
        <width>401</width>
        <height>91</height>
       </rect>
@@ -652,57 +569,6 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QGroupBox" name="groupBox_7">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>180</y>
-       <width>191</width>
-       <height>71</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Monochromator:</string>
-     </property>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>30</y>
-        <width>129</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Crystal:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="Mono">
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Si 111</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Si 311</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
    </widget>
   </widget>
   <widget class="QWizardPage" name="startscan">
@@ -741,9 +607,6 @@
   <tabstop>energy</tabstop>
   <tabstop>stoichiometry</tabstop>
   <tabstop>samplePrep</tabstop>
-  <tabstop>vcm</tabstop>
-  <tabstop>vfm</tabstop>
-  <tabstop>Mono</tabstop>
   <tabstop>userCom</tabstop>
   <tabstop>expCom</tabstop>
   <tabstop>filePath</tabstop>
