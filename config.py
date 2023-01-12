@@ -174,8 +174,8 @@ class ConfigGUI:
 			# self.guiObj.vcm.setCurrentText(str(self.cfg["ExpMetaData"][5]["vcm"]))
 			# self.guiObj.vfm.setCurrentText(str(self.cfg["ExpMetaData"][6]["vfm"]))
 			# self.guiObj.Mono.setCurrentText(str(self.cfg["ExpMetaData"][7]["Mono"]))
-			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][8]["userCom"]))
-			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][9]["expCom"]))
+			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][5]["userCom"]))
+			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][6]["expCom"]))
 
 			for interval in range(len(self.cfg["Intervals"])):
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Startpoint"]),0))
