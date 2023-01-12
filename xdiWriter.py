@@ -46,8 +46,8 @@ class XDIWriter:
 		# self.vcm = self.cfg["ExpMetaData"][5]["vcm"]
 		# self.vfm = self.cfg["ExpMetaData"][6]["vfm"]
 		# self.Mono = self.cfg["ExpMetaData"][7]["Mono"]
-		self.userCom = self.cfg["ExpMetaData"][8]["userCom"]
-		self.expCom = self.cfg["ExpMetaData"][9]["expCom"]
+		self.userCom = self.cfg["ExpMetaData"][5]["userCom"]
+		self.expCom = self.cfg["ExpMetaData"][6]["expCom"]
 		self.RINGCurrent = self.curentScanInfo[3]["RINGCurrent"]
 		# tmp delete this line belwo. 
 		self.currentSP = self.curentScanInfo[5]["TargetSP"]
