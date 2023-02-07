@@ -151,7 +151,34 @@ The main functions about the control section are:
    * Resume: resume the scan.
    * Stop: stop the scan.
    * SED Path: the directory of the experiment.
-   * BL Parameters: 
+   * BL Parameters: a split GUI is developed to monitor the status of the beamline's front end, optics, ID, and other components, as shown in the figure.10:
+
+      - Source:
+         1. C: Machine Current
+         2. UG: Undulator Gap
+         3. US: Undulator Shift
+         4. UPSX: Upstram BPM (10;4)X
+         5. UPSY: Upstram BPM (10;4)Y
+         6. DWSX: Upstram BPM (11;1)X
+         7. DWSY: Upstram BPM (11;1)Y
+      - Mirrors(1, 3, 4a):
+         1. R: Roll
+         2. P: Pitch
+         3. Y: Yaw
+         4. HT: Horizontal Translation
+         5. VT: Vertical Translation
+         6. CP: Chamber Position
+      - Movable Masks:
+         1. HG: Horizontal Gap
+         2. VG: Vertical Gap
+         3. HC: Horizontal Center
+         4. VC: Vertical Center
+      - Vertical Slit:
+         1. VS: Vertical Slit Width
+      - Scan Parameters:
+         1. C: Magnification Magnitude
+         2. K: Diffraction Order
+         3. G: Grating
 
 .. figure:: /images/BL-Parameters.png
    :align: center
@@ -239,6 +266,7 @@ The main functions of the plotting section are:
    * pause.
    * load configurations.
    * save configurations.
+
 
 
 
