@@ -55,7 +55,7 @@ The scanning tool allows you to either enter new configuration and thus generate
 
    *Figure 3: config choosing GUI, either to create new config file or load already existed one*
 
-Next GUI is meant to enter new experiment configurations **or** see/edit a loaded one. This GUI allows you to move the energy over a range by driving the theta motor of the Plane Grating Monochromator (PGM). 
+Next GUI is meant to enter new experiment configurations **or** see/edit a loaded one. This GUI allows you to move the energy over a range by driving the theta motor of the Double Crystal Monochromator (DCM). 
 
 .. figure:: /images/configMain.png
    :align: center
@@ -151,6 +151,13 @@ The main functions about the control section are:
    * Resume: resume the scan.
    * Stop: stop the scan.
    * SED Path: the directory of the experiment.
+   * BL Parameters: 
+
+.. figure:: /images/BL-Parameters.png
+   :align: center
+   :alt: BL Parameters 
+
+   *Figure 10: Beamline Parameters*
 
 The main information about the plotting section are:
 
@@ -160,7 +167,7 @@ The main information about the plotting section are:
    :align: center
    :alt: Data visualization 
 
-   *Figure 10: data visualization Tool*
+   *Figure 11: data visualization Tool*
 
 
 Live Data Plotting
@@ -172,13 +179,13 @@ The live data plotting tool is located in the home directory of the control user
 ::
    $ HESEB_ScanTool_LiveDataVisualization
 
-The main GUI will appear as shown in figure.11:
+The main GUI will appear as shown in figure.12:
 
 .. figure:: /images/liveDataVisualization.png
    :align: center
    :alt: Data Visualization
 	
-   *Figure 11: Live Data Visualization Tool*
+   *Figure 12: Live Data Visualization Tool*
 
 The main buttons and status labels are:
 
@@ -187,13 +194,13 @@ The main buttons and status labels are:
    * help: open the GUI documentation.
    * status labels: running >> In Process... , not running >> Stopped
 
-After selection, the main visualization tool will appear as shown in figure.12.
+After selection, the main visualization tool will appear as shown in figure.13.
 
 .. figure:: /images/VisualizationTool.png
    :align: center
    :alt: Visualization Tool 
 
-   *Figure 12: Live Data Plotting*
+   *Figure 13: Live Data Plotting*
 
 The live data plotting is tool devided to:
 
@@ -232,6 +239,7 @@ The main functions of the plotting section are:
    * pause.
    * load configurations.
    * save configurations.
+
 
 
 
