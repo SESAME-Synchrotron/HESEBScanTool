@@ -71,6 +71,7 @@ class HESEBSCAN:
 		self.initDetectors()
 		# Set ^C interrupt to abort the scan
 		signal.signal(signal.SIGINT, self.signal_handler)
+		print ("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&, testing mode ", testingMode)
 		if testingMode == "No":
 			log.info("Testing mode: No")
 			self.runPauseMonitor()
