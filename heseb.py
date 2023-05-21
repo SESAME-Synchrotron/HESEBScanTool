@@ -283,7 +283,7 @@ class HESEBSCAN:
 		self.PVs["PLOT:I0"].put(self.I0)
 		self.PVs["PLOT:It"].put(self.It)
 		self.PVs["PLOT:It2"].put(self.It2)
-		self.PVs["PLOT:AbsTr"].put(self.AbsTr)
+		self.PVs["PLOT:AbsTr"].put(self.AbsTr[1:])
 		self.PVs["PLOT:AbsTr2"].put(self.AbsTr2)
 		self.PVs["PLOT:If"].put(self.If)
 		self.PVs["PLOT:AbsFlu"].put(self.AbsFlu)
