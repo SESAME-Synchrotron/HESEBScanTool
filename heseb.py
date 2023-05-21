@@ -545,7 +545,7 @@ class HESEBSCAN:
 
 				# AbsorptionTrDp			=	ACQdata["TRANS"]
 				try:
-					AbsorptionTrDp =  math.log(I0Dp / ItDp)
+					AbsorptionTrDp = ItDp / I0Dp
 				except:
 					AbsorptionTrDp = 0
 
