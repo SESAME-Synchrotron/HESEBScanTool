@@ -1,1 +1,1 @@
-/home/control/HESEBScanTool/DATA/MonoScan-20230803T155514
+/home/control/HESEBScanTool/DATA/testRMMZ-20230821T082644

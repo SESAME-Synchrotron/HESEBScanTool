@@ -5,6 +5,10 @@ __pycache__/
 
 # SESAME - HESEB: 
 **/build-HESEB/**
+*.csv
+*.o
+*.qmake*
+*moc_*
 # C extensions
 *.so
 # Data folder 
