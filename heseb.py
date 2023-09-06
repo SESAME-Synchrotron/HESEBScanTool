@@ -18,6 +18,9 @@ from detectors.keithley_i0 import KEITHLEY_I0
 from detectors.keithley_itrans import KEITHLEY_ITRANS
 from SEDSS.SEDSupplements import CLIMessage
 from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
+from SEDSS.SEDTmuxSession import tmuxSession
+from SEDSS.SEDFileManager import path
+from SEDSS.SEDTransfer import SEDTransfer
 import threading
 from xdiWriter import XDIWriter
 import threading
@@ -26,6 +29,7 @@ import shutil
 import signal
 import subprocess
 import math
+
 
 try:
 	import PyQt5
@@ -78,7 +82,10 @@ class HESEBSCAN:
 		else:
 			log.info("Testing mode: Yes")
 
-		# if self.voltageSourcePARAM[1] in {1,2}:   # check voltage source validation (for Safety), 1 >> for 50V ... 2 >> 500V
+
+		self.tmuxSessionToKill = ['voltageSourceValidation', 'I0_startAcquire']
+		tmuxSession(self.tmuxSessionToKill).kill()
+		
 		subprocess.Popen("./voltageSourceValidation.sh")
 		self.start()
 
@@ -191,7 +198,7 @@ class HESEBSCAN:
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
-		time.sleep(.15) # adding some delay to let the motor stat moving.
+		time.sleep(.01) # adding some delay to let the motor stat moving.
 		log.info("Move PGM to energy: {}".format(SP)) 
 		"""
 		the following loop tries to put the scan tool in wait state untill the PGM energy is reached by: 
@@ -206,18 +213,12 @@ class HESEBSCAN:
 				curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
 
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
-			continue 
-			# if curentScanInfo == None:
-			# 	#CLIMessage("PGM is moving to start energy {}... ".format(SP), "IR")
-			# 	continue
-			# else:
-			# 	continue
-			# 	# CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-			# 	# 	curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IR")
 			time.sleep(self.scanLimites["checkToleranceEvery"])
-
+		
+		time.sleep(self.cfg["settlingTime"])
+		
 		"""
-		the loop below has been added because the one above was not enough to get energy RBV within the allowed tolerances. The main issue is that energy RBV is a PROC PV 
+		the loop below has been added because the one above was not enough to get the expected energy RBV. The main issue is that energy RBV is a PROC PV 
 		relies on many parameters to be calculated, this means, after reaching the target prositions of the PGM motors the final energy RBV needs some time to be calculated. 
 		however, the loop does the following: 
 			1. Periodically checks the energy RBV if it is within the given tolerances, if yes breaks the loop 
@@ -228,17 +229,19 @@ class HESEBSCAN:
 			2. the three variables above have a big impact on the energy precision and scan time. 
 		"""
 		print("\n")
-		timeCounter = 0 
-		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
-			#CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
+		timeCounter = 0
+		self.energyRBV=self.PVs["PGM:Energy:RBV"].get()
+		log.info("reading PGM energy")
+		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.energyRBV) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
+			self.energyRBV=self.PVs["PGM:Energy:RBV"].get()
+			CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
 			time.sleep(self.scanLimites["checkToleranceEvery"])
 			timeCounter = timeCounter + 1
 			if timeCounter * self.scanLimites["checkToleranceEvery"] >= self.scanLimites["maxTime2MeetTolerance"]:
 				log.warning("Reaching maximum wait time to reach the target energy")
 				break
-	
+		log.info("Energy SP: {}, RBV: {}".format(SP, self.energyRBV))
 		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
-		time.sleep(self.cfg["settlingTime"])
 			
 	def MoveSmpX(self,SP):
 		log.info("Move sample X to: {}".format(SP))
@@ -523,7 +526,9 @@ class HESEBSCAN:
 
 				ACQdata={**ACQdata,**det.data}
 				log.info("Collecting data from detectors")
-				log.info("PGM Energy: {}".format(self.PVs["PGM:Energy:RBV"].get()))
+				# Energy	=	self.PVs["PGM:Energy:RBV"].get(use_monitor=False)
+				# log.info("reading PGM energy")
+				# log.info("PGM Energy SP: {}, readback : {}".format(point, Energy))
 				expData.update(ACQdata)
 				log.info("Applying post acquisition for selected detectors if applicable")
 				for det in self.detectors:
@@ -531,13 +536,10 @@ class HESEBSCAN:
 					ACQdata={**ACQdata,**det.data}
 					expData.update(ACQdata)
 
-				Energy	=	self.PVs["PGM:Energy:RBV"].get()
-				log.info("reading PGM energy")
-
 				ACQdata["Sample#"] = sample
 				ACQdata["Scan#"] = scan
 				ACQdata["Interval"] = interval
-				ACQdata["ENERGY-RBK"]	=	Energy
+				ACQdata["ENERGY-RBK"]	=	self.energyRBV
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				
@@ -590,7 +592,7 @@ class HESEBSCAN:
 				except:
 					pass
 
-				self.Energy.append(Energy)
+				self.Energy.append(self.energyRBV)
 				self.I0.append(I0Dp)
 				try:
 					self.It.append(ItDp)
@@ -651,16 +653,21 @@ class HESEBSCAN:
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
+		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		
 	def dataTransfer(self):
-		try:
-			dataTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
-			if self.cfg["expType"] == "proposal":
-				dataTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
-			log.info("Data transfer is done")
-		except:
-			log.error("Problem transfering the data")
+		# try:
+		# SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
+		if self.cfg["expType"] == "proposal":
+			SEDTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
+		else: 
+			IHPath = path(self.paths['SED_TOP'], beamline = 'HESEB').getIHPath()
+			SEDTransfer(self.localDataPath, self.paths["DS"]+":"+IHPath).scp()
+		log.info("Data transfer is done")
+		# except:
+		# 	log.error("Problem transfering the data")
+
 
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""

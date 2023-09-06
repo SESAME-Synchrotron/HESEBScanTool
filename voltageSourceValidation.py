@@ -26,7 +26,7 @@ while True:
     
     if epics.PV("SCAN:STOP").get() == 1:
         sys.exit()
-        
+    # check voltage source validation (for Safety), 1 >> for 50V ... 2 >> 500V
     if voltageSourceValue in {1,2}:
         if (pausingStatus == 1) or pointsStatus == epics.PV(HESEB_PVs["PV"]["PGM:Energy:RBV"]["pvname"]).get():
             

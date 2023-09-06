@@ -48,9 +48,8 @@ class KEITHLEY_I0(Base):
 		self.PVs["picoAmmeterI0StartAcq"].put(1)
 		time.sleep(0.1)
 
-		while self.PVs["picoAmmeterI0StartAcq"].get(use_monitor=False):
-		# while epics.PV("K6487:1:Acquire.PROC").get():
-			time.sleep(.001)
+		while epics.PV("K6487:1:Acquire.PROC").get() == 1:		# while epics.PV("K6487:1:Acquire.PROC").get():
+			time.sleep(.01)
 
 		# while True:
 		# 	if picoReadOut == self.PVs["picoAmmeterI0AcqReadOut"].get():
@@ -85,6 +84,7 @@ class KEITHLEY_I0(Base):
 		# 	continue
 
 		overallIntTime = timeModule.timer(startTime)
+		self.data["KEITHLEY_I0"] = 0.0
 		#CLIMessage("Collection time:: {}".format(overallIntTime), "E")
 		self.data["KEITHLEY_I0"] = self.PVs["picoAmmeterI0AcqReadOut"].get()
 		## AN_: temp for testing the integration tiome, DELETE IT..

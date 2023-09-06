@@ -5,6 +5,9 @@ __pycache__/
 
 # SESAME - HESEB: 
 **/build-HESEB/**
+*userinfo.json
+metadata
+configrations/userinfo.json
 *.csv
 *.o
 *.qmake*
