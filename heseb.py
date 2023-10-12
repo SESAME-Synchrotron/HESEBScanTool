@@ -216,7 +216,10 @@ class HESEBSCAN:
 			time.sleep(self.scanLimites["checkToleranceEvery"])
 		
 		time.sleep(self.cfg["settlingTime"])
-		
+
+		CLIMessage("DONE", "I")
+		print ("DFDFFDFDFDF")
+
 		"""
 		the loop below has been added because the one above was not enough to get the expected energy RBV. The main issue is that energy RBV is a PROC PV 
 		relies on many parameters to be calculated, this means, after reaching the target prositions of the PGM motors the final energy RBV needs some time to be calculated. 
@@ -242,6 +245,7 @@ class HESEBSCAN:
 				break
 		log.info("Energy SP: {}, RBV: {}".format(SP, self.energyRBV))
 		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
+		CLIMessage("ENG:::: {}".format(self.energyRBV), "E")
 			
 	def MoveSmpX(self,SP):
 		log.info("Move sample X to: {}".format(SP))
