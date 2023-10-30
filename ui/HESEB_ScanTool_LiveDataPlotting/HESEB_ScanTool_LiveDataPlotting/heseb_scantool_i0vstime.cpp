@@ -1,25 +1,6 @@
 #include "heseb_scantool_i0vstime.h"
 #include "ui_heseb_scantool_i0vstime.h"
 
-#include <stdlib.h>
-
-#include <qstring.h>
-#include <string>
-
-#include <QMessageBox>
-
-#include <qepicspv.h>
-#include <client.h>
-
-#include <unistd.h>
-#include <QTimer>
-#include "client.h"
-
-#include <QProcess>
-#include <QDir>
-
-#include "morevar.h"
-
 using namespace std;
 
 HESEB_ScanTool_I0vsTime::HESEB_ScanTool_I0vsTime(QWidget *parent) :
@@ -33,7 +14,7 @@ HESEB_ScanTool_I0vsTime::HESEB_ScanTool_I0vsTime(QWidget *parent) :
 
     Client::writePV("I0:INT:TIME",0);
 
-    string intTime = ui->Int_time->text().toStdString();
+    string intTime = ui->IntTime->text().toStdString();
 }
 
 HESEB_ScanTool_I0vsTime::~HESEB_ScanTool_I0vsTime()
@@ -41,9 +22,9 @@ HESEB_ScanTool_I0vsTime::~HESEB_ScanTool_I0vsTime()
     delete ui;
 }
 
-void HESEB_ScanTool_I0vsTime::on_Int_time_editingFinished()
+void HESEB_ScanTool_I0vsTime::on_IntTime_editingFinished()
 {
-    string intTime = ui->Int_time->text().toStdString();
+    string intTime = ui->IntTime->text().toStdString();
 
     if (intTime == "0.25" || intTime == ".25"){         // 4 Samples
 
@@ -52,12 +33,10 @@ void HESEB_ScanTool_I0vsTime::on_Int_time_editingFinished()
     else if (intTime == "0.5" || intTime == ".5"){      // 7 Samples
 
         Client::writePV("I0:INT:TIME",0.5);
-
     }
     else if (intTime == "0.75" || intTime == ".75"){    // 11 Samples
 
         Client::writePV("I0:INT:TIME",0.75);
-
     }
     else if (intTime == "1"){                           // 15 Samples
         Client::writePV("I0:INT:TIME",1);
@@ -66,87 +45,70 @@ void HESEB_ScanTool_I0vsTime::on_Int_time_editingFinished()
     else if (intTime == "1.25"){                        // 18 Samples
 
         Client::writePV("I0:INT:TIME",1.25);
-
     }
     else if (intTime == "1.5"){                         // 12 Samples
 
         Client::writePV("I0:INT:TIME",1.5);
-
     }
     else if (intTime == "1.75"){                        // 14 Samples
 
         Client::writePV("I0:INT:TIME",1.75);
-
     }
     else if (intTime == "2"){                           // 16 Samples
 
         Client::writePV("I0:INT:TIME",2);
-
     }
     else if (intTime == "2.25"){                        // 17 Samples
 
         Client::writePV("I0:INT:TIME",2.25);
-
     }
     else if (intTime == "2.5"){                         // 19 Samples
 
         Client::writePV("I0:INT:TIME",2.5);
-
     }
     else if (intTime == "2.75"){                        // 21 Samples
 
         Client::writePV("I0:INT:TIME",2.75);
-
     }
     else if (intTime == "3"){                           // 23 Samples
 
         Client::writePV("I0:INT:TIME",3);
-
     }
     else if (intTime == "3.25"){                        // 25 Samples
 
         Client::writePV("I0:INT:TIME",3.25);
-
     }
     else if (intTime == "3.5"){                         // 27 Samples
 
         Client::writePV("I0:INT:TIME",3.5);
-
     }
     else if (intTime == "3.75"){                        // 29 Samples
 
         Client::writePV("I0:INT:TIME",3.75);
-
     }
     else if (intTime == "4"){                           // 31 Samples
 
         Client::writePV("I0:INT:TIME",4);
-
     }
     else if (intTime == "5"){                           // 39 Samples
 
         Client::writePV("I0:INT:TIME",5);
-
     }
     else if (intTime == "6"){                           // 47 Samples
 
         Client::writePV("I0:INT:TIME",6);
-
     }
     else if (intTime == "7"){                           // 54 Samples
 
         Client::writePV("I0:INT:TIME",7);
-
     }
     else if (intTime == "8"){                           // 62 Samples
 
         Client::writePV("I0:INT:TIME",8);
-
     }
     else if (intTime == "9"){                           // 70 Samples
 
         Client::writePV("I0:INT:TIME",9);
-
     }
     else {
 
@@ -156,7 +118,7 @@ void HESEB_ScanTool_I0vsTime::on_Int_time_editingFinished()
 
 void HESEB_ScanTool_I0vsTime::on_Start_clicked()
 {
-    if (ui->Int_time->text().toStdString() == "")
+    if (ui->IntTime->text().toStdString() == "")
     {
         QMessageBox::information(this,"Warning!","No integration time, please insert a value ....");
     }
@@ -187,8 +149,24 @@ void HESEB_ScanTool_I0vsTime::on_Stop_clicked()
     Acquire->start("gnome-terminal -x ./I0_stopAcquire.sh");
 }
 
-void HESEB_ScanTool_I0vsTime::on_pushButton_clicked()
+
+void HESEB_ScanTool_I0vsTime::on_plotter_coordinateSelected(const QPointF &xyvalue)
 {
-    morevar = new moreVar(this);
-    morevar -> show();
+    ui->xy->setText(QString("X: %1, Y: %2").arg(xyvalue.x()).arg(xyvalue.y()));
+}
+
+void HESEB_ScanTool_I0vsTime::on_readMorePVs_clicked()
+{
+    if(!isOpened){
+        morevar = new moreVar(this);
+        morevar->setAttribute(Qt::WA_DeleteOnClose);
+        connect(morevar, &QObject::destroyed, this, &HESEB_ScanTool_I0vsTime::on_readMorePVs_closed);
+        morevar->show();
+        isOpened = true;
+    }
+}
+
+void HESEB_ScanTool_I0vsTime::on_readMorePVs_closed()
+{
+    isOpened = false;
 }

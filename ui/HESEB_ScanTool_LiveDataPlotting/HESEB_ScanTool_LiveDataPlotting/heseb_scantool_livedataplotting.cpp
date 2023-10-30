@@ -1,11 +1,6 @@
 #include "heseb_scantool_livedataplotting.h"
 #include "ui_heseb_scantool_livedataplotting.h"
 
-#include <qobject.h>
-#include <QObject>
-#include <QDesktopServices>
-#include <QUrl>
-
 HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::HESEB_ScanTool_LiveDataPlotting)
@@ -32,27 +27,55 @@ HESEB_ScanTool_LiveDataPlotting::~HESEB_ScanTool_LiveDataPlotting()
 
 void HESEB_ScanTool_LiveDataPlotting::on_I0_clicked()
 {
-    I0 = new HESEB_ScanTool_I0vsTime(this);
-    I0->show();
+    if(!isI0Opened){
+        I0 = new HESEB_ScanTool_I0vsTime(this);
+        I0->setAttribute(Qt::WA_DeleteOnClose);
+        connect(I0, &QObject::destroyed, this, &HESEB_ScanTool_LiveDataPlotting::on_I0_closed);
+        I0->show();
+        isI0Opened = true;
+    }
+}
+
+void HESEB_ScanTool_LiveDataPlotting::on_I0_closed()
+{
+    isI0Opened = false;
 }
 
 void HESEB_ScanTool_LiveDataPlotting::on_It_clicked()
 {
-    Itrans = new HESEB_ScanTool_ItvsTime(this);
-    Itrans->show();
+    if(!isItOpened){
+        Itrans = new HESEB_ScanTool_ItvsTime(this);
+        Itrans->setAttribute(Qt::WA_DeleteOnClose);
+        connect(Itrans, &QObject::destroyed, this, &HESEB_ScanTool_LiveDataPlotting::on_I0_closed);
+        Itrans->show();
+        isItOpened = true;
+    }
+}
+
+void HESEB_ScanTool_LiveDataPlotting::on_It_closed()
+{
+    isItOpened = false;
 }
 
 void HESEB_ScanTool_LiveDataPlotting::on_I0_It_clicked()
 {
-    I0_Itrans = new HESEB_ScanTool_I0_ItvsTime(this);
-//    I0_Itrans->show();
-    interlock = 1;
+    if(!isI0ItOpened){
+        I0_Itrans = new HESEB_ScanTool_I0_ItvsTime(this);
+        I0_Itrans->setAttribute(Qt::WA_DeleteOnClose);
+        connect(I0_Itrans, &QObject::destroyed, this, &HESEB_ScanTool_LiveDataPlotting::on_I0_closed);
+        //    I0_Itrans->show();
+        interlock = 1;
+        isI0ItOpened = true;
+    }
+}
+
+void HESEB_ScanTool_LiveDataPlotting::on_I0_It_closed()
+{
+    isI0ItOpened = false;
 }
 
 void HESEB_ScanTool_LiveDataPlotting::on_help_clicked()
 {
-    help = new Help(this);
-//    help->show();
     QDesktopServices::openUrl(QUrl("https://hesebscantool.readthedocs.io/en/latest/runScan.html#live-data-plotting"));
 }
 

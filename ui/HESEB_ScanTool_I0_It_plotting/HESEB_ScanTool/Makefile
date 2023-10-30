@@ -421,8 +421,6 @@ moc_client.cpp: client.h \
 	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/control/HESEBScanTool/ui/HESEB_ScanTool_I0_It_plotting/HESEB_ScanTool/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/control/HESEBScanTool/ui/HESEB_ScanTool_I0_It_plotting/HESEB_ScanTool -I/usr/local/epics-qt/include -I/usr/local/qwt-6.1.3/include -I/opt/epics/base/include -I/opt/epics/base/include/os/Linux -I/opt/epics/base/include/compiler/gcc -I/usr/include/qt5 -I/usr/include/qt5/QtUiTools -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtXml -I/usr/include/qt5/QtCore -I/usr/include/c++/8 -I/usr/include/c++/8/x86_64-redhat-linux -I/usr/include/c++/8/backward -I/usr/lib/gcc/x86_64-redhat-linux/8/include -I/usr/local/include -I/usr/include client.h -o moc_client.cpp
 
 moc_heseb_scantool.cpp: heseb_scantool.h \
-		/usr/local/epics-qt/include/qepicspv.h \
-		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		morevar.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
@@ -670,14 +668,10 @@ client.o: client.cpp client.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o client.cpp
 
 main.o: main.cpp heseb_scantool.h \
-		/usr/local/epics-qt/include/qepicspv.h \
-		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		morevar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 heseb_scantool.o: heseb_scantool.cpp heseb_scantool.h \
-		/usr/local/epics-qt/include/qepicspv.h \
-		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
 		morevar.h \
 		ui_heseb_scantool.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heseb_scantool.o heseb_scantool.cpp

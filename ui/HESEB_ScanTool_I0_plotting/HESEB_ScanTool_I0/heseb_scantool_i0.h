@@ -1,11 +1,15 @@
 #ifndef HESEB_SCANTOOL_I0_H
 #define HESEB_SCANTOOL_I0_H
 
+#include "morevar.h"
+
 #include <QMainWindow>
-#include <qepicspv.h>
 #include <QTimer>
 
-#include "morevar.h"
+#include <fstream>
+
+#include <QFileDialog>
+#include <QDesktopServices>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class HESEB_ScanTool_I0; }
@@ -20,14 +24,19 @@ public:
     ~HESEB_ScanTool_I0();
 
 private slots:
-    void on_pushButton_3_clicked();
 
     void logs();
 
     void path();
 
+    void on_SEDPathDir_clicked();
+
+    void on_plotter_coordinateSelected(const QPointF &xyvalue);
 
     void on_readMorePVs_clicked();
+
+    void on_readMorePVs_closed();
+
 
 private:
     Ui::HESEB_ScanTool_I0 *ui;
@@ -36,5 +45,7 @@ private:
     QTimer* checkLogs;
     QTimer* checkPath;
     moreVar *morevar;
+
+    bool isOpened = false;
 };
 #endif // HESEB_SCANTOOL_I0_H
