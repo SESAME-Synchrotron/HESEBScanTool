@@ -198,7 +198,7 @@ class HESEBSCAN:
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
-		time.sleep(.01) # adding some delay to let the motor stat moving.
+		time.sleep(.15) # adding some delay to let the motor stat moving.
 		log.info("Move PGM to energy: {}".format(SP)) 
 		"""
 		the following loop tries to put the scan tool in wait state untill the PGM energy is reached by: 
@@ -214,14 +214,8 @@ class HESEBSCAN:
 
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
 			time.sleep(self.scanLimites["checkToleranceEvery"])
-		
-		time.sleep(self.cfg["settlingTime"])
-
-		CLIMessage("DONE", "I")
-		print ("DFDFFDFDFDF")
-
 		"""
-		the loop below has been added because the one above was not enough to get the expected energy RBV. The main issue is that energy RBV is a PROC PV 
+		the loop below has been added because the one above was not enough to get energy RBV within the allowed tolerances. The main issue is that energy RBV is a PROC PV 
 		relies on many parameters to be calculated, this means, after reaching the target prositions of the PGM motors the final energy RBV needs some time to be calculated. 
 		however, the loop does the following: 
 			1. Periodically checks the energy RBV if it is within the given tolerances, if yes breaks the loop 
@@ -231,21 +225,21 @@ class HESEBSCAN:
 			1. energyRBVTolerance, checkToleranceEvery & maxTime2MeetTolerance variables can be changed/defined in the "configrations/limites.json" file 
 			2. the three variables above have a big impact on the energy precision and scan time. 
 		"""
+		# CLIMessage("Energy : {}".format (self.PVs["PGM:Energy:RBV"].get(use_monitor = False)))
+		
 		print("\n")
-		timeCounter = 0
-		self.energyRBV=self.PVs["PGM:Energy:RBV"].get()
-		log.info("reading PGM energy")
-		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.energyRBV) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
-			self.energyRBV=self.PVs["PGM:Energy:RBV"].get()
-			CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
+		timeCounter = 0 
+		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
+			#CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
+			self.PVs["PGM:Energy:SP"].put(SP, wait=True)
 			time.sleep(self.scanLimites["checkToleranceEvery"])
 			timeCounter = timeCounter + 1
 			if timeCounter * self.scanLimites["checkToleranceEvery"] >= self.scanLimites["maxTime2MeetTolerance"]:
 				log.warning("Reaching maximum wait time to reach the target energy")
 				break
-		log.info("Energy SP: {}, RBV: {}".format(SP, self.energyRBV))
-		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
-		CLIMessage("ENG:::: {}".format(self.energyRBV), "E")
+	
+		#self.PVs["PGM:Energy:Reached"].put(1, wait=True)
+		time.sleep(self.cfg["settlingTime"])
 			
 	def MoveSmpX(self,SP):
 		log.info("Move sample X to: {}".format(SP))
@@ -540,10 +534,12 @@ class HESEBSCAN:
 					ACQdata={**ACQdata,**det.data}
 					expData.update(ACQdata)
 
+				Energy	=	self.PVs["PGM:Energy:RBV"].get()
+				log.info("reading PGM energy: {}".format (Energy))
 				ACQdata["Sample#"] = sample
 				ACQdata["Scan#"] = scan
 				ACQdata["Interval"] = interval
-				ACQdata["ENERGY-RBK"]	=	self.energyRBV
+				ACQdata["ENERGY-RBK"]	=	Energy
 				expData.update(ACQdata)
 				I0Dp					=	ACQdata["KEITHLEY_I0"]	
 				
@@ -596,7 +592,7 @@ class HESEBSCAN:
 				except:
 					pass
 
-				self.Energy.append(self.energyRBV)
+				self.Energy.append(Energy)
 				self.I0.append(I0Dp)
 				try:
 					self.It.append(ItDp)
@@ -624,7 +620,7 @@ class HESEBSCAN:
 					elapsedScanTime = timeModule.timer(startTime)					
 					
 					self.PVs["SCAN:Elapse"].put(elapsedScanTime)
-					log.info(f"Elapse time scan for scan point{counter} is: {elapsedScanTime}")
+					log.info(f"Elapse time scan for scan point ({counter}) is: {elapsedScanTime}")
 
 				counter = counter +1
 
