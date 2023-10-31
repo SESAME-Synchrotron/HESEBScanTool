@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
-    <height>647</height>
+    <width>1200</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -237,7 +237,7 @@ border-color: rgb(0, 0, 0);</string>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>950</width>
+         <width>1100</width>
          <height>20</height>
         </size>
        </property>
@@ -247,7 +247,7 @@ border-color: rgb(0, 0, 0);</string>
    </item>
    <item row="3" column="0">
     <layout class="QGridLayout" name="PlottingLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="YLabel">
        <property name="font">
         <font>
@@ -279,28 +279,51 @@ transform: rotate(-90deg);
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="xLabel">
-       <property name="font">
-        <font>
-         <family>Monospace</family>
-         <pointsize>14</pointsize>
-         <italic>false</italic>
-         <underline>false</underline>
-         <strikeout>false</strikeout>
-         <stylestrategy>PreferDefault</stylestrategy>
-         <kerning>true</kerning>
-        </font>
+     <item row="3" column="0">
+      <widget class="QLabel" name="Status">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Time(s) = Index * Int. Time&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string/>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
+      <widget class="QCheckBox" name="lineDashed">
+       <property name="text">
+        <string>Line Dashed</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="lineHasDots">
+       <property name="text">
+        <string>Line HasDots</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="xy">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="1" colspan="3">
       <widget class="QEPlotter" name="plotter">
        <property name="cursor">
         <cursorShape>CrossCursor</cursorShape>
@@ -343,20 +366,24 @@ transform: rotate(-90deg);
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="xy">
-       <property name="text">
-        <string/>
+     <item row="2" column="1" colspan="3">
+      <widget class="QLabel" name="xLabel">
+       <property name="font">
+        <font>
+         <family>Monospace</family>
+         <pointsize>14</pointsize>
+         <italic>false</italic>
+         <underline>false</underline>
+         <strikeout>false</strikeout>
+         <stylestrategy>PreferDefault</stylestrategy>
+         <kerning>true</kerning>
+        </font>
        </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="Status">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 0);</string>
-       </property>
        <property name="text">
-        <string/>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Time(s) = Index * Int. Time&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>

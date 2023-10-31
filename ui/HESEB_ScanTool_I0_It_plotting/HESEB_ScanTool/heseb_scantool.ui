@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>849</height>
+    <width>1300</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -385,75 +385,56 @@ padding: 0 3px 0 3px;</string>
     </item>
     <item row="4" column="0" colspan="3">
      <layout class="QGridLayout" name="plottingLayout">
-      <item row="4" column="1">
-       <widget class="QLabel" name="xLabel">
-        <property name="font">
-         <font>
-          <family>Monospace</family>
-          <pointsize>9</pointsize>
-          <italic>false</italic>
-          <underline>false</underline>
-          <strikeout>false</strikeout>
-          <stylestrategy>PreferDefault</stylestrategy>
-          <kerning>true</kerning>
-         </font>
-        </property>
+      <item row="1" column="0" rowspan="3">
+       <widget class="QLabel" name="yLabel">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Energy (eV)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Current (A)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QEPlotter" name="IrefPlotter">
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="lineHasDots">
         <property name="cursor">
-         <cursorShape>CrossCursor</cursorShape>
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
-        <property name="scaledContents">
-         <bool>false</bool>
-        </property>
-        <property name="toolBarIsVisible" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="pvItemsIsVisible" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="statusIsVisible" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="contextMenuEmitText" stdset="0">
-         <string>X,Y</string>
-        </property>
-        <property name="DataVariableX" stdset="0">
-         <string>PLOT:Energy</string>
-        </property>
-        <property name="DataVariableA" stdset="0">
-         <string>PLOT:AbsTr</string>
-        </property>
-        <property name="SizeVariableX" stdset="0">
-         <string>PLOT:Energy.NORD</string>
-        </property>
-        <property name="SizeVariableA" stdset="0">
-         <string>PLOT:AbsTr.NORD</string>
-        </property>
-        <property name="ColourA">
-         <color>
-          <red>0</red>
-          <green>255</green>
-          <blue>0</blue>
-         </color>
+        <property name="text">
+         <string>Line HasDots</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
+       <widget class="QCheckBox" name="lineDashed">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>Line Dashed</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="1" colspan="3">
        <widget class="QEPlotter" name="I0ItransPlotter">
         <property name="cursor">
          <cursorShape>CrossCursor</cursorShape>
         </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
         <property name="toolBarIsVisible" stdset="0">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="pvItemsIsVisible" stdset="0">
          <bool>false</bool>
@@ -531,7 +512,51 @@ padding: 0 3px 0 3px;</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="1" colspan="3">
+       <widget class="QEPlotter" name="IrefPlotter">
+        <property name="cursor">
+         <cursorShape>CrossCursor</cursorShape>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+        <property name="toolBarIsVisible" stdset="0">
+         <bool>true</bool>
+        </property>
+        <property name="pvItemsIsVisible" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="statusIsVisible" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="contextMenuEmitText" stdset="0">
+         <string>X,Y</string>
+        </property>
+        <property name="DataVariableX" stdset="0">
+         <string>PLOT:Energy</string>
+        </property>
+        <property name="DataVariableA" stdset="0">
+         <string>PLOT:AbsTr</string>
+        </property>
+        <property name="SizeVariableX" stdset="0">
+         <string>PLOT:Energy.NORD</string>
+        </property>
+        <property name="SizeVariableA" stdset="0">
+         <string>PLOT:AbsTr.NORD</string>
+        </property>
+        <property name="ColourA">
+         <color>
+          <red>0</red>
+          <green>255</green>
+          <blue>0</blue>
+         </color>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="3">
        <widget class="QLabel" name="xyI0Itrans">
         <property name="cursor">
          <cursorShape>IBeamCursor</cursorShape>
@@ -541,20 +566,34 @@ padding: 0 3px 0 3px;</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" rowspan="3">
-       <widget class="QLabel" name="yLabel">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Current (A)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
+      <item row="4" column="1" colspan="3">
        <widget class="QLabel" name="xyIref">
         <property name="cursor">
          <cursorShape>IBeamCursor</cursorShape>
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="3">
+       <widget class="QLabel" name="xLabel">
+        <property name="font">
+         <font>
+          <family>Monospace</family>
+          <pointsize>9</pointsize>
+          <italic>false</italic>
+          <underline>false</underline>
+          <strikeout>false</strikeout>
+          <stylestrategy>PreferDefault</stylestrategy>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Energy (eV)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>

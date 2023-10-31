@@ -37,7 +37,6 @@ private slots:
 
     void on_readMorePVs_closed();
 
-
 private:
     Ui::HESEB_ScanTool_I0 *ui;
 

@@ -64,11 +64,43 @@ void HESEB_ScanTool::path()
 void HESEB_ScanTool::on_I0ItransPlotter_coordinateSelected(const QPointF &xyvalue)
 {
     ui->xyI0Itrans->setText(QString("X: %1, Y: %2").arg(xyvalue.x()).arg(xyvalue.y()));
+
+    if(ui->lineDashed->checkState() == Qt::Checked)
+    {
+        ui->I0ItransPlotter->setXYLineDashed(1, true);
+        ui->I0ItransPlotter->setXYLineDashed(2, true);
+    }
+    else
+    {
+        ui->I0ItransPlotter->setXYLineDashed(1, false);
+        ui->I0ItransPlotter->setXYLineDashed(2, false);
+    }
+
+    if(ui->lineHasDots->checkState() == Qt::Checked)
+    {
+        ui->I0ItransPlotter->setXYLineHasDots(1, true);
+        ui->I0ItransPlotter->setXYLineHasDots(2, true);
+    }
+    else
+    {
+        ui->I0ItransPlotter->setXYLineHasDots(1, false);
+        ui->I0ItransPlotter->setXYLineHasDots(2, false);
+    }
 }
 
 void HESEB_ScanTool::on_IrefPlotter_coordinateSelected(const QPointF &xyvalue)
 {
     ui->xyIref->setText(QString("X: %1, Y: %2").arg(xyvalue.x()).arg(xyvalue.y()));
+
+    if(ui->lineDashed->checkState() == Qt::Checked)
+        ui->IrefPlotter->setXYLineDashed(1, true);
+    else
+        ui->IrefPlotter->setXYLineDashed(1, false);
+
+    if(ui->lineHasDots->checkState() == Qt::Checked)
+        ui->IrefPlotter->setXYLineHasDots(1, true);
+    else
+        ui->IrefPlotter->setXYLineHasDots(1, false);
 }
 
 void HESEB_ScanTool::on_morevar_clicked()

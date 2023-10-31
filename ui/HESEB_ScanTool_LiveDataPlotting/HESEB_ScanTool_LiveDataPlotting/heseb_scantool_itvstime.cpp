@@ -151,6 +151,16 @@ void HESEB_ScanTool_ItvsTime::on_Stop_clicked()
 void HESEB_ScanTool_ItvsTime::on_plotter_coordinateSelected(const QPointF &xyvalue)
 {
     ui->xy->setText(QString("X: %1, Y: %2").arg(xyvalue.x()).arg(xyvalue.y()));
+
+    if(ui->lineDashed->checkState() == Qt::Checked)
+        ui->plotter->setXYLineDashed(1, true);
+    else
+        ui->plotter->setXYLineDashed(1, false);
+
+    if(ui->lineHasDots->checkState() == Qt::Checked)
+        ui->plotter->setXYLineHasDots(1, true);
+    else
+        ui->plotter->setXYLineHasDots(1, false);
 }
 
 void HESEB_ScanTool_ItvsTime::on_PVsReadout_clicked()

@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
@@ -60,12 +61,15 @@ public:
     QLabel *logsLabel;
     QLabel *logs;
     QGridLayout *plottingLayout;
-    QLabel *xLabel;
-    QEPlotter *IrefPlotter;
-    QEPlotter *I0ItransPlotter;
-    QLabel *xyI0Itrans;
     QLabel *yLabel;
+    QCheckBox *lineHasDots;
+    QCheckBox *lineDashed;
+    QSpacerItem *horizontalSpacer_3;
+    QEPlotter *I0ItransPlotter;
+    QEPlotter *IrefPlotter;
+    QLabel *xyI0Itrans;
     QLabel *xyIref;
+    QLabel *xLabel;
     QGridLayout *file_label_Layout;
     QSimpleShape *ItransInd;
     QLabel *ItransLabel;
@@ -88,7 +92,7 @@ public:
     {
         if (HESEB_ScanTool->objectName().isEmpty())
             HESEB_ScanTool->setObjectName(QString::fromUtf8("HESEB_ScanTool"));
-        HESEB_ScanTool->resize(1280, 849);
+        HESEB_ScanTool->resize(1300, 1000);
         centralwidget = new QWidget(HESEB_ScanTool);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout_8 = new QGridLayout(centralwidget);
@@ -302,6 +306,63 @@ public:
 
         plottingLayout = new QGridLayout();
         plottingLayout->setObjectName(QString::fromUtf8("plottingLayout"));
+        yLabel = new QLabel(centralwidget);
+        yLabel->setObjectName(QString::fromUtf8("yLabel"));
+
+        plottingLayout->addWidget(yLabel, 1, 0, 3, 1);
+
+        lineHasDots = new QCheckBox(centralwidget);
+        lineHasDots->setObjectName(QString::fromUtf8("lineHasDots"));
+        lineHasDots->setCursor(QCursor(Qt::PointingHandCursor));
+
+        plottingLayout->addWidget(lineHasDots, 0, 2, 1, 1);
+
+        lineDashed = new QCheckBox(centralwidget);
+        lineDashed->setObjectName(QString::fromUtf8("lineDashed"));
+        lineDashed->setCursor(QCursor(Qt::PointingHandCursor));
+
+        plottingLayout->addWidget(lineDashed, 0, 1, 1, 1);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        plottingLayout->addItem(horizontalSpacer_3, 0, 3, 1, 1);
+
+        I0ItransPlotter = new QEPlotter(centralwidget);
+        I0ItransPlotter->setObjectName(QString::fromUtf8("I0ItransPlotter"));
+        I0ItransPlotter->setCursor(QCursor(Qt::CrossCursor));
+        I0ItransPlotter->setMouseTracking(true);
+        I0ItransPlotter->setProperty("toolBarIsVisible", QVariant(true));
+        I0ItransPlotter->setProperty("pvItemsIsVisible", QVariant(false));
+        I0ItransPlotter->setProperty("statusIsVisible", QVariant(false));
+        I0ItransPlotter->setColourA(QColor(23, 69, 243));
+        I0ItransPlotter->setColourB(QColor(255, 0, 0));
+
+        plottingLayout->addWidget(I0ItransPlotter, 1, 1, 1, 3);
+
+        IrefPlotter = new QEPlotter(centralwidget);
+        IrefPlotter->setObjectName(QString::fromUtf8("IrefPlotter"));
+        IrefPlotter->setCursor(QCursor(Qt::CrossCursor));
+        IrefPlotter->setMouseTracking(true);
+        IrefPlotter->setScaledContents(false);
+        IrefPlotter->setProperty("toolBarIsVisible", QVariant(true));
+        IrefPlotter->setProperty("pvItemsIsVisible", QVariant(false));
+        IrefPlotter->setProperty("statusIsVisible", QVariant(false));
+        IrefPlotter->setColourA(QColor(0, 255, 0));
+
+        plottingLayout->addWidget(IrefPlotter, 3, 1, 1, 3);
+
+        xyI0Itrans = new QLabel(centralwidget);
+        xyI0Itrans->setObjectName(QString::fromUtf8("xyI0Itrans"));
+        xyI0Itrans->setCursor(QCursor(Qt::IBeamCursor));
+
+        plottingLayout->addWidget(xyI0Itrans, 2, 1, 1, 3);
+
+        xyIref = new QLabel(centralwidget);
+        xyIref->setObjectName(QString::fromUtf8("xyIref"));
+        xyIref->setCursor(QCursor(Qt::IBeamCursor));
+
+        plottingLayout->addWidget(xyIref, 4, 1, 1, 3);
+
         xLabel = new QLabel(centralwidget);
         xLabel->setObjectName(QString::fromUtf8("xLabel"));
         QFont font2;
@@ -315,46 +376,7 @@ public:
         xLabel->setFont(font2);
         xLabel->setAlignment(Qt::AlignCenter);
 
-        plottingLayout->addWidget(xLabel, 4, 1, 1, 1);
-
-        IrefPlotter = new QEPlotter(centralwidget);
-        IrefPlotter->setObjectName(QString::fromUtf8("IrefPlotter"));
-        IrefPlotter->setCursor(QCursor(Qt::CrossCursor));
-        IrefPlotter->setScaledContents(false);
-        IrefPlotter->setProperty("toolBarIsVisible", QVariant(false));
-        IrefPlotter->setProperty("pvItemsIsVisible", QVariant(false));
-        IrefPlotter->setProperty("statusIsVisible", QVariant(false));
-        IrefPlotter->setColourA(QColor(0, 255, 0));
-
-        plottingLayout->addWidget(IrefPlotter, 2, 1, 1, 1);
-
-        I0ItransPlotter = new QEPlotter(centralwidget);
-        I0ItransPlotter->setObjectName(QString::fromUtf8("I0ItransPlotter"));
-        I0ItransPlotter->setCursor(QCursor(Qt::CrossCursor));
-        I0ItransPlotter->setProperty("toolBarIsVisible", QVariant(false));
-        I0ItransPlotter->setProperty("pvItemsIsVisible", QVariant(false));
-        I0ItransPlotter->setProperty("statusIsVisible", QVariant(false));
-        I0ItransPlotter->setColourA(QColor(23, 69, 243));
-        I0ItransPlotter->setColourB(QColor(255, 0, 0));
-
-        plottingLayout->addWidget(I0ItransPlotter, 0, 1, 1, 1);
-
-        xyI0Itrans = new QLabel(centralwidget);
-        xyI0Itrans->setObjectName(QString::fromUtf8("xyI0Itrans"));
-        xyI0Itrans->setCursor(QCursor(Qt::IBeamCursor));
-
-        plottingLayout->addWidget(xyI0Itrans, 1, 1, 1, 1);
-
-        yLabel = new QLabel(centralwidget);
-        yLabel->setObjectName(QString::fromUtf8("yLabel"));
-
-        plottingLayout->addWidget(yLabel, 0, 0, 3, 1);
-
-        xyIref = new QLabel(centralwidget);
-        xyIref->setObjectName(QString::fromUtf8("xyIref"));
-        xyIref->setCursor(QCursor(Qt::IBeamCursor));
-
-        plottingLayout->addWidget(xyIref, 3, 1, 1, 1);
+        plottingLayout->addWidget(xLabel, 5, 1, 1, 3);
 
 
         gridLayout_8->addLayout(plottingLayout, 4, 0, 1, 3);
@@ -539,12 +561,9 @@ public:
         titleLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_ </span>I<span style=\" vertical-align:sub;\">Trans(A) vs. </span>Energy<span style=\" vertical-align:sub;\">(eV)</span></p></body></html>", nullptr));
         logsLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Scan tool status ", nullptr));
         logs->setText(QString());
-        xLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p><span style=\" font-weight:600;\">Energy (eV)</span></p></body></html>", nullptr));
-        IrefPlotter->setProperty("contextMenuEmitText", QVariant(QCoreApplication::translate("HESEB_ScanTool", "X,Y", nullptr)));
-        IrefPlotter->setProperty("DataVariableX", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:Energy", nullptr)));
-        IrefPlotter->setProperty("DataVariableA", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:AbsTr", nullptr)));
-        IrefPlotter->setProperty("SizeVariableX", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:Energy.NORD", nullptr)));
-        IrefPlotter->setProperty("SizeVariableA", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:AbsTr.NORD", nullptr)));
+        yLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p><span style=\" font-weight:600;\">Current (A)</span></p></body></html>", nullptr));
+        lineHasDots->setText(QCoreApplication::translate("HESEB_ScanTool", "Line HasDots", nullptr));
+        lineDashed->setText(QCoreApplication::translate("HESEB_ScanTool", "Line Dashed", nullptr));
         I0ItransPlotter->setProperty("contextMenuEmitText", QVariant(QCoreApplication::translate("HESEB_ScanTool", "X,Y", nullptr)));
         I0ItransPlotter->setProperty("DataVariableX", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:Energy", nullptr)));
         I0ItransPlotter->setProperty("DataVariableA", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:I0", nullptr)));
@@ -574,9 +593,14 @@ public:
             << QString()
             << QString()
             << QString()));
+        IrefPlotter->setProperty("contextMenuEmitText", QVariant(QCoreApplication::translate("HESEB_ScanTool", "X,Y", nullptr)));
+        IrefPlotter->setProperty("DataVariableX", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:Energy", nullptr)));
+        IrefPlotter->setProperty("DataVariableA", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:AbsTr", nullptr)));
+        IrefPlotter->setProperty("SizeVariableX", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:Energy.NORD", nullptr)));
+        IrefPlotter->setProperty("SizeVariableA", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:AbsTr.NORD", nullptr)));
         xyI0Itrans->setText(QString());
-        yLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p><span style=\" font-weight:600;\">Current (A)</span></p></body></html>", nullptr));
         xyIref->setText(QString());
+        xLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p><span style=\" font-weight:600;\">Energy (eV)</span></p></body></html>", nullptr));
         ItransLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", nullptr));
         SEDPathVal->setText(QString());
         SEDPathDir->setText(QCoreApplication::translate("HESEB_ScanTool", "...", nullptr));
