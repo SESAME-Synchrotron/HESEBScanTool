@@ -2,6 +2,10 @@
 
 import sys
 import argparse
+from common import Common
+import config
+
+from engScan import ENGSCAN
 
 try:
 	import numpy as np
@@ -12,7 +16,7 @@ except ImportError as error:
 	print("pyepics\nnumpy\nPyQt5\n")
 	sys.exit()
 
-import heseb
+# import heseb
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -26,5 +30,14 @@ tMode = args.testingMode
 
 
 if __name__ == "__main__":
-    heseb.HESEBSCAN(testingMode = tMode)
-    sys.exit(app.exit())
+	paths	= Common.loadjson("configrations/paths.json")
+	cfg		= config.ConfigGUI(paths).cfg
+
+	cfg['scanType'] = 'stepEngScan' # temprory hard codded untill adding Mapping scan 
+
+	if cfg['scanType'] == 'stepEngScan':
+		ENGSCAN(paths = paths, cfg = cfg, testingMode = tMode)
+	elif cfg['scanType'] == 'stepMapScan':
+		MAPSCAN(paths = paths, cfg = cfg, testingMode = tMode)
+
+	sys.exit(app.exit())

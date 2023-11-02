@@ -2,7 +2,7 @@
 	"checkLimitesEvery":0.5,
 	"SRLowerCurrent":-50,
 	"SRUpperCurrent":300,
-	"energyRBVTolerance":0.001,
+	"energyRBVTolerance":0.1,
 	"checkToleranceEvery":0.01,
 	"maxTime2MeetTolerance": 10, 
 	"KEITHELY_I0LowerRBV": -1E-8,

@@ -1,1 +1,1 @@
-/home/control/HESEBScanTool/DATA/Scan-20231102T130430
+/home/control/HESEBScanTool/DATA/RMRMR-20231102T163633

@@ -19,8 +19,8 @@ from detectors.keithley_itrans import KEITHLEY_ITRANS
 from SEDSS.SEDSupplements import CLIMessage
 from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
 from SEDSS.SEDTmuxSession import tmuxSession
-from SEDSS.SEDFileManager import path
-from SEDSS.SEDTransfer import SEDTransfer
+# from SEDSS.SEDFileManager import path
+# from SEDSS.SEDTransfer import SEDTransfer
 import threading
 from xdiWriter import XDIWriter
 import threading
@@ -39,8 +39,8 @@ except ImportError as e:
 	print("Please make sure the following packages are installed:")
 	print("PyQt5, epics, numpy")
 
-class HESEBSCAN:
-	def __init__(self,testingMode = "No"):
+class HESEB:
+	def __init__(self,cfg, testingMode = "No"):
 		# 
 		#epics.PV("SCAN:STOP").put(0)
 		log.setup_custom_logger("./SED_Scantool.log")
@@ -63,7 +63,7 @@ class HESEBSCAN:
 		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceVoltageRBV"]["pvname"]).get())
 
 		self.paths		= Common.loadjson("configrations/paths.json")
-		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
+		self.cfg		= cfg
 		self.scanLimites = readFile("configrations/limites.json").readJSON()
 		#log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
@@ -87,7 +87,7 @@ class HESEBSCAN:
 		tmuxSession(self.tmuxSessionToKill).kill()
 		
 		subprocess.Popen("./voltageSourceValidation.sh")
-		self.start()
+		self.startScan()
 
 	def runPauseMonitor(self):
 		log.info("start pause trigger monitor") 
@@ -194,52 +194,6 @@ class HESEBSCAN:
 		log.info("Move PGM to initial energy ({})".format(self.energy0))
 		self.MovePGM(self.energy0)
 
-	def MovePGM(self,SP, curentScanInfo=None):
-
-		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
-		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM 
-		time.sleep(.15) # adding some delay to let the motor stat moving.
-		log.info("Move PGM to energy: {}".format(SP)) 
-		"""
-		the following loop tries to put the scan tool in wait state untill the PGM energy is reached by: 
-			1. Keep checking the Grating & M2 motors status (DMOV)
-			2. Keep checking the energy reached PV 
-		Notes: 
-			1. loop conditioning must be satisfied because energy PV is set to 0 before start moving the PGM.
-			2. checkToleranceEvery variable can be changed in limites.josn file 
-		"""
-		if curentScanInfo != None:
-			CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-				curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
-
-		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
-			time.sleep(self.scanLimites["checkToleranceEvery"])
-		"""
-		the loop below has been added because the one above was not enough to get energy RBV within the allowed tolerances. The main issue is that energy RBV is a PROC PV 
-		relies on many parameters to be calculated, this means, after reaching the target prositions of the PGM motors the final energy RBV needs some time to be calculated. 
-		however, the loop does the following: 
-			1. Periodically checks the energy RBV if it is within the given tolerances, if yes breaks the loop 
-			2. if not, waits until the maximum wait time condition is met. 
-
-		Notes: 
-			1. energyRBVTolerance, checkToleranceEvery & maxTime2MeetTolerance variables can be changed/defined in the "configrations/limites.json" file 
-			2. the three variables above have a big impact on the energy precision and scan time. 
-		"""
-		# CLIMessage("Energy : {}".format (self.PVs["PGM:Energy:RBV"].get(use_monitor = False)))
-		
-		print("\n")
-		timeCounter = 0 
-		while not (float(SP) - self.scanLimites["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimites["energyRBVTolerance"]):
-			#CLIMessage("Trying to reach the energy SP within the given tolerance", "IG")
-			self.PVs["PGM:Energy:SP"].put(SP, wait=True)
-			time.sleep(self.scanLimites["checkToleranceEvery"])
-			timeCounter = timeCounter + 1
-			if timeCounter * self.scanLimites["checkToleranceEvery"] >= self.scanLimites["maxTime2MeetTolerance"]:
-				log.warning("Reaching maximum wait time to reach the target energy")
-				break
-	
-		#self.PVs["PGM:Energy:Reached"].put(1, wait=True)
-		time.sleep(self.cfg["settlingTime"])
 			
 	def MoveSmpX(self,SP):
 		log.info("Move sample X to: {}".format(SP))
@@ -437,236 +391,6 @@ class HESEBSCAN:
 		
 		self.plot = plotting
 		subprocess.Popen(self.plot)
-
-
-	def start(self):
-		counter = 0 
-		pauseCounter = 0
-		breakTag = 0 
-		startTime = time.time()
-
-		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
-
-		self.PVs["SCAN:Start"].put(self.startScanTime)
-		log.info(f"Scan started at: {self.startScanTime}")
-
-		self.clearPlot()
-
-		log.info("Start data collection ...")
-		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
-		self.PVs["USERINFO:Email"].put(self.userinfo["Email"])
-		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
-		self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
-		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
-		points		=	map(lambda intv: self.drange(intv["Startpoint"],intv["Endpoint"],intv["Stepsize"]),self.cfg["Intervals"])
-		expData = {} # Experimental Data 
-
-		self.plotting()
-
-		for sample,scan,interval in self.generateScanPoints():
-			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
-			self.checkPause()
-			print ("#####################################################")
-			CLIMessage("Scan# {}".format(scan), "I")
-			CLIMessage("Sample# {}".format(sample), "I")
-			CLIMessage("Interval# {}".format(interval), "I")
-			print ("#####################################################")
-			#self.clearPlot()
-			# CSS GUI
-			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
-			self.PVs["SCAN:Nscans"].put(self.cfg["Nscans"])
-			self.PVs["SCAN:NIntervals"].put(self.cfg["NIntervals"])
-			self.PVs["SCAN:CurrentSample"].put(sample)
-			self.PVs["SCAN:CurrentScan"].put(scan)
-			self.PVs["SCAN:CurrentInterval"].put(interval)
-			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1 
-			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1 
-			currentInterval = self.cfg["Intervals"][interval-1]
-			startpoint = currentInterval["Startpoint"]
-			endpoint = currentInterval["Endpoint"]
-			stepsize = currentInterval["Stepsize"]
-			
-			picoAmmIntTime = currentInterval["picoAmmIntTime"]
-			
-			
-			points = self.drange(startpoint,endpoint,stepsize)
-			# epics.PV("K6487:1:RST.PROC").put(1)
-			# epics.PV("K6487:1:Damping").put(0)
-			# epics.PV("K6487:1:TimePerSampleStep").put(0)
-			for point in points:
-				self.checkPause()
-				curentScanInfo = []
-				curentScanInfo.append({"Sample":sample})
-				curentScanInfo.append({"Scan":scan})
-				curentScanInfo.append({"Interval":interval})
-				curentScanInfo.append({"RINGCurrent":self.PVs["RING:Current"].get()})
-				curentScanInfo.append({"sampleTitle":self.cfg["Samplespositions"][sample-1]["sampleTitle"]})
-
-				# tmp, delete the following line 
-				curentScanInfo.append({"TargetSP":point})
-				self.MovePGM(point, curentScanInfo)
-				args= {}
-				args["picoAmmIntTime"] = picoAmmIntTime
-				ACQdata = {}
-				detThreadList = []
-				log.info("Prepare a parallel thread for each selected detector")
-				for det in self.detectors:
-					detThreading = threading.Thread(target=det.ACQ, args=(args,), daemon=True)
-					detThreadList.append(detThreading)
-
-				log.info("Start detectors threads")
-				for thread in detThreadList: 
-					thread.start()
-
-				log.info("Joining the detector threads") 
-				for thread in detThreadList:
-					thread.join()
-
-				ACQdata={**ACQdata,**det.data}
-				log.info("Collecting data from detectors")
-				# Energy	=	self.PVs["PGM:Energy:RBV"].get(use_monitor=False)
-				# log.info("reading PGM energy")
-				# log.info("PGM Energy SP: {}, readback : {}".format(point, Energy))
-				expData.update(ACQdata)
-				log.info("Applying post acquisition for selected detectors if applicable")
-				for det in self.detectors:
-					det.postACQ(ACQdata)
-					ACQdata={**ACQdata,**det.data}
-					expData.update(ACQdata)
-
-				Energy	=	self.PVs["PGM:Energy:RBV"].get()
-				log.info("reading PGM energy: {}".format (Energy))
-				ACQdata["Sample#"] = sample
-				ACQdata["Scan#"] = scan
-				ACQdata["Interval"] = interval
-				ACQdata["ENERGY-RBK"]	=	Energy
-				expData.update(ACQdata)
-				I0Dp					=	ACQdata["KEITHLEY_I0"]	
-				
-				It2Dp					=	ACQdata["IC3[V]"]
-
-				# AbsorptionTrDp			=	ACQdata["TRANS"]
-				try:
-					AbsorptionTrDp = ItDp / I0Dp
-				except:
-					AbsorptionTrDp = 0
-
-				AbsorptionTr2Dp			=	ACQdata["TransRef"]
-
-				"""
-				the follwoing two variables assigned to 0.0 
-				to avoid the eror: local variable 'AbsorptionFluoDp' referenced before assignment
-				"""
-
-				IfDp = 0.0
-				AbsorptionFluoDp = 0.0
-
-				"""
-				try except below has been added to retrieve detector-specific data. 
-				this is needed when more than one detector is chosen for the experiment 
-				"""
-
-				try:
-					ItDp					=	ACQdata["KEITHLEY_Itrans"]
-				except:
-					pass
-
-				try: 
-					IfDp					=	ACQdata["If"]
-					AbsorptionFluoDp		=	ACQdata["FLUOR"]
-					log.info("Retrieve If and FLUOR from IC")
-				except:
-					pass
-
-				try: 
-					IfDp					=	ACQdata["KETEK-If"]
-					AbsorptionFluoDp		=	ACQdata["KETEK-FLUOR"]
-					log.info("Retrieve If and FLUOR from KETEK")
-				except:
-					pass
-
-				try: 
-					IfDp					=	ACQdata["FICUS-If"]
-					AbsorptionFluoDp		=	ACQdata["FICUS-FLUOR"]
-					log.info("Retrieve If and FLUOR from FICUS")
-				except:
-					pass
-
-				self.Energy.append(Energy)
-				self.I0.append(I0Dp)
-				try:
-					self.It.append(ItDp)
-				except:
-					pass
-				self.It2.append(It2Dp)
-				self.AbsTr.append(AbsorptionTrDp)
-				self.AbsTr2.append(AbsorptionTr2Dp)
-				self.If.append(IfDp)
-				self.AbsFlu.append(AbsorptionFluoDp)
-				self.setPlotData()
-
-				log.info("Writing data to xdi file")
-				
-				"""
-				(A) Ignore writing the 1st point, and, 
-				(B) Ignore writing data during pausing (shutter stoped, curent goes below the limites )
-				"""
-				if counter == 0 or self.PVs["SCAN:pause"].get()==1:  
-					pauseCounter = pauseCounter +1 
-					pass
-				else:
-					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, curentScanInfo)
-					
-					elapsedScanTime = timeModule.timer(startTime)					
-					
-					self.PVs["SCAN:Elapse"].put(elapsedScanTime)
-					log.info(f"Elapse time scan for scan point ({counter}) is: {elapsedScanTime}")
-
-				counter = counter +1
-
-				self.stopScan = self.PVs["SCAN:Stop"].get()
-				#print (self.stopScan, "type :: ", type(self.stopScan))
-				if int(self.stopScan) == 1:   # exit from for loop (child) when stop is clicked
-					log.warning("Scan tool has been stopped by human action")
-					breakTag = 1
-					break
-
-			"""
-			Transfering the data after each scan 
-			"""
-
-			self.dataTransfer()
-
-			if breakTag == 1: 		# exit from for loop (parent) when stop is clicked
-				self.stopScanning()
-
-		print("#########################################################################")
-		scanTime = timeModule.timer(startTime)
-		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
-		if pauseCounter > 1:
-			log.warning("Ignored points | total number: {}. Check the experiment log file to see what was caused the pausing".format(pauseCounter))
-		#CLIMessage("	scan is fininshed :)    Scan time: {}, total number of points: {}".format(str(scanTime), counter), "I")
-		print("#########################################################################")
-		log.info("Data file folder: {}".format(self.localDataPath))
-		CLIMessage("Data file folder: {}".format(self.localDataPath),"M")
-		print("#################################################")
-		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
-		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
-		self.dataTransfer()
-		tmuxSession(self.tmuxSessionToKill).kill()
-		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
-		
-	def dataTransfer(self):
-		# try:
-		# SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
-		if self.cfg["expType"] == "proposal":
-			SEDTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
-		else: 
-			IHPath = path(self.paths['SED_TOP'], beamline = 'HESEB').getIHPath()
-			SEDTransfer(self.localDataPath, self.paths["DS"]+":"+IHPath).scp()
-		log.info("Data transfer is done")
-		# except:
-		# 	log.error("Problem transfering the data")
 
 
 	def signal_handler(self, sig, frame):
