@@ -23,22 +23,22 @@ class Base:
 		self.data["IC3[V]"]						=	0
 		self.data["TRANS"]						=	0
 		self.data["TransRef"]					=	0
-		if name == "KETEK": 
-			self.data["KETEK-If"] 				= 	0
-			self.data["KETEK-FLUOR"] 			= 	0
-			self.data["KETEK-ROI_0[c/s]"] 		=	0
-			self.data["KETEK-ROI_1[c/s]"] 		=	0
-			self.data["KETEK-ROI_2[c/s]"] 		=	0
-			self.data["KETEK-ROI_3[c/s]"] 		=	0
-			self.data["KETEK-ROI_4[c/s]"] 		=	0
-			self.data["KETEK-ROI_5[c/s]"] 		=	0
-			self.data["KETEK-ROI_6[c/s]"] 		=	0
-			self.data["KETEK-ROI_7[c/s]"] 		=	0
-			self.data["KETEK-e-time[sec]"] 		= 	0
-			self.data["KETEK-DEADTIME[%]"] 		= 	0
-			self.data["KETEK-INT_TIME[sec]"] 	= 	0
-			self.data["KETEK-OCR"] 				= 	0
-			self.data["KETEK-ICR"] 				= 	0
+		if name == "XFLASH": 
+			self.data["XFLASH-If"] 				= 	0
+			self.data["XFLASH-FLUOR"] 			= 	0
+			self.data["XFLASH-ROI_0[c/s]"] 		=	0
+			self.data["XFLASH-ROI_1[c/s]"] 		=	0
+			self.data["XFLASH-ROI_2[c/s]"] 		=	0
+			self.data["XFLASH-ROI_3[c/s]"] 		=	0
+			self.data["XFLASH-ROI_4[c/s]"] 		=	0
+			self.data["XFLASH-ROI_5[c/s]"] 		=	0
+			self.data["XFLASH-ROI_6[c/s]"] 		=	0
+			self.data["XFLASH-ROI_7[c/s]"] 		=	0
+			self.data["XFLASH-e-time[sec]"] 	= 	0
+			self.data["XFLASH-DEADTIME[%]"] 	= 	0
+			self.data["XFLASH-INT_TIME[sec]"] 	= 	0
+			self.data["XFLASH-OCR"] 			= 	0
+			self.data["XFLASH-ICR"] 			= 	0
 		
 		elif name == "FICUS": 
 			self.data["FICUS-If"] 				= 	0
