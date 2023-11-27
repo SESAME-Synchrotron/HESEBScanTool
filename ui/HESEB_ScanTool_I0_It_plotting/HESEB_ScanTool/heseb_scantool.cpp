@@ -61,6 +61,22 @@ void HESEB_ScanTool::path()
        }
 }
 
+void HESEB_ScanTool::on_hide_show1_stateChanged(int arg1)
+{
+    if(arg1 == Qt::Checked)
+        ui->I0ItransPlotter->setHidden(true);
+    else
+        ui->I0ItransPlotter->setHidden(false);
+}
+
+void HESEB_ScanTool::on_hide_show2_stateChanged(int arg1)
+{
+    if(arg1 == Qt::Checked)
+        ui->IrefPlotter->setHidden(true);
+    else
+        ui->IrefPlotter->setHidden(false);
+}
+
 void HESEB_ScanTool::on_I0ItransPlotter_coordinateSelected(const QPointF &xyvalue)
 {
     ui->xyI0Itrans->setText(QString("X: %1, Y: %2").arg(xyvalue.x()).arg(xyvalue.y()));

@@ -31,6 +31,10 @@ private slots:
 
     void on_SEDPathDir_clicked();
 
+    void on_hide_show1_stateChanged(int arg1);
+
+    void on_hide_show2_stateChanged(int arg1);
+
     void on_I0ItransPlotter_coordinateSelected(const QPointF &xyvalue);
 
     void on_IrefPlotter_coordinateSelected(const QPointF &xyvalue);
