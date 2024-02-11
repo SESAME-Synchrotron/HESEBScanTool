@@ -30,6 +30,8 @@ tMode = args.testingMode
 
 
 if __name__ == "__main__":
+
+	epics.PV("SCAN:STOP").put(0)		#### in order to enable voltage source####
 	paths	= Common.loadjson("configrations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
 

@@ -6,6 +6,6 @@
   "remoteServer1": "root@10.1.100.11:/home/XAFS-Instant-Data/autoCopied",
   "HESEB_ScanTool_I0": "/home/control/bin/HESEB_ScanTool_I0",
   "HESEB_ScanTool_I0_It": "/home/control/bin/HESEB_ScanTool_I0_It",
-  "DS": "root@10.1.100.11",
-  "SED_TOP": "/home/SED-Data"
+  "DS": "dcasu@10.1.14.100",
+  "SED_TOP": "/PETRA/SED"
 }

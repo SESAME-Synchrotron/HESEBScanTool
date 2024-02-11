@@ -52,7 +52,7 @@ class HESEB:
 		self.PVs["I0:TRIGGER"].put(1)   		# disable I0 vs time plotting
 		self.PVs["It:TRIGGER"].put(1)  		    # disable It vs time plotting
 		# self.PVs["Voltage:Validation"].put(0)	# enable voltage source
-		epics.PV("VOLTAGE:VALIDATION").put(0)	# enable voltage source
+		# epics.PV("VOLTAGE:VALIDATION").put(0)	# enable voltage source
 
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
 		self.voltageSourcePARAM = []
