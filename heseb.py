@@ -13,6 +13,7 @@ import itertools
 from common import Common
 from detectors.ficus import FICUS
 from detectors.ketek import KETEK
+from detectors.xflash import XFLASH
 from detectors.ic import IC
 from detectors.keithley_i0 import KEITHLEY_I0
 from detectors.keithley_itrans import KEITHLEY_ITRANS
@@ -104,11 +105,9 @@ class HESEB:
 			pvname=pvname["pvname"]
 			PVobj = epics.PV(pvname)
 			if PVobj.get() is None:
-				#print("{} : is not connected\n".format(pvname))
 				CLIMessage("{} : is not connected".format(pvname), "E")
 				DisconnectedPvs.append("{}\n".format(pvname))
 			else:
-				#print("{} : is connected\n".format(pvname))
 				CLIMessage("{} : is connected".format(pvname), "I")
 				self.PVs[entry] = PVobj
 
@@ -116,11 +115,9 @@ class HESEB:
 			pvname=mtrname["pvname"]
 			MTRobj = epics.Motor(pvname)
 			if MTRobj is None:
-				#print("{} : is not connected\n".format(pvname))
 				CLIMessage("{} : is not connected".format(pvname), "E")
 				DisconnectedPvs.append("{}\n".format(pvname))
 			else:
-				#print("{} : is connected\n".format(pvname))
 				CLIMessage("{} : is connected".format(pvname), "I")
 				self.motors[entry] = MTRobj
 
@@ -135,7 +132,6 @@ class HESEB:
 		self.BasePath			=	"{}/{}-{}".format(self.paths["local_data_path"],self.cfg["DataFileName"],self.creationTime)
 		self.cfgfilepath		=	"{}/{}_config_{}.cfg".format(self.BasePath,self.cfg["DataFileName"],self.creationTime) 
 		self.localDataPath		=   "{}".format(self.BasePath)
-		#self.PVs["SCAN:Path"].put(self.localDataPath)
 
 		if not os.path.exists(self.BasePath):
 			log.info("Create base directory: {}".format(self.BasePath))
@@ -279,7 +275,6 @@ class HESEB:
 		while True:
 			photonShutterStatus = self.PVs["photonShutter:Status"].get()
 			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
-			#StopperStatus = self.PVs["STOPPER:Status"].get()
 			currentCurrent = self.PVs["RING:Current"].get()
 			KeithelyI0ReadOut = epics.PV(self.KeithelyI0PV["PV"]["picoAmmeterI0AcqReadOut"]["pvname"]).get()
 
@@ -297,7 +292,6 @@ class HESEB:
 					currentLogFlag = 1
 
 			################### Check photonShutter parameters ###############
-			#print (self.PVs["photonShutter:Status"].get())
 			if photonShutterStatus == 1: # shutter is open 1, undefined 0, 2 closed, 3 interlocked 
 				photonShutterOk = True
 				if photonShutterLogFlag == 1: 
@@ -355,22 +349,15 @@ class HESEB:
 		sys.exit()
 
 	def initDetectors(self):
-		#self.available_detectors = ["IC1","IC2","IC3","KETEK","FICUS"]
 		log.info("Detectors initialization")
-		self.available_detectors = ["IC","KETEK","FICUS"]
-		self.Ingtime = [0.005, 0.0075, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10]
+		self.available_detectors = ["IC","XFLASH"]
 		self.detectors = []
 		detlist = self.cfg["detectors"]
 		log.info("Chosen detectors are {}".format(detlist))
 		self.detChosen = detlist
 		for det in detlist:
-			if det in ("IC1", "IC2", "IC3"):
-				cfg={}
-				self.detectors.append(IC("IC", self.paths))
-			elif det == "KETEK":
-				self.detectors.append(KETEK("KETEK",self.paths))
-			elif det == "FICUS":
-				self.detectors.append(FICUS("FICUS",self.paths,self.userinfo))
+			if det == "XFLASH":
+				self.detectors.append(XFLASH("XFLASH",self.paths, self.userinfo))
 			elif det == "KEITHLEY_I0":
 				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0",self.paths,self.userinfo,self.voltageSourcePARAM))
 			elif det == "KEITHLEY_Itrans":
@@ -381,16 +368,27 @@ class HESEB:
 
 	def plotting(self):
 		#################### Plotting ####################
+		plotList = []
 		if "KEITHLEY_Itrans" in self.cfg["detectors"]:
-			plotting = self.paths["HESEB_ScanTool_I0_It"]
-			log.info("HESEB_ScanTool_I0_It started")
-		
+			plottingGUI = self.paths["HESEB_ScanTool_I0_It"]
+			plotList.append(plottingGUI)
+			log.info("HESEB_ScanTool_I0_It plotting started")
+			if "XFLASH" in self.cfg["detectors"]:
+				plottingGUI = self.paths["HESEB_ScanTool_XFLASH"]
+				plotList.append(plottingGUI)
+				log.info("HESEB_ScanTool_XFLASH")
 		else:
-			plotting = self.paths["HESEB_ScanTool_I0"]
+			plottingGUI = self.paths["HESEB_ScanTool_I0"]
 			log.info("HESEB_ScanTool_I0 started")
-		
-		self.plot = plotting
-		subprocess.Popen(self.plot)
+			plotList.append(plottingGUI)
+			if "XFLASH" in self.cfg["detectors"]:
+				plottingGUI = self.paths["HESEB_ScanTool_XFLASH"]
+				plotList.append(plottingGUI)
+				log.info("HESEB_ScanTool_XFLASH plotting started")
+		# self.plot = plotting
+
+		for plotGUI in plotList:
+			subprocess.Popen(plotGUI)
 
 
 	def signal_handler(self, sig, frame):

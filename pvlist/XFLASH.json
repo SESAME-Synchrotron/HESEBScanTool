@@ -79,12 +79,6 @@
      },
      "xFlash_data_rate":{
        "pvname":"mcaTest:mca1Read.SCAN"
-     },
-     "xFlash_dxp_ICR":{
-       "pvname":"ICR PV XXXX"
-     },
-     "xFlash_dxp_OCR":{
-       "pvname":"OCR PV XXXX"
      }
     }
 }

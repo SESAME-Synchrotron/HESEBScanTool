@@ -1,5 +1,3 @@
-#!/usr/bin/python3.6
-
 import sys
 import argparse
 from common import Common

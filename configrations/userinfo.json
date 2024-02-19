@@ -1,13 +1,13 @@
 {
-  "Proposal": "20235006",
-  "Title": "Carbon XANES of oolitic limestones from a mildly acidic lake in Kurdistan: evaluating evidence for biological mediation during formation",
-  "Proposer": "Keyron HICKMAN-LEWIS",
-  "Email": "keyron.hickman-lewis@nhm.ac.uk",
+  "Proposal": "20235014",
+  "Title": "Advanced Characterization of Transition Metal Doped CuO Thin Films Using Synchrotron Radiation",
+  "Proposer": "Yusuf Selim OCAK",
+  "Email": "yusufselim@gmail.com",
   "Beamline": "HESEB",
-  "Begin": "06/09/2023",
-  "End": "07/09/2023",
-  "Assigned shifts": "3",
-  "Assigned hours": "24",
+  "Begin": "12/02/2024",
+  "End": "15/02/2024",
+  "Assigned shifts": "9",
+  "Assigned hours": "72",
   "Semester": "6",
-  "Experimental_Data_Path": "/home/SED-Data/test/HESEB/SEM_6/20235006/ExpData/"
+  "Experimental_Data_Path": "/home/SED-Data/HESEB/SEM_6/20235014/ExpData/"
 }

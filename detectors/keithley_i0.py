@@ -20,12 +20,9 @@ class KEITHLEY_I0(Base):
 		self.voltageSourceRange 		= voltageSourceParam[1]
 		self.voltageSourceCurrentLimit  = voltageSourceParam[2]
 		self.voltageSourcevalue		    = voltageSourceParam[3]
-
-
 		self.PVs["picoAmmeterI0SoftReset"].put(1) # apply soft reset before start collecting data 
 		self.PVs["picoAmmeterI0Damping"].put(0) # disable damping 
 		self.PVs["picoAmmeterI0TPSS"].put(0) # put 0 in time per step sample 
-		
 		# put the values taken for the voltage source parameters after reset 
 		self.PVs["voltageSourceEnable"].put(self.voltageSourceEnable)
 		self.PVs["voltageSourceRange"].put(self.voltageSourceRange)
@@ -36,8 +33,6 @@ class KEITHLEY_I0(Base):
 	def ACQ(self,args):
 		sleepTime = 0.0001
 		timerCounter = 0 
-
-		#CLIMessage("{}".format(args), "E")
 		NPLC, ActualIntTime = self.getNPLC_IntTime(args["picoAmmIntTime"])
 		#print(NPLC, ActualIntTime)
 		self.PVs["picoAmmeterI0TPSS"].put(ActualIntTime)

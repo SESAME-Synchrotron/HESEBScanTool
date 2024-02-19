@@ -193,6 +193,10 @@ class ConfigGUI:
 			if "KEITHLEY_I0" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KEITHLEY_I0")
 				detCheckbox.setChecked(True)
+
+			if "XFLASH" in self.cfg["detectors"]:
+				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "XFLASH")
+				detCheckbox.setChecked(True)
 			
 			if "KEITHLEY_Itrans" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KEITHLEY_Itrans")
@@ -620,7 +624,7 @@ class IntervalGUI:
 						self.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.Intervals[interval]["picoAmmIntTime"]),0))
 class DetectorsGUI:		
 	def __init__(self):
-		self.detectors = ["KEITHLEY_I0", "KEITHLEY_Itrans"]
+		self.detectors = ["KEITHLEY_I0", "KEITHLEY_Itrans", "XFLASH"]
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)

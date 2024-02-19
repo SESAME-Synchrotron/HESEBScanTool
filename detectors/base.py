@@ -18,9 +18,9 @@ class Base:
 		self.data["Scan#"]						=	0
 		self.data["Interval"]					=	0
 		self.data["ENERGY-RBK"]					=	0
-		self.data["IC1[V]"]						=	0
-		self.data["IC2[V]"]						=	0
-		self.data["IC3[V]"]						=	0
+		# self.data["IC1[V]"]						=	0
+		# self.data["IC2[V]"]						=	0
+		# self.data["IC3[V]"]						=	0
 		self.data["TRANS"]						=	0
 		self.data["TransRef"]					=	0
 		if name == "XFLASH": 
@@ -75,13 +75,10 @@ class Base:
 			pvname=pvname["pvname"]
 			PVobj = epics.PV(pvname)
 
-			#print ("DIR PVO:::", dir(PVobj))
 			if PVobj.get() is None:
-				#print("{} : is not connected\n".format(pvname))
 				CLIMessage("{} : is not connected".format(pvname), "E")
 				DisconnectedPvs.append("{}\n".format(pvname))
 			else:
-				#print("{} : is connected\n".format(pvname))
 				CLIMessage("{} : is connected".format(pvname), "I")
 				self.PVs[entry] = PVobj
 
@@ -93,7 +90,6 @@ class Base:
 	
 	def postACQ(self,*args,**kwargs):
 		pass
-		#print(self.name, " postACQ is not implemented")
 
 	
 	def trydiv(self,val1,val2):

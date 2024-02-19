@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """
 Step energy scan derived class
@@ -106,73 +107,33 @@ class ENGSCAN (HESEB_XRFSTEP):
 
 				ACQdata={**ACQdata,**det.data}
 				log.info("Collecting data from detectors")
-				# Energy	=	self.PVs["PGM:Energy:RBV"].get(use_monitor=False)
-				# log.info("reading PGM energy")
-				# log.info("PGM Energy SP: {}, readback : {}".format(point, Energy))
 				expData.update(ACQdata)
 				log.info("Applying post acquisition for selected detectors if applicable")
 				for det in self.detectors:
 					det.postACQ(ACQdata)
-					ACQdata={**ACQdata,**det.data}
+					ACQdata={**ACQdata,**det.data} 
 					expData.update(ACQdata)
 
 				Energy	=	self.PVs["PGM:Energy:RBV"].get()
 				log.info("reading PGM energy: {}".format (Energy))
+				IfDp = 0.0
+				AbsorptionFluoDp = 0.0
+				AbsorptionTrDp = 0.0
 				ACQdata["Sample#"] = sample
 				ACQdata["Scan#"] = scan
 				ACQdata["Interval"] = interval
 				ACQdata["ENERGY-RBK"]	=	Energy
 				expData.update(ACQdata)
-				I0Dp					=	ACQdata["KEITHLEY_I0"]	
+				I0Dp					=	ACQdata["KEITHLEY_I0"]
 				
-				It2Dp					=	ACQdata["IC3[V]"]
-
-				# AbsorptionTrDp			=	ACQdata["TRANS"]
-				try:
+				if "KEITHLEY_Itrans" in self.cfg["detectors"]:
+					ItDp = ACQdata["KEITHLEY_Itrans"]
 					AbsorptionTrDp = ItDp / I0Dp
-				except:
-					AbsorptionTrDp = 0
 
-				AbsorptionTr2Dp			=	ACQdata["TransRef"]
+				if "XFLASH" in self.cfg["detectors"]:
+					IfDp					=	ACQdata["XFLASH-If"]
+					AbsorptionFluoDp		=	ACQdata["XFLASH-FLUOR"]
 
-				"""
-				the follwoing two variables assigned to 0.0 
-				to avoid the eror: local variable 'AbsorptionFluoDp' referenced before assignment
-				"""
-
-				IfDp = 0.0
-				AbsorptionFluoDp = 0.0
-
-				"""
-				try except below has been added to retrieve detector-specific data. 
-				this is needed when more than one detector is chosen for the experiment 
-				"""
-
-				try:
-					ItDp					=	ACQdata["KEITHLEY_Itrans"]
-				except:
-					pass
-
-				try: 
-					IfDp					=	ACQdata["If"]
-					AbsorptionFluoDp		=	ACQdata["FLUOR"]
-					log.info("Retrieve If and FLUOR from IC")
-				except:
-					pass
-
-				try: 
-					IfDp					=	ACQdata["KETEK-If"]
-					AbsorptionFluoDp		=	ACQdata["KETEK-FLUOR"]
-					log.info("Retrieve If and FLUOR from KETEK")
-				except:
-					pass
-
-				try: 
-					IfDp					=	ACQdata["FICUS-If"]
-					AbsorptionFluoDp		=	ACQdata["FICUS-FLUOR"]
-					log.info("Retrieve If and FLUOR from FICUS")
-				except:
-					pass
 
 				self.Energy.append(Energy)
 				self.I0.append(I0Dp)
@@ -180,9 +141,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 					self.It.append(ItDp)
 				except:
 					pass
-				self.It2.append(It2Dp)
 				self.AbsTr.append(AbsorptionTrDp)
-				self.AbsTr2.append(AbsorptionTr2Dp)
 				self.If.append(IfDp)
 				self.AbsFlu.append(AbsorptionFluoDp)
 				self.setPlotData()
@@ -207,7 +166,6 @@ class ENGSCAN (HESEB_XRFSTEP):
 				counter = counter +1
 
 				self.stopScan = self.PVs["SCAN:Stop"].get()
-				#print (self.stopScan, "type :: ", type(self.stopScan))
 				if int(self.stopScan) == 1:   # exit from for loop (child) when stop is clicked
 					log.warning("Scan tool has been stopped by human action")
 					breakTag = 1

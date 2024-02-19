@@ -47,9 +47,9 @@
    <property name="title">
     <string>Choose experiment detectors </string>
    </property>
-   <widget class="QCheckBox" name="FICUS">
+   <widget class="QCheckBox" name="XFLASH">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -238,7 +238,7 @@
  <tabstops>
   <tabstop>KEITHLEY_I0</tabstop>
   <tabstop>KEITHLEY_Itrans</tabstop>
-  <tabstop>FICUS</tabstop>
+  <tabstop>XFLASH</tabstop>
  </tabstops>
  <resources/>
  <connections>
