@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'samplesposition.ui'
+# Form implementation generated from reading ui file 'ui/samplesposition.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,16 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(429, 307)
+        Dialog.resize(524, 307)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(340, 20, 81, 61))
+        self.buttonBox.setGeometry(QtCore.QRect(440, 20, 81, 61))
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.samplepositions = QtWidgets.QTableWidget(Dialog)
-        self.samplepositions.setGeometry(QtCore.QRect(10, 20, 321, 271))
+        self.samplepositions.setGeometry(QtCore.QRect(10, 20, 416, 271))
         self.samplepositions.setObjectName("samplepositions")
-        self.samplepositions.setColumnCount(3)
+        self.samplepositions.setColumnCount(4)
         self.samplepositions.setRowCount(1)
         item = QtWidgets.QTableWidgetItem()
         self.samplepositions.setVerticalHeaderItem(0, item)
@@ -33,6 +33,8 @@ class Ui_Dialog(object):
         self.samplepositions.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.samplepositions.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.samplepositions.setHorizontalHeaderItem(3, item)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -49,6 +51,8 @@ class Ui_Dialog(object):
         item = self.samplepositions.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Y"))
         item = self.samplepositions.horizontalHeaderItem(2)
+        item.setText(_translate("Dialog", "Z"))
+        item = self.samplepositions.horizontalHeaderItem(3)
         item.setText(_translate("Dialog", "Sample Name"))
 
 

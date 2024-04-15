@@ -1,13 +1,13 @@
 {
-  "Proposal": "20235014",
-  "Title": "Advanced Characterization of Transition Metal Doped CuO Thin Films Using Synchrotron Radiation",
-  "Proposer": "Yusuf Selim OCAK",
-  "Email": "yusufselim@gmail.com",
+  "Proposal": "20235168",
+  "Title": "The nature of boron and nitrogen on hexagonal-boron nitrides (h-BN) exfoliated by gas treatment",
+  "Proposer": "Gokhan CELIK",
+  "Email": "gcelik@metu.edu.tr",
   "Beamline": "HESEB",
-  "Begin": "12/02/2024",
-  "End": "15/02/2024",
-  "Assigned shifts": "9",
-  "Assigned hours": "72",
+  "Begin": "26/02/2024",
+  "End": "01/03/2024",
+  "Assigned shifts": "12",
+  "Assigned hours": "96",
   "Semester": "6",
-  "Experimental_Data_Path": "/home/SED-Data/HESEB/SEM_6/20235014/ExpData/"
+  "Experimental_Data_Path": "/PETRA/SED/HESEB/SEM_6/20235168/ExpData/"
 }

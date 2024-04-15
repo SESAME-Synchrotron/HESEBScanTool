@@ -1,1 +1,1 @@
-/home/control/HESEBScanTool/DATA/MZ_Test-20240219T114404
+/home/control/HESEBScanTool/DATA/Si-20240326T171408
