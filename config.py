@@ -124,6 +124,10 @@ class ConfigGUI:
 			for Detector in self.cfg["detectors"]:
 				det = getattr(self.DetectorsGUI.detectors_UI, Detector)
 				det.setChecked(True)
+			if 'XFLASH' in self.cfg['detectors']:
+				for roi in self.cfg["ROIs"]:
+					checkBox = getattr(self.DetectorsGUI.detectors_UI, roi)
+					checkBox.setChecked(True)
 		self.DetectorsGUI.detectorsDialog.exec_()
 	
 	def editSamples(self):
@@ -188,6 +192,8 @@ class ConfigGUI:
 			for sample in range(len(self.cfg["Samplespositions"])):
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Xposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Yposition"]), 0))
+				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Z.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Zposition"]), 0))
+				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.R.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Rotation"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["sampleTitle"]), 0))
 
 			if "KEITHLEY_I0" in self.cfg["detectors"]:
@@ -197,6 +203,11 @@ class ConfigGUI:
 			if "XFLASH" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "XFLASH")
 				detCheckbox.setChecked(True)
+				if "ROI_0" or "ROI_1" or "ROI_2" or "ROI_3"or "ROI_4" or "ROI_5" or "ROI_6" or "ROI_7" or "ROI_8" in self.cfg["ROIs"]:
+					if 'XFLASH' in self.cfg['detectors']:
+						for roi in self.cfg["ROIs"]:
+							checkbox = getattr(self.DetectorsGUI.detectors_UI, roi)
+							checkbox.setChecked(True)
 			
 			if "KEITHLEY_Itrans" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KEITHLEY_Itrans")
@@ -292,11 +303,16 @@ class ConfigGUI:
 					if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W") 
 						return self.WizardPages.editCfg.value
+
+					Zposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
+					if Zposition == '' or not Common.validate("Zposition", Zposition,"Please enter valid sample Z position"):
+						CLIMessage("Please check/enter (Z) position for sample number {}".format(sample), "W") 
+						return self.WizardPages.editCfg.value
 				except: 
-					CLIMessage("Please check/enter (x,y) position for sample number {}".format(sample), "W")
+					CLIMessage("Please check/enter (x,y,Z) position for sample number {}".format(sample), "W")
 
 				try:
-					sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
+					sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 3).text()
 					if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name"):
 						CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W") 
 						return self.WizardPages.editCfg.value
@@ -383,14 +399,25 @@ class ConfigGUI:
 				expMetaData.append({"expCom":self.guiObj.expCom.text()})
 				
 			detectors = []
+			ROIs = []
 			for d in self.DetectorsGUI.detectors:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
 				if detCheckbox.isChecked():
 					detectors.append(d)
+			
+			if 'XFLASH' in detectors:
+				for roi in self.DetectorsGUI.ROIs:
+					Checkbox = getattr(self.DetectorsGUI.detectors_UI, roi)
+					if Checkbox.isChecked():
+						ROIs.append(roi)
 
 			self.cfg["ExpMetaData"] = expMetaData
 
 			if not detectors:
+				return self.WizardPages.editCfg.value
+
+			if 'XFLASH' in detectors and not ROIs:
+				CLIMessage("Since XFLASH detector is choosed, at least one ROI should be selected", "W")
 				return self.WizardPages.editCfg.value
 
 			return self.WizardPages.startscan.value
@@ -466,20 +493,36 @@ class ConfigGUI:
 				intervals[interval]["picoAmmIntTime"] = float(picoAmmIntTime)
 		SamplePositions = [{} for i in range(int(Nsamples))]
 		for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
+			
 			Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
 			if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
 				CLIMessage("Samples | Please enter a valid sample X position")
 				return self.WizardPages.editCfg.value
 			else:
 				SamplePositions[sample]["Xposition"] = Xposition
+
 			Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 			if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 				CLIMessage("Samples | Please enter a valid sample Y position")
 				return self.WizardPages.editCfg.value
 			else:
 				SamplePositions[sample]["Yposition"] = Yposition
+
+			Zposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
+			if Zposition == '' or not Common.validate("Zposition", Zposition,"Please enter valid sample Z position"):
+				CLIMessage("Samples | Please enter a valid sample Z position")
+				return self.WizardPages.editCfg.value
+			else:
+				SamplePositions[sample]["Zposition"] = Zposition
+
+			Rot = self.SamplesGUI.sample_UI.samplepositions.item(sample, 3).text()
+			if Rot == '' or not Common.validate("Rotation", Rot,"Please enter valid sample rotation position"):
+				CLIMessage("Samples | Please enter a valid sample rotation position")
+				return self.WizardPages.editCfg.value
+			else:
+				SamplePositions[sample]["Rotation"] = Rot
 			
-			sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
+			sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 4).text()
 			if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name in the Samples dialog"):
 				CLIMessage("Samples | Please enter a valid sample name in the Samples dialog")
 				return self.WizardPages.editCfg.value
@@ -487,11 +530,20 @@ class ConfigGUI:
 				SamplePositions[sample]["sampleTitle"] = sampleTitle
 				
 		detectors = []
+		ROIs = []
 		for d in self.DetectorsGUI.detectors:
 			detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
 			if detCheckbox.isChecked():
 				detectors.append(d)
 		self.cfg["detectors"] = detectors
+
+		if 'XFLASH' in self.cfg['detectors']:
+			for roi in self.DetectorsGUI.ROIs:
+				ROICheckbox = getattr(self.DetectorsGUI.detectors_UI, roi)
+				if ROICheckbox.isChecked():
+					ROIs.append(roi)
+		self.cfg["ROIs"]=ROIs
+
 		self.cfg["Intervals"] = intervals
 		self.cfg["Samplespositions"] = SamplePositions
 
@@ -511,7 +563,9 @@ class SamplePosGUI:
 	class SampleCols(Enum):
 		X	=	0
 		Y	=	1
-		Title = 2
+		Z   =   2
+		R 	=  	3
+		Title = 4
 
 	def __init__(self):
 		self.sampleDialog = QtWidgets.QDialog()
@@ -527,42 +581,60 @@ class SamplePosGUI:
 		PVs = readFile("pvlist/HESEB.json").readJSON()
 		XpositionPV = PVs["Motors"]["SMP:X"]["pvname"]
 		YpositionPV = PVs["Motors"]["SMP:Y"]["pvname"] 
+		ZpositionPV = PVs["Motors"]["SMP:Z"]["pvname"] 
+		RotPV = PVs["Motors"]["SMP:Rot"]["pvname"] 
 		if "Samplespositions" in cfg.keys():
 			for sample in range(Nsamples):
 				sampleTitle = ""
 				Xposition = ""
 				Yposition = ""
+				Zposition = ""
+				Rot = ""
 				if sample < len(cfg["Samplespositions"]):
 					try:
 						Xposition = self.sample_UI.samplepositions.item(sample, 0).text()
 						Yposition = self.sample_UI.samplepositions.item(sample, 1).text()
-						sampleTitle = self.sample_UI.samplepositions.item(sample, 2).text()
+						Zposition = self.sample_UI.samplepositions.item(sample, 2).text()
+						Rot = self.sample_UI.samplepositions.item(sample, 3).text()
+						sampleTitle = self.sample_UI.samplepositions.item(sample, 4).text()
 					except:
 						print("")
 					try:	
 
-						if Xposition == "" or Yposition == "" or sampleTitle =="": # bring x and y values fro the first time from cfg file
+						if Xposition == "" or Yposition == "" or Zposition == "" or Rot == "" or sampleTitle =="": # bring x and y values fro the first time from cfg file
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Xposition"]), 0))
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Yposition"]), 0))
+							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Z.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Zposition"]), 0))
+							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.R.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Rotation"]), 0))
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["sampleTitle"]), 0))
 					except:
-						CLIMessage("Unable to read x and y positions (or Sample Name) from the configuration file for "\
+						CLIMessage("Unable to read x, y and z positions (or Sample Name) from the configuration file for "\
 							"the sample number {}".format(sample), "W")
 		else: 
 			CurentXPosition = caget(XpositionPV)
 			CurentYPosition = caget(YpositionPV)
+			CurentZPosition = caget(ZpositionPV)
+			CurentRotPosition = caget(RotPV)
 			try: # try to get text for the first interval, ... if not set the curent x y positions 
 				XpositionInt0 = self.sample_UI.samplepositions.item(0, 0).text() # x position interval 0
 				YpositionInt0 = self.sample_UI.samplepositions.item(0, 1).text() # y position interval 0 
+				ZpositionInt0 = self.sample_UI.samplepositions.item(0, 2).text() # Z position interval 0 
+				RotInt0 = self.sample_UI.samplepositions.item(0, 3).text() # Z position interval 0 
 
 				if XpositionInt0 == "": 
 					self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(CurentXPosition), 0))
 				if YpositionInt0 == "":
 					self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(CurentYPosition), 0))
+				if ZpositionInt0 == "":
+					self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.Z.value,QtWidgets.QTableWidgetItem(str(CurentZPosition), 0))
+				if RotInt0 == "":
+					self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.R.value,QtWidgets.QTableWidgetItem(str(CurentRotPosition), 0))
 
 			except:
 				self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(CurentXPosition), 0))
 				self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(CurentYPosition), 0))
+				self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.Z.value,QtWidgets.QTableWidgetItem(str(CurentZPosition), 0))
+				self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.R.value,QtWidgets.QTableWidgetItem(str(CurentRotPosition), 0))
 
 
 class IntervalGUI:
@@ -625,6 +697,7 @@ class IntervalGUI:
 class DetectorsGUI:		
 	def __init__(self):
 		self.detectors = ["KEITHLEY_I0", "KEITHLEY_Itrans", "XFLASH"]
+		self.ROIs = ['ROI_0','ROI_1','ROI_2', 'ROI_3', 'ROI_4', 'ROI_5', 'ROI_6', 'ROI_7', 'ROI_8']
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)

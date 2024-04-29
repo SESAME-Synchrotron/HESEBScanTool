@@ -115,10 +115,16 @@
 			"pvname":"I11R1-MO-MC2:OH-M2-STP-ROTX"
 		},
 		"SMP:X":{
-			"pvname":"motorSimIOC:FE-M1-STP-TRSX1"
+			"pvname":"I11R1-MO-MC1:ES-STP-TRSX" 
 		},
 		"SMP:Y":{
-			"pvname":"motorSimIOC:FE-M1-STP-TRSY1"
+			"pvname":"I11R1-MO-MC1:ES-STP-TRSY"
+		},
+		"SMP:Z":{
+			"pvname":"I11R1-MO-MC1:ES-STP-TRSZ"
+		},
+		"SMP:Rot":{
+			"pvname":"I11R1-MO-MC1:ES-STP-ROTY"
 		}
 	}
 }

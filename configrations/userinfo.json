@@ -1,13 +1,13 @@
 {
-  "Proposal": "20235168",
-  "Title": "The nature of boron and nitrogen on hexagonal-boron nitrides (h-BN) exfoliated by gas treatment",
-  "Proposer": "Gokhan CELIK",
-  "Email": "gcelik@metu.edu.tr",
+  "Proposal": "20235092",
+  "Title": "Local arrangement on the surface and inside of the CdSe/CdZnS core-shell and CdSe/CdS/CdZnS core-crown-shell quantum wells",
+  "Proposer": "Tatiana LASTOVINA",
+  "Email": "tatiana@unam.bilkent.edu.tr",
   "Beamline": "HESEB",
-  "Begin": "26/02/2024",
-  "End": "01/03/2024",
+  "Begin": "27/04/2024",
+  "End": "01/05/2024",
   "Assigned shifts": "12",
   "Assigned hours": "96",
   "Semester": "6",
-  "Experimental_Data_Path": "/PETRA/SED/HESEB/SEM_6/20235168/ExpData/"
+  "Experimental_Data_Path": "/PETRA/SED/HESEB/SEM_6/20235092/ExpData/"
 }

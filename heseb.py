@@ -53,7 +53,7 @@ class HESEB:
 		self.PVs["I0:TRIGGER"].put(1)   		# disable I0 vs time plotting
 		self.PVs["It:TRIGGER"].put(1)  		    # disable It vs time plotting
 		# self.PVs["Voltage:Validation"].put(0)	# enable voltage source
-		# epics.PV("VOLTAGE:VALIDATION").put(0)	# enable voltage source
+		epics.PV("VOLTAGE:VALIDATION").put(0)	# enable voltage source
 
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
 		self.voltageSourcePARAM = []
@@ -207,6 +207,15 @@ class HESEB:
 		time.sleep(1) 
 		while not self.motors["SMP:Y"].done_moving:
 			CLIMessage("sample Y moving ...", "IG")
+			time.sleep(1)
+
+	def MoveSmpZ(self,SP):
+		log.info("Move sample Z to: {}".format(SP))
+		self.motors["SMP:Z"].put("stop_go",3) # Go
+		self.motors["SMP:Z"].move(SP)
+		time.sleep(1) 
+		while not self.motors["SMP:Z"].done_moving:
+			CLIMessage("sample Z moving ...", "IG")
 			time.sleep(1)
 
 	def clearPlot(self):

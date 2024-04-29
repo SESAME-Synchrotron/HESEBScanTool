@@ -64,6 +64,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 			self.PVs["SCAN:CurrentInterval"].put(interval)
 			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1 
 			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1 
+			self.MoveSmpZ(self.cfg["Samplespositions"][sample-1]["Zposition"]) # becuase sample starts from 1 
 			currentInterval = self.cfg["Intervals"][interval-1]
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]

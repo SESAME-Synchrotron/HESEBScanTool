@@ -14,16 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(524, 307)
+        Dialog.resize(631, 307)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(440, 20, 81, 61))
+        self.buttonBox.setGeometry(QtCore.QRect(540, 20, 81, 61))
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.samplepositions = QtWidgets.QTableWidget(Dialog)
-        self.samplepositions.setGeometry(QtCore.QRect(10, 20, 416, 271))
+        self.samplepositions.setGeometry(QtCore.QRect(10, 20, 519, 271))
         self.samplepositions.setObjectName("samplepositions")
-        self.samplepositions.setColumnCount(4)
+        self.samplepositions.setColumnCount(5)
         self.samplepositions.setRowCount(1)
         item = QtWidgets.QTableWidgetItem()
         self.samplepositions.setVerticalHeaderItem(0, item)
@@ -35,6 +35,8 @@ class Ui_Dialog(object):
         self.samplepositions.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.samplepositions.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.samplepositions.setHorizontalHeaderItem(4, item)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -53,6 +55,8 @@ class Ui_Dialog(object):
         item = self.samplepositions.horizontalHeaderItem(2)
         item.setText(_translate("Dialog", "Z"))
         item = self.samplepositions.horizontalHeaderItem(3)
+        item.setText(_translate("Dialog", "R"))
+        item = self.samplepositions.horizontalHeaderItem(4)
         item.setText(_translate("Dialog", "Sample Name"))
 
 
