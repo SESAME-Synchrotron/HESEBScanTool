@@ -74,6 +74,12 @@
      "xFlash_ROI_7N":{
        "pvname":"mcaTest:mca1.R7N"
      },
+      "xFlash_ROI_8":{
+       "pvname":"mcaTest:mca1.R8"
+     },
+     "xFlash_ROI_8N":{
+       "pvname":"mcaTest:mca1.R8N"
+     },
      "xFlash_status_rate":{
        "pvname":"mcaTest:mca1Status.SCAN"
      },

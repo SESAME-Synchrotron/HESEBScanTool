@@ -366,7 +366,7 @@ class HESEB:
 		self.detChosen = detlist
 		for det in detlist:
 			if det == "XFLASH":
-				self.detectors.append(XFLASH("XFLASH",self.paths, self.userinfo))
+				self.detectors.append(XFLASH("XFLASH",self.paths, self.cfg | self.userinfo))	# this sign (|) to combine dicts
 			elif det == "KEITHLEY_I0":
 				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0",self.paths,self.userinfo,self.voltageSourcePARAM))
 			elif det == "KEITHLEY_Itrans":

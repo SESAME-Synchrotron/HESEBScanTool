@@ -36,6 +36,11 @@ class XFLASH(Base):
 		self.PVs["xFlash_erasestart"].put(1, wait=True)
 		# time.sleep(FrameDuration+2)
 
+		ROIs = self.cfg["ROIs"]
+		selectedROIs = []
+		for ROI in ROIs:
+			selectedROIs.append(int(ROI[-1]))
+
 		if mapScanFlag:
 			self.data["XFLASH-MCA1"]			= self.PVs["xFlash_mca1"].get()
 		else: 
@@ -44,15 +49,12 @@ class XFLASH(Base):
 			self.data["XFLASH-DEADTIME[%]"]	= self.PVs["xFlash_deadtime"].get()
 			self.data["XFLASH-INT_TIME[sec]"]= FrameDuration
 			self.data["XFLASH-If"]			= ROIsE[0]
-			self.data["XFLASH-ROI_0[c/s]"]	= self.PVs["xFlash_ROI_0"].get()
-			self.data["XFLASH-ROI_1[c/s]"]	= self.PVs["xFlash_ROI_1"].get()
-			self.data["XFLASH-ROI_2[c/s]"]	= self.PVs["xFlash_ROI_2"].get()
-			self.data["XFLASH-ROI_3[c/s]"]	= self.PVs["xFlash_ROI_3"].get()
-			self.data["XFLASH-ROI_4[c/s]"]	= self.PVs["xFlash_ROI_4"].get()
-			self.data["XFLASH-ROI_5[c/s]"]	= self.PVs["xFlash_ROI_5"].get()
-			self.data["XFLASH-ROI_6[c/s]"]	= self.PVs["xFlash_ROI_6"].get()
-			self.data["XFLASH-ROI_7[c/s]"]	= self.PVs["xFlash_ROI_7"].get()
+
+			for ROI in selectedROIs:
+				self.data[f"XFLASH-ROI_{ROI}[c/s]"] = self.PVs[f"xFlash_ROI_{ROI}"].get() / Elapsedtime
+
 			self.data["XFLASH-INT_TIME[sec]"]= self.PVs["xFlash_livetime"].get()
+
 		if self.data["XFLASH-If"] == 0:
 			CLIMessage("Warning: Please check the XFLASH Detector", "W")
 		#CLIMessage("XFLASH-End ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")

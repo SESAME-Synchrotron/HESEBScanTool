@@ -54,6 +54,10 @@ class XDIWriter:
 
 		self.personalInfoFlage = 0
 
+		ROIs = self.cfg["ROIs"]
+		self.selectedROIs = []
+		for ROI in ROIs:
+			self.selectedROIs.append(int(ROI[-1]))
 		
 		if self.cfg["expType"] == "proposal":
 			try: 
@@ -203,10 +207,13 @@ class XDIWriter:
 			f.write("# Column.4: mutrans (log(I0/Itrans) \n")
 			f.write("# Column.5: XFLASH-Ifluor \n")
 			f.write("# Column.6: XFLASH-mufluor \n")
-			f.write("# Column.7: XFLASH-ROI_0\n")
-			f.write("# Column.8: XFLASH-ROI_1\n")
-			f.write("# Column.9: XFLASH-ROI_2\n")
-			f.write("# Column.10: XFLASH-INT_TIME[sec]\n")
+			f.write("# Column.7: XFLASH-INT_TIME[sec]\n")
+			startCol = 8
+			header = "(1)energy(eV)   (2)I0   (3)Itrans   (4)mutrans   (5)XFLASH-Ifluor   (6)XFLASH-mufluor   (7)XFLASH-INT_TIME[sec]"
+			for ROI in self.selectedROIs:
+				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI}\n")
+				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
+				startCol += 1
 			if self.personalInfoFlage == 1:
 				f.write("# Experiment.Type: Proposal\n")
 				f.write("# Proposal.ID: {}\n".format(self.proposalID))
@@ -237,17 +244,32 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("(1)energy(eV)   (2)I0   (3)Itrans   (4)mutrans   (5)XFLASH-Ifluor   (6)XFLASH-mufluor   (7)XFLASH-ROI_0   (8)XFLASH-ROI_1   (9)XFLASH-ROI_2   (10)XFLASH-INT_TIME[sec]\n")
+			f.write(header)
+			f.write("\n")
 			f.close()
 	def fillKEITHLEY_I0_Itrans_XFLASH(self): 
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %10.6e %10.6e  %10.6e  %10.6e %10.6e  %10.6e  %10.6e %10.6e \n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"]),
-			float(self.data["TRANS"]), float(self.data["XFLASH-If"]), float(self.data["XFLASH-FLUOR"]),
-			float(self.data["XFLASH-ROI_0[c/s]"]), 
-			float(self.data["XFLASH-ROI_1[c/s]"]), float(self.data["XFLASH-ROI_2[c/s]"]), float(self.data["XFLASH-INT_TIME[sec]"])))
-		f.close()
 
+		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
+		data = (float(self.data["ENERGY-RBK"]), 
+			float(self.data["KEITHLEY_I0"]), 
+			float(self.data["KEITHLEY_Itrans"]),
+			float(self.data["TRANS"]),
+			float(self.data["XFLASH-If"]), 
+			float(self.data["XFLASH-FLUOR"]), 
+			float(self.data["XFLASH-INT_TIME[sec]"]))
+		
+		ROIsFormat = ""
+		ROIsData = []
+
+		ROIsFormat = "   ".join(["%10.6e"] * len(self.selectedROIs))
+		ROIsData = [float(self.data[f"XFLASH-ROI_{ROI}[c/s]"]) for ROI in self.selectedROIs]
+
+		fullFormat = baseFormat + "   " + ROIsFormat + "\n"
+		fullData = data + tuple(ROIsData)
+
+		f.write(fullFormat % fullData)
+		f.close()
 
 	def createKEITHLEY_I0_XFLASH(self):
 		if not os.path.exists(self.fullFileName): 
@@ -257,10 +279,13 @@ class XDIWriter:
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: XFLASH-Ifluor \n")
 			f.write("# Column.4: XFLASH-mufluor \n")
-			f.write("# Column.5: XFLASH-ROI_0\n")
-			f.write("# Column.6: XFLASH-ROI_1\n")
-			f.write("# Column.7: XFLASH-ROI_2\n")
-			f.write("# Column.8: XFLASH-INT_TIME[sec]\n")
+			f.write("# Column.5: XFLASH-INT_TIME[sec]\n")
+			startCol = 6
+			header = "(1)energy(eV)   (2)I0   (3)XFLASH-Ifluor   (4)XFLASH-mufluor   (5)XFLASH-INT_TIME[sec]"
+			for ROI in self.selectedROIs:
+				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI}\n")
+				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
+				startCol += 1
 			if self.personalInfoFlage == 1:
 				f.write("# Experiment.Type: Proposal\n")
 				f.write("# Proposal.ID: {}\n".format(self.proposalID))
@@ -291,17 +316,31 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("(1)energy(eV)   (2)I0   (3)XFLASH-Ifluor   (4)XFLASH-mufluor   (5)XFLASH-ROI_0   (6)XFLASH-ROI_1   (7)XFLASH-ROI_2   (8)XFLASH-INT_TIME[sec]\n")
+			f.write(header)
+			f.write("\n")
 			f.close()
 
 	def fillKEITHLEY_I0_XFLASH(self): 
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %10.6e %10.6e  %10.6e  %10.6e %10.6e  %10.6e   \n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["XFLASH-If"]),
-		float(self.data["XFLASH-FLUOR"]), float(self.data["XFLASH-ROI_0[c/s]"]), 
-			float(self.data["XFLASH-ROI_1[c/s]"]), float(self.data["XFLASH-ROI_2[c/s]"]), float(self.data["XFLASH-INT_TIME[sec]"])))
-		f.close()
 
+		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
+		data = (float(self.data["ENERGY-RBK"]), 
+			float(self.data["KEITHLEY_I0"]), 
+			float(self.data["XFLASH-If"]), 
+			float(self.data["XFLASH-FLUOR"]), 
+			float(self.data["XFLASH-INT_TIME[sec]"]))
+		
+		ROIsFormat = ""
+		ROIsData = []
+
+		ROIsFormat = "   ".join(["%10.6e"] * len(self.selectedROIs))
+		ROIsData = [float(self.data[f"XFLASH-ROI_{ROI}[c/s]"]) for ROI in self.selectedROIs]
+
+		fullFormat = baseFormat + "   " + ROIsFormat + "\n"
+		fullData = data + tuple(ROIsData)
+
+		f.write(fullFormat % fullData)
+		f.close()
 
 	def onClose(self): 
 		#f = open (self.fullFileName, "a")
