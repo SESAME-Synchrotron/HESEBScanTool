@@ -24,6 +24,8 @@ HESEB_ScanTool::HESEB_ScanTool(QWidget *parent)
     checkPath = new QTimer(this);
     this->checkPath->start(500);
     connect(checkPath,SIGNAL(timeout()),this,SLOT(path()));
+
+    ui->scanStatusPV->setHidden(true);
 }
 
 HESEB_ScanTool::~HESEB_ScanTool()
@@ -133,4 +135,11 @@ void HESEB_ScanTool::on_morevar_clicked()
 void HESEB_ScanTool::on_morevar_closed()
 {
     isOpened = false;
+}
+
+void HESEB_ScanTool::on_scanStatusPV_dbValueChanged(bool out)
+{
+    ui->scanStatus->setText(out ? "Finished" : "Running");
+    ui->scanStatusSymbol->setFlash1Property(out);
+    ui->scanStatusSymbol->setFlashRate(QEScanTimers::Slow);
 }

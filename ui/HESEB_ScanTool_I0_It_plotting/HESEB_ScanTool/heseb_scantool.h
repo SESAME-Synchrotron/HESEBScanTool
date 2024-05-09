@@ -43,6 +43,8 @@ private slots:
 
     void on_morevar_closed();
 
+    void on_scanStatusPV_dbValueChanged(bool out);
+
 private:
     Ui::HESEB_ScanTool *ui;
 

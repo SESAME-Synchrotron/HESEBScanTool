@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # SESAME - HESEB: 
-**/build-HESEB/**
+build-HESEB*/
 *userinfo.json
 metadata
 configrations/userinfo.json

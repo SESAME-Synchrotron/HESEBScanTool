@@ -22,6 +22,7 @@
 #include "QELabel.h"
 #include "QEPlotter.h"
 #include "QEPushButton.h"
+#include "QESimpleShape.h"
 #include "QSimpleShape.h"
 
 QT_BEGIN_NAMESPACE
@@ -30,12 +31,26 @@ class Ui_HESEB_ScanTool
 {
 public:
     QWidget *centralwidget;
-    QGridLayout *gridLayout_8;
+    QGridLayout *gridLayout;
+    QGridLayout *timeLayout;
+    QLabel *elapsedTimeLabel;
+    QELabel *elapsedTimeVal;
+    QLabel *startTimeLabel;
+    QELabel *startTimeVal;
+    QSpacerItem *horizontalSpacer_2;
     QGridLayout *actionsLayout;
     QEPushButton *stop;
     QEPushButton *resume;
     QEPushButton *pause;
     QPushButton *morevar;
+    QGridLayout *logsLayout;
+    QLabel *logsLabel;
+    QLabel *logs;
+    QGridLayout *scanStatusLayout;
+    QELabel *scanStatusPV;
+    QLabel *scanStatusLabel;
+    QLabel *scanStatus;
+    QESimpleShape *scanStatusSymbol;
     QGridLayout *scanParametersLayout;
     QLabel *outof3Label;
     QLabel *outof2Label;
@@ -55,11 +70,17 @@ public:
     QLabel *sampleYLabel;
     QELabel *sampleYVal;
     QELabel *qelabel_5;
-    QGridLayout *titleLayout;
-    QLabel *titleLabel;
-    QGridLayout *logsLayout;
-    QLabel *logsLabel;
-    QLabel *logs;
+    QGridLayout *file_label_Layout;
+    QSimpleShape *ItransInd;
+    QLabel *ItransLabel;
+    QLabel *SEDPathVal;
+    QPushButton *SEDPathDir;
+    QLabel *I0Label;
+    QLabel *SEDPathLabel;
+    QSimpleShape *I0Ind;
+    QSimpleShape *IrefInd;
+    QLabel *IrefLabel;
+    QSpacerItem *horizontalSpacer;
     QGridLayout *plottingLayout;
     QCheckBox *lineHasDots;
     QSpacerItem *horizontalSpacer_3;
@@ -72,23 +93,8 @@ public:
     QCheckBox *lineDashed;
     QEPlotter *I0ItransPlotter;
     QCheckBox *hide_show2;
-    QGridLayout *file_label_Layout;
-    QSimpleShape *ItransInd;
-    QLabel *ItransLabel;
-    QLabel *SEDPathVal;
-    QPushButton *SEDPathDir;
-    QLabel *I0Label;
-    QLabel *SEDPathLabel;
-    QSimpleShape *I0Ind;
-    QSimpleShape *IrefInd;
-    QLabel *IrefLabel;
-    QSpacerItem *horizontalSpacer;
-    QGridLayout *timeLayout;
-    QLabel *elapsedTimeLabel;
-    QELabel *elapsedTimeVal;
-    QLabel *startTimeLabel;
-    QELabel *startTimeVal;
-    QSpacerItem *horizontalSpacer_2;
+    QGridLayout *titleLayout;
+    QLabel *titleLabel;
 
     void setupUi(QMainWindow *HESEB_ScanTool)
     {
@@ -97,8 +103,48 @@ public:
         HESEB_ScanTool->resize(1300, 1000);
         centralwidget = new QWidget(HESEB_ScanTool);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        gridLayout_8 = new QGridLayout(centralwidget);
-        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        gridLayout = new QGridLayout(centralwidget);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        timeLayout = new QGridLayout();
+        timeLayout->setObjectName(QString::fromUtf8("timeLayout"));
+        elapsedTimeLabel = new QLabel(centralwidget);
+        elapsedTimeLabel->setObjectName(QString::fromUtf8("elapsedTimeLabel"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(elapsedTimeLabel->sizePolicy().hasHeightForWidth());
+        elapsedTimeLabel->setSizePolicy(sizePolicy);
+
+        timeLayout->addWidget(elapsedTimeLabel, 0, 3, 1, 1);
+
+        elapsedTimeVal = new QELabel(centralwidget);
+        elapsedTimeVal->setObjectName(QString::fromUtf8("elapsedTimeVal"));
+        elapsedTimeVal->setFrameShape(QFrame::StyledPanel);
+        elapsedTimeVal->setAlignment(Qt::AlignCenter);
+
+        timeLayout->addWidget(elapsedTimeVal, 0, 4, 1, 1);
+
+        startTimeLabel = new QLabel(centralwidget);
+        startTimeLabel->setObjectName(QString::fromUtf8("startTimeLabel"));
+        sizePolicy.setHeightForWidth(startTimeLabel->sizePolicy().hasHeightForWidth());
+        startTimeLabel->setSizePolicy(sizePolicy);
+
+        timeLayout->addWidget(startTimeLabel, 0, 0, 1, 1);
+
+        startTimeVal = new QELabel(centralwidget);
+        startTimeVal->setObjectName(QString::fromUtf8("startTimeVal"));
+        startTimeVal->setFrameShape(QFrame::StyledPanel);
+        startTimeVal->setAlignment(Qt::AlignCenter);
+
+        timeLayout->addWidget(startTimeVal, 0, 1, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        timeLayout->addItem(horizontalSpacer_2, 0, 2, 1, 1);
+
+
+        gridLayout->addLayout(timeLayout, 1, 0, 1, 1);
+
         actionsLayout = new QGridLayout();
         actionsLayout->setObjectName(QString::fromUtf8("actionsLayout"));
         stop = new QEPushButton(centralwidget);
@@ -138,7 +184,67 @@ public:
         actionsLayout->addWidget(morevar, 0, 4, 1, 1);
 
 
-        gridLayout_8->addLayout(actionsLayout, 1, 2, 1, 1);
+        gridLayout->addLayout(actionsLayout, 2, 2, 1, 1);
+
+        logsLayout = new QGridLayout();
+        logsLayout->setObjectName(QString::fromUtf8("logsLayout"));
+        logsLabel = new QLabel(centralwidget);
+        logsLabel->setObjectName(QString::fromUtf8("logsLabel"));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(logsLabel->sizePolicy().hasHeightForWidth());
+        logsLabel->setSizePolicy(sizePolicy1);
+        logsLabel->setMargin(5);
+
+        logsLayout->addWidget(logsLabel, 0, 0, 1, 1);
+
+        logs = new QLabel(centralwidget);
+        logs->setObjectName(QString::fromUtf8("logs"));
+        logs->setCursor(QCursor(Qt::IBeamCursor));
+        logs->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        logs->setFrameShape(QFrame::StyledPanel);
+        logs->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        logs->setWordWrap(true);
+        logs->setIndent(6);
+
+        logsLayout->addWidget(logs, 1, 0, 1, 1);
+
+
+        gridLayout->addLayout(logsLayout, 1, 1, 3, 1);
+
+        scanStatusLayout = new QGridLayout();
+        scanStatusLayout->setObjectName(QString::fromUtf8("scanStatusLayout"));
+        scanStatusPV = new QELabel(centralwidget);
+        scanStatusPV->setObjectName(QString::fromUtf8("scanStatusPV"));
+
+        scanStatusLayout->addWidget(scanStatusPV, 0, 1, 1, 1);
+
+        scanStatusLabel = new QLabel(centralwidget);
+        scanStatusLabel->setObjectName(QString::fromUtf8("scanStatusLabel"));
+
+        scanStatusLayout->addWidget(scanStatusLabel, 0, 0, 1, 1);
+
+        scanStatus = new QLabel(centralwidget);
+        scanStatus->setObjectName(QString::fromUtf8("scanStatus"));
+        scanStatus->setFrameShape(QFrame::StyledPanel);
+        scanStatus->setAlignment(Qt::AlignCenter);
+
+        scanStatusLayout->addWidget(scanStatus, 0, 2, 1, 1);
+
+        scanStatusSymbol = new QESimpleShape(centralwidget);
+        scanStatusSymbol->setObjectName(QString::fromUtf8("scanStatusSymbol"));
+        scanStatusSymbol->setShape(QSimpleShape::rectangle);
+        scanStatusSymbol->setProperty("colour0", QVariant(QColor(0, 255, 0)));
+        scanStatusSymbol->setProperty("colour1", QVariant(QColor(0, 0, 255)));
+        scanStatusSymbol->setProperty("edgeAlarmStateOption", QVariant::fromValue(QESimpleShape::Never));
+        scanStatusSymbol->setAddUnits(false);
+        scanStatusSymbol->setVariableAsToolTip(false);
+
+        scanStatusLayout->addWidget(scanStatusSymbol, 0, 3, 1, 1);
+
+
+        gridLayout->addLayout(scanStatusLayout, 1, 2, 1, 1);
 
         scanParametersLayout = new QGridLayout();
         scanParametersLayout->setSpacing(0);
@@ -249,62 +355,107 @@ public:
         scanParametersLayout->addWidget(qelabel_5, 2, 3, 1, 1);
 
 
-        gridLayout_8->addLayout(scanParametersLayout, 2, 0, 2, 1);
+        gridLayout->addLayout(scanParametersLayout, 2, 0, 2, 1);
 
-        titleLayout = new QGridLayout();
-        titleLayout->setObjectName(QString::fromUtf8("titleLayout"));
-        titleLayout->setSizeConstraint(QLayout::SetMinimumSize);
-        titleLabel = new QLabel(centralwidget);
-        titleLabel->setObjectName(QString::fromUtf8("titleLabel"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(titleLabel->sizePolicy().hasHeightForWidth());
-        titleLabel->setSizePolicy(sizePolicy);
+        file_label_Layout = new QGridLayout();
+        file_label_Layout->setObjectName(QString::fromUtf8("file_label_Layout"));
+        ItransInd = new QSimpleShape(centralwidget);
+        ItransInd->setObjectName(QString::fromUtf8("ItransInd"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(ItransInd->sizePolicy().hasHeightForWidth());
+        ItransInd->setSizePolicy(sizePolicy2);
+        ItransInd->setShape(QSimpleShape::roundRectangle);
+        ItransInd->setProperty("colour0", QVariant(QColor(255, 0, 0)));
+
+        file_label_Layout->addWidget(ItransInd, 3, 2, 1, 1);
+
+        ItransLabel = new QLabel(centralwidget);
+        ItransLabel->setObjectName(QString::fromUtf8("ItransLabel"));
+        QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(ItransLabel->sizePolicy().hasHeightForWidth());
+        ItransLabel->setSizePolicy(sizePolicy3);
         QFont font1;
-        font1.setPointSize(16);
-        titleLabel->setFont(font1);
-        titleLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);\n"
-"border: 1px solid black;\n"
-"border-radius: 5px;\n"
-"margin-top: 0.5em;\n"
-"subcontrol-origin: margin;\n"
-"left: 10px;\n"
-"padding: 0 3px 0 3px;"));
-        titleLabel->setAlignment(Qt::AlignCenter);
-        titleLabel->setMargin(11);
+        font1.setPointSize(12);
+        font1.setBold(true);
+        font1.setWeight(75);
+        ItransLabel->setFont(font1);
+        ItransLabel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        titleLayout->addWidget(titleLabel, 0, 0, 1, 1);
+        file_label_Layout->addWidget(ItransLabel, 3, 3, 1, 1);
+
+        SEDPathVal = new QLabel(centralwidget);
+        SEDPathVal->setObjectName(QString::fromUtf8("SEDPathVal"));
+        SEDPathVal->setCursor(QCursor(Qt::IBeamCursor));
+        SEDPathVal->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        SEDPathVal->setFrameShape(QFrame::StyledPanel);
+        SEDPathVal->setWordWrap(true);
+        SEDPathVal->setIndent(6);
+
+        file_label_Layout->addWidget(SEDPathVal, 0, 1, 2, 1);
+
+        SEDPathDir = new QPushButton(centralwidget);
+        SEDPathDir->setObjectName(QString::fromUtf8("SEDPathDir"));
+        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(SEDPathDir->sizePolicy().hasHeightForWidth());
+        SEDPathDir->setSizePolicy(sizePolicy4);
+        SEDPathDir->setCursor(QCursor(Qt::PointingHandCursor));
+
+        file_label_Layout->addWidget(SEDPathDir, 0, 2, 2, 1);
+
+        I0Label = new QLabel(centralwidget);
+        I0Label->setObjectName(QString::fromUtf8("I0Label"));
+        sizePolicy3.setHeightForWidth(I0Label->sizePolicy().hasHeightForWidth());
+        I0Label->setSizePolicy(sizePolicy3);
+        I0Label->setFont(font1);
+        I0Label->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        file_label_Layout->addWidget(I0Label, 2, 3, 1, 1);
+
+        SEDPathLabel = new QLabel(centralwidget);
+        SEDPathLabel->setObjectName(QString::fromUtf8("SEDPathLabel"));
+        sizePolicy.setHeightForWidth(SEDPathLabel->sizePolicy().hasHeightForWidth());
+        SEDPathLabel->setSizePolicy(sizePolicy);
+
+        file_label_Layout->addWidget(SEDPathLabel, 0, 0, 2, 1);
+
+        I0Ind = new QSimpleShape(centralwidget);
+        I0Ind->setObjectName(QString::fromUtf8("I0Ind"));
+        sizePolicy2.setHeightForWidth(I0Ind->sizePolicy().hasHeightForWidth());
+        I0Ind->setSizePolicy(sizePolicy2);
+        I0Ind->setShape(QSimpleShape::roundRectangle);
+        I0Ind->setProperty("colour0", QVariant(QColor(23, 69, 243)));
+
+        file_label_Layout->addWidget(I0Ind, 2, 2, 1, 1);
+
+        IrefInd = new QSimpleShape(centralwidget);
+        IrefInd->setObjectName(QString::fromUtf8("IrefInd"));
+        IrefInd->setShape(QSimpleShape::roundRectangle);
+        IrefInd->setProperty("colour0", QVariant(QColor(0, 255, 0)));
+
+        file_label_Layout->addWidget(IrefInd, 4, 2, 1, 1);
+
+        IrefLabel = new QLabel(centralwidget);
+        IrefLabel->setObjectName(QString::fromUtf8("IrefLabel"));
+        QFont font2;
+        font2.setPointSize(12);
+        IrefLabel->setFont(font2);
+        IrefLabel->setMouseTracking(true);
+        IrefLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        file_label_Layout->addWidget(IrefLabel, 4, 3, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(50, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+        file_label_Layout->addItem(horizontalSpacer, 2, 0, 3, 1);
 
 
-        gridLayout_8->addLayout(titleLayout, 0, 0, 1, 3);
-
-        logsLayout = new QGridLayout();
-        logsLayout->setObjectName(QString::fromUtf8("logsLayout"));
-        logsLabel = new QLabel(centralwidget);
-        logsLabel->setObjectName(QString::fromUtf8("logsLabel"));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(logsLabel->sizePolicy().hasHeightForWidth());
-        logsLabel->setSizePolicy(sizePolicy1);
-        logsLabel->setMargin(5);
-
-        logsLayout->addWidget(logsLabel, 0, 0, 1, 1);
-
-        logs = new QLabel(centralwidget);
-        logs->setObjectName(QString::fromUtf8("logs"));
-        logs->setCursor(QCursor(Qt::IBeamCursor));
-        logs->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
-        logs->setFrameShape(QFrame::StyledPanel);
-        logs->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-        logs->setWordWrap(true);
-        logs->setIndent(6);
-
-        logsLayout->addWidget(logs, 1, 0, 1, 1);
-
-
-        gridLayout_8->addLayout(logsLayout, 1, 1, 3, 1);
+        gridLayout->addLayout(file_label_Layout, 3, 2, 1, 1);
 
         plottingLayout = new QGridLayout();
         plottingLayout->setObjectName(QString::fromUtf8("plottingLayout"));
@@ -338,15 +489,15 @@ public:
 
         xLabel = new QLabel(centralwidget);
         xLabel->setObjectName(QString::fromUtf8("xLabel"));
-        QFont font2;
-        font2.setFamily(QString::fromUtf8("Monospace"));
-        font2.setPointSize(9);
-        font2.setItalic(false);
-        font2.setUnderline(false);
-        font2.setStrikeOut(false);
-        font2.setKerning(true);
-        font2.setStyleStrategy(QFont::PreferDefault);
-        xLabel->setFont(font2);
+        QFont font3;
+        font3.setFamily(QString::fromUtf8("Monospace"));
+        font3.setPointSize(9);
+        font3.setItalic(false);
+        font3.setUnderline(false);
+        font3.setStrikeOut(false);
+        font3.setKerning(true);
+        font3.setStyleStrategy(QFont::PreferDefault);
+        xLabel->setFont(font3);
         xLabel->setAlignment(Qt::AlignCenter);
 
         plottingLayout->addWidget(xLabel, 7, 1, 1, 3);
@@ -393,147 +544,35 @@ public:
         plottingLayout->addWidget(hide_show2, 4, 1, 1, 1);
 
 
-        gridLayout_8->addLayout(plottingLayout, 4, 0, 1, 3);
+        gridLayout->addLayout(plottingLayout, 4, 0, 1, 3);
 
-        file_label_Layout = new QGridLayout();
-        file_label_Layout->setObjectName(QString::fromUtf8("file_label_Layout"));
-        ItransInd = new QSimpleShape(centralwidget);
-        ItransInd->setObjectName(QString::fromUtf8("ItransInd"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(ItransInd->sizePolicy().hasHeightForWidth());
-        ItransInd->setSizePolicy(sizePolicy2);
-        ItransInd->setShape(QSimpleShape::roundRectangle);
-        ItransInd->setProperty("colour0", QVariant(QColor(255, 0, 0)));
-
-        file_label_Layout->addWidget(ItransInd, 3, 2, 1, 1);
-
-        ItransLabel = new QLabel(centralwidget);
-        ItransLabel->setObjectName(QString::fromUtf8("ItransLabel"));
-        QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(ItransLabel->sizePolicy().hasHeightForWidth());
-        ItransLabel->setSizePolicy(sizePolicy3);
-        QFont font3;
-        font3.setPointSize(12);
-        font3.setBold(true);
-        font3.setWeight(75);
-        ItransLabel->setFont(font3);
-        ItransLabel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        file_label_Layout->addWidget(ItransLabel, 3, 3, 1, 1);
-
-        SEDPathVal = new QLabel(centralwidget);
-        SEDPathVal->setObjectName(QString::fromUtf8("SEDPathVal"));
-        SEDPathVal->setCursor(QCursor(Qt::IBeamCursor));
-        SEDPathVal->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
-        SEDPathVal->setFrameShape(QFrame::StyledPanel);
-        SEDPathVal->setWordWrap(true);
-        SEDPathVal->setIndent(6);
-
-        file_label_Layout->addWidget(SEDPathVal, 0, 1, 2, 1);
-
-        SEDPathDir = new QPushButton(centralwidget);
-        SEDPathDir->setObjectName(QString::fromUtf8("SEDPathDir"));
-        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(SEDPathDir->sizePolicy().hasHeightForWidth());
-        SEDPathDir->setSizePolicy(sizePolicy4);
-        SEDPathDir->setCursor(QCursor(Qt::PointingHandCursor));
-
-        file_label_Layout->addWidget(SEDPathDir, 0, 2, 2, 1);
-
-        I0Label = new QLabel(centralwidget);
-        I0Label->setObjectName(QString::fromUtf8("I0Label"));
-        sizePolicy3.setHeightForWidth(I0Label->sizePolicy().hasHeightForWidth());
-        I0Label->setSizePolicy(sizePolicy3);
-        I0Label->setFont(font3);
-        I0Label->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        file_label_Layout->addWidget(I0Label, 2, 3, 1, 1);
-
-        SEDPathLabel = new QLabel(centralwidget);
-        SEDPathLabel->setObjectName(QString::fromUtf8("SEDPathLabel"));
-        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        titleLayout = new QGridLayout();
+        titleLayout->setObjectName(QString::fromUtf8("titleLayout"));
+        titleLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        titleLabel = new QLabel(centralwidget);
+        titleLabel->setObjectName(QString::fromUtf8("titleLabel"));
+        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy5.setHorizontalStretch(0);
         sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(SEDPathLabel->sizePolicy().hasHeightForWidth());
-        SEDPathLabel->setSizePolicy(sizePolicy5);
-
-        file_label_Layout->addWidget(SEDPathLabel, 0, 0, 2, 1);
-
-        I0Ind = new QSimpleShape(centralwidget);
-        I0Ind->setObjectName(QString::fromUtf8("I0Ind"));
-        sizePolicy2.setHeightForWidth(I0Ind->sizePolicy().hasHeightForWidth());
-        I0Ind->setSizePolicy(sizePolicy2);
-        I0Ind->setShape(QSimpleShape::roundRectangle);
-        I0Ind->setProperty("colour0", QVariant(QColor(23, 69, 243)));
-
-        file_label_Layout->addWidget(I0Ind, 2, 2, 1, 1);
-
-        IrefInd = new QSimpleShape(centralwidget);
-        IrefInd->setObjectName(QString::fromUtf8("IrefInd"));
-        IrefInd->setShape(QSimpleShape::roundRectangle);
-        IrefInd->setProperty("colour0", QVariant(QColor(0, 255, 0)));
-
-        file_label_Layout->addWidget(IrefInd, 4, 2, 1, 1);
-
-        IrefLabel = new QLabel(centralwidget);
-        IrefLabel->setObjectName(QString::fromUtf8("IrefLabel"));
+        sizePolicy5.setHeightForWidth(titleLabel->sizePolicy().hasHeightForWidth());
+        titleLabel->setSizePolicy(sizePolicy5);
         QFont font4;
-        font4.setPointSize(12);
-        IrefLabel->setFont(font4);
-        IrefLabel->setMouseTracking(true);
-        IrefLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        font4.setPointSize(16);
+        titleLabel->setFont(font4);
+        titleLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);\n"
+"border: 1px solid black;\n"
+"border-radius: 5px;\n"
+"margin-top: 0.5em;\n"
+"subcontrol-origin: margin;\n"
+"left: 10px;\n"
+"padding: 0 3px 0 3px;"));
+        titleLabel->setAlignment(Qt::AlignCenter);
+        titleLabel->setMargin(11);
 
-        file_label_Layout->addWidget(IrefLabel, 4, 3, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(50, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
-
-        file_label_Layout->addItem(horizontalSpacer, 2, 0, 3, 1);
-
-
-        gridLayout_8->addLayout(file_label_Layout, 3, 2, 1, 1);
-
-        timeLayout = new QGridLayout();
-        timeLayout->setObjectName(QString::fromUtf8("timeLayout"));
-        elapsedTimeLabel = new QLabel(centralwidget);
-        elapsedTimeLabel->setObjectName(QString::fromUtf8("elapsedTimeLabel"));
-        sizePolicy5.setHeightForWidth(elapsedTimeLabel->sizePolicy().hasHeightForWidth());
-        elapsedTimeLabel->setSizePolicy(sizePolicy5);
-
-        timeLayout->addWidget(elapsedTimeLabel, 0, 3, 1, 1);
-
-        elapsedTimeVal = new QELabel(centralwidget);
-        elapsedTimeVal->setObjectName(QString::fromUtf8("elapsedTimeVal"));
-        elapsedTimeVal->setFrameShape(QFrame::StyledPanel);
-        elapsedTimeVal->setAlignment(Qt::AlignCenter);
-
-        timeLayout->addWidget(elapsedTimeVal, 0, 4, 1, 1);
-
-        startTimeLabel = new QLabel(centralwidget);
-        startTimeLabel->setObjectName(QString::fromUtf8("startTimeLabel"));
-        sizePolicy5.setHeightForWidth(startTimeLabel->sizePolicy().hasHeightForWidth());
-        startTimeLabel->setSizePolicy(sizePolicy5);
-
-        timeLayout->addWidget(startTimeLabel, 0, 0, 1, 1);
-
-        startTimeVal = new QELabel(centralwidget);
-        startTimeVal->setObjectName(QString::fromUtf8("startTimeVal"));
-        startTimeVal->setFrameShape(QFrame::StyledPanel);
-        startTimeVal->setAlignment(Qt::AlignCenter);
-
-        timeLayout->addWidget(startTimeVal, 0, 1, 1, 1);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-        timeLayout->addItem(horizontalSpacer_2, 0, 2, 1, 1);
+        titleLayout->addWidget(titleLabel, 0, 0, 1, 1);
 
 
-        gridLayout_8->addLayout(timeLayout, 1, 0, 1, 1);
+        gridLayout->addLayout(titleLayout, 0, 0, 1, 3);
 
         HESEB_ScanTool->setCentralWidget(centralwidget);
 
@@ -545,6 +584,10 @@ public:
     void retranslateUi(QMainWindow *HESEB_ScanTool)
     {
         HESEB_ScanTool->setWindowTitle(QCoreApplication::translate("HESEB_ScanTool", "HESEB_ScanTool", nullptr));
+        elapsedTimeLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Elapsed time", nullptr));
+        elapsedTimeVal->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:ELAPSE", nullptr)));
+        startTimeLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Start time", nullptr));
+        startTimeVal->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:START", nullptr)));
         stop->setText(QCoreApplication::translate("HESEB_ScanTool", "Stop!!", nullptr));
         stop->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:STOP", nullptr)));
         stop->setClickText(QCoreApplication::translate("HESEB_ScanTool", "1", nullptr));
@@ -554,6 +597,12 @@ public:
         pause->setText(QCoreApplication::translate("HESEB_ScanTool", "Pause", nullptr));
         pause->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:XAFSPause", nullptr)));
         morevar->setText(QCoreApplication::translate("HESEB_ScanTool", "BL Parameters", nullptr));
+        logsLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Scan tool status ", nullptr));
+        logs->setText(QString());
+        scanStatusPV->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:STOP", nullptr)));
+        scanStatusLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Scan Status", nullptr));
+        scanStatus->setText(QString());
+        scanStatusSymbol->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:STOP", nullptr)));
         outof3Label->setText(QCoreApplication::translate("HESEB_ScanTool", "out of", nullptr));
         outof2Label->setText(QCoreApplication::translate("HESEB_ScanTool", "out of", nullptr));
         energyVal->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "I11OH-PGM:getEnergy", nullptr)));
@@ -572,9 +621,12 @@ public:
         sampleYLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Sample Y", nullptr));
         sampleYVal->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "motorSimIOC:FE-M1-STP-TRSY1", nullptr)));
         qelabel_5->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:NIntervals", nullptr)));
-        titleLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_ </span>I<span style=\" vertical-align:sub;\">Trans(A) vs. </span>Energy<span style=\" vertical-align:sub;\">(eV)</span></p></body></html>", nullptr));
-        logsLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Scan tool status ", nullptr));
-        logs->setText(QString());
+        ItransLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", nullptr));
+        SEDPathVal->setText(QString());
+        SEDPathDir->setText(QCoreApplication::translate("HESEB_ScanTool", "...", nullptr));
+        I0Label->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">0</span></p></body></html>", nullptr));
+        SEDPathLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "SED Path:", nullptr));
+        IrefLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p><span style=\" font-weight:600;\">I</span><span style=\" font-weight:600; vertical-align:sub;\">ref</span></p></body></html>", nullptr));
         lineHasDots->setText(QCoreApplication::translate("HESEB_ScanTool", "Line HasDots", nullptr));
         IrefPlotter->setProperty("contextMenuEmitText", QVariant(QCoreApplication::translate("HESEB_ScanTool", "X,Y", nullptr)));
         IrefPlotter->setProperty("DataVariableX", QVariant(QCoreApplication::translate("HESEB_ScanTool", "PLOT:Energy", nullptr)));
@@ -617,16 +669,7 @@ public:
             << QString()
             << QString()));
         hide_show2->setText(QCoreApplication::translate("HESEB_ScanTool", "Hide/Show Iref", nullptr));
-        ItransLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">Trans.</span></p></body></html>", nullptr));
-        SEDPathVal->setText(QString());
-        SEDPathDir->setText(QCoreApplication::translate("HESEB_ScanTool", "...", nullptr));
-        I0Label->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>I<span style=\" vertical-align:sub;\">0</span></p></body></html>", nullptr));
-        SEDPathLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "SED Path:", nullptr));
-        IrefLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p><span style=\" font-weight:600;\">I</span><span style=\" font-weight:600; vertical-align:sub;\">ref</span></p></body></html>", nullptr));
-        elapsedTimeLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Elapsed time", nullptr));
-        elapsedTimeVal->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:ELAPSE", nullptr)));
-        startTimeLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "Start time", nullptr));
-        startTimeVal->setProperty("variable", QVariant(QCoreApplication::translate("HESEB_ScanTool", "SCAN:START", nullptr)));
+        titleLabel->setText(QCoreApplication::translate("HESEB_ScanTool", "<html><head/><body><p>DCA | HESEB | SCAN TOOL | I<span style=\" vertical-align:sub;\">0(A)_ </span>I<span style=\" vertical-align:sub;\">Trans(A) vs. </span>Energy<span style=\" vertical-align:sub;\">(eV)</span></p></body></html>", nullptr));
     } // retranslateUi
 
 };

@@ -37,6 +37,8 @@ private slots:
 
     void on_readMorePVs_closed();
 
+    void on_scanStatusPV_dbValueChanged(bool out);
+
 private:
     Ui::HESEB_ScanTool_I0 *ui;
 

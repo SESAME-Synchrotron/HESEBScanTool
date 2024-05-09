@@ -443,6 +443,7 @@ ui_heseb_scantool.h: heseb_scantool.ui \
 		/usr/local/epics-qt/include/QELabel.h \
 		/usr/local/epics-qt/include/QEPlotter.h \
 		/usr/local/epics-qt/include/QEPushButton.h \
+		/usr/local/epics-qt/include/QESimpleShape.h \
 		/usr/local/epics-qt/include/QEFrame.h \
 		/usr/local/epics-qt/include/QSimpleShape.h \
 		/usr/local/epics-qt/include/QEWidget.h \
@@ -564,6 +565,39 @@ ui_heseb_scantool.h: heseb_scantool.ui \
 		/usr/local/epics-qt/include/QEStringFormattingMethods.h \
 		/usr/local/epics-qt/include/applicationLauncher.h \
 		/usr/local/epics-qt/include/QEWidgetProperties.h \
+		/usr/local/epics-qt/include/QCaObject.h \
+		/usr/local/epics-qt/include/CaObject.h \
+		/usr/local/epics-qt/include/Generic.h \
+		/usr/local/epics-qt/include/CaRef.h \
+		/usr/local/epics-qt/include/QCaStateMachine.h \
+		/usr/local/epics-qt/include/QCaEventFilter.h \
+		/usr/local/epics-qt/include/QCaEventUpdate.h \
+		/usr/local/epics-qt/include/UserMessage.h \
+		/usr/local/epics-qt/include/QEFrameworkLibraryGlobal.h \
+		/usr/local/epics-qt/include/QCaAlarmInfo.h \
+		/usr/local/epics-qt/include/QCaDateTime.h \
+		/usr/local/epics-qt/include/QCaConnectionInfo.h \
+		/usr/local/epics-qt/include/QCaVariableNamePropertyManager.h \
+		/usr/local/epics-qt/include/QEWidget.h \
+		/usr/local/epics-qt/include/VariableManager.h \
+		/usr/local/epics-qt/include/VariableNameManager.h \
+		/usr/local/epics-qt/include/ContainerProfile.h \
+		/usr/local/epics-qt/include/persistanceManager.h \
+		/usr/local/epics-qt/include/QEEmitter.h \
+		/usr/local/epics-qt/include/QEToolTip.h \
+		/usr/local/epics-qt/include/QEString.h \
+		/usr/local/epics-qt/include/QEStringFormatting.h \
+		/usr/local/epics-qt/include/QELocalEnumeration.h \
+		/usr/local/epics-qt/include/QEDragDrop.h \
+		/usr/local/epics-qt/include/QEActionRequests.h \
+		/usr/local/epics-qt/include/QEFormMapper.h \
+		/usr/local/epics-qt/include/styleManager.h \
+		/usr/local/epics-qt/include/contextMenu.h \
+		/usr/local/epics-qt/include/standardProperties.h \
+		/usr/local/epics-qt/include/QESingleVariableMethods.h \
+		/usr/local/epics-qt/include/QEStringFormattingMethods.h \
+		/usr/local/epics-qt/include/QSimpleShape.h \
+		/usr/local/epics-qt/include/QEScanTimers.h \
 		/usr/local/epics-qt/include/QEWidget.h \
 		/usr/local/epics-qt/include/VariableManager.h \
 		/usr/local/epics-qt/include/QCaObject.h \
