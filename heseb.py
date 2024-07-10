@@ -218,6 +218,15 @@ class HESEB:
 			CLIMessage("sample Z moving ...", "IG")
 			time.sleep(1)
 
+	def MoveSmpRot(self,SP):
+		log.info("Move sample rotation to: {}".format(SP))
+		self.motors["SMP:Rot"].put("stop_go",3) # Go
+		self.motors["SMP:Rot"].move(SP)
+		time.sleep(1) 
+		while not self.motors["SMP:Rot"].done_moving:
+			CLIMessage("sample Rotation moving ...", "IG")
+			time.sleep(1)
+
 	def clearPlot(self):
 		log.info("Clear plots PVs and parameters")
 		self.Energy	= []

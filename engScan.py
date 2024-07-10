@@ -15,6 +15,7 @@ from SEDSS.SEDFileManager import path
 from SEDSS.SEDTransfer import SEDTransfer
 from SEDSS.SEDSupport import timeModule 
 from SEDSS.SEDTmuxSession import tmuxSession
+from ROIs import ROIs
 import log
 import glob
 
@@ -27,6 +28,9 @@ class ENGSCAN (HESEB_XRFSTEP):
 		pauseCounter = 0
 		breakTag = 0 
 		startTime = time.time()
+
+		allROIs = ROIs()
+		allROIs.create("ROIs.xdi")
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
@@ -65,6 +69,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1 
 			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1 
 			self.MoveSmpZ(self.cfg["Samplespositions"][sample-1]["Zposition"]) # becuase sample starts from 1 
+			self.MoveSmpRot(self.cfg["Samplespositions"][sample-1]["Rotation"]) # becuase sample starts from 1 
 			currentInterval = self.cfg["Intervals"][interval-1]
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]
@@ -148,6 +153,8 @@ class ENGSCAN (HESEB_XRFSTEP):
 				self.setPlotData()
 
 				log.info("Writing data to xdi file")
+				log.info("collect all ROIs")
+				allROIs.acquire()
 				
 				"""
 				(A) Ignore writing the 1st point, and, 
@@ -194,6 +201,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
+		shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		
