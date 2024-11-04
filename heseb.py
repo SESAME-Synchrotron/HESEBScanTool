@@ -129,7 +129,7 @@ class HESEB:
 		"""
 		Writing the data path into file to be available to the plotting tool.
 		"""
-		with open("./tmp/SEDPath.txt",'w') as SEDPath:
+		with open("./tmp/SEDPath.txt", 'w') as SEDPath:
 			SEDPath.write(self.localDataPath)
 			SEDPath.close()
 
