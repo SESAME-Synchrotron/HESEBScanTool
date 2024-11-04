@@ -29,8 +29,9 @@ class ENGSCAN (HESEB_XRFSTEP):
 		breakTag = 0 
 		startTime = time.time()
 
-		allROIs = ROIs()
-		allROIs.create("ROIs.xdi")
+		if "XFLASH" in self.cfg["detectors"]:
+			allROIs = ROIs()
+			allROIs.create("ROIs.xdi")
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
@@ -139,6 +140,8 @@ class ENGSCAN (HESEB_XRFSTEP):
 				if "XFLASH" in self.cfg["detectors"]:
 					IfDp					=	ACQdata["XFLASH-If"]
 					AbsorptionFluoDp		=	ACQdata["XFLASH-FLUOR"]
+					log.info("collect all ROIs")
+					allROIs.acquire()
 
 
 				self.Energy.append(Energy)
@@ -153,8 +156,6 @@ class ENGSCAN (HESEB_XRFSTEP):
 				self.setPlotData()
 
 				log.info("Writing data to xdi file")
-				log.info("collect all ROIs")
-				allROIs.acquire()
 				
 				"""
 				(A) Ignore writing the 1st point, and, 
@@ -201,7 +202,8 @@ class ENGSCAN (HESEB_XRFSTEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-		shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
+		if "XFLASH" in self.cfg["detectors"]:
+			shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		

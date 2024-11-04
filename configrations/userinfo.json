@@ -1,13 +1,13 @@
 {
-  "Proposal": "20235131",
-  "Title": "Atom-specific electronic structure determination of Co and Fe single atoms on NS-doped graphene",
-  "Proposer": "Sarp KAYA",
-  "Email": "sarpkaya@ku.edu.tr",
+  "Proposal": "20240176",
+  "Title": "Quantification of the Organic Ligands on the Surface of CdSe, CdSe/CdS and CdSe/Cd1-xZnxS Quantum Wells after the Ligand Exchange Procedure",
+  "Proposer": "Tatiana LASTOVINA",
+  "Email": "tatiana@unam.bilkent.edu.tr",
   "Beamline": "HESEB",
-  "Begin": "19/05/2024",
-  "End": "24/05/2024",
-  "Assigned shifts": "15",
-  "Assigned hours": "120",
-  "Semester": "6",
-  "Experimental_Data_Path": "/PETRA/SED/HESEB/SEM_6/20235131/ExpData/"
+  "Begin": "29/10/2024",
+  "End": "01/11/2024",
+  "Assigned shifts": "9",
+  "Assigned hours": "72",
+  "Semester": "7",
+  "Experimental_Data_Path": "/PETRA/SED/HESEB/SEM_7/20240176/ExpData/"
 }

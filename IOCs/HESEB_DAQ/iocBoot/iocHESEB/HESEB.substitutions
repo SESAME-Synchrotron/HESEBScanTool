@@ -1,0 +1,6 @@
+file "$(TOP)/db/HESEB.db"
+{
+pattern
+{P,}
+{HESEB:,}
+}

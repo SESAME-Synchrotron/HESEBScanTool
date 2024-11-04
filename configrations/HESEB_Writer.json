@@ -1,0 +1,151 @@
+{
+	"beamline": "HESEB",
+	"detector": "xflash",
+	"fileType": "hdf5",
+	"fileFormat": "DX",
+	"EPICSandIOCs":
+	{
+		"EPICSPVTimeout": 1,
+		"xFlashNumChannels": "mcaTest:mca1.NORD",
+		"xFlashNetValue":"mcaTest:mca1.R0N"
+	},
+	"formatSettings":
+	{
+		"layout": "configurations/HESEB_Writer_Layout.xml",
+		"attribute": "configurations/HESEB_Writer_Attributes.xml"
+	},
+	"fileCreator": "SESAME | DCA | HESEB_H5Writer",
+
+	"hdf5FixedAtt":
+	{
+		"detector":
+		{
+			"EPICSPVs":
+			{
+
+			},
+			"fixed":
+			{
+				"XXX": "YYY"
+			}
+		}
+	},
+	"ZMQSettings":
+	{
+		"ZMQSenderSettings":
+		{
+			"ZMQSender": "127.0.0.1",
+			"ZMQPort": "1919",
+			"ZMQProtocol": "tcp",
+			"ZMQType": "PUB"
+		}
+	},
+	"writerPVs":
+	[
+		"ExperimentType",
+		"ExperimentalFileName",
+		"ExperimentalFilePath",
+		"ProposalID",
+		"ProposalTittle",
+		"PI",
+		"PIEmail",
+		"ScanTopo",
+		"ElementEdge",
+		"MonoName",
+		"MonoDSpacing",
+		"MonoSettlingTime",
+		"IntTime",
+		"XStart",
+		"YStart",
+		"XEnd",
+		"YEnd",
+		"Z",
+		"Rotation",
+		"ResolutionX",
+		"ResolutionY",
+		"TotalPoints",
+		"ReceivedPoints",
+		"MissedPoints",
+		"BeamlineCollimation",
+		"BeamlineFocusing",
+		"MirrorCoatingVCM",
+		"MirrorCoatingVFM",
+		"ExpStartTime",
+		"ScanStartTime",
+		"ScanEndTime",
+		"ScanEnergy",
+		"ScanEdgeEnergy",
+		"EnergyMode",
+		"SampleStoichiometry",
+		"SamplePreperation",
+		"UserComments",
+		"ExperimentComments"
+	],
+	"rawDatasets":
+	{
+		"Pixel":
+		{
+		"dataset":"/exchange/xmap/pixel",
+		"valueType":"EPICSPV",
+		"value":"mcaTest:mca1.R0N",
+		"attributes":
+		{
+			"NDAttrDescription":"The net value of the channels",
+			"NDAttrName":"NetValue",
+			"NDAttrSource":"Driver",
+			"NDAttrSourceType":"NDAttrSourceDriver"
+		}
+		}
+	},
+	"defaultDatasets":
+	{
+		"ArrayXIndex":
+		{
+			"dataset":"/defaults/IndexX",
+			"dtype":"uint16",
+			"attributes":
+			{
+			"NDAttrDescription":"The X index of each collected point",
+			"NDAttrName":"ArrayXIndex",
+			"NDAttrSource":"Local",
+			"NDAttrSourceType":"NDAttrSourceLocal"
+			}
+		},
+		"ArrayYIndex":
+		{
+			"dataset":"/defaults/IndexY",
+			"dtype":"uint16",
+			"attributes":
+			{
+			"NDAttrDescription":"The Y index of each collected point",
+			"NDAttrName":"ArrayYIndex",
+			"NDAttrSource":"Local",
+			"NDAttrSourceType":"NDAttrSourceLocal"
+			}
+		},
+		"ArrayXPosition":
+		{
+			"dataset":"/defaults/PositionX",
+			"dtype":"double",
+			"attributes":
+			{
+			"NDAttrDescription":"The X position of each collected point",
+			"NDAttrName":"ArrayXPosition",
+			"NDAttrSource":"Local",
+			"NDAttrSourceType":"NDAttrSourceLocal"
+			}
+		},
+		"ArrayYPosition":
+		{
+			"dataset":"/defaults/PositionY",
+			"dtype":"double",
+			"attributes":
+			{
+			"NDAttrDescription":"The Y position of each collected point",
+			"NDAttrName":"ArrayYPosition",
+			"NDAttrSource":"Local",
+			"NDAttrSourceType":"NDAttrSourceLocal"
+			}
+		}
+	}
+}

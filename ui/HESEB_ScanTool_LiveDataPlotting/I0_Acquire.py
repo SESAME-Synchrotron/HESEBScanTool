@@ -233,6 +233,7 @@ while(I0_run == 0 and i<3001):
 
 I0_run = epics.PV("I0:RUN").get()
 if (I0_run == 1 or i>=3000):
-
-	I0_run = epics.PV("I0:RUN").put(1)
+	
+	epics.PV("VOLTAGE:VALIDATION").put(1)
+	epics.PV("I0:RUN").put(1)
 	sys.exit()

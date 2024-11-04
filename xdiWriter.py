@@ -103,8 +103,9 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
-			f.write("# Column.1: PGM energy (eV)\n")
-			f.write("# Column.2: I0\n")
+			f.write("# Column.1: PGM energy (eV) - Set point\n")
+			f.write("# Column.2: PGM energy (eV) - Read back\n")
+			f.write("# Column.3: I0\n")
 			if self.personalInfoFlage == 1:
 				f.write("# Experiment.Type: Proposal\n")
 				f.write("# Proposal.ID: {}\n".format(self.proposalID))
@@ -137,13 +138,13 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("#(1)energy    (2)I0\n")
+			f.write("#(1)energy_SP    (1)energy_RBV    (3)I0\n")
 			f.close()
 
 	def fillKEITHLEY_I0(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e\n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"])))
+		f.write("%10.6e  %10.6e  %10.6e\n" 
+		%(float(self.currentSP), float(self.data["ENERGY-RBK"]),float(self.data["KEITHLEY_I0"])))
 		f.close()
 
 
@@ -152,9 +153,10 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
-			f.write("# Column.1: energy eV\n")
-			f.write("# Column.2: I0\n")
-			f.write("# Column.3: Itrans\n")
+			f.write("# Column.1: PGM energy (eV) - Set point\n")
+			f.write("# Column.2: PGM energy (eV) - Read back\n")
+			f.write("# Column.3: I0\n")
+			f.write("# Column.4: Itrans\n")
 			if self.personalInfoFlage == 1:
 				f.write("# Experiment.Type: Proposal\n")
 				f.write("# Proposal.ID: {}\n".format(self.proposalID))
@@ -187,29 +189,30 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			f.write("#(1)energyRBV   (2)I0   (3)Itrans\n")
+			f.write("#(1)energy_SP   (2)energy_RBV   (3)I0   (4)Itrans\n")
 			f.close()
 
 
 	def fillKEITHLEY_I0_Itrans(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %10.6e \n" 
-		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
+		f.write("%10.6e  %10.6e  %10.6e  %10.6e \n" 
+		%(float(self.currentSP), float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
 		f.close()
 
 	def createKEITHLEY_I0_Itrans_XFLASH(self):
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
-			f.write("# Column.1: energy eV\n")
-			f.write("# Column.2: I0\n")
-			f.write("# Column.3: Itrans\n")
-			f.write("# Column.4: mutrans (log(I0/Itrans) \n")
-			f.write("# Column.5: XFLASH-Ifluor \n")
-			f.write("# Column.6: XFLASH-mufluor \n")
-			f.write("# Column.7: XFLASH-INT_TIME[sec]\n")
-			startCol = 8
-			header = "(1)energy(eV)   (2)I0   (3)Itrans   (4)mutrans   (5)XFLASH-Ifluor   (6)XFLASH-mufluor   (7)XFLASH-INT_TIME[sec]"
+			f.write("# Column.1: PGM energy (eV) - Set point\n")
+			f.write("# Column.2: PGM energy (eV) - Read back\n")
+			f.write("# Column.3: I0\n")
+			f.write("# Column.4: Itrans\n")
+			f.write("# Column.5: mutrans (log(I0/Itrans) \n")
+			f.write("# Column.6: XFLASH-Ifluor \n")
+			f.write("# Column.7: XFLASH-mufluor \n")
+			f.write("# Column.8: XFLASH-INT_TIME[sec]\n")
+			startCol = 9
+			header = "(1)energy_SP   (2)energy_RBV   (3)I0   (4)Itrans   (5)mutrans   (6)XFLASH-Ifluor   (7)XFLASH-mufluor   (8)XFLASH-INT_TIME[sec]"
 			for ROI in self.selectedROIs:
 				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI}\n")
 				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
@@ -250,8 +253,9 @@ class XDIWriter:
 	def fillKEITHLEY_I0_Itrans_XFLASH(self): 
 		f = open (self.fullFileName, "a")
 
-		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
-		data = (float(self.data["ENERGY-RBK"]), 
+		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
+		data = (float(self.currentSP),
+			float(self.data["ENERGY-RBK"]), 
 			float(self.data["KEITHLEY_I0"]), 
 			float(self.data["KEITHLEY_Itrans"]),
 			float(self.data["TRANS"]),
@@ -275,13 +279,14 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
-			f.write("# Column.1: energy eV\n")
-			f.write("# Column.2: I0\n")
-			f.write("# Column.3: XFLASH-Ifluor \n")
-			f.write("# Column.4: XFLASH-mufluor \n")
-			f.write("# Column.5: XFLASH-INT_TIME[sec]\n")
-			startCol = 6
-			header = "(1)energy(eV)   (2)I0   (3)XFLASH-Ifluor   (4)XFLASH-mufluor   (5)XFLASH-INT_TIME[sec]"
+			f.write("# Column.1: PGM energy (eV) - Set point\n")
+			f.write("# Column.2: PGM energy (eV) - Read back\n")
+			f.write("# Column.3: I0\n")
+			f.write("# Column.4: XFLASH-Ifluor \n")
+			f.write("# Column.5: XFLASH-mufluor \n")
+			f.write("# Column.6: XFLASH-INT_TIME[sec]\n")
+			startCol = 7
+			header = "(1)energy_SP   (2)energy_RBV   (3)I0   (4)XFLASH-Ifluor   (5)XFLASH-mufluor   (6)XFLASH-INT_TIME[sec]"
 			for ROI in self.selectedROIs:
 				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI}\n")
 				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
@@ -323,8 +328,9 @@ class XDIWriter:
 	def fillKEITHLEY_I0_XFLASH(self): 
 		f = open (self.fullFileName, "a")
 
-		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
-		data = (float(self.data["ENERGY-RBK"]), 
+		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
+		data = (float(self.currentSP),
+			float(self.data["ENERGY-RBK"]), 
 			float(self.data["KEITHLEY_I0"]), 
 			float(self.data["XFLASH-If"]), 
 			float(self.data["XFLASH-FLUOR"]), 

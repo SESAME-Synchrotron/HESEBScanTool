@@ -1,1 +1,1 @@
-/home/control/HESEBScanTool/DATA/20235092_4 on Si -20240429T102250
+/home/control/HESEBScanTool/DATA/20240171 SiON katkili Si_26092024_ince 180C_2.uzun uretim_Si K edge-20241103T235421

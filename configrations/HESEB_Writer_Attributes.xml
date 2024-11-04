@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="no" ?>
+<!-- Attributes -->
+<Attributes>
+
+	<Attribute name="RingCurrent"              type="EPICS_PV" source="SRC01-DI-DCCT1:getDcctCurrent"                    dbrtype="DBR_NATIVE" description="Ring current (mA)"/>
+	<Attribute name="MachineStatus"            type="EPICS_PV" source="Machine:Status"                                   dbrtype="DBR_STRING" description="Machine Status"/>
+	<Attribute name="MachineEnergy"            type="EPICS_PV" source="SR-DI:getBeamEnergy"                              dbrtype="DBR_NATIVE" description="machine energy (GeV)"/>
+	<Attribute name="LifeTime"                 type="EPICS_PV" source="SR-DI:getBeamLifetime"                            dbrtype="DBR_STRING" description="Beam life time (H)"/>
+	<Attribute name="IDGap"                    type="EPICS_PV" source="ID11:getGap"                            			 dbrtype="DBR_STRING" description="Insertion Device Gap (mm)"/>
+	<Attribute name="IDShift"                  type="EPICS_PV" source="ID11:getShift"                            		 dbrtype="DBR_STRING" description="Insertion Device Shift (mm)"/>
+	<Attribute name="UpstreamX"                type="EPICS_PV" source="SR-DI-LBR8-bpm4:getSlowAcquisitionXScale"         dbrtype="DBR_STRING" description="UpStream X"/>
+	<Attribute name="UpstreamY"                type="EPICS_PV" source="SR-DI-LBR8-bpm4:getSlowAcquisitionYScale"         dbrtype="DBR_STRING" description="UpStream Y"/>
+	<Attribute name="DownstreamX"              type="EPICS_PV" source="SR-DI-LBR9-bpm1:getSlowAcquisitionXScale"         dbrtype="DBR_STRING" description="DownStream X"/>
+	<Attribute name="DownstreamY"              type="EPICS_PV" source="SR-DI-LBR9-bpm1:getSlowAcquisitionYScale"         dbrtype="DBR_STRING" description="DownStream Y"/>
+
+
+	<Attribute name="ExperimentType"           type="EPICS_PV" source="HESEB:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
+	<Attribute name="ExperimentalFileName"     type="EPICS_PV" source="HESEB:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>
+	<Attribute name="ExperimentalFilePath"     type="EPICS_PV" source="HESEB:ExperimentalFilePath"                        dbrtype="DBR_STRING" description="Experimental file path"/>
+	<Attribute name="ExpStartTime"             type="EPICS_PV" source="HESEB:ExpStartTime"                                dbrtype="DBR_STRING" description="Experiment start time (Y-m-d T HH:MM:SS)"/>
+	<Attribute name="ScanStartTime"            type="EPICS_PV" source="HESEB:ScanStartTime"                               dbrtype="DBR_STRING" description="Scan start time (Y-m-d T HH:MM:SS)"/>
+	<Attribute name="ScanEndTime"              type="EPICS_PV" source="HESEB:ScanEndTime"                                 dbrtype="DBR_STRING" description="Scan end time (Y-m-d T HH:MM:SS)"/>
+	<Attribute name="ScanEnergy"               type="EPICS_PV" source="HESEB:ScanEnergy"                                  dbrtype="DBR_NATIVE" description="Scan energy (keV)"/>
+	<!-- <Attribute name="EnergyMode"               type="EPICS_PV" source="HESEB:EnergyMode"                                  dbrtype="DBR_STRING" description="Energy mode"/> -->
+	<Attribute name="Sample"                   type="EPICS_PV" source="HESEB:Sample"                                      dbrtype="DBR_STRING" description="Sample name"/>
+	<Attribute name="UserComments"             type="EPICS_PV" source="HESEB:UserComments"                                dbrtype="DBR_STRING" description="User comments"/>
+	<Attribute name="ExperimentComments"       type="EPICS_PV" source="HESEB:ExperimentComments"                          dbrtype="DBR_STRING" description="Experiment comments"/>
+	<Attribute name="UserEmail"                type="EPICS_PV" source="HESEB:PIEmail"                                     dbrtype="DBR_STRING" description="User e-mail"/>
+	<Attribute name="PersonalInfo"             type="EPICS_PV" source="HESEB:PI"                                          dbrtype="DBR_STRING" description="User information"/>
+	<Attribute name="ProposalNumber"           type="EPICS_PV" source="HESEB:ProposalID"                                  dbrtype="DBR_STRING" description="Proposal number"/>
+	<Attribute name="ProposalTitle"            type="EPICS_PV" source="HESEB:ProposalTittle"                              dbrtype="DBR_STRING" description="Proposal title"/>
+	<Attribute name="ScanTopology"             type="EPICS_PV" source="HESEB:ScanTopo"                                    dbrtype="DBR_STRING" description="Scan topology"/>
+	<Attribute name="IntTime"                  type="EPICS_PV" source="HESEB:IntTime"                                     dbrtype="DBR_NATIVE" description="Integration time (s)"/>
+	<Attribute name="ROIXStart"                type="EPICS_PV" source="HESEB:XStart"                                      dbrtype="DBR_NATIVE" description="ROI X start"/>
+	<Attribute name="ROIYStart"                type="EPICS_PV" source="HESEB:YStart"                                      dbrtype="DBR_NATIVE" description="ROI Y start"/>
+	<Attribute name="ROIXEnd"                  type="EPICS_PV" source="HESEB:XEnd"                                        dbrtype="DBR_NATIVE" description="ROI X end"/>
+	<Attribute name="ROIYEnd"                  type="EPICS_PV" source="HESEB:YEnd"                                        dbrtype="DBR_NATIVE" description="ROI Y end"/>
+	<Attribute name="ROIZ"                     type="EPICS_PV" source="HESEB:Z"                                           dbrtype="DBR_NATIVE" description="ROI Z"/>
+	<Attribute name="ROIRotation"              type="EPICS_PV" source="HESEB:Rotation"                                    dbrtype="DBR_NATIVE" description="ROI rotation"/>
+	<Attribute name="ResolutionX"              type="EPICS_PV" source="HESEB:ResolutionX"                                 dbrtype="DBR_NATIVE" description="Resolution X (mm)"/>
+	<Attribute name="ResolutionY"              type="EPICS_PV" source="HESEB:ResolutionY"                                 dbrtype="DBR_NATIVE" description="Resolution Y (mm)"/>
+	<Attribute name="TotalPoints"              type="EPICS_PV" source="HESEB:TotalPoints"                                 dbrtype="DBR_NATIVE" description="Total scanning points to be collected"/>
+	<Attribute name="ReceivedPoints"           type="EPICS_PV" source="HESEB:ReceivedPoints"                              dbrtype="DBR_NATIVE" description="Received collected points"/>
+	<Attribute name="MissedPoints"             type="EPICS_PV" source="HESEB:MissedPoints"                                dbrtype="DBR_NATIVE" description="Missed points (not collected points)"/>
+
+</Attributes>

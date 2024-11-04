@@ -1,3 +1,4 @@
+import os
 import sys
 import argparse
 from common import Common
@@ -29,6 +30,8 @@ tMode = args.testingMode
 
 if __name__ == "__main__":
 
+	epics.PV("SCAN:STOP").put(1)
+	os.system("killall HESEB_ScanTool_LiveDataVisualization")
 	epics.PV("SCAN:STOP").put(0)		#### in order to enable voltage source####
 	paths	= Common.loadjson("configrations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
