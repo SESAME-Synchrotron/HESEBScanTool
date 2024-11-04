@@ -4,7 +4,7 @@ import log
 from heseb import HESEB
 from SEDSS.CLIMessage import CLIMessage
 
-class HESEB_STEP(HESEB):
+class HESEB_CONT(HESEB):
 	def __init__(self, paths, cfg, testingMode):
 		super().__init__(cfg, testingMode)
 
@@ -39,6 +39,7 @@ class HESEB_STEP(HESEB):
 			1. energyRBVTolerance, checkToleranceEvery & maxTime2MeetTolerance variables can be changed/defined in the "configurations/limits.json" file
 			2. the three variables above have a big impact on the energy precision and scan time.
 		"""
+
 		print("\n")
 		timeCounter = 0
 		while not (float(SP) - self.scanLimits["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimits["energyRBVTolerance"]):

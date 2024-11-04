@@ -1,5 +1,5 @@
 {
-	"checkLimitesEvery":0.5,
+	"checkLimitsEvery":0.5,
 	"SRLowerCurrent":-50,
 	"SRUpperCurrent":300,
 	"energyRBVTolerance":0.1,

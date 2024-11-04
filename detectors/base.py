@@ -7,10 +7,10 @@ sys.path.append("..")
 from common import Common
 
 class Base:
-	def __init__(self,name):
+	def __init__(self, name):
 		"""
-		Added by MZ. 
-		the follwoing elements are default as IC detector should be chosen all the time. 
+		Added by MZ.
+		the following elements are default as IC detector should be chosen all the time.
 		"""
 		self.name = name
 		self.data = {}
@@ -23,7 +23,7 @@ class Base:
 		# self.data["IC3[V]"]						=	0
 		self.data["TRANS"]						=	0
 		self.data["TransRef"]					=	0
-		if name == "XFLASH": 
+		if name == "XFLASH":
 			self.data["XFLASH-If"] 				= 	0
 			self.data["XFLASH-FLUOR"] 			= 	0
 			self.data["XFLASH-ROI_0[c/s]"] 		=	0
@@ -39,8 +39,8 @@ class Base:
 			self.data["XFLASH-INT_TIME[sec]"] 	= 	0
 			self.data["XFLASH-OCR"] 			= 	0
 			self.data["XFLASH-ICR"] 			= 	0
-		
-		elif name == "FICUS": 
+
+		elif name == "FICUS":
 			self.data["FICUS-If"] 				= 	0
 			self.data["FICUS-FLUOR"] 			= 	0
 			self.data["FICUS-ROI_0[c/s]"] 		=	0
@@ -57,17 +57,16 @@ class Base:
 			self.data["FICUS-OCR"] 				= 	0
 			self.data["FICUS-ICR"] 				= 	0
 
-		elif name == "KEITHLEY_I0": 
+		elif name == "KEITHLEY_I0":
 			self.data["KEITHLEY_I0"] 			= 	0
-			self.data["KEITHLEY_I0_intTime"]	=	0 
+			self.data["KEITHLEY_I0_intTime"]	=	0
 			self.data["mutrans"]				= 	0
-		
-		elif name == "KEITHLEY_Itrans": 
+
+		elif name == "KEITHLEY_Itrans":
 			self.data["KEITHLEY_Itrans"] 		= 	0
 			self.data["mutrans"]				= 	0
 
-
-	def loadPVS(self,name):
+	def loadPVS(self, name):
 		JsonPVlist = Common.loadjson('pvlist/{}.json'.format(name))
 		self.PVs = {}
 		DisconnectedPvs = []
@@ -82,17 +81,16 @@ class Base:
 				CLIMessage("{} : is connected".format(pvname), "I")
 				self.PVs[entry] = PVobj
 
-	def preACQ(self,*args,**kwargs):
+	def preACQ(self, *args, **kwargs):
 		print(self.name, " preACQ is not implemented")
-	
-	def ACQ(self,*args,**kwargs):
+
+	def ACQ(self, *args, **kwargs):
 		print(self.name, " ACQ is not implemented")
-	
-	def postACQ(self,*args,**kwargs):
+
+	def postACQ(self, *args, **kwargs):
 		pass
 
-	
-	def trydiv(self,val1,val2):
+	def trydiv(self, val1, val2):
 		try:
 			return math.log(val1 / val2)
 		except:

@@ -7,7 +7,7 @@ __pycache__/
 build-HESEB*/
 *userinfo.json
 metadata
-configrations/userinfo.json
+configurations/userinfo.json
 *.csv
 *.o
 *.qmake*

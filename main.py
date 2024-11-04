@@ -1,9 +1,10 @@
 import sys
 import argparse
+
 from common import Common
 import config
-
-from engScan import ENGSCAN
+from engScanStep import ENGSCANSTEP
+from engScanCont import ENGSCANCONT
 
 try:
 	import numpy as np
@@ -14,14 +15,12 @@ except ImportError as error:
 	print("pyepics\nnumpy\nPyQt5\n")
 	sys.exit()
 
-# import heseb
-
 app = QtWidgets.QApplication(sys.argv)
 
 #########################################################
-parser = argparse.ArgumentParser(description="XAFS/XRF Scanning Tool "\
- "is a software developed by DCA at SESAME to collect exprimintal data from XAFS / XRF Beamline at SESAME ")
-parser.add_argument('--testingMode', type=str,default = "No" ,help="Yes/No, default is No")
+parser = argparse.ArgumentParser(description="HESEB Scanning Tool "\
+								 "is a software developed by DCA at SESAME to collect experimental data from HESEB Beamline at SESAME")
+parser.add_argument("--testingMode", type=str, default="No" ,help="Yes/No, default is No")
 #########################################################
 args = parser.parse_args()
 tMode = args.testingMode
@@ -29,15 +28,17 @@ tMode = args.testingMode
 
 if __name__ == "__main__":
 
-	epics.PV("SCAN:STOP").put(0)		#### in order to enable voltage source####
-	paths	= Common.loadjson("configrations/paths.json")
+	epics.PV("SCAN:STOP").put(0)		# in order to enable voltage source
+	paths	= Common.loadjson("configurations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
 
-	cfg['scanType'] = 'stepEngScan' # temprory hard codded untill adding Mapping scan 
+	cfg['scanType'] = 'contScan'		 # temporary hard codded until adding Mapping scan 
 
 	if cfg['scanType'] == 'stepEngScan':
-		ENGSCAN(paths = paths, cfg = cfg, testingMode = tMode)
-	elif cfg['scanType'] == 'stepMapScan':
-		MAPSCAN(paths = paths, cfg = cfg, testingMode = tMode)
+		ENGSCANSTEP(paths=paths, cfg=cfg, testingMode=tMode)
+	if cfg['scanType'] == 'contScan':
+		ENGSCANCONT(paths=paths, cfg=cfg, testingMode=tMode)
+	# elif cfg['scanType'] == 'stepMapScan':
+	# 	MAPSCAN(paths=paths, cfg=cfg, testingMode=tMode)
 
 	sys.exit(app.exit())

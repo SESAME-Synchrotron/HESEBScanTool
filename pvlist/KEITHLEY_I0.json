@@ -54,8 +54,6 @@
 		},
 		"voltageSourceVoltageRBV":{
 			"pvname":"K6487:1:SourceVoltageRBV"
-		}
-		
+		}	
 	}
-	
 }

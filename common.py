@@ -2,14 +2,13 @@
 
 import json
 import re
-import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 
 class Common:
 	@staticmethod
-	def regexvalidation(entery,value):
-		regExps = Common.loadjson("configrations/regex.json")
-		return True if re.match(regExps[entery],value) else False
+	def regexvalidation(entery, value):
+		regExps = Common.loadjson("configurations/regex.json")
+		return True if re.match(regExps[entery], value) else False
 
 	@staticmethod
 	def is_number(s):
@@ -18,15 +17,17 @@ class Common:
 			return True
 		except:
 			return False
+
 	@staticmethod
-	def validate(entery,value, message):
+	def validate(entery, value, message):
 		if Common.regexvalidation(entery, value):
 			return True
 		else:
-			show_message(QtWidgets.QMessageBox.Critical, message,"XAFS/XRF scan tool", QtWidgets.QMessageBox.Ok)
+			show_message(QtWidgets.QMessageBox.Critical, message, "HESEB scan tool", QtWidgets.QMessageBox.Ok)
 			return False
+
 	@staticmethod
-	def show_message(Icon,Text,WindowTitle,StandardButtons):
+	def show_message(Icon, Text, WindowTitle, StandardButtons):
 		msg = QtWidgets.QMessageBox()
 		msg.setIcon(Icon)
 		msg.setText(Text)
@@ -44,4 +45,4 @@ class Common:
 				return jsondata
 		except Exception as e:
 			print("{} load error".format(path))
-			print(e)	
+			print(e)

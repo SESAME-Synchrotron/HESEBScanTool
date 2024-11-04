@@ -1,6 +1,5 @@
 [Desktop Entry]
 Type=Application
 Terminal=true
-Exec=/home/control/HESEBScanTool/configrations/runDAQ.sh
+Exec=/home/control/HESEBScanTool/configurations/runDAQ.sh
 Name=runDAQ
-

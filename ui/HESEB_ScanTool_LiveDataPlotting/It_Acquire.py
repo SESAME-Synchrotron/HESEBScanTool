@@ -1,46 +1,49 @@
-import epics
+import os
 import sys
 import time
-from datetime import datetime 
 import multiprocessing
-import os 
 from os.path import exists
+from epics import PV
 
-ItdataFileName = "It.txt"
-ItindexFileName = "It_Index.txt"
+dataFilePath = "It.txt"
+indexFilePath = "It_Index.txt"
 
-ItdataFilePath = f"/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/{ItdataFileName}"
-ItindexFilePath = f"/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting/{ItindexFileName}"
+ItPlot = PV("PLOT:It")
+ItIndex = PV("It:PLOT:INDEX")
+ItIntTimeGUI = PV("It:INT:TIME")
+ItReset = PV("K6485:1:RST.PROC")
+ItSampling = PV("K6485:1:TimePerSampleStep")
+ItRun = PV("It:RUN")
+ItIntTime = PV("K6485:1:IntegrationTime")
+ItAcquire = PV("K6485:1:Acquire")
+ItAcquireProc = PV("K6485:1:Acquire.PROC")
 
-def append_new_line(file_name, text_to_append):
+def appendNewLine(fileName, txt):
 	"""Append given text as a new line at the end of file"""
-	
-	with open(file_name, "a+") as file_object:		    # Open the file in append & read mode ('a+')
 
-		file_object.seek(0)								# Move read cursor to the start of file.
-		data = file_object.read()					    
-
+	with open(fileName, "a+") as f:
+		f.seek(0)
+		data = f.read()
 		if len(data) > 0:
-			file_object.write("\n")						# If file is not empty then append '\n'.			
-
-		file_object.write(text_to_append)				# Append text at the end of file.
+			f.write("\n")
+		f.write(txt)
 
 def getNPLC_IntTime(intTime):
 	"""
-	As we use the averaging filter of KIETHELY, the device it self does not 
-	accept integration time to be entered directlly. The actual integration time 
-	is defined by this equation:  
+	As we use the averaging filter of KEITHELY, the device it self does not
+	accept integration time to be entered directly. The actual integration time
+	is defined by this equation:
 		3∗NPLC/50∗(NumSamples∗1.0285)+ε
-	where: 
+	where:
 		ε = 0.0076172
 		3: collapses to 1 when AutoZero is disabled.
-	
-	By providing NPLC and the pre-caculated ActualIntTime, the IOC can 
-	calculate the NumSamples and then send it as well as the NPLC to the keithley 
-	device. 
+
+	By providing NPLC and the pre-calculated ActualIntTime, the IOC can
+	calculate the NumSamples and then send it as well as the NPLC to the Keithley
+	device.
 	"""
 	intTime = float(intTime)
-	
+
 	if intTime == 0.25: 			# 4 Samples
 		NPLC 	 	  = 1
 		ActualIntTime = 0.27
@@ -128,103 +131,63 @@ def getNPLC_IntTime(intTime):
 
 def dataToWaveForm():
 
-	ItData = []
-	ItIndex = []
-
 	while True:
-		ItData = []
-		ItIndex = []
-		
-		if os.path.exists(ItindexFileName):
-			ItIndexFile = open(ItindexFileName, 'r')
-			ItIndexLines = ItIndexFile.readlines()
+		data = []
+		index = []
 
-			for line in ItIndexLines:
-				ItIndex.append(int(line.strip()))			# Strips the newline character.
-		
-		else:
-			pass
+		if os.path.exists(indexFilePath):
+			indexFile = open(indexFilePath, 'r')
+			indexLines = indexFile.readlines()
+			for line in indexLines:
+				index.append(int(line.strip()))
 
-		if os.path.exists(ItdataFileName):
-			ItFile = open(ItdataFileName, 'r')
-			ItLines = ItFile.readlines()
-			for line1 in ItLines:
-				ItData.append(float(line1.strip()))			# Strips the newline character
+		if os.path.exists(dataFilePath):
+			dataFile = open(dataFilePath, 'r')
+			dataLines = dataFile.readlines()
 
-		else:
-			pass
+			for line in dataLines:
+				data.append(float(line.strip()))
 
-		epics.PV("PLOT:It").put(ItData, wait = True)
-		epics.PV("It:PLOT:INDEX").put(ItIndex, wait = True)
-				   
+		ItPlot.put(data, wait=True)
+		ItIndex.put(index, wait=True)
+
 		time.sleep(1)
 
-	time.sleep(1)
+if __name__ == "__main__":
 
-try:
-	os.remove(ItdataFilePath)
-	os.remove(ItindexFilePath)
-except:
-   pass
+	try:
+		os.remove(dataFilePath)
+		os.remove(indexFilePath)
+	except:
+		pass
 
-p1 = multiprocessing.Process(target=dataToWaveForm, args=())
-p1.start()
+	p1 = multiprocessing.Process(target=dataToWaveForm, args=())
+	p1.start()
 
-intTime_ = epics.PV("It:INT:TIME").get()		# Integration time from GUI.
-NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
-epics.PV("K6485:1:RST.PROC").put(1) 			# apply soft reset before start collecting data 
-epics.PV("K6485:1:TimePerSampleStep").put(0) 	# put 0 in time per step sample
-It_run = epics.PV("It:RUN").get()				# I0:RUN >> trigger to start (0:Start, 1:Stop).
-time.sleep(0.1)
+	intTime_ = ItIntTimeGUI.get()		# Integration time from GUI
+	NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
+	ItReset.put(1)		# Apply soft reset before start collecting data.
+	ItSampling.put(0) 	# put 0 in time per step sample
+	It_run = ItRun.get()	# It:RUN >> trigger to start (0:Start, 1:Stop).
 
-i = 0
-data = []
-dataIndex = []
+	i = 0
+	while(It_run == 0 and i < 3001):
 
-#epics.PV("PLOT:It").put(data, wait = True)
-#epics.PV("It:PLOT:Index").put(dataIndex, wait = True)
+		ItSampling.put(ActualIntTime)
+		ItIntTime.put(NPLC)
+		ItAcquireProc.put(1)
+		time.sleep(0.1)
 
-while(It_run == 0 and i<3001):
+		while ItAcquireProc.get(timeout=1, use_monitor=False):
+			time.sleep(0.1)
 
-	It_run = epics.PV("It:RUN").get()
-	sleepTime = 0.1
-	timerCounter = 0 
+		currentPicoRead = ItAcquire.get()
+		i =+1
+		It_run = ItRun.get()
 
-	epics.PV("K6485:1:TimePerSampleStep").put(ActualIntTime)
-	epics.PV("K6485:1:IntegrationTime").put(NPLC) 				# int. time 
-	
-	picoReadOut = epics.PV("K6485:1:Acquire").get()
-	epics.PV("K6485:1:Acquire.PROC").put(1)
-	time.sleep(0.1)
+		appendNewLine(dataFilePath, str(currentPicoRead))
+		appendNewLine(indexFilePath, str(i))
 
-	while epics.PV("K6485:1:Acquire.PROC").get() == 1:
-		time.sleep(.01)
-
-	currentPicoRead = epics.PV("K6485:1:Acquire").get()
-	dataIndex.append(i)
-
-	# while True:
-	# 	currentPicoRead = epics.PV("K6485:1:Acquire").get()
-	# 	if picoReadOut == currentPicoRead:
-	# 		pass
-	# 		timerCounter = timerCounter + 1
-
-	# 	else:
-	# 		dataIndex.append(i)
-	# 		break
-
-	# 	time.sleep(sleepTime)
-
-	# 	if timerCounter * sleepTime >= ActualIntTime * 1.5:
-	# 		break
-		
-	i= i+1
-  
-	append_new_line (ItdataFileName, str(currentPicoRead))
-	append_new_line (ItindexFileName, str(i))
-
-It_run = epics.PV("It:RUN").get()
-if (It_run == 1 or i>=3000):
-
-	It_run = epics.PV("It:RUN").put(1)
-	sys.exit()
+	It_run = ItRun.get()
+	if (It_run == 1 or i >= 3000):
+		sys.exit()

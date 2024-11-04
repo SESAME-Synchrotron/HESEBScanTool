@@ -1,87 +1,49 @@
-import json
-import epics
-import common
-import PyQt5
-import sys
 import time
-from datetime import datetime 
-from SEDSS.SEDSupplements import CLIMessage
-from SEDSS.SEDSupport import timeModule
 
 from .base import Base
+from SEDSS.SEDSupport import timeModule
 
 class KEITHLEY_ITRANS(Base):
-	def __init__(self,name,paths,cfg={}):
+	def __init__(self, name, paths, cfg={}):
 		super().__init__(name)
 
 		self.loadPVS(name)
 		self.paths	= paths
 		self.cfg = cfg
 
-		self.PVs["picoAmmeterItransSoftReset"].put(1) # apply soft reset before start collecting data 
-		self.PVs["picoAmmeterItransTPSS"].put(0) # put 0 in time per step sample 
+		self.PVs["picoAmmeterItransSoftReset"].put(1)	# apply soft reset before start collecting data
+		self.PVs["picoAmmeterItransTPSS"].put(0)		# put 0 in time per step sample
 
+	def ACQ(self, args):
 
-	def ACQ(self,args):
-		sleepTime = 0.0001
-		timerCounter = 0 
-
-		#CLIMessage("{}".format(args), "E")
 		NPLC, ActualIntTime = self.getNPLC_IntTime(args["picoAmmIntTime"])
-		#print(NPLC, ActualIntTime)
 		self.PVs["picoAmmeterItransTPSS"].put(ActualIntTime)
-		self.PVs["picoAmmeterItransIntTime"].put(NPLC) ## int. time 
-		time.sleep(0.2)
-		# try: 
-		picoReadOut = self.PVs["picoAmmeterItransAcqReadOut"].get()
+		self.PVs["picoAmmeterItransIntTime"].put(NPLC)		# integration time
 		startTime = time.time()
 		self.PVs["picoAmmeterItransStartAcq"].put(1)
+		time.sleep(0.1)
 
-		while self.PVs["picoAmmeterItransStartAcq"].get(use_monitor=False):
-		# while epics.PV("K6485:1:Acquire.PROC").get():
-			
-			time.sleep(.01)
-		# while True:
-		# 	if picoReadOut == self.PVs["picoAmmeterItransAcqReadOut"].get():
-		# 		pass
-		# 		timerCounter = timerCounter + 1
-		# 	else:
-		# 		break
-		# 	time.sleep(sleepTime)
-		# 	if timerCounter * sleepTime >= ActualIntTime * 5:
-		# 		"""
-		# 		Maximum waiting time is the double of the actual integration
-		# 		time. 
-				
-		# 		This is needed only when kiethely returns a value that
-		# 		equals the previous collected one!!
+		while self.PVs["picoAmmeterItransStartAcq"].get(timeout=1, use_monitor=False):
+			time.sleep(0.01)
 
-		# 		Maybe this part can be removed if we get a precise acquire:stat 
-		# 		PV ...
-		# 		"""
-		# 		CLIMessage("Collection time has reached the maximum allowed time: {} sec".format(timerCounter*sleepTime), "W")
-		# 		break
 		overallIntTime = timeModule.timer(startTime)
-		#CLIMessage("Collection time:: {}".format(overallIntTime), "E")
 		self.data["KEITHLEY_Itrans"] = self.PVs["picoAmmeterItransAcqReadOut"].get()
-		## AN_: temp for testing the integration tiome, DELETE IT..
 		self.data["KEITHLEY_Itrans_intTime"] = overallIntTime
 
 	def getNPLC_IntTime(self, intTime):
 		"""
-		As we use the averaging filter of KIETHELY, the device it self does not 
-		accept integration time to be entered directlly. The actual integration time 
-		is defined by this equation:  
+		As we use the averaging filter of KEITHLEY, the device it self does not
+		accept integration time to be entered directly. The actual integration time
+		is defined by this equation:
 			3∗NPLC/50∗(NumSamples∗1.0285)+ε
 
-		where: 
+		where:
 			ε = 0.0076172
 			3: collapses to 1 when AutoZero is disabled.
-		
-		By providing NPLC and the pre-caculated ActualIntTime, the IOC can 
-		calculate the NumSamples and then send it as well as the NPLC to the keithley 
-		device. 
 
+		By providing NPLC and the pre-calculated ActualIntTime, the IOC can
+		calculate the NumSamples and then send it as well as the NPLC to the Keithley
+		device.
 		"""
 		intTime = float(intTime)
 
@@ -170,5 +132,5 @@ class KEITHLEY_ITRANS(Base):
 			ActualIntTime = 8.65
 			return NPLC, ActualIntTime
 
-	def postACQ(self,args):
+	def postACQ(self, args):
 		pass

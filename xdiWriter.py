@@ -1,43 +1,39 @@
-import epics 
 import os
-import time
-from SEDSS.SEDSupplements import CLIMessage
-import fileinput
 import sys
-from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
+import time
+import fileinput
+from SEDSS.SEDSupport import readFile
 
-class XDIWriter: 
+class XDIWriter:
 	"""
-	rawData: raw data recevied from the scanning tool
-	filePath: file path 
-	fileName: file name 
-	detChosen: a list contains the detector chosen. 
-	expStartTime: Experiment start data and time to be part of the file name 
+	rawData: raw data received from the scanning tool
+	filePath: file path
+	fileName: file name
+	detChosen: a list contains the detector chosen.
+	expStartTime: Experiment start data and time to be part of the file name
 	cfg: includes experiment configurations
-	curentScanInfo: contains information about the current scan (i.e. scan number, interval number)
-
+	currentScanInfo: contains information about the current scan (i.e. scan number, interval number)
 	"""
-	def __init__(self, rawData, filePath, detChosen, expStartTime, expStartTimeDF, cfg, curentScanInfo): 
+	def __init__(self, rawData, filePath, detChosen, expStartTime, expStartTimeDF, cfg, currentScanInfo):
 		self.cfg = cfg
-		self.curentScanInfo = curentScanInfo
+		self.currentScanInfo = currentScanInfo
 		self.data = rawData
 		self.fileName = self.cfg["DataFileName"]
-		self.filePath = filePath 
+		self.filePath = filePath
 		self.detChosen = detChosen
 		self.scanNum = rawData["Scan#"]
 		self.expStartTime = expStartTime
 		self.expStartTimeDF = expStartTimeDF
 
 		############ Meta Data collection from cfg ############
-
 		self.numScans = self.cfg["Nscans"]
 		self.numIntervals = self.cfg["NIntervals"]
 		self.numSamples = self.cfg["Nsamples"]
 		self.settlingTime = self.cfg["settlingTime"]
-		self.scanNum = self.curentScanInfo[1]["Scan"]
-		self.intervalNum = self.curentScanInfo[2]["Interval"]
-		self.sampleNum = self.curentScanInfo[0]["Sample"]
-		self.sampleTitle = self.curentScanInfo[4]["sampleTitle"]
+		self.scanNum = self.currentScanInfo[1]["Scan"]
+		self.intervalNum = self.currentScanInfo[2]["Interval"]
+		self.sampleNum = self.currentScanInfo[0]["Sample"]
+		self.sampleTitle = self.currentScanInfo[4]["sampleTitle"]
 		self.edge = self.cfg["ExpMetaData"][0]["edge"]
 		self.sampleName = self.cfg["ExpMetaData"][1]["sampleName"]
 		self.energy = self.cfg["ExpMetaData"][2]["energy"]
@@ -48,59 +44,56 @@ class XDIWriter:
 		# self.Mono = self.cfg["ExpMetaData"][7]["Mono"]
 		self.userCom = self.cfg["ExpMetaData"][5]["userCom"]
 		self.expCom = self.cfg["ExpMetaData"][6]["expCom"]
-		self.RINGCurrent = self.curentScanInfo[3]["RINGCurrent"]
-		# tmp delete this line belwo. 
-		self.currentSP = self.curentScanInfo[5]["TargetSP"]
-
+		self.RINGCurrent = self.currentScanInfo[3]["RINGCurrent"]
+		self.currentSP = self.currentScanInfo[5]["TargetSP"]			# tmp delete this line
 		self.personalInfoFlage = 0
 
 		ROIs = self.cfg["ROIs"]
 		self.selectedROIs = []
 		for ROI in ROIs:
 			self.selectedROIs.append(int(ROI[-1]))
-		
+
 		if self.cfg["expType"] == "proposal":
-			try: 
-				self.propInfo = readFile("configrations/userinfo.json").readJSON()
+			try:
+				self.propInfo = readFile("configurations/userinfo.json").readJSON()
 				self.proposalID = self.propInfo["Proposal"]
 				self.propTitle = self.propInfo["Title"]
 				self.PI = self.propInfo["Proposer"]
 				self.PIEmail = self.propInfo["Email"]
 				self.personalInfoFlage = 1
-			except: 
+			except:
 				pass
 
-		self.d_spacing = 3.1356 #if self.Mono == "Si 111" else 1.6374
+		self.d_spacing = 3.1356 	# if self.Mono == "Si 111" else 1.6374
 
 		self.createXDIFile()
 
 	def createXDIFile(self):
 		"""
-		this method does the follwoing: 
-		- generats the file name 
-		- creats xdi file in respect to the chosen detector
+		this method does the following:
+		- generates the file name
+		- creates xdi file in respect to the chosen detector
 		"""
-		self.fullFileName = self.filePath +"/" + self.fileName + "_" + self.sampleTitle + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.expStartTime + ".xdi"
-		
+		self.fullFileName = self.filePath + "/" + self.fileName + "_" + self.sampleTitle + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.expStartTime + ".xdi"
+
 		# KEITHLEY_I0 is already chosen
-		if "KEITHLEY_Itrans"  in self.detChosen: 
-			if "XFLASH" in self.detChosen: 
+		if "KEITHLEY_Itrans"  in self.detChosen:
+			if "XFLASH" in self.detChosen:
 				self.createKEITHLEY_I0_Itrans_XFLASH()
 				self.fillKEITHLEY_I0_Itrans_XFLASH()
 			else:
 				self.createKEITHLEY_I0_Itrans()
 				self.fillKEITHLEY_I0_Itrans()
-		elif "XFLASH" in self.detChosen: 
+		elif "XFLASH" in self.detChosen:
 			self.createKEITHLEY_I0_XFLASH()
 			self.fillKEITHLEY_I0_XFLASH()
 		else:
 			self.createKEITHLEY_I0()
 			self.fillKEITHLEY_I0()
 		self.onClose()
-	
+
 	def createKEITHLEY_I0(self):
-		
-		if not os.path.exists(self.fullFileName): 
+		if not os.path.exists(self.fullFileName):
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: PGM energy (eV)\n")
@@ -111,7 +104,7 @@ class XDIWriter:
 				f.write("# Proposal.title: {}\n".format(self.propTitle))
 				f.write("# PI: {}\n".format(self.PI))
 				f.write("# PI Email: {}\n".format(self.PIEmail))
-			else: 
+			else:
 				f.write("# Experiment.Type: Local\n")
 			f.write("# Base.file_name: {}\n".format(self.fileName))
 			f.write("# Element.edge: {}\n".format(self.edge))
@@ -142,14 +135,12 @@ class XDIWriter:
 
 	def fillKEITHLEY_I0(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e\n" 
+		f.write("%10.6e  %10.6e\n"
 		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"])))
 		f.close()
 
-
 	def createKEITHLEY_I0_Itrans(self):
-		
-		if not os.path.exists(self.fullFileName): 
+		if not os.path.exists(self.fullFileName):
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
@@ -161,7 +152,7 @@ class XDIWriter:
 				f.write("# Proposal.title: {}\n".format(self.propTitle))
 				f.write("# PI: {}\n".format(self.PI))
 				f.write("# PI Email: {}\n".format(self.PIEmail))
-			else: 
+			else:
 				f.write("# Experiment.Type: Local\n")
 			f.write("# Base.file_name: {}\n".format(self.fileName))
 			f.write("# Element.edge: {}\n".format(self.edge))
@@ -190,15 +181,14 @@ class XDIWriter:
 			f.write("#(1)energyRBV   (2)I0   (3)Itrans\n")
 			f.close()
 
-
 	def fillKEITHLEY_I0_Itrans(self):
 		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %10.6e \n" 
+		f.write("%10.6e  %10.6e  %10.6e \n"
 		%(float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
 		f.close()
 
 	def createKEITHLEY_I0_Itrans_XFLASH(self):
-		if not os.path.exists(self.fullFileName): 
+		if not os.path.exists(self.fullFileName):
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
@@ -220,7 +210,7 @@ class XDIWriter:
 				f.write("# Proposal.title: {}\n".format(self.propTitle))
 				f.write("# PI: {}\n".format(self.PI))
 				f.write("# PI Email: {}\n".format(self.PIEmail))
-			else: 
+			else:
 				f.write("# Experiment.Type: Local\n")
 			f.write("# Base.file_name: {}\n".format(self.fileName))
 			f.write("# Element.edge: {}\n".format(self.edge))
@@ -247,18 +237,18 @@ class XDIWriter:
 			f.write(header)
 			f.write("\n")
 			f.close()
-	def fillKEITHLEY_I0_Itrans_XFLASH(self): 
-		f = open (self.fullFileName, "a")
 
+	def fillKEITHLEY_I0_Itrans_XFLASH(self):
+		f = open (self.fullFileName, "a")
 		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
-		data = (float(self.data["ENERGY-RBK"]), 
-			float(self.data["KEITHLEY_I0"]), 
+		data = (float(self.data["ENERGY-RBK"]),
+			float(self.data["KEITHLEY_I0"]),
 			float(self.data["KEITHLEY_Itrans"]),
 			float(self.data["TRANS"]),
-			float(self.data["XFLASH-If"]), 
-			float(self.data["XFLASH-FLUOR"]), 
+			float(self.data["XFLASH-If"]),
+			float(self.data["XFLASH-FLUOR"]),
 			float(self.data["XFLASH-INT_TIME[sec]"]))
-		
+
 		ROIsFormat = ""
 		ROIsData = []
 
@@ -272,7 +262,7 @@ class XDIWriter:
 		f.close()
 
 	def createKEITHLEY_I0_XFLASH(self):
-		if not os.path.exists(self.fullFileName): 
+		if not os.path.exists(self.fullFileName):
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: energy eV\n")
@@ -292,7 +282,7 @@ class XDIWriter:
 				f.write("# Proposal.title: {}\n".format(self.propTitle))
 				f.write("# PI: {}\n".format(self.PI))
 				f.write("# PI Email: {}\n".format(self.PIEmail))
-			else: 
+			else:
 				f.write("# Experiment.Type: Local\n")
 			f.write("# Base.file_name: {}\n".format(self.fileName))
 			f.write("# Element.edge: {}\n".format(self.edge))
@@ -320,16 +310,16 @@ class XDIWriter:
 			f.write("\n")
 			f.close()
 
-	def fillKEITHLEY_I0_XFLASH(self): 
+	def fillKEITHLEY_I0_XFLASH(self):
 		f = open (self.fullFileName, "a")
 
 		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
-		data = (float(self.data["ENERGY-RBK"]), 
-			float(self.data["KEITHLEY_I0"]), 
-			float(self.data["XFLASH-If"]), 
-			float(self.data["XFLASH-FLUOR"]), 
+		data = (float(self.data["ENERGY-RBK"]),
+			float(self.data["KEITHLEY_I0"]),
+			float(self.data["XFLASH-If"]),
+			float(self.data["XFLASH-FLUOR"]),
 			float(self.data["XFLASH-INT_TIME[sec]"]))
-		
+
 		ROIsFormat = ""
 		ROIsData = []
 
@@ -342,8 +332,7 @@ class XDIWriter:
 		f.write(fullFormat % fullData)
 		f.close()
 
-	def onClose(self): 
-		#f = open (self.fullFileName, "a")
+	def onClose(self):
 		scanEndTime = "Scan.end_time: {}".format(str(time.strftime("%Y-%m-%dT%H:%M:%S")) )
 		for line in fileinput.input(self.fullFileName, inplace=1):
 			line = line.replace("Scan.end_time: xxx", scanEndTime)

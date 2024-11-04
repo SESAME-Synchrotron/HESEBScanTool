@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 Terminal=true
-Exec=/home/control/HESEBScanTool/configrations/runDAQ-TestMode.sh
+Exec=/home/control/HESEBScanTool/configurations/runDAQ-TestMode.sh
 Name=runDAQ-(TestingMode)
 

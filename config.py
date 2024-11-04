@@ -162,7 +162,7 @@ class ConfigGUI:
 				settlingTime = self.cfg["settlingTime"]
 			except:
 				UIMessage("Error reading config file",
-					"Unable to read from configration file", 
+					"Unable to read from configuration file", 
 					"Try to load another file").showCritical()
 				CLIMessage("Unable to read configuration file, scanning can not continue!!","E")
 				sys.exit()
@@ -789,14 +789,14 @@ class SED:
 
 		if not found == None:
 			try:
-				UsersinfoFile = open('configrations/userinfo.json','w')
+				UsersinfoFile = open('configurations/userinfo.json','w')
 				json.dump(propsal_data,UsersinfoFile, indent=2)
 				UsersinfoFile.close()
-				PathsFile = open('configrations/paths.json', 'r+')
+				PathsFile = open('configurations/paths.json', 'r+')
 				PathsFileData = json.load(PathsFile)
 				PathsFileData["users_data_path"] = propsal_data["Experimental_Data_Path"]
 				PathsFile.close()
-				PathsFile = open('configrations/paths.json', 'w')
+				PathsFile = open('configurations/paths.json', 'w')
 				json.dump(PathsFileData,PathsFile, indent=2)
 				PathsFile.close()
 				return True

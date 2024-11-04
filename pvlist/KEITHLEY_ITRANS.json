@@ -1,7 +1,6 @@
 {
 	"PV":
 	{
-		
 		"picoAmmeterItransTPSS":{
 			"pvname":"K6485:1:TimePerSampleStep"
 		},

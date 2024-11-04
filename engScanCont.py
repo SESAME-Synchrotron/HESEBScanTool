@@ -1,25 +1,22 @@
 
 #!/usr/bin/python3
 """
-Step energy scan derived class
+Continuous energy scan derived class
 """
 import time
 import threading
 import shutil 
 import os
 
-from heseb_step import HESEB_XRFSTEP
+import log
+from heseb_cont import HESEB_CONT
 from SEDSS.CLIMessage import CLIMessage
 from xdiWriter import XDIWriter
-from SEDSS.SEDFileManager import path
-from SEDSS.SEDTransfer import SEDTransfer
 from SEDSS.SEDSupport import timeModule 
 from SEDSS.SEDTmuxSession import tmuxSession
 from ROIs import ROIs
-import log
-import glob
 
-class ENGSCAN (HESEB_XRFSTEP):
+class ENGSCANCONT(HESEB_CONT):
 	def __init__(self, paths, cfg, testingMode = "No"):
 		super().__init__(paths, cfg, testingMode)
 
@@ -45,7 +42,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
 		self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
 		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
-		points		=	map(lambda intv: self.drange(intv["Startpoint"],intv["Endpoint"],intv["Stepsize"]),self.cfg["Intervals"])
+		points = map(lambda intv: self.drange(intv["Startpoint"],intv["Endpoint"],intv["Stepsize"]),self.cfg["Intervals"])
 		expData = {} # Experimental Data 
 
 		self.plotting()
@@ -58,8 +55,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 			CLIMessage("Sample# {}".format(sample), "I")
 			CLIMessage("Interval# {}".format(interval), "I")
 			print ("#####################################################")
-			#self.clearPlot()
-			# CSS GUI
+
 			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
 			self.PVs["SCAN:Nscans"].put(self.cfg["Nscans"])
 			self.PVs["SCAN:NIntervals"].put(self.cfg["NIntervals"])
@@ -74,26 +70,21 @@ class ENGSCAN (HESEB_XRFSTEP):
 			startpoint = currentInterval["Startpoint"]
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
-			
 			picoAmmIntTime = currentInterval["picoAmmIntTime"]
 			
-			
 			points = self.drange(startpoint,endpoint,stepsize)
-			# epics.PV("K6487:1:RST.PROC").put(1)
-			# epics.PV("K6487:1:Damping").put(0)
-			# epics.PV("K6487:1:TimePerSampleStep").put(0)
 			for point in points:
 				self.checkPause()
-				curentScanInfo = []
-				curentScanInfo.append({"Sample":sample})
-				curentScanInfo.append({"Scan":scan})
-				curentScanInfo.append({"Interval":interval})
-				curentScanInfo.append({"RINGCurrent":self.PVs["RING:Current"].get()})
-				curentScanInfo.append({"sampleTitle":self.cfg["Samplespositions"][sample-1]["sampleTitle"]})
+				currentScanInfo = []
+				currentScanInfo.append({"Sample":sample})
+				currentScanInfo.append({"Scan":scan})
+				currentScanInfo.append({"Interval":interval})
+				currentScanInfo.append({"RINGCurrent":self.PVs["RING:Current"].get()})
+				currentScanInfo.append({"sampleTitle":self.cfg["Samplespositions"][sample-1]["sampleTitle"]})
 
 				# tmp, delete the following line 
-				curentScanInfo.append({"TargetSP":point})
-				self.MovePGM(point, curentScanInfo)
+				currentScanInfo.append({"TargetSP":point})
+				self.MovePGM(point, currentScanInfo)
 				args= {}
 				args["picoAmmIntTime"] = picoAmmIntTime
 				ACQdata = {}
@@ -120,7 +111,7 @@ class ENGSCAN (HESEB_XRFSTEP):
 					ACQdata={**ACQdata,**det.data} 
 					expData.update(ACQdata)
 
-				Energy	=	self.PVs["PGM:Energy:RBV"].get()
+				Energy = self.PVs["PGM:Energy:RBV"].get()
 				log.info("reading PGM energy: {}".format (Energy))
 				IfDp = 0.0
 				AbsorptionFluoDp = 0.0
@@ -158,13 +149,13 @@ class ENGSCAN (HESEB_XRFSTEP):
 				
 				"""
 				(A) Ignore writing the 1st point, and, 
-				(B) Ignore writing data during pausing (shutter stoped, curent goes below the limites )
+				(B) Ignore writing data during pausing (shutter stopped, current goes below the limits )
 				"""
 				if counter == 0 or self.PVs["SCAN:pause"].get()==1:  
 					pauseCounter = pauseCounter +1 
 					pass
 				else:
-					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, curentScanInfo)
+					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, currentScanInfo)
 					
 					elapsedScanTime = timeModule.timer(startTime)					
 					
@@ -180,9 +171,8 @@ class ENGSCAN (HESEB_XRFSTEP):
 					break
 
 			"""
-			Transfering the data after each scan 
+			Transferring the data after each scan 
 			"""
-
 			self.dataTransfer()
 
 			if breakTag == 1: 		# exit from for loop (parent) when stop is clicked
@@ -190,10 +180,9 @@ class ENGSCAN (HESEB_XRFSTEP):
 
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
-		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
+		log.info("Scan is finished | actual scan time is: {}, total number of points: {}".format(str(scanTime), counter))
 		if pauseCounter > 1:
 			log.warning("Ignored points | total number: {}. Check the experiment log file to see what was caused the pausing".format(pauseCounter))
-		#CLIMessage("	scan is fininshed :)    Scan time: {}, total number of points: {}".format(str(scanTime), counter), "I")
 		print("#########################################################################")
 		log.info("Data file folder: {}".format(self.localDataPath))
 		CLIMessage("Data file folder: {}".format(self.localDataPath),"M")
@@ -205,14 +194,3 @@ class ENGSCAN (HESEB_XRFSTEP):
 		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		
-	def dataTransfer(self):
-		# try:
-		# SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
-		if self.cfg["expType"] == "proposal":
-			SEDTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
-		else: 
-			IHPath = path(self.paths['SED_TOP'], beamline = 'HESEB').getIHPath()
-			SEDTransfer(self.localDataPath, self.paths["DS"]+":"+IHPath).scp()
-		log.info("Data transfer is done")
-		# except:
-		# 	log.error("Problem transfering the data")
