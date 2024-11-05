@@ -23,6 +23,7 @@ class Base:
 		# self.data["IC3[V]"]						=	0
 		self.data["TRANS"]						=	0
 		self.data["TransRef"]					=	0
+
 		if name == "XFLASH":
 			self.data["XFLASH-If"] 				= 	0
 			self.data["XFLASH-FLUOR"] 			= 	0
@@ -39,7 +40,6 @@ class Base:
 			self.data["XFLASH-INT_TIME[sec]"] 	= 	0
 			self.data["XFLASH-OCR"] 			= 	0
 			self.data["XFLASH-ICR"] 			= 	0
-
 		elif name == "FICUS":
 			self.data["FICUS-If"] 				= 	0
 			self.data["FICUS-FLUOR"] 			= 	0
@@ -56,12 +56,10 @@ class Base:
 			self.data["FICUS-INT_TIME[sec]"] 	= 	0
 			self.data["FICUS-OCR"] 				= 	0
 			self.data["FICUS-ICR"] 				= 	0
-
 		elif name == "KEITHLEY_I0":
 			self.data["KEITHLEY_I0"] 			= 	0
 			self.data["KEITHLEY_I0_intTime"]	=	0
 			self.data["mutrans"]				= 	0
-
 		elif name == "KEITHLEY_Itrans":
 			self.data["KEITHLEY_Itrans"] 		= 	0
 			self.data["mutrans"]				= 	0
@@ -70,22 +68,22 @@ class Base:
 		JsonPVlist = Common.loadjson('pvlist/{}.json'.format(name))
 		self.PVs = {}
 		DisconnectedPvs = []
-		for entry,pvname in JsonPVlist["PV"].items():
-			pvname=pvname["pvname"]
+		for entry, pvname in JsonPVlist["PV"].items():
+			pvname = pvname["pvname"]
 			PVobj = epics.PV(pvname)
 
 			if PVobj.get() is None:
-				CLIMessage("{} : is not connected".format(pvname), "E")
+				CLIMessage("{}: is not connected".format(pvname), "E")
 				DisconnectedPvs.append("{}\n".format(pvname))
 			else:
-				CLIMessage("{} : is connected".format(pvname), "I")
+				CLIMessage("{}: is connected".format(pvname), "I")
 				self.PVs[entry] = PVobj
 
 	def preACQ(self, *args, **kwargs):
-		print(self.name, " preACQ is not implemented")
+		print(self.name, "preACQ is not implemented")
 
 	def ACQ(self, *args, **kwargs):
-		print(self.name, " ACQ is not implemented")
+		print(self.name, "ACQ is not implemented")
 
 	def postACQ(self, *args, **kwargs):
 		pass

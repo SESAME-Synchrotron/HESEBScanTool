@@ -12,7 +12,7 @@ class HESEB_STEP(HESEB):
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
 		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM
-		time.sleep(.15) # adding some delay to let the motor stat moving.
+		time.sleep(0.15) # adding some delay to let the motor start moving
 		log.info("Move PGM to energy: {}".format(SP))
 		"""
 		the following loop tries to put the scan tool in wait state until the PGM energy is reached by:

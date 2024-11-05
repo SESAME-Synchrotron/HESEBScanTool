@@ -17,11 +17,8 @@ except ImportError as error:
 
 app = QtWidgets.QApplication(sys.argv)
 
-#########################################################
-parser = argparse.ArgumentParser(description="HESEB Scanning Tool "\
-								 "is a software developed by DCA at SESAME to collect experimental data from HESEB Beamline at SESAME")
+parser = argparse.ArgumentParser(description="HESEB Scanning Tool is a software developed by DCA at SESAME to collect experimental data from HESEB Beamline at SESAME")
 parser.add_argument("--testingMode", type=str, default="No" ,help="Yes/No, default is No")
-#########################################################
 args = parser.parse_args()
 tMode = args.testingMode
 

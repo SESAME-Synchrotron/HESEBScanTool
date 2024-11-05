@@ -8,7 +8,7 @@ class KEITHLEY_ITRANS(Base):
 		super().__init__(name)
 
 		self.loadPVS(name)
-		self.paths	= paths
+		self.paths = paths
 		self.cfg = cfg
 
 		self.PVs["picoAmmeterItransSoftReset"].put(1)	# apply soft reset before start collecting data
@@ -50,87 +50,67 @@ class KEITHLEY_ITRANS(Base):
 		if intTime == 0.25: 			# 4 Samples
 			NPLC 	 	  = 1
 			ActualIntTime = 0.27
-			return NPLC, ActualIntTime
 		elif intTime == 0.5: 			# 7 Samples
 			NPLC 	 	  = 1
 			ActualIntTime = 0.45
-			return NPLC, ActualIntTime
 		elif intTime == 0.75: 			# 11 Samples
 			NPLC 	 	  = 1
 			ActualIntTime = 0.74
-			return NPLC, ActualIntTime
 		elif intTime == 1.0: 			# 15 Samples
 			NPLC 	 	  = 1
 			ActualIntTime = 0.94
-			return NPLC, ActualIntTime
 		elif intTime == 1.25: 			# 18 Samples
 			NPLC 	 	  = 1
 			ActualIntTime = 1.12
-			return NPLC, ActualIntTime
 		elif intTime == 1.5: 			# 12 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 1.49
-			return NPLC, ActualIntTime
 		elif intTime == 1.75: 			# 14 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 1.74
-			return NPLC, ActualIntTime
 		elif intTime == 2.0: 			# 16 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 1.99
-			return NPLC, ActualIntTime
 		elif intTime == 2.25: 			# 17 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 2.12
-			return NPLC, ActualIntTime
 		elif intTime == 2.50: 			# 19 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 2.37
-			return NPLC, ActualIntTime
 		elif intTime == 2.75: 			# 21 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 2.61
-			return NPLC, ActualIntTime
 		elif intTime == 3.0: 			# 23 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 2.85
-			return NPLC, ActualIntTime
 		elif intTime == 3.25:			# 25 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 3.11
-			return NPLC, ActualIntTime
 		elif intTime == 3.5:			# 27 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 3.35
-			return NPLC, ActualIntTime
 		elif intTime == 3.75:			# 29 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 3.6
-			return NPLC, ActualIntTime
 		elif intTime == 4.0:			# 31 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 3.84
-			return NPLC, ActualIntTime
 		elif intTime == 5.0:			# 39 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 4.83
-			return NPLC, ActualIntTime
 		elif intTime == 6.0:			# 47 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 5.81
-			return NPLC, ActualIntTime
 		elif intTime == 7.0:			# 54 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 6.68
-			return NPLC, ActualIntTime
 		elif intTime == 8.0:			# 62 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 7.66
-			return NPLC, ActualIntTime
 		elif intTime == 9.0:			# 70 Samples
 			NPLC 	 	  = 2
 			ActualIntTime = 8.65
-			return NPLC, ActualIntTime
+		return NPLC, ActualIntTime
 
 	def postACQ(self, args):
 		pass

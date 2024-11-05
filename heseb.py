@@ -82,36 +82,36 @@ class HESEB:
 		self.PVs = {}
 		self.motors = {}
 		DisconnectedPvs = []
-		for entry,pvname in JsonPVlist["PV"].items():
-			pvname=pvname["pvname"]
+		for entry, pvname in JsonPVlist["PV"].items():
+			pvname = pvname["pvname"]
 			PVobj = epics.PV(pvname)
 			if PVobj.get() is None:
-				CLIMessage("{} : is not connected".format(pvname), "E")
+				CLIMessage("{}: is not connected".format(pvname), "E")
 				DisconnectedPvs.append("{}\n".format(pvname))
 			else:
-				CLIMessage("{} : is connected".format(pvname), "I")
+				CLIMessage("{}: is connected".format(pvname), "I")
 				self.PVs[entry] = PVobj
 
-		for entry,mtrname in JsonPVlist["Motors"].items():
-			pvname=mtrname["pvname"]
+		for entry, mtrname in JsonPVlist["Motors"].items():
+			pvname = mtrname["pvname"]
 			MTRobj = epics.Motor(pvname)
 			if MTRobj is None:
-				CLIMessage("{} : is not connected".format(pvname), "E")
+				CLIMessage("{}: is not connected".format(pvname), "E")
 				DisconnectedPvs.append("{}\n".format(pvname))
 			else:
-				CLIMessage("{} : is connected".format(pvname), "I")
+				CLIMessage("{}: is connected".format(pvname), "I")
 				self.motors[entry] = MTRobj
 
 		if len(DisconnectedPvs):
 			log.error("Disconnected PVs: {}".format(DisconnectedPvs))
-			Common.show_message(PyQt5.QtWidgets.QMessageBox.Critical,"The following PVs are disconnected:\n {}".format(" ".join(DisconnectedPvs)),"scan tool" ,PyQt5.QtWidgets.QMessageBox.Ok)
+			Common.show_message(PyQt5.QtWidgets.QMessageBox.Critical,"The following PVs are disconnected:\n {}".format(" ".join(DisconnectedPvs)),"scan tool", PyQt5.QtWidgets.QMessageBox.Ok)
 			sys.exit()
 
 	def initPaths(self):
 		log.info("Paths initialization")
 		self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
-		self.BasePath			=	"{}/{}-{}".format(self.paths["local_data_path"],self.cfg["DataFileName"],self.creationTime)
-		self.cfgFilePath		=	"{}/{}_config_{}.cfg".format(self.BasePath,self.cfg["DataFileName"],self.creationTime)
+		self.BasePath			=	"{}/{}-{}".format(self.paths["local_data_path"], self.cfg["DataFileName"], self.creationTime)
+		self.cfgFilePath		=	"{}/{}_config_{}.cfg".format(self.BasePath, self.cfg["DataFileName"], self.creationTime)
 		self.localDataPath		=   "{}".format(self.BasePath)
 
 		if not os.path.exists(self.BasePath):
@@ -122,8 +122,8 @@ class HESEB:
 			json.dump(self.cfg, cfgFile)
 			cfgFile.close()
 
-		self.dataFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
-		self.dataFileFullPath	=	"{}/{}".format(self.localDataPath, self.dataFileName)
+		self.dataFileName =	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
+		self.dataFileFullPath =	"{}/{}".format(self.localDataPath, self.dataFileName)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
 
 		"""
@@ -140,19 +140,19 @@ class HESEB:
 		log.info("Calculating energy points")
 		decimal.getcontext().prec = prec
 		points = []
-		r= decimal.Decimal(start)
+		r = decimal.Decimal(start)
 		step = decimal.Decimal(step)
-		while r <=stop:
+		while r <= stop:
 			points.append(float(r))
 			r += step
 		return points
 
 	def generateScanPoints(self):
 		log.info("Calculating samples, scans and Intervals")
-		Samples		=	range(1,self.cfg["Nsamples"]+1)
-		Scans		=	range(1,self.cfg["Nscans"]+1)
-		Intervals	=	range(1,self.cfg["NIntervals"]+1)
-		return itertools.product(Samples,Scans,Intervals)
+		Samples		=	range(1, self.cfg["Nsamples"]+1)
+		Scans		=	range(1, self.cfg["Nscans"]+1)
+		Intervals	=	range(1, self.cfg["NIntervals"]+1)
+		return itertools.product(Samples, Scans, Intervals)
 
 	def initPGM(self):
 		log.info("PGM initialization")

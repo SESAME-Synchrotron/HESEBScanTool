@@ -6,5 +6,13 @@
 	"checkToleranceEvery":0.01,
 	"maxTime2MeetTolerance": 10, 
 	"KEITHELY_I0LowerRBV": -1E-8,
-	"KEITHELY_ItransLowerRBV": -1E-8
+	"KEITHELY_ItransLowerRBV": -1E-8,
+	"keithleyLatency": 0.03,
+	"xflashLatency": 0.0,
+	"PGMLatency": 0.2,
+	"PGMMaxSpeed": 0.3,
+	"PGMMinSpeed": 0.0007,
+	"PGMDefaultSpeed": 0.14,
+	"PGMResolution": 0.00001388900,
+	"minStepSize": 0.00014
 }
