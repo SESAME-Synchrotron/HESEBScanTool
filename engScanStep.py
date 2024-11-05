@@ -143,7 +143,7 @@ class ENGSCANSTEP(HESEB_STEP):
 				self.setPlotData()
 
 				log.info("Writing data to xdi file")
-				log.info("collect all ROIs")
+				# log.info("collect all ROIs")
 				# allROIs.acquire()
 				
 				"""
@@ -189,7 +189,7 @@ class ENGSCANSTEP(HESEB_STEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-		shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
+		# shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
 		

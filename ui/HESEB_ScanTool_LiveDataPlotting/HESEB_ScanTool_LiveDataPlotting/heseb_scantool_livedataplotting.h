@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class HESEB_ScanTool_LiveDataPlotting; }
@@ -42,6 +43,12 @@ private slots:
     void on_help_clicked();
 
     void check();
+
+    void keyPressEvent(QKeyEvent *event);
+
+    void closeEvent(QCloseEvent *event);
+
+    void on_qecheckbox_stateChanged(int arg1);
 
 private:
     Ui::HESEB_ScanTool_LiveDataPlotting *ui;

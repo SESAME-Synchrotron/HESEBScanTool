@@ -172,4 +172,5 @@ if __name__ == "__main__":
 
 	I0_run = I0Run.get()
 	if (I0_run == 1 or i >= 3000):
+		PV("VOLTAGE:VALIDATION").put(1)
 		sys.exit()
