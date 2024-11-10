@@ -9,95 +9,86 @@
 		"PGM:Energy:Reached":{
 			"pvname":"I11R1-MO-MC2:TargetEnergyReached"
 		},
-		"PLOT:Energy":{
-			"pvname":"PLOT:Energy"
+		"Plot:Energy":{
+			"pvname":"HESEB:Plot:Energy"
 		},
-		"PLOT:I0":{
-			"pvname":"PLOT:I0"
+		"Plot:I0":{
+			"pvname":"HESEB:Plot:I0"
 		},
-		"PLOT:It":{
-			"pvname":"PLOT:It"
+		"Plot:It":{
+			"pvname":"HESEB:Plot:It"
 		},
-		"PLOT:It2":{
-			"pvname":"PLOT:It2"
+		"Plot:It2":{
+			"pvname":"HESEB:Plot:It2"
 		},
-		"PLOT:AbsTr":{
-			"pvname":"PLOT:AbsTr"
+		"Plot:AbsTr":{
+			"pvname":"HESEB:Plot:AbsTr"
 		},
-		"PLOT:AbsTr2":{
-			"pvname":"PLOT:AbsTr2"
+		"Plot:AbsTr2":{
+			"pvname":"HESEB:Plot:AbsTr2"
 		},
-		"PLOT:If":{
-			"pvname":"PLOT:If"
+		"Plot:If":{
+			"pvname":"HESEB:Plot:If"
 		},
-		"PLOT:AbsFlu":{
-			"pvname":"PLOT:AbsFlu"
+		"Plot:AbsFlu":{
+			"pvname":"HESEB:Plot:AbsFlu"
 		},
-		"USERINFO:Proposal":{
-			"pvname":"USERINFO:Proposal"
+		"ProposalID":{
+			"pvname":"HESEB:ProposalID"
 		},
-		"USERINFO:Email":{
-			"pvname":"USERINFO:Email"
+		"UserEmail":{
+			"pvname":"HESEB:PIEmail"
 		},
-		"USERINFO:Beamline":{
-			"pvname":"USERINFO:Beamline"
+		"ScanStartTime":{
+			"pvname":"HESEB:ScanStartTime"
 		},
-		"USERINFO:StartTime":{
-			"pvname":"USERINFO:StartTime"
+		"ScanEndTime":{
+			"pvname":"HESEB:ScanEndTime"
 		},
-		"USERINFO:EndTime":{
-			"pvname":"USERINFO:EndTime"
+		"ElapsedTime":{
+			"pvname":"HESEB:ElapsedTime"
 		},
-		"SCAN:Elapse":{
-			"pvname":"SCAN:ELAPSE"
+		"VoltageSource":{
+			"pvname":"HESEB:VoltageValidation"
 		},
-		"SCAN:Start":{
-			"pvname":"SCAN:START"
+		"SEDPath":{
+			"pvname":"HESEB:ExperimentalFileName"
 		},
-		"VOLTAGE:Validation":{
-			"pvname":"VOLTAGE:VALIDATION"
+		"ScanPause":{
+			"pvname":"HESEB:ScanPause"
 		},
-		"EXPERIMENT:LOGS":{
-			"pvname":"EXPERIMENT:LOGS"
+		"ScanStop":{
+			"pvname":"HESEB:ScanStop"
 		},
-		"SCAN:Path":{
-			"pvname":"SCAN:PATH"
+		"CalibrationEnergy":{
+			"pvname":"HESEB:EnergyCalibration"
 		},
-		"SCAN:pause":{
-			"pvname":"SCAN:XAFSPause"
+		"I0Trigger":{
+			"pvname":"HESEB:Run:I0"
 		},
-		"SCAN:Stop":{
-			"pvname":"SCAN:STOP"
+		"ItTrigger":{
+			"pvname":"HESEB:Run:It"
 		},
-		"Calibration:Energy":{
-			"pvname":"CALIB:ENERGY"
+		"NSamples":{
+			"pvname":"HESEB:NSamples"
 		},
-		"I0:TRIGGER":{
-			"pvname":"I0:RUN"
+		"CurrentSample":{
+			"pvname":"HESEB:CurrentSample"
 		},
-		"It:TRIGGER":{
-			"pvname":"It:RUN"
+		"NScans":{
+			"pvname":"HESEB:NScans"
 		},
-		"SCAN:Nsamples":{
-			"pvname":"SCAN:Nsamples"
+		"CurrentScan":{
+			"pvname":"HESEB:CurrentScan"
 		},
-		"SCAN:CurrentSample":{
-			"pvname":"SCAN:CurrentSample"
+		"NIntervals":{
+			"pvname":"HESEB:NIntervals"
 		},
-		"SCAN:Nscans":{
-			"pvname":"SCAN:Nscans"
-		},
-		"SCAN:CurrentScan":{
-			"pvname":"SCAN:CurrentScan"
-		},
-		"SCAN:NIntervals":{
-			"pvname":"SCAN:NIntervals"
-		},
-		"SCAN:CurrentInterval":{
-			"pvname":"SCAN:CurrentInterval"
+		"CurrentInterval":{
+			"pvname":"HESEB:CurrentInterval"
 		},
 		"RING:Current":{
-		"pvname":"SRC01-DI-DCCT1:getDcctCurrent"
+			"pvname":"SRC01-DI-DCCT1:getDcctCurrent"
 		},
 		"photonShutter:Status":{
 			"pvname":"I11FE-VA-PSH:Main"

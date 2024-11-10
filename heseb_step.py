@@ -6,7 +6,7 @@ from SEDSS.CLIMessage import CLIMessage
 
 class HESEB_STEP(HESEB):
 	def __init__(self, paths, cfg, testingMode):
-		super().__init__(cfg, testingMode)
+		super().__init__(paths, cfg, testingMode)
 
 	def MovePGM(self, SP, currentScanInfo=None):
 
@@ -20,13 +20,13 @@ class HESEB_STEP(HESEB):
 			2. Keep checking the energy reached PV
 		Notes:
 			1. loop conditioning must be satisfied because energy PV is set to 0 before start moving the PGM.
-			2. checkToleranceEvery variable can be changed in limits.josn file
+			2. checkToleranceEvery variable can be changed in limits.json file
 		"""
 		if currentScanInfo != None:
 			CLIMessage("PGM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP,
 				currentScanInfo[0]["Sample"], currentScanInfo[1]["Scan"], currentScanInfo[2]["Interval"]), "IG")
 
-		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int (self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
+		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int(self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
 			time.sleep(self.scanLimits["checkToleranceEvery"])
 		"""
 		the loop below has been added because the one above was not enough to get energy RBV within the allowed tolerances. The main issue is that energy RBV is a PROC PV
@@ -41,7 +41,7 @@ class HESEB_STEP(HESEB):
 		"""
 		print("\n")
 		timeCounter = 0
-		while not (float(SP) - self.scanLimits["energyRBVTolerance"]) <= float (self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimits["energyRBVTolerance"]):
+		while not(float(SP) - self.scanLimits["energyRBVTolerance"]) <= float(self.PVs["PGM:Energy:RBV"].get()) <= (float(SP) + self.scanLimits["energyRBVTolerance"]):
 			self.PVs["PGM:Energy:SP"].put(SP, wait=True)
 			time.sleep(self.scanLimits["checkToleranceEvery"])
 			timeCounter = timeCounter + 1

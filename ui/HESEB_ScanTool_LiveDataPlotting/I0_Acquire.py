@@ -8,13 +8,13 @@ from epics import PV
 dataFilePath = "I0.txt"
 indexFilePath = "I0_Index.txt"
 
-I0Plot = PV("PLOT:I0")
-I0Index = PV("I0:PLOT:INDEX")
-I0IntTimeGUI = PV("I0:INT:TIME")
+I0Plot = PV("HESEB:Plot:I0")
+I0Index = PV("HESEB:Plot:I0:Index")
+I0IntTimeGUI = PV("HESEB:I0:IntTime")
 I0Reset = PV("K6487:1:RST.PROC")
 I0Damping = PV("K6487:1:Damping")
 I0Sampling = PV("K6487:1:TimePerSampleStep")
-I0Run = PV("I0:RUN")
+I0Run = PV("HESEB:Run:I0")
 I0IntTime = PV("K6487:1:IntegrationTime")
 I0Acquire = PV("K6487:1:Acquire")
 I0AcquireProc = PV("K6487:1:Acquire.PROC")
@@ -150,7 +150,7 @@ if __name__ == "__main__":
 	I0Reset.put(1)		# Apply soft reset before start collecting data
 	I0Damping.put(0) 	# disable damping
 	I0Sampling.put(0) 	# put 0 in time per step sample
-	I0_run = I0Run.get()	# I0:RUN >> trigger to start (0:Start, 1:Stop)
+	I0_run = I0Run.get()	# trigger to start (0:Start, 1:Stop)
 
 	i = 0
 	while(I0_run == 0 and i < 3001):
@@ -172,5 +172,5 @@ if __name__ == "__main__":
 
 	I0_run = I0Run.get()
 	if (I0_run == 1 or i >= 3000):
-		PV("VOLTAGE:VALIDATION").put(1)
+		PV("HESEB:VoltageValidation").put(1)
 		sys.exit()

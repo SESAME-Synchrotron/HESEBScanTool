@@ -27,8 +27,6 @@ private slots:
 
     void logs();
 
-    void path();
-
     void on_SEDPathDir_clicked();
 
     void on_plotter_coordinateSelected(const QPointF &xyvalue);
@@ -42,9 +40,7 @@ private slots:
 private:
     Ui::HESEB_ScanTool_I0 *ui;
 
-    QString SED_Path;
     QTimer* checkLogs;
-    QTimer* checkPath;
     moreVar *morevar;
 
     bool isOpened = false;

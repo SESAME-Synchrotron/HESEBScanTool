@@ -39,7 +39,7 @@
          <set>Qt::AlignCenter</set>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:ELAPSE</string>
+         <string>HESEB:ElapsedTime</string>
         </property>
        </widget>
       </item>
@@ -65,7 +65,7 @@
          <set>Qt::AlignCenter</set>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:START</string>
+         <string>HESEB:ScanStartTime</string>
         </property>
        </widget>
       </item>
@@ -144,7 +144,7 @@
          <string>Stop!!</string>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:STOP</string>
+         <string>HESEB:ScanStop</string>
         </property>
         <property name="clickText">
          <string>1</string>
@@ -160,7 +160,7 @@
          <string>Resume</string>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:XAFSPause</string>
+         <string>HESEB:ScanPause</string>
         </property>
         <property name="clickText">
          <string>0</string>
@@ -176,7 +176,7 @@
          <string>Pause</string>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:XAFSPause</string>
+         <string>HESEB:ScanPause</string>
         </property>
        </widget>
       </item>
@@ -242,7 +242,7 @@
       <item row="0" column="1">
        <widget class="QELabel" name="scanStatusPV">
         <property name="variable" stdset="0">
-         <string>SCAN:STOP</string>
+         <string>HESEB:ScanStop</string>
         </property>
        </widget>
       </item>
@@ -286,7 +286,7 @@
          </color>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:STOP</string>
+         <string>HESEB:ScanStop</string>
         </property>
         <property name="edgeAlarmStateOption" stdset="0">
          <enum>QESimpleShape::Never</enum>
@@ -352,7 +352,7 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:Nscans</string>
+         <string>HESEB:NScans</string>
         </property>
        </widget>
       </item>
@@ -379,7 +379,7 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:CurrentSample</string>
+         <string>HESEB:CurrentSample</string>
         </property>
        </widget>
       </item>
@@ -423,7 +423,7 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:Nsamples</string>
+         <string>HESEB:NSamples</string>
         </property>
        </widget>
       </item>
@@ -433,7 +433,7 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:CurrentInterval</string>
+         <string>HESEB:CurrentInterval</string>
         </property>
        </widget>
       </item>
@@ -443,7 +443,7 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:CurrentScan</string>
+         <string>HESEB:CurrentScan</string>
         </property>
        </widget>
       </item>
@@ -473,7 +473,7 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>SCAN:NIntervals</string>
+         <string>HESEB:NIntervals</string>
         </property>
        </widget>
       </item>
@@ -496,137 +496,6 @@
          <color>
           <red>255</red>
           <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLabel" name="ItransLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;Trans.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" rowspan="2">
-       <widget class="QLabel" name="SEDPathVal">
-        <property name="cursor">
-         <cursorShape>IBeamCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-        <property name="indent">
-         <number>6</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" rowspan="2">
-       <widget class="QPushButton" name="SEDPathDir">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLabel" name="I0Label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QLabel" name="SEDPathLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>SED Path:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QSimpleShape" name="I0Ind">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="shape">
-         <enum>QSimpleShape::roundRectangle</enum>
-        </property>
-        <property name="colour0" stdset="0">
-         <color>
-          <red>23</red>
-          <green>69</green>
-          <blue>243</blue>
-         </color>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QSimpleShape" name="IrefInd">
-        <property name="shape">
-         <enum>QSimpleShape::roundRectangle</enum>
-        </property>
-        <property name="colour0" stdset="0">
-         <color>
-          <red>0</red>
-          <green>255</green>
           <blue>0</blue>
          </color>
         </property>
@@ -665,6 +534,125 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="4" column="2">
+       <widget class="QSimpleShape" name="IrefInd">
+        <property name="shape">
+         <enum>QSimpleShape::roundRectangle</enum>
+        </property>
+        <property name="colour0" stdset="0">
+         <color>
+          <red>0</red>
+          <green>255</green>
+          <blue>0</blue>
+         </color>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="I0Label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QSimpleShape" name="I0Ind">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="shape">
+         <enum>QSimpleShape::roundRectangle</enum>
+        </property>
+        <property name="colour0" stdset="0">
+         <color>
+          <red>23</red>
+          <green>69</green>
+          <blue>243</blue>
+         </color>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" rowspan="2">
+       <widget class="QLabel" name="SEDPathLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>SED Path:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="ItransLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;I&lt;span style=&quot; vertical-align:sub;&quot;&gt;Trans.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" rowspan="2">
+       <widget class="QPushButton" name="SEDPathDir">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" rowspan="2">
+       <widget class="QELabel" name="SEDPathVal">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="variable" stdset="0">
+         <string>HESEB:ExperimentalFileName</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -717,16 +705,16 @@
          <string>X,Y</string>
         </property>
         <property name="DataVariableX" stdset="0">
-         <string>PLOT:Energy</string>
+         <string>HESEB:Plot:Energy</string>
         </property>
         <property name="DataVariableA" stdset="0">
-         <string>PLOT:AbsTr</string>
+         <string>HESEB:Plot:AbsTr</string>
         </property>
         <property name="SizeVariableX" stdset="0">
-         <string>PLOT:Energy.NORD</string>
+         <string>HESEB:Plot:Energy.NORD</string>
         </property>
         <property name="SizeVariableA" stdset="0">
-         <string>PLOT:AbsTr.NORD</string>
+         <string>HESEB:Plot:AbsTr.NORD</string>
         </property>
         <property name="ColourA">
          <color>
@@ -826,25 +814,25 @@
          <string>X,Y</string>
         </property>
         <property name="DataVariableX" stdset="0">
-         <string>PLOT:Energy</string>
+         <string>HESEB:Plot:Energy</string>
         </property>
         <property name="DataVariableA" stdset="0">
-         <string>PLOT:I0</string>
+         <string>HESEB:Plot:I0</string>
         </property>
         <property name="DataVariableB" stdset="0">
-         <string>PLOT:It</string>
+         <string>HESEB:Plot:It</string>
         </property>
         <property name="DataVariableC" stdset="0">
          <string/>
         </property>
         <property name="SizeVariableX" stdset="0">
-         <string>PLOT:Energy.NORD</string>
+         <string>HESEB:Plot:Energy.NORD</string>
         </property>
         <property name="SizeVariableA" stdset="0">
-         <string>PLOT:I0.NORD</string>
+         <string>HESEB:Plot:I0.NORD</string>
         </property>
         <property name="SizeVariableB" stdset="0">
-         <string>PLOT:It.NORD</string>
+         <string>HESEB:Plot:It.NORD</string>
         </property>
         <property name="SizeVariableC" stdset="0">
          <string/>

@@ -30,13 +30,13 @@ class HESEB:
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
-		self.PVs["SCAN:Stop"].put(0)  			# disable stop function
-		self.PVs["SCAN:pause"].put(0) 			# flush scan pause pv
-		self.PVs["Calibration:Energy"].put(1)   # disable I0 vs time plotting
-		self.PVs["I0:TRIGGER"].put(1)   		# disable I0 vs time plotting
-		self.PVs["It:TRIGGER"].put(1)  		    # disable It vs time plotting
-		# self.PVs["Voltage:Validation"].put(0)	# enable voltage source
-		epics.PV("VOLTAGE:VALIDATION").put(0)	# enable voltage source
+		self.PVs["ScanStop"].put(0)  			# disable stop function
+		self.PVs["ScanPause"].put(0) 			# flush scan pause pv
+		self.PVs["CalibrationEnergy"].put(1)
+		self.PVs["I0Trigger"].put(1)   		# disable I0 vs time plotting
+		self.PVs["ItTrigger"].put(1)  		    # disable It vs time plotting
+		# self.PVs["VoltageSource"].put(0)	# enable voltage source
+		epics.PV("HESEB:VoltageValidation").put(0)	# enable voltage source
 
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
 		self.voltageSourcePARAM = []
@@ -125,14 +125,7 @@ class HESEB:
 		self.dataFileName =	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
 		self.dataFileFullPath =	"{}/{}".format(self.localDataPath, self.dataFileName)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
-
-		"""
-		Writing the data path into file to be available to the plotting tool.
-		"""
-		with open("./tmp/SEDPath.txt", 'w') as SEDPath:
-			SEDPath.write(self.localDataPath)
-			SEDPath.close()
-
+		self.PVs["SEDPath"].put(self.localDataPath)
 		if not os.path.exists(self.localDataPath):
 			os.makedirs(self.localDataPath)
 
@@ -156,7 +149,7 @@ class HESEB:
 
 	def initPGM(self):
 		log.info("PGM initialization")
-		self.PVs["SCAN:pause"].put(0, wait=True) # set pause flag to False
+		self.PVs["ScanPause"].put(0, wait=True) # set pause flag to False
 		self.motors["PGM:Grating"].put("stop_go", 0) # Stop
 		time.sleep(0.1)
 		self.motors["PGM:Grating"].put("stop_go", 3) # Go
@@ -217,31 +210,31 @@ class HESEB:
 		self.AbsTr2	= []
 		self.If		= []
 		self.AbsFlu	= []
-		self.PVs["PLOT:Energy"].put(self.Energy)
-		self.PVs["PLOT:I0"].put(self.I0)
-		self.PVs["PLOT:It"].put(self.It)
-		self.PVs["PLOT:It2"].put(self.It2)
-		self.PVs["PLOT:AbsTr"].put(self.AbsTr)
-		self.PVs["PLOT:AbsTr2"].put(self.AbsTr2)
-		self.PVs["PLOT:If"].put(self.If)
-		self.PVs["PLOT:AbsFlu"].put(self.AbsFlu)
+		self.PVs["HESEB:Plot:Energy"].put(self.Energy)
+		self.PVs["HESEB:Plot:I0"].put(self.I0)
+		self.PVs["HESEB:Plot:It"].put(self.It)
+		self.PVs["HESEB:Plot:It2"].put(self.It2)
+		self.PVs["HESEB:Plot:AbsTr"].put(self.AbsTr)
+		self.PVs["HESEB:Plot:AbsTr2"].put(self.AbsTr2)
+		self.PVs["HESEB:Plot:If"].put(self.If)
+		self.PVs["HESEB:Plot:AbsFlu"].put(self.AbsFlu)
 
 	def setPlotData(self):
 		log.info("Setting plots data")
-		self.PVs["PLOT:Energy"].put(self.Energy)
-		self.PVs["PLOT:I0"].put(self.I0)
-		self.PVs["PLOT:It"].put(self.It)
-		self.PVs["PLOT:It2"].put(self.It2)
-		self.PVs["PLOT:AbsTr"].put(self.AbsTr[1:])
-		self.PVs["PLOT:AbsTr2"].put(self.AbsTr2)
-		self.PVs["PLOT:If"].put(self.If)
-		self.PVs["PLOT:AbsFlu"].put(self.AbsFlu)
+		self.PVs["HESEB:Plot:Energy"].put(self.Energy)
+		self.PVs["HESEB:Plot:I0"].put(self.I0)
+		self.PVs["HESEB:Plot:It"].put(self.It)
+		self.PVs["HESEB:Plot:It2"].put(self.It2)
+		self.PVs["HESEB:Plot:AbsTr"].put(self.AbsTr[1:])
+		self.PVs["HESEB:Plot:AbsTr2"].put(self.AbsTr2)
+		self.PVs["HESEB:Plot:If"].put(self.If)
+		self.PVs["HESEB:Plot:AbsFlu"].put(self.AbsFlu)
 
 	def checkPause(self):
 		diffTime = 0
 		pauseFlag = 0
 		startTime = time.time()
-		while self.PVs["SCAN:pause"].get():
+		while self.PVs["ScanPause"].get():
 			pauseFlag = 1
 			diffTime = time.time() - startTime
 			CLIMessage("Scan is paused | pausing time(sec): {}".format(diffTime), "IO")
@@ -328,13 +321,13 @@ class HESEB:
 
 			# if any of below is false, pause the scan
 			if False in (currentOk, photonShutterOk, radiationShutterOk, KeithelyI0OK):
-				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release
+				self.PVs["ScanPause"].put(1) # 1 pause, 0 release
 			else:
-				self.PVs["SCAN:pause"].put(0)
+				self.PVs["ScanPause"].put(0)
 			time.sleep(self.scanLimits["checkLimitsEvery"]) # time in seconds
 
 	def stopScanning(self):
-		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
+		self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source
 		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 		log.warning("Stop button has been pressed, running scan is terminated!!")
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
@@ -390,7 +383,7 @@ class HESEB:
 	def signal_handler(self, sig, frame):
 		""" Calls abort_scan when ^C is typed """
 		if sig == signal.SIGINT:
-			self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
+			self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source
 			self.PVs["PGM:Energy:Reached"].put(1, wait=True)
 			log.warning("Ctrl + C (^C) has been pressed, running scan is terminated!!")
 			os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))

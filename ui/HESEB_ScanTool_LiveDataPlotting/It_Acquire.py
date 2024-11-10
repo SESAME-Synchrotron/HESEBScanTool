@@ -8,12 +8,12 @@ from epics import PV
 dataFilePath = "It.txt"
 indexFilePath = "It_Index.txt"
 
-ItPlot = PV("PLOT:It")
-ItIndex = PV("It:PLOT:INDEX")
-ItIntTimeGUI = PV("It:INT:TIME")
+ItPlot = PV("HESEB:Plot:It")
+ItIndex = PV("HESEB:Plot:It:Index")
+ItIntTimeGUI = PV("HESEB:It:IntTime")
 ItReset = PV("K6485:1:RST.PROC")
 ItSampling = PV("K6485:1:TimePerSampleStep")
-ItRun = PV("It:RUN")
+ItRun = PV("HESEB:Run:It")
 ItIntTime = PV("K6485:1:IntegrationTime")
 ItAcquire = PV("K6485:1:Acquire")
 ItAcquireProc = PV("K6485:1:Acquire.PROC")
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 	NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
 	ItReset.put(1)		# Apply soft reset before start collecting data
 	ItSampling.put(0) 	# put 0 in time per step sample
-	It_run = ItRun.get()	# It:RUN >> trigger to start (0:Start, 1:Stop)
+	It_run = ItRun.get()	# trigger to start (0:Start, 1:Stop)
 
 	i = 0
 	while(It_run == 0 and i < 3001):
@@ -170,5 +170,5 @@ if __name__ == "__main__":
 
 	It_run = ItRun.get()
 	if (It_run == 1 or i >= 3000):
-		PV("VOLTAGE:VALIDATION").put(1)
+		PV("HESEB:VoltageValidation").put(1)
 		sys.exit()

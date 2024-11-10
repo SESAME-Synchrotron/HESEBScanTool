@@ -244,16 +244,16 @@ transform: rotate(-90deg);
         <string>X,Y</string>
        </property>
        <property name="DataVariableX" stdset="0">
-        <string>It:PLOT:INDEX</string>
+        <string>HESEB:Plot:It:Index</string>
        </property>
        <property name="DataVariableA" stdset="0">
-        <string>PLOT:It</string>
+        <string>HESEB:Plot:It</string>
        </property>
        <property name="SizeVariableX" stdset="0">
-        <string>It:PLOT:INDEX.NORD</string>
+        <string>HESEB:Plot:It:Index.NORD</string>
        </property>
        <property name="SizeVariableA" stdset="0">
-        <string>PLOT:It.NORD</string>
+        <string>HESEB:Plot:It.NORD</string>
        </property>
       </widget>
      </item>

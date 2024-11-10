@@ -240,7 +240,7 @@ background-color: rgb(239, 239, 239);</string>
          <string>Enable High Voltage Source</string>
         </property>
         <property name="variable" stdset="0">
-         <string>VOLTAGE:VALIDATION</string>
+         <string>HESEB:VoltageValidation</string>
         </property>
         <property name="variableAsToolTip">
          <bool>false</bool>

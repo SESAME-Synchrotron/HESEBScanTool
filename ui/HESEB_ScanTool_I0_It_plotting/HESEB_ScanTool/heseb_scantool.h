@@ -27,8 +27,6 @@ private slots:
 
     void logs();
 
-    void path();
-
     void on_SEDPathDir_clicked();
 
     void on_hide_show1_stateChanged(int arg1);
@@ -48,9 +46,7 @@ private slots:
 private:
     Ui::HESEB_ScanTool *ui;
 
-    QString SED_Path;
     QTimer* checkLogs;
-    QTimer* checkPath;
     moreVar *morevar;
 
     bool isOpened = false;

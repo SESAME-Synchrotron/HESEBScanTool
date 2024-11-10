@@ -20,10 +20,10 @@ def countdown(t):
 while True:
 
 	voltageSourceValue  = epics.PV(voltagePVs["PV"]["voltageSourceRange"]["pvname"]).get()
-	pausingStatus       = epics.PV(HESEB_PVs["PV"]["SCAN:pause"]["pvname"]).get()
+	pausingStatus       = epics.PV(HESEB_PVs["PV"]["ScanPause"]["pvname"]).get()
 	pointsStatus        = epics.PV(HESEB_PVs["PV"]["PGM:Energy:RBV"]["pvname"]).get()
 
-	if epics.PV("SCAN:STOP").get() == 1:
+	if epics.PV("HESEB:ScanStop").get() == 1:
 		sys.exit()
 	# check voltage source validation (for Safety), 1 >> for 50V ... 2 >> 500V
 	if voltageSourceValue in {1, 2}:
@@ -34,5 +34,5 @@ while True:
 
 			if voltageSourceValue in {1, 2}:
 				if (pausingStatus == 1) or pointsStatus == epics.PV(HESEB_PVs["PV"]["PGM:Energy:RBV"]["pvname"]).get():
-					epics.PV("VOLTAGE:VALIDATION").put(1)
+					epics.PV("HESEB:VoltageValidation").put(1)
 	time.sleep(1)

@@ -9,8 +9,8 @@ HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent
 
     ui->I0_It->setEnabled(false);
 
-    this->I0_run     = new QEpicsPV("I0:RUN");
-    this->It_run     = new QEpicsPV("It:RUN");
+    this->I0_run     = new QEpicsPV("HESEB:I0:IntTime");
+    this->It_run     = new QEpicsPV("HESEB:It:IntTime");
 
     this->timer = new QTimer;
     this->timer->start(500);
@@ -120,14 +120,14 @@ void HESEB_ScanTool_LiveDataPlotting::check()
 void HESEB_ScanTool_LiveDataPlotting::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Escape) {
-        Client::writePV("VOLTAGE:VALIDATION", 1);
+        Client::writePV("HESEB:VoltageValidation", 1);
         this->close();
     }
 }
 
 void HESEB_ScanTool_LiveDataPlotting::closeEvent(QCloseEvent *event)
 {
-    Client::writePV("VOLTAGE:VALIDATION", 1);
+    Client::writePV("HESEB:VoltageValidation", 1);
     this->close();
 }
 
@@ -135,10 +135,10 @@ void HESEB_ScanTool_LiveDataPlotting::on_qecheckbox_stateChanged(int arg1)
 {
     if(arg1 == Qt::Checked)
     {
-        Client::writePV("SCAN:STOP", 0);
+        Client::writePV("HESEB:ScanStop", 0);
     }
     else
     {
-        Client::writePV("SCAN:STOP", 1);
+        Client::writePV("HESEB:ScanStop", 1);
     }
 }

@@ -21,10 +21,6 @@ HESEB_ScanTool_I0::HESEB_ScanTool_I0(QWidget *parent)
     this->checkLogs->start(100);
     connect(checkLogs,SIGNAL(timeout()),this,SLOT(logs()));
 
-    checkPath = new QTimer(this);
-    this->checkPath->start(500);
-    connect(checkPath,SIGNAL(timeout()),this,SLOT(path()));
-
     ui->scanStatusPV->setHidden(true);
 }
 
@@ -35,7 +31,7 @@ HESEB_ScanTool_I0::~HESEB_ScanTool_I0()
 
 void HESEB_ScanTool_I0::on_SEDPathDir_clicked()
 {
-    QString file = QFileDialog::getOpenFileName(this, "Open",SED_Path);
+    QString file = QFileDialog::getOpenFileName(this, "Open", ui->SEDPathVal->text().trimmed());
     QDesktopServices::openUrl(QUrl(file, QUrl::TolerantMode));
 }
 
@@ -48,18 +44,6 @@ void HESEB_ScanTool_I0::logs()
            string line = getLastLine(file);
            QString log = QString::fromUtf8(line.c_str());
            ui->logs->setText(log);
-       }
-}
-
-void HESEB_ScanTool_I0::path()
-{
-    ifstream file("/home/control/HESEBScanTool/tmp/SEDPath.txt");
-
-       if (file)
-       {
-           string line = getLastLine(file);
-           SED_Path = QString::fromUtf8(line.c_str());
-           ui->SEDPathVal->setText(SED_Path);
        }
 }
 

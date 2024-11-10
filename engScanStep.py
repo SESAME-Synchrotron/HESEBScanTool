@@ -31,17 +31,12 @@ class ENGSCANSTEP(HESEB_STEP):
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
-		self.PVs["SCAN:Start"].put(self.startScanTime)
+		self.PVs["ScanStartTime"].put(self.startScanTime)
 		log.info(f"Scan started at: {self.startScanTime}")
 
 		self.clearPlot()
 
 		log.info("Start data collection ...")
-		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
-		self.PVs["USERINFO:Email"].put(self.userinfo["Email"])
-		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
-		self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
-		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
 		points = map(lambda intv: self.drange(intv["Startpoint"], intv["Endpoint"], intv["Stepsize"]), self.cfg["Intervals"])
 		expData = {} # Experimental Data 
 
@@ -56,12 +51,12 @@ class ENGSCANSTEP(HESEB_STEP):
 			CLIMessage("Interval# {}".format(interval), "I")
 			print("#####################################################")
 
-			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
-			self.PVs["SCAN:Nscans"].put(self.cfg["Nscans"])
-			self.PVs["SCAN:NIntervals"].put(self.cfg["NIntervals"])
-			self.PVs["SCAN:CurrentSample"].put(sample)
-			self.PVs["SCAN:CurrentScan"].put(scan)
-			self.PVs["SCAN:CurrentInterval"].put(interval)
+			self.PVs["NSamples"].put(self.cfg["Nsamples"])
+			self.PVs["NScans"].put(self.cfg["Nscans"])
+			self.PVs["NIntervals"].put(self.cfg["NIntervals"])
+			self.PVs["CurrentSample"].put(sample)
+			self.PVs["CurrentScan"].put(scan)
+			self.PVs["CurrentInterval"].put(interval)
 			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1 
 			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1 
 			self.MoveSmpZ(self.cfg["Samplespositions"][sample-1]["Zposition"]) # becuase sample starts from 1 
@@ -150,7 +145,7 @@ class ENGSCANSTEP(HESEB_STEP):
 				(A) Ignore writing the 1st point, and, 
 				(B) Ignore writing data during pausing (shutter stopped, current goes below the limits)
 				"""
-				if counter == 0 or self.PVs["SCAN:pause"].get()==1:  
+				if counter == 0 or self.PVs["ScanPause"].get()==1:  
 					pauseCounter = pauseCounter + 1 
 					pass
 				else:
@@ -158,12 +153,12 @@ class ENGSCANSTEP(HESEB_STEP):
 					
 					elapsedScanTime = timeModule.timer(startTime)					
 					
-					self.PVs["SCAN:Elapse"].put(elapsedScanTime)
+					self.PVs["ElapsedTime"].put(elapsedScanTime)
 					log.info(f"Elapse time scan for scan point ({counter}) is: {elapsedScanTime}")
 
 				counter = counter +1
 
-				stopScan = self.PVs["SCAN:Stop"].get()
+				stopScan = self.PVs["ScanStop"].get()
 				if int(stopScan) == 1:   # exit from for loop (child) when stop is clicked
 					log.warning("Scan tool has been stopped by human action")
 					breakTag = 1
@@ -191,5 +186,5 @@ class ENGSCANSTEP(HESEB_STEP):
 		self.dataTransfer()
 		# shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
-		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
+		self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source
 		

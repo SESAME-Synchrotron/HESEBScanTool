@@ -57,7 +57,7 @@ class ConfigGUI:
 
 	def onClose(self): 
 		CLIMessage("===========    Close the scanning tool    ===========","W")
-		epics.PV("SCAN:STOP").put(1)
+		epics.PV("HESEB:ScanStop").put(1)
 		sys.exit()
 
 	def CheckExptype(self):

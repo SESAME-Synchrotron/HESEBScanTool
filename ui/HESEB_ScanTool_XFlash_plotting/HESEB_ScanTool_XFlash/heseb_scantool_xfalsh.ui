@@ -94,25 +94,25 @@ padding: 0 3px 0 3px;</string>
          <string>X,Y</string>
         </property>
         <property name="DataVariableX" stdset="0">
-         <string>PLOT:Energy</string>
+         <string>HESEB:Plot:Energy</string>
         </property>
         <property name="DataVariableA" stdset="0">
-         <string>PLOT:If</string>
+         <string>HESEB:Plot:If</string>
         </property>
         <property name="DataVariableB" stdset="0">
-         <string>PLOT:AbsFlu</string>
+         <string>HESEB:Plot:AbsFlu</string>
         </property>
         <property name="DataVariableC" stdset="0">
          <string/>
         </property>
         <property name="SizeVariableX" stdset="0">
-         <string>PLOT:Energy.NORD</string>
+         <string>HESEB:Plot:Energy.NORD</string>
         </property>
         <property name="SizeVariableA" stdset="0">
-         <string>PLOT:If.NORD</string>
+         <string>HESEB:Plot:If.NORD</string>
         </property>
         <property name="SizeVariableB" stdset="0">
-         <string>PLOT:AbsFlu.NORD</string>
+         <string>HESEB:Plot:AbsFlu.NORD</string>
         </property>
         <property name="SizeVariableC" stdset="0">
          <string/>
