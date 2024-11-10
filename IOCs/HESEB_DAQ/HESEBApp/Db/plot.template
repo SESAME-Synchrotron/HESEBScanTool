@@ -1,0 +1,72 @@
+# Database for EPICS PVs for HESEB beamline data collection software
+# This database contains all of the PVs (Metadata) used for data plotting.
+
+record(waveform, "$(P)Plot:Energy")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:I0")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:I0:Index")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:It")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:It:Index")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:It2")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:AbsTr")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:AbsTr2")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:If")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:AbsFlu")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
