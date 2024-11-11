@@ -1,7 +1,7 @@
 import os
 import sys
 import time
-import multiprocessing
+import threading
 from os.path import exists
 from epics import PV
 
@@ -142,8 +142,8 @@ if __name__ == "__main__":
 	except:
 		pass
 
-	p1 = multiprocessing.Process(target=dataToWaveForm, args=())
-	p1.start()
+	thread = threading.Thread(target=dataToWaveForm, args=(), daemon=True)
+	thread.start()
 
 	intTime_ = I0IntTimeGUI.get()		# Integration time from GUI
 	NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
@@ -164,7 +164,7 @@ if __name__ == "__main__":
 			time.sleep(0.1)
 
 		currentPicoRead = I0Acquire.get()
-		i =+1
+		i = i + 1
 		I0_run = I0Run.get()
 
 		appendNewLine(dataFilePath, str(currentPicoRead))

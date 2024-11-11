@@ -17,8 +17,8 @@ from SEDSS.SEDTmuxSession import tmuxSession
 # from ROIs import ROIs
 
 class ENGSCANSTEP(HESEB_STEP):
-	def __init__(self, paths, cfg, testingMode = "No"):
-		super().__init__(paths, cfg, testingMode)
+	def __init__(self, cfg, testingMode = "No"):
+		super().__init__(cfg, testingMode)
 
 	def startScan(self):
 		counter = 0 

@@ -210,25 +210,25 @@ class HESEB:
 		self.AbsTr2	= []
 		self.If		= []
 		self.AbsFlu	= []
-		self.PVs["HESEB:Plot:Energy"].put(self.Energy)
-		self.PVs["HESEB:Plot:I0"].put(self.I0)
-		self.PVs["HESEB:Plot:It"].put(self.It)
-		self.PVs["HESEB:Plot:It2"].put(self.It2)
-		self.PVs["HESEB:Plot:AbsTr"].put(self.AbsTr)
-		self.PVs["HESEB:Plot:AbsTr2"].put(self.AbsTr2)
-		self.PVs["HESEB:Plot:If"].put(self.If)
-		self.PVs["HESEB:Plot:AbsFlu"].put(self.AbsFlu)
+		self.PVs["Plot:Energy"].put(self.Energy)
+		self.PVs["Plot:I0"].put(self.I0)
+		self.PVs["Plot:It"].put(self.It)
+		self.PVs["Plot:It2"].put(self.It2)
+		self.PVs["Plot:AbsTr"].put(self.AbsTr)
+		self.PVs["Plot:AbsTr2"].put(self.AbsTr2)
+		self.PVs["Plot:If"].put(self.If)
+		self.PVs["Plot:AbsFlu"].put(self.AbsFlu)
 
 	def setPlotData(self):
 		log.info("Setting plots data")
-		self.PVs["HESEB:Plot:Energy"].put(self.Energy)
-		self.PVs["HESEB:Plot:I0"].put(self.I0)
-		self.PVs["HESEB:Plot:It"].put(self.It)
-		self.PVs["HESEB:Plot:It2"].put(self.It2)
-		self.PVs["HESEB:Plot:AbsTr"].put(self.AbsTr[1:])
-		self.PVs["HESEB:Plot:AbsTr2"].put(self.AbsTr2)
-		self.PVs["HESEB:Plot:If"].put(self.If)
-		self.PVs["HESEB:Plot:AbsFlu"].put(self.AbsFlu)
+		self.PVs["Plot:Energy"].put(self.Energy)
+		self.PVs["Plot:I0"].put(self.I0)
+		self.PVs["Plot:It"].put(self.It)
+		self.PVs["Plot:It2"].put(self.It2)
+		self.PVs["Plot:AbsTr"].put(self.AbsTr[1:])
+		self.PVs["Plot:AbsTr2"].put(self.AbsTr2)
+		self.PVs["Plot:If"].put(self.If)
+		self.PVs["Plot:AbsFlu"].put(self.AbsFlu)
 
 	def checkPause(self):
 		diffTime = 0
@@ -251,6 +251,7 @@ class HESEB:
 		ringLowerCurrent = self.scanLimits["SRLowerCurrent"]
 		ringUpperCurrent = self.scanLimits["SRUpperCurrent"]
 		KeithelyI0LowerLimit = self.scanLimits["KEITHELY_I0LowerRBV"]
+		KeithelyI0ReadOutPV = epics.PV(self.KeithelyI0PV["PV"]["picoAmmeterI0AcqReadOut"]["pvname"])
 
 		"""
 		setup writing flags to avoid continues writing logs in the log file
@@ -264,7 +265,7 @@ class HESEB:
 			photonShutterStatus = self.PVs["photonShutter:Status"].get()
 			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
 			currentCurrent = self.PVs["RING:Current"].get()
-			KeithelyI0ReadOut = self.PVs["picoAmmeterI0AcqReadOut"].get()
+			KeithelyI0ReadOut = KeithelyI0ReadOutPV.get()
 
 			################### Check current parameters ###############
 			if ringLowerCurrent <= currentCurrent <= ringUpperCurrent:

@@ -9,8 +9,8 @@ HESEB_ScanTool_I0_ItvsTime::HESEB_ScanTool_I0_ItvsTime(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->I0_run = new QEpicsPV("HESEB:Run:");
-    this->It_run = new QEpicsPV("HESEB:Run:");
+    this->I0_run = new QEpicsPV("HESEB:Run:I0");
+    this->It_run = new QEpicsPV("HESEB:Run:It");
 
     this->I0_intTime     = new QEpicsPV("HESEB:I0:IntTime");
     this->It_intTime     = new QEpicsPV("HESEB:It:IntTime");

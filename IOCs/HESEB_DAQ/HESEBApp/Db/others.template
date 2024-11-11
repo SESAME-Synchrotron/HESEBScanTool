@@ -7,7 +7,7 @@ record(bo, "$(P)Run:I0")
 	field(VAL , "0")
 	field(ZNAM, "Start Plotting")
 	field(ONAM, "Stop plotting")
-	field(PINI, "YES)
+	field(PINI, "YES")
 }
 
 record(bo, "$(P)Run:It")
@@ -16,7 +16,7 @@ record(bo, "$(P)Run:It")
 	field(VAL , "0")
 	field(ZNAM, "Start Plotting")
 	field(ONAM, "Stop plotting")
-	field(PINI, "YES)
+	field(PINI, "YES")
 }
 
 record(ao, "$(P)I0:IntTime")

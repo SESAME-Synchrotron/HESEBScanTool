@@ -35,10 +35,10 @@ if __name__ == "__main__":
 	cfg['scanType'] = 'contScan'		 # temporary hard codded until adding Mapping scan 
 
 	if cfg['scanType'] == 'stepEngScan':
-		ENGSCANSTEP(paths=paths, cfg=cfg, testingMode=tMode)
+		ENGSCANSTEP(cfg=cfg, testingMode=tMode)
 	if cfg['scanType'] == 'contScan':
-		ENGSCANCONT(paths=paths, cfg=cfg, testingMode=tMode)
+		ENGSCANCONT(cfg=cfg, testingMode=tMode)
 	# elif cfg['scanType'] == 'stepMapScan':
-	# 	MAPSCAN(paths=paths, cfg=cfg, testingMode=tMode)
+	# 	MAPSCAN(cfg=cfg, testingMode=tMode)
 
 	sys.exit(app.exit())

@@ -5,8 +5,8 @@ from heseb import HESEB
 from SEDSS.CLIMessage import CLIMessage
 
 class HESEB_STEP(HESEB):
-	def __init__(self, paths, cfg, testingMode):
-		super().__init__(paths, cfg, testingMode)
+	def __init__(self, cfg, testingMode):
+		super().__init__(cfg, testingMode)
 
 	def MovePGM(self, SP, currentScanInfo=None):
 

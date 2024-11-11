@@ -9,8 +9,8 @@ HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent
 
     ui->I0_It->setEnabled(false);
 
-    this->I0_run     = new QEpicsPV("HESEB:I0:IntTime");
-    this->It_run     = new QEpicsPV("HESEB:It:IntTime");
+    this->I0_run     = new QEpicsPV("HESEB:Run:I0");
+    this->It_run     = new QEpicsPV("HESEB:Run:It");
 
     this->timer = new QTimer;
     this->timer->start(500);
