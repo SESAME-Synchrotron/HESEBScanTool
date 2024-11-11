@@ -6,26 +6,39 @@ Continuous energy scan derived class
 import os
 import time
 import threading
-import shutil 
+import shutil
 import decimal
+from epics import PV
 
 import log
 from heseb_cont import HESEB_CONT
 from SEDSS.CLIMessage import CLIMessage
 from xdiWriter import XDIWriter
-from SEDSS.SEDSupport import timeModule 
+from SEDSS.SEDSupport import timeModule
 from SEDSS.SEDTmuxSession import tmuxSession
 # from ROIs import ROIs
 
 class ENGSCANCONT(HESEB_CONT):
-	def __init__(self, paths, cfg, testingMode = "No"):
-		super().__init__(paths, cfg, testingMode)
+	def __init__(self, cfg, testingMode = "No"):
+		super().__init__(cfg, testingMode)
 		self.lock = False
 
+		self.grating = "I11R1-MO-MC2:OH-GRATING-STP-ROTX"
+		self.gratingRBV   = PV(self.grating + ".RBV")
+		self.gratingVal   = PV(self.grating + ".VAL")
+		self.gratingVelo  = PV(self.grating + ".VELO")
+		self.gratingSpeed = PV(self.grating + ".VMAX")
+
+		self.m2 = "I11R1-MO-MC2:OH-M2-STP-ROTX"
+		self.m2RBV   = PV(self.grating + ".RBV")
+		self.m2Val   = PV(self.grating + ".VAL")
+		self.m2Velo  = PV(self.grating + ".VELO")
+		self.m2Speed = PV(self.grating + ".VMAX")
+
 	def startScan(self):
-		counter = 0 
+		counter = 0
 		pauseCounter = 0
-		breakTag = 0 
+		breakTag = 0
 		startTime = time.time()
 
 		# allROIs = ROIs()
@@ -33,19 +46,14 @@ class ENGSCANCONT(HESEB_CONT):
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
-		self.PVs["SCAN:Start"].put(self.startScanTime)
+		self.PVs["ScanStartTime"].put(self.startScanTime)
 		log.info(f"Scan started at: {self.startScanTime}")
 
 		self.clearPlot()
 
 		log.info("Start data collection ...")
-		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
-		self.PVs["USERINFO:Email"].put(self.userinfo["Email"])
-		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
-		self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
-		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
 		points = map(lambda intv: self.drange(intv["Startpoint"], intv["Endpoint"], intv["Stepsize"]), self.cfg["Intervals"])
-		expData = {} # Experimental Data 
+		expData = {} # Experimental Data
 
 		self.plotting()
 
@@ -58,31 +66,45 @@ class ENGSCANCONT(HESEB_CONT):
 			CLIMessage("Interval# {}".format(interval), "I")
 			print("#####################################################")
 
-			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
-			self.PVs["SCAN:Nscans"].put(self.cfg["Nscans"])
-			self.PVs["SCAN:NIntervals"].put(self.cfg["NIntervals"])
-			self.PVs["SCAN:CurrentSample"].put(sample)
-			self.PVs["SCAN:CurrentScan"].put(scan)
-			self.PVs["SCAN:CurrentInterval"].put(interval)
+			self.PVs["NSamples"].put(self.cfg["Nsamples"])
+			self.PVs["NScans"].put(self.cfg["Nscans"])
+			self.PVs["NIntervals"].put(self.cfg["NIntervals"])
+			self.PVs["CurrentSample"].put(sample)
+			self.PVs["CurrentScan"].put(scan)
+			self.PVs["CurrentInterval"].put(interval)
 
-			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1 
-			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1 
-			self.MoveSmpZ(self.cfg["Samplespositions"][sample-1]["Zposition"]) # becuase sample starts from 1 
-			self.MoveSmpRot(self.cfg["Samplespositions"][sample-1]["Rotation"]) # becuase sample starts from 1 
+			self.MoveSmpX(self.cfg["Samplespositions"][sample-1]["Xposition"]) # becuase sample starts from 1
+			self.MoveSmpY(self.cfg["Samplespositions"][sample-1]["Yposition"]) # becuase sample starts from 1
+			self.MoveSmpZ(self.cfg["Samplespositions"][sample-1]["Zposition"]) # becuase sample starts from 1
+			self.MoveSmpRot(self.cfg["Samplespositions"][sample-1]["Rotation"]) # becuase sample starts from 1
 
 			currentInterval = self.cfg["Intervals"][interval-1]
 			startPoint = currentInterval["Startpoint"]
 			endPoint = currentInterval["Endpoint"]
 			stepSize = currentInterval["Stepsize"]
 			picoAmmIntTime = currentInterval["picoAmmIntTime"]
-			
+
 			points = self.drange(startPoint, endPoint, stepSize)
 			scanTime = self.getStepMovementTime(picoAmmIntTime, len(points))
 
 			print(f"Energy Start: {self.start}, Energy End: {self.end}")
-			print("move PGM to start point")
+
+			self.motors["PGM:Grating"].put("stop_go", 0) # Stop
+			time.sleep(0.1)
+			self.motors["PGM:M2"].put("stop_go", 0) # Stop
+
+			self.gratingVelo.put(float(self.gratingSpeed.get()))
+			self.m2Velo.put(float(self.m2Speed.get()))
+
+			print("move PGM to start point at default speed")
 			self.MovePGM(startPoint)
+
+			self.motors["PGM:Grating"].put("stop_go", 0) # Stop
+			time.sleep(0.1)
+			self.motors["PGM:M2"].put("stop_go", 0) # Stop
+
 			print("go to end point ...")
+			log.info(f"scan time: {scanTime}s")
 			moveThread = threading.Thread(target=self.MovePGM, args=(endPoint, scanTime), daemon=True)
 			moveThread.start()
 
@@ -101,7 +123,7 @@ class ENGSCANCONT(HESEB_CONT):
 						currentScanInfo.append({"Interval":interval})
 						currentScanInfo.append({"RINGCurrent":self.PVs["RING:Current"].get()})
 						currentScanInfo.append({"sampleTitle":self.cfg["Samplespositions"][sample-1]["sampleTitle"]})
-						currentScanInfo.append({"TargetSP":val})		# tmp, delete the following line 
+						currentScanInfo.append({"TargetSP":val})		# tmp, delete the following line
 
 						args= {}
 						args["picoAmmIntTime"] = picoAmmIntTime
@@ -115,10 +137,10 @@ class ENGSCANCONT(HESEB_CONT):
 							detThreadList.append(detThreading)
 
 						log.info("Start detectors threads")
-						for thread in detThreadList: 
+						for thread in detThreadList:
 							thread.start()
 
-						log.info("Joining the detector threads") 
+						log.info("Joining the detector threads")
 						for thread in detThreadList:
 							thread.join()
 
@@ -129,7 +151,7 @@ class ENGSCANCONT(HESEB_CONT):
 						log.info("Applying post acquisition for selected detectors if applicable")
 						for det in self.detectors:
 							det.postACQ(ACQdata)
-							ACQdata={**ACQdata, **det.data} 
+							ACQdata={**ACQdata, **det.data}
 							expData.update(ACQdata)
 
 						Energy = energyRBV
@@ -144,7 +166,7 @@ class ENGSCANCONT(HESEB_CONT):
 						ACQdata["ENERGY-RBK"] =	Energy
 						expData.update(ACQdata)
 						I0Dp = ACQdata["KEITHLEY_I0"]
-						
+
 						if "KEITHLEY_Itrans" in self.cfg["detectors"]:
 							ItDp = ACQdata["KEITHLEY_Itrans"]
 							AbsorptionTrDp = ItDp / I0Dp
@@ -167,31 +189,35 @@ class ENGSCANCONT(HESEB_CONT):
 						log.info("Writing data to xdi file")
 						# log.info("collect all ROIs")
 						# allROIs.acquire()
-						
+
 						"""
-						(A) Ignore writing the 1st point, and, 
+						(A) Ignore writing the 1st point, and,
 						(B) Ignore writing data during pausing (shutter stopped, current goes below the limits)
 						"""
-						scanPaused = self.PVs["SCAN:pause"].get()
+						scanPaused = self.PVs["ScanPause"].get()
 						if counter == 0 or scanPaused == 1:
-							pauseCounter = pauseCounter + 1 
+							pauseCounter = pauseCounter + 1
 						else:
 							XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, currentScanInfo)
 
-							elapsedScanTime = timeModule.timer(startTime)					
-							self.PVs["SCAN:Elapse"].put(elapsedScanTime)
+							elapsedScanTime = timeModule.timer(startTime)
+							self.PVs["ElapsedTime"].put(elapsedScanTime)
 
 						"""
 						Stop PGM in case scan paused
 						"""
 						if scanPaused == 1:
-							# self.PVs["DCM:Ctrl"].put(1)
-							while self.PVs["SCAN:pause"].get() == 1:
+							self.motors["PGM:Grating"].put("stop_go", 1) # Pause
+							time.sleep(0.1)
+							self.motors["PGM:M2"].put("stop_go", 1) # Pause
+							while self.PVs["ScanPause"].get() == 1:
 								time.sleep(0.005)
-							# self.PVs["DCM:Ctrl"].put(3)
-							# self.motors["DCM:Energy:SP"].move(endPoint)		
+							self.motors["PGM:Grating"].put("stop_go", 3) # Go
+							time.sleep(0.1)
+							self.motors["PGM:M2"].put("stop_go", 3) # Go
+							# self.motors["DCM:Energy:SP"].move(endPoint)
 
-						stopScan = self.PVs["SCAN:Stop"].get()
+						stopScan = self.PVs["ScanStop"].get()
 						if int(stopScan) == 1:   # exit from for loop (child) when stop is clicked
 							log.warning("Scan tool has been stopped by human action")
 							breakTag = 1
@@ -214,12 +240,14 @@ class ENGSCANCONT(HESEB_CONT):
 		log.info("Data file folder: {}".format(self.localDataPath))
 		CLIMessage("Data file folder: {}".format(self.localDataPath),"M")
 		print("#################################################")
+		self.gratingVelo.put(float(self.gratingSpeed.get()))
+		self.m2Velo.put(float(self.m2Speed.get()))
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
 		# shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
-		self.PVs["SCAN:Stop"].put(1)	# to make the interlock of voltage source
+		self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source
 
 	def getStepMovementTime(self, time, points):
 		detectors = self.cfg['detectors']
@@ -246,14 +274,18 @@ class ENGSCANCONT(HESEB_CONT):
 			r += step
 
 		return points
-	
+
 	def signal_handler(self, sig, frame):
 		if not self.lock:
 			self.lock = True
 			log.warning("stop PGM")
-			# self.PVs["DCM:Ctrl"].put(0)
-			time.sleep(1)
-			# self.PVs["DCM:Ctrl"].put(3)
-			# self.PVs["DCM:Speed"].put(float(self.scanLimits["monoThetaDefaultSpeed"]))
+			self.motors["PGM:Grating"].put("stop_go", 0) # Stop
+			time.sleep(0.1)
+			self.motors["PGM:M2"].put("stop_go", 0) # Stop
+			time.sleep(0.1)
+			self.motors["PGM:Grating"].put("stop_go", 3) # Go
+			time.sleep(0.1)
+			self.motors["PGM:M2"].put("stop_go", 3) # Go
+			self.gratingVelo.put(float(self.gratingSpeed.get()))
+			self.m2Velo.put(float(self.m2Speed.get()))
 			super().signal_handler(sig, frame)
-		

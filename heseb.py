@@ -52,7 +52,7 @@ class HESEB:
 		log.info("Experiment scan limits: ({})".format(json.dumps(self.scanLimits, indent=2, sort_keys=True)))
 		CLIMessage("Configurations to be implemented: {}".format(self.cfg), "M")
 		self.detChosen = None
-		self.userinfo	= Common.loadjson("configurations/userinfo.json")
+		self.userinfo = Common.loadjson("configurations/userinfo.json")
 		self.initPaths()
 		self.initPGM()
 		self.initDetectors()
