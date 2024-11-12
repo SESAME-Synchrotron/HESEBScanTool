@@ -2,15 +2,21 @@ import os
 import sys
 import time
 import threading
+import argparse
 from os.path import exists
+from tendo import singleton
 from epics import PV
+
+try:
+	me = singleton.SingleInstance()
+except:
+	sys.exit()
 
 dataFilePath = "I0.txt"
 indexFilePath = "I0_Index.txt"
 
 I0Plot = PV("HESEB:Plot:I0")
 I0Index = PV("HESEB:Plot:I0:Index")
-I0IntTimeGUI = PV("HESEB:I0:IntTime")
 I0Reset = PV("K6487:1:RST.PROC")
 I0Damping = PV("K6487:1:Damping")
 I0Sampling = PV("K6487:1:TimePerSampleStep")
@@ -18,6 +24,9 @@ I0Run = PV("HESEB:Run:I0")
 I0IntTime = PV("K6487:1:IntegrationTime")
 I0Acquire = PV("K6487:1:Acquire")
 I0AcquireProc = PV("K6487:1:Acquire.PROC")
+
+I0Plot.put(0, wait=True)
+I0Index.put(0, wait=True)
 
 def appendNewLine(fileName, txt):
 	""" Append given text as a new line at the end of file """
@@ -136,6 +145,11 @@ def dataToWaveForm():
 
 if __name__ == "__main__":
 
+	parser = argparse.ArgumentParser(description='HESEB Live Data Visualization (I0 vs Time)')
+	parser.add_argument('time', type=float)
+	args = parser.parse_args()
+	intTime = args.time
+
 	try:
 		os.remove(dataFilePath)
 		os.remove(indexFilePath)
@@ -145,15 +159,14 @@ if __name__ == "__main__":
 	thread = threading.Thread(target=dataToWaveForm, args=(), daemon=True)
 	thread.start()
 
-	intTime_ = I0IntTimeGUI.get()		# Integration time from GUI
-	NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
+	NPLC, ActualIntTime = getNPLC_IntTime(intTime)
 	I0Reset.put(1)		# Apply soft reset before start collecting data
 	I0Damping.put(0) 	# disable damping
 	I0Sampling.put(0) 	# put 0 in time per step sample
 	I0_run = I0Run.get()	# trigger to start (0:Start, 1:Stop)
 
 	i = 0
-	while(I0_run == 0 and i < 3001):
+	while(I0_run == 1 and i < 3001):
 
 		I0Sampling.put(ActualIntTime)
 		I0IntTime.put(NPLC)
@@ -169,8 +182,3 @@ if __name__ == "__main__":
 
 		appendNewLine(dataFilePath, str(currentPicoRead))
 		appendNewLine(indexFilePath, str(i))
-
-	I0_run = I0Run.get()
-	if (I0_run == 1 or i >= 3000):
-		PV("HESEB:VoltageValidation").put(1)
-		sys.exit()

@@ -2,21 +2,30 @@ import os
 import sys
 import time
 import threading
+import argparse
 from os.path import exists
+from tendo import singleton
 from epics import PV
+
+try:
+	me = singleton.SingleInstance()
+except:
+	sys.exit()
 
 dataFilePath = "It.txt"
 indexFilePath = "It_Index.txt"
 
 ItPlot = PV("HESEB:Plot:It")
 ItIndex = PV("HESEB:Plot:It:Index")
-ItIntTimeGUI = PV("HESEB:It:IntTime")
 ItReset = PV("K6485:1:RST.PROC")
 ItSampling = PV("K6485:1:TimePerSampleStep")
 ItRun = PV("HESEB:Run:It")
 ItIntTime = PV("K6485:1:IntegrationTime")
 ItAcquire = PV("K6485:1:Acquire")
 ItAcquireProc = PV("K6485:1:Acquire.PROC")
+
+ItPlot.put(0, wait=True)
+ItIndex.put(0, wait=True)
 
 def appendNewLine(fileName, txt):
 	"""Append given text as a new line at the end of file"""
@@ -135,6 +144,11 @@ def dataToWaveForm():
 
 if __name__ == "__main__":
 
+	parser = argparse.ArgumentParser(description='HESEB Live Data Visualization (It vs Time)')
+	parser.add_argument('time', type=float)
+	args = parser.parse_args()
+	intTime = args.time
+
 	try:
 		os.remove(dataFilePath)
 		os.remove(indexFilePath)
@@ -144,14 +158,13 @@ if __name__ == "__main__":
 	thread = threading.Thread(target=dataToWaveForm, args=(), daemon=True)
 	thread.start()
 
-	intTime_ = ItIntTimeGUI.get()		# Integration time from GUI
-	NPLC, ActualIntTime = getNPLC_IntTime(intTime_)
+	NPLC, ActualIntTime = getNPLC_IntTime(intTime)
 	ItReset.put(1)		# Apply soft reset before start collecting data
 	ItSampling.put(0) 	# put 0 in time per step sample
 	It_run = ItRun.get()	# trigger to start (0:Start, 1:Stop)
 
 	i = 0
-	while(It_run == 0 and i < 3001):
+	while(It_run == 1 and i < 3001):
 
 		ItSampling.put(ActualIntTime)
 		ItIntTime.put(NPLC)
@@ -167,8 +180,3 @@ if __name__ == "__main__":
 
 		appendNewLine(dataFilePath, str(currentPicoRead))
 		appendNewLine(indexFilePath, str(i))
-
-	It_run = ItRun.get()
-	if (It_run == 1 or i >= 3000):
-		PV("HESEB:VoltageValidation").put(1)
-		sys.exit()

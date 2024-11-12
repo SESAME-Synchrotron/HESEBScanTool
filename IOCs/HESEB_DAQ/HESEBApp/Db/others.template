@@ -5,8 +5,8 @@ record(bo, "$(P)Run:I0")
 {
 	field(DESC, "I0 live data plotting")
 	field(VAL , "0")
-	field(ZNAM, "Start Plotting")
-	field(ONAM, "Stop plotting")
+	field(ZNAM, "Stopped")
+	field(ONAM, "Started")
 	field(PINI, "YES")
 }
 
@@ -14,17 +14,7 @@ record(bo, "$(P)Run:It")
 {
 	field(DESC, "It live data plotting")
 	field(VAL , "0")
-	field(ZNAM, "Start Plotting")
-	field(ONAM, "Stop plotting")
+	field(ZNAM, "Stopped")
+	field(ONAM, "Started")
 	field(PINI, "YES")
-}
-
-record(ao, "$(P)I0:IntTime")
-{
-	field(DESC, "I0 integration time")
-}
-
-record(ao, "$(P)It:IntTime")
-{
-	field(DESC, "It integration time")
 }
