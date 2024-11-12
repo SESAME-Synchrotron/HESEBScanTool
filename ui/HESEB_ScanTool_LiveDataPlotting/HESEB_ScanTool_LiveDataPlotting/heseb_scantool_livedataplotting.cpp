@@ -6,18 +6,6 @@ HESEB_ScanTool_LiveDataPlotting::HESEB_ScanTool_LiveDataPlotting(QWidget *parent
     , ui(new Ui::HESEB_ScanTool_LiveDataPlotting)
 {
     ui->setupUi(this);
-
-    ui->I0_It->setEnabled(false);
-
-    this->I0_run     = new QEpicsPV("HESEB:Run:I0");
-    this->It_run     = new QEpicsPV("HESEB:Run:It");
-
-    this->timer = new QTimer;
-    this->timer->start(500);
-
-    interlock = 0;
-
-    connect(this->timer,SIGNAL(timeout()),this, SLOT(check()));
 }
 
 HESEB_ScanTool_LiveDataPlotting::~HESEB_ScanTool_LiveDataPlotting()
@@ -57,21 +45,9 @@ void HESEB_ScanTool_LiveDataPlotting::on_It_closed()
     isItOpened = false;
 }
 
-void HESEB_ScanTool_LiveDataPlotting::on_I0_It_clicked()
+void HESEB_ScanTool_LiveDataPlotting::on_enableVoltageSource_stateChanged(int arg1)
 {
-    if(!isI0ItOpened){
-        I0_Itrans = new HESEB_ScanTool_I0_ItvsTime(this);
-        I0_Itrans->setAttribute(Qt::WA_DeleteOnClose);
-        connect(I0_Itrans, &QObject::destroyed, this, &HESEB_ScanTool_LiveDataPlotting::on_I0_closed);
-        //    I0_Itrans->show();
-        interlock = 1;
-        isI0ItOpened = true;
-    }
-}
-
-void HESEB_ScanTool_LiveDataPlotting::on_I0_It_closed()
-{
-    isI0ItOpened = false;
+    Client::writePV("HESEB:ScanStop", arg1 == Qt::Checked? 0 : 1);
 }
 
 void HESEB_ScanTool_LiveDataPlotting::on_help_clicked()
@@ -79,66 +55,16 @@ void HESEB_ScanTool_LiveDataPlotting::on_help_clicked()
     QDesktopServices::openUrl(QUrl("https://hesebscantool.readthedocs.io/en/latest/runScan.html#live-data-plotting"));
 }
 
-void HESEB_ScanTool_LiveDataPlotting::check()
-{
-    if (this->I0_run->get().toFloat() == 0)
-    {
-        ui->I0_sts->setText("In Process ...");
-    }
-
-    else
-        ui->I0_sts->setText("Stopped");
-
-    if (this->It_run->get().toFloat() == 0)
-    {
-        ui->It_sts->setText("In Process ...");
-    }
-
-    else
-        ui->It_sts->setText("Stopped");
-
-    if (this->It_run->get().toFloat() == 0 and this->I0_run->get().toFloat() == 0 and interlock == 1)
-    {
-//        ui->both_sts->setText("In Process ...");
-        ui->I0->setEnabled(false);
-        ui->It->setEnabled(false);
-    }
-
-    else
-    {
-//        ui->both_sts->setText("Stopped");
-        ui->I0->setEnabled(true);
-        ui->It->setEnabled(true);
-    }
-
-    if ((this->It_run->get().toFloat() == 0 or this->I0_run->get().toFloat() == 0))
-        ui->I0_It->setEnabled(false);
-    else
-        ui->I0_It->setEnabled(true);
-}
-
 void HESEB_ScanTool_LiveDataPlotting::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Escape) {
-        Client::writePV("HESEB:VoltageValidation", 1);
+        Client::writePV(voltageValidation, 1);
         this->close();
     }
 }
 
 void HESEB_ScanTool_LiveDataPlotting::closeEvent(QCloseEvent *event)
 {
-    Client::writePV("HESEB:VoltageValidation", 1);
+    Client::writePV(voltageValidation, 1);
     this->close();
-}
-
-void HESEB_ScanTool_LiveDataPlotting::on_qecheckbox_stateChanged(int arg1)
-{
-    if(arg1 == Qt::Checked)
-    {
-        Client::writePV("HESEB:ScanStop", 0);
-    }
-    else
-    {
-        Client::writePV("HESEB:ScanStop", 1);
-    }
 }

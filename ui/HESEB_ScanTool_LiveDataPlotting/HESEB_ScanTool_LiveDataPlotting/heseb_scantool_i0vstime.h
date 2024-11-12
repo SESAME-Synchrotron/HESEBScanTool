@@ -6,12 +6,8 @@
 #include <QDialog>
 #include <QMainWindow>
 
-#include <qepicspv.h>
 #include "client.h"
-#include <unistd.h>
 
-#include <QTimer>
-#include <QMessageBox>
 #include <QDir>
 #include <QProcess>
 
@@ -25,7 +21,7 @@ class HESEB_ScanTool_I0vsTime : public QDialog
 
 private slots:
 
-    void on_IntTime_editingFinished();
+    void on_IntTime_textEdited(const QString &arg1);
 
     void on_Start_clicked();
 
@@ -44,11 +40,14 @@ public:
 private:
     Ui::HESEB_ScanTool_I0vsTime *ui;
 
-    QEpicsPV* run;
-    QEpicsPV* intTime;
     moreVar *morevar;
 
+    bool exists = false;
     bool isOpened = false;
+
+    QList<float> validIntTimes = {0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 5, 6, 7, 8, 9};
+    QString runI0 = "HESEB:Run:I0";
+    QString workingDir = "/home/control/HESEBScanTool/ui/HESEB_ScanTool_LiveDataPlotting";
 };
 
 #endif // HESEB_SCANTOOL_I0VSTIME_H
