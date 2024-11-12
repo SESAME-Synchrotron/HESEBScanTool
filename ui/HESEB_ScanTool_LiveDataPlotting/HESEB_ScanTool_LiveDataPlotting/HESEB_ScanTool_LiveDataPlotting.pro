@@ -11,7 +11,6 @@ TARGET = $$(HOME)/bin/HESEB_ScanTool_LiveDataVisualization
 
 SOURCES += \
     client.cpp \
-    heseb_scantool_i0_itvstime.cpp \
     heseb_scantool_i0vstime.cpp \
     heseb_scantool_itvstime.cpp \
     main.cpp \
@@ -20,14 +19,12 @@ SOURCES += \
 
 HEADERS += \
     client.h \
-    heseb_scantool_i0_itvstime.h \
     heseb_scantool_i0vstime.h \
     heseb_scantool_itvstime.h \
     heseb_scantool_livedataplotting.h \
     morevar.h
 
 FORMS += \
-    heseb_scantool_i0_itvstime.ui \
     heseb_scantool_i0vstime.ui \
     heseb_scantool_itvstime.ui \
     heseb_scantool_livedataplotting.ui \
