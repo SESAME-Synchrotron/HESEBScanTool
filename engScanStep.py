@@ -14,7 +14,6 @@ from SEDSS.CLIMessage import CLIMessage
 from xdiWriter import XDIWriter
 from SEDSS.SEDSupport import timeModule 
 from SEDSS.SEDTmuxSession import tmuxSession
-# from ROIs import ROIs
 
 class ENGSCANSTEP(HESEB_STEP):
 	def __init__(self, cfg, testingMode = "No"):
@@ -25,9 +24,6 @@ class ENGSCANSTEP(HESEB_STEP):
 		pauseCounter = 0
 		breakTag = 0 
 		startTime = time.time()
-
-		# allROIs = ROIs()
-		# allROIs.create("ROIs.xdi")
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
@@ -138,9 +134,7 @@ class ENGSCANSTEP(HESEB_STEP):
 				self.setPlotData()
 
 				log.info("Writing data to xdi file")
-				# log.info("collect all ROIs")
-				# allROIs.acquire()
-				
+
 				"""
 				(A) Ignore writing the 1st point, and, 
 				(B) Ignore writing data during pausing (shutter stopped, current goes below the limits)
@@ -184,7 +178,5 @@ class ENGSCANSTEP(HESEB_STEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-		# shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source
-		

@@ -53,7 +53,13 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>motorSimIOC:FE-M1-STP-TRSY1</string>
+         <string>I11R1-MO-MC1:ES-STP-TRSY</string>
+        </property>
+        <property name="useDbPrecision">
+         <bool>false</bool>
+        </property>
+        <property name="addUnits">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -103,7 +109,13 @@
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="variable" stdset="0">
-         <string>motorSimIOC:FE-M1-STP-TRSX1</string>
+         <string>I11R1-MO-MC1:ES-STP-TRSX</string>
+        </property>
+        <property name="useDbPrecision">
+         <bool>false</bool>
+        </property>
+        <property name="addUnits">
+         <bool>false</bool>
         </property>
        </widget>
       </item>

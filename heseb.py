@@ -38,6 +38,18 @@ class HESEB:
 		# self.PVs["VoltageSource"].put(0)	# enable voltage source
 		epics.PV("HESEB:VoltageValidation").put(0)	# enable voltage source
 
+		self.grating = "I11R1-MO-MC2:OH-GRATING-STP-ROTX"
+		self.gratingRBV   = epics.PV(self.grating + ".RBV")
+		self.gratingVal   = epics.PV(self.grating + ".VAL")
+		self.gratingVelo  = epics.PV(self.grating + ".VELO")
+		self.gratingSpeed = epics.PV(self.grating + ".VMAX")
+
+		self.m2 = "I11R1-MO-MC2:OH-M2-STP-ROTX"
+		self.m2RBV   = epics.PV(self.m2 + ".RBV")
+		self.m2Val   = epics.PV(self.m2 + ".VAL")
+		self.m2Velo  = epics.PV(self.m2 + ".VELO")
+		self.m2Speed = epics.PV(self.m2 + ".VMAX")
+
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
 		self.voltageSourcePARAM = []
 		# get the values of voltage source parameters before reset

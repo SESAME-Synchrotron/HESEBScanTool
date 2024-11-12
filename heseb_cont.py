@@ -13,7 +13,7 @@ class HESEB_CONT(HESEB):
 		log.info(f"Move PGM to target energy: {SP}")
 
 		self.PVs["PGM:Energy:Reached"].put(0, wait=True) # set the energy reached pv to False before start moving the PGM
-		self.PVs["PGM:Energy:SP"].put(SP, wait=True) # set the energy to the PGM
+		self.PVs["PGM:Energy:SP"].put(SP, wait=True)
 		time.sleep(1)
 
 		if scanTime:
@@ -35,7 +35,7 @@ class HESEB_CONT(HESEB):
 		"""
 		while not self.motors["PGM:Grating"].get("DMOV") or not self.motors["PGM:M2"].get("DMOV") or int(self.PVs["PGM:Energy:Reached"].get(use_monitor=False)) != 1:
 			if currentScanInfo != None:
-				CLIMessage(f"PGM is moving to {SP} for Sample({currentScanInfo[0]["Sample"]}), Scan({currentScanInfo[1]["Scan"]}) and Interval({currentScanInfo[2]["Interval"]})", "IG")
+				CLIMessage(f"PGM is moving to {SP} for Sample({currentScanInfo[0]['Sample']}), Scan({currentScanInfo[1]['Scan']}) and Interval({currentScanInfo[2]['Interval']})", "IG")
 			else:
 				CLIMessage(f"PGM is moving to {SP:.4f}, RBV: {self.PVs['PGM:Energy:RBV'].get():.4f} ... ", "IG")
 			time.sleep(0.005)

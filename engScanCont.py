@@ -8,7 +8,6 @@ import time
 import threading
 import shutil
 import decimal
-from epics import PV
 
 import log
 from heseb_cont import HESEB_CONT
@@ -16,33 +15,17 @@ from SEDSS.CLIMessage import CLIMessage
 from xdiWriter import XDIWriter
 from SEDSS.SEDSupport import timeModule
 from SEDSS.SEDTmuxSession import tmuxSession
-# from ROIs import ROIs
 
 class ENGSCANCONT(HESEB_CONT):
 	def __init__(self, cfg, testingMode = "No"):
 		super().__init__(cfg, testingMode)
 		self.lock = False
 
-		self.grating = "I11R1-MO-MC2:OH-GRATING-STP-ROTX"
-		self.gratingRBV   = PV(self.grating + ".RBV")
-		self.gratingVal   = PV(self.grating + ".VAL")
-		self.gratingVelo  = PV(self.grating + ".VELO")
-		self.gratingSpeed = PV(self.grating + ".VMAX")
-
-		self.m2 = "I11R1-MO-MC2:OH-M2-STP-ROTX"
-		self.m2RBV   = PV(self.grating + ".RBV")
-		self.m2Val   = PV(self.grating + ".VAL")
-		self.m2Velo  = PV(self.grating + ".VELO")
-		self.m2Speed = PV(self.grating + ".VMAX")
-
 	def startScan(self):
 		counter = 0
 		pauseCounter = 0
 		breakTag = 0
 		startTime = time.time()
-
-		# allROIs = ROIs()
-		# allROIs.create("ROIs.xdi")
 
 		self.startScanTime = time.strftime("%H:%M:%S", time.localtime())
 
@@ -87,7 +70,7 @@ class ENGSCANCONT(HESEB_CONT):
 			points = self.drange(startPoint, endPoint, stepSize)
 			scanTime = self.getStepMovementTime(picoAmmIntTime, len(points))
 
-			print(f"Energy Start: {self.start}, Energy End: {self.end}")
+			log.info(f"Energy Start: {startPoint}, Energy End: {endPoint}")
 
 			self.motors["PGM:Grating"].put("stop_go", 0) # Stop
 			time.sleep(0.1)
@@ -96,14 +79,14 @@ class ENGSCANCONT(HESEB_CONT):
 			self.gratingVelo.put(float(self.gratingSpeed.get()))
 			self.m2Velo.put(float(self.m2Speed.get()))
 
-			print("move PGM to start point at default speed")
+			log.info("move PGM to start point at default speed")
 			self.MovePGM(startPoint)
 
 			self.motors["PGM:Grating"].put("stop_go", 0) # Stop
 			time.sleep(0.1)
 			self.motors["PGM:M2"].put("stop_go", 0) # Stop
 
-			print("go to end point ...")
+			log.info("go to end point ...")
 			log.info(f"scan time: {scanTime}s")
 			moveThread = threading.Thread(target=self.MovePGM, args=(endPoint, scanTime), daemon=True)
 			moveThread.start()
@@ -113,7 +96,7 @@ class ENGSCANCONT(HESEB_CONT):
 					energyRBV = float(self.PVs["PGM:Energy:RBV"].get())
 					if energyRBV >= val:
 						print("-" * 50)
-						print(f"energy value (actual, RBV): ({val}, {energyRBV})")
+						log.info(f"energy value (actual, RBV): ({val}, {energyRBV})")
 
 						self.checkPause()
 
@@ -187,8 +170,6 @@ class ENGSCANCONT(HESEB_CONT):
 						self.setPlotData()
 
 						log.info("Writing data to xdi file")
-						# log.info("collect all ROIs")
-						# allROIs.acquire()
 
 						"""
 						(A) Ignore writing the 1st point, and,
@@ -210,13 +191,15 @@ class ENGSCANCONT(HESEB_CONT):
 							self.motors["PGM:Grating"].put("stop_go", 1) # Pause
 							time.sleep(0.1)
 							self.motors["PGM:M2"].put("stop_go", 1) # Pause
+
 							while self.PVs["ScanPause"].get() == 1:
 								time.sleep(0.005)
+
 							self.motors["PGM:Grating"].put("stop_go", 3) # Go
 							time.sleep(0.1)
 							self.motors["PGM:M2"].put("stop_go", 3) # Go
-							# self.motors["DCM:Energy:SP"].move(endPoint)
-
+							self.PVs["PGM:Energy:Reached"].put(0, wait=True)
+							self.PVs["PGM:Energy:SP"].put(endPoint, wait=True)
 						stopScan = self.PVs["ScanStop"].get()
 						if int(stopScan) == 1:   # exit from for loop (child) when stop is clicked
 							log.warning("Scan tool has been stopped by human action")
@@ -245,15 +228,14 @@ class ENGSCANCONT(HESEB_CONT):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-		# shutil.move("ROIs.xdi", "{}/ROIs_{}.xdi".format(self.localDataPath, self.creationTime))
 		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source
 
 	def getStepMovementTime(self, time, points):
 		detectors = self.cfg['detectors']
-		KeithleyLatency = float(self.limits['keithleyLatency'])
-		XFalshLatency = float(self.limits['xflashLatency'])
-		PGMLatency = float(self.limits['PGMLatency'])
+		KeithleyLatency = float(self.scanLimits['keithleyLatency'])
+		XFalshLatency = float(self.scanLimits['xflashLatency'])
+		PGMLatency = float(self.scanLimits['PGMLatency'])
 		ICDataFrameTime = time + PGMLatency + KeithleyLatency
 
 		return ICDataFrameTime * points
