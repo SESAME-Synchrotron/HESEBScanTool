@@ -25,8 +25,9 @@ I0IntTime = PV("K6487:1:IntegrationTime")
 I0Acquire = PV("K6487:1:Acquire")
 I0AcquireProc = PV("K6487:1:Acquire.PROC")
 
-I0Plot.put(0, wait=True)
-I0Index.put(0, wait=True)
+empty = [0]
+I0Plot.put(empty, wait=True)
+I0Index.put(empty, wait=True)
 
 def appendNewLine(fileName, txt):
 	""" Append given text as a new line at the end of file """
@@ -146,7 +147,7 @@ def dataToWaveForm():
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description='HESEB Live Data Visualization (I0 vs Time)')
-	parser.add_argument('time', type=float)
+	parser.add_argument('--time', type=float)
 	args = parser.parse_args()
 	intTime = args.time
 
@@ -182,3 +183,4 @@ if __name__ == "__main__":
 
 		appendNewLine(dataFilePath, str(currentPicoRead))
 		appendNewLine(indexFilePath, str(i))
+	I0Run.put(0)

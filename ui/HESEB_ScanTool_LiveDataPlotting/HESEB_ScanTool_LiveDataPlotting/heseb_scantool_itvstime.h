@@ -5,11 +5,9 @@
 
 #include <QDialog>
 #include <QMainWindow>
+#include <QDir>
 
 #include "client.h"
-
-#include <QDir>
-#include <QProcess>
 
 namespace Ui {
 class HESEB_ScanTool_ItvsTime;

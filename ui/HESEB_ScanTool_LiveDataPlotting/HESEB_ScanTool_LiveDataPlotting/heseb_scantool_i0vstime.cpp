@@ -27,9 +27,8 @@ void HESEB_ScanTool_I0vsTime::on_Start_clicked()
     if(exists)
     {
         Client::writePV(runI0, 1);
-        QProcess *Acquire = new QProcess(this);
-        QString command = "./I0_startAcquire.py --" + ui->IntTime->text().trimmed();
-        Acquire->start("gnome-terminal -- bash -c " + command);
+        std::string command = "python3.9 I0_Acquire.py --time " + ui->IntTime->text().trimmed().toStdString() + " &";
+        system(command.c_str());
         ui->Status->setText("In Process...");
     }
 }
