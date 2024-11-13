@@ -13,7 +13,6 @@ from heseb_step import HESEB_STEP
 from SEDSS.CLIMessage import CLIMessage
 from xdiWriter import XDIWriter
 from SEDSS.SEDSupport import timeModule 
-from SEDSS.SEDTmuxSession import tmuxSession
 
 class ENGSCANSTEP(HESEB_STEP):
 	def __init__(self, cfg, testingMode = "No"):
@@ -178,5 +177,4 @@ class ENGSCANSTEP(HESEB_STEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-		tmuxSession(self.tmuxSessionToKill).kill()
 		self.PVs["ScanStop"].put(1)	# to make the interlock of voltage source

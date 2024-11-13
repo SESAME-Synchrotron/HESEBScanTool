@@ -28,7 +28,6 @@ if __name__ == "__main__":
 
 	epics.PV("HESEB:ScanStop").put(1)
 	os.system("killall HESEB_ScanTool_LiveDataVisualization")
-	epics.PV("HESEB:ScanStop").put(0)		# in order to enable voltage source
 	paths	= Common.loadjson("configurations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
 

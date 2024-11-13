@@ -1,7 +1,9 @@
 import os
 import sys
 import time
+import h5py
 import fileinput
+from epics import PV
 from SEDSS.SEDSupport import readFile
 
 class XDIWriter:
@@ -76,17 +78,26 @@ class XDIWriter:
 		"""
 		self.fullFileName = self.filePath + "/" + self.fileName + "_" + self.sampleTitle + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.expStartTime + ".xdi"
 
+		if "XFLASH" in self.detChosen:
+				self.h5FileName = "/".join(self.fullFileName.split("/")[:-1]) + "/channels.h5"
+				self.dataChannels = PV("mcaTest:mca1.VAL")
+				self.numChannels = int(PV("mcaTest:mca1.NORD").get())
+
 		# KEITHLEY_I0 is already chosen
 		if "KEITHLEY_Itrans"  in self.detChosen:
 			if "XFLASH" in self.detChosen:
 				self.createKEITHLEY_I0_Itrans_XFLASH()
 				self.fillKEITHLEY_I0_Itrans_XFLASH()
+				self.createH5ROIs()
+				self.fillH5ROIs()
 			else:
 				self.createKEITHLEY_I0_Itrans()
 				self.fillKEITHLEY_I0_Itrans()
 		elif "XFLASH" in self.detChosen:
 			self.createKEITHLEY_I0_XFLASH()
 			self.fillKEITHLEY_I0_XFLASH()
+			self.createH5ROIs()
+			self.fillH5ROIs()
 		else:
 			self.createKEITHLEY_I0()
 			self.fillKEITHLEY_I0()
@@ -94,7 +105,7 @@ class XDIWriter:
 
 	def createKEITHLEY_I0(self):
 		if not os.path.exists(self.fullFileName):
-			f = open (self.fullFileName, "w")
+			f = open(self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: PGM energy (eV) - Set point\n")
 			f.write("# Column.2: PGM energy (eV) - Read back\n")
@@ -135,14 +146,14 @@ class XDIWriter:
 			f.close()
 
 	def fillKEITHLEY_I0(self):
-		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %10.6e\n" 
+		f = open(self.fullFileName, "a")
+		f.write("%10.6e  %10.6e  %10.6e\n"
 		%(float(self.currentSP), float(self.data["ENERGY-RBK"]),float(self.data["KEITHLEY_I0"])))
 		f.close()
 
 	def createKEITHLEY_I0_Itrans(self):
 		if not os.path.exists(self.fullFileName):
-			f = open (self.fullFileName, "w")
+			f = open(self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: PGM energy (eV) - Set point\n")
 			f.write("# Column.2: PGM energy (eV) - Read back\n")
@@ -184,14 +195,14 @@ class XDIWriter:
 			f.close()
 
 	def fillKEITHLEY_I0_Itrans(self):
-		f = open (self.fullFileName, "a")
-		f.write("%10.6e  %10.6e  %10.6e  %10.6e \n" 
+		f = open(self.fullFileName, "a")
+		f.write("%10.6e  %10.6e  %10.6e  %10.6e \n"
 		%(float(self.currentSP), float(self.data["ENERGY-RBK"]), float(self.data["KEITHLEY_I0"]), float(self.data["KEITHLEY_Itrans"])))
 		f.close()
 
 	def createKEITHLEY_I0_Itrans_XFLASH(self):
 		if not os.path.exists(self.fullFileName):
-			f = open (self.fullFileName, "w")
+			f = open(self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: PGM energy (eV) - Set point\n")
 			f.write("# Column.2: PGM energy (eV) - Read back\n")
@@ -242,10 +253,10 @@ class XDIWriter:
 			f.close()
 
 	def fillKEITHLEY_I0_Itrans_XFLASH(self):
-		f = open (self.fullFileName, "a")
+		f = open(self.fullFileName, "a")
 		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
-		data = (float(self.currentSP), 
-		  	float(self.data["ENERGY-RBK"]), 
+		data = (float(self.currentSP),
+		  	float(self.data["ENERGY-RBK"]),
 			float(self.data["KEITHLEY_I0"]),
 			float(self.data["KEITHLEY_Itrans"]),
 			float(self.data["TRANS"]),
@@ -267,7 +278,7 @@ class XDIWriter:
 
 	def createKEITHLEY_I0_XFLASH(self):
 		if not os.path.exists(self.fullFileName):
-			f = open (self.fullFileName, "w")
+			f = open(self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_HESEB/0.9\n")
 			f.write("# Column.1: PGM energy (eV) - Set point\n")
 			f.write("# Column.2: PGM energy (eV) - Read back\n")
@@ -316,11 +327,11 @@ class XDIWriter:
 			f.close()
 
 	def fillKEITHLEY_I0_XFLASH(self):
-		f = open (self.fullFileName, "a")
+		f = open(self.fullFileName, "a")
 
 		baseFormat = "%10.6e   %10.6e   %10.6e   %10.6e   %10.6e   %10.6e"
 		data = (float(self.currentSP),
-			float(self.data["ENERGY-RBK"]), 
+			float(self.data["ENERGY-RBK"]),
 			float(self.data["KEITHLEY_I0"]),
 			float(self.data["XFLASH-If"]),
 			float(self.data["XFLASH-FLUOR"]),
@@ -337,6 +348,27 @@ class XDIWriter:
 
 		f.write(fullFormat % fullData)
 		f.close()
+
+	def createH5ROIs(self):
+		if not os.path.exists(self.h5FileName):
+			with h5py.File(self.h5FileName, 'w') as f:
+				f.create_dataset('channels', shape=(0, 1, self.numChannels), maxshape=(None, 1, self.numChannels), chunks=True)
+				f.create_dataset('energySP', shape=(0, 1), maxshape=(None, 1), chunks=True)
+				f.create_dataset('energyRBV', shape=(0, 1), maxshape=(None, 1), chunks=True)
+
+	def fillH5ROIs(self):
+		with h5py.File(self.h5FileName, 'a') as f:
+			currentShape = f['channels'].shape
+			f['channels'].resize((currentShape[0] + 1, currentShape[1], currentShape[2]))
+			f['channels'][-1] = list(self.dataChannels.get()[:self.numChannels])
+
+			currentShape = f['energySP'].shape
+			f['energySP'].resize((currentShape[0] + 1, currentShape[1]))
+			f['energySP'][-1] = self.currentSP
+
+			currentShape = f['energyRBV'].shape
+			f['energyRBV'].resize((currentShape[0] + 1, currentShape[1]))
+			f['energyRBV'][-1] = self.data["ENERGY-RBK"]
 
 	def onClose(self):
 		scanEndTime = "Scan.end_time: {}".format(str(time.strftime("%Y-%m-%dT%H:%M:%S")) )

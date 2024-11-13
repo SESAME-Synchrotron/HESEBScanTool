@@ -23,20 +23,18 @@ from SEDSS.SEDSupplements import CLIMessage
 from SEDSS.SEDSupport import readFile
 from SEDSS.SEDTransfer import SEDTransfer
 from SEDSS.SEDFileManager import path
-from SEDSS.SEDTmuxSession import tmuxSession
 
 class HESEB:
 	def __init__(self, cfg, testingMode = "No"):
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
-		self.PVs["ScanStop"].put(0)  			# disable stop function
-		self.PVs["ScanPause"].put(0) 			# flush scan pause pv
+		self.PVs["ScanStop"].put(0)
+		self.PVs["ScanPause"].put(0)
 		self.PVs["CalibrationEnergy"].put(1)
-		self.PVs["I0Trigger"].put(1)   		# disable I0 vs time plotting
-		self.PVs["ItTrigger"].put(1)  		    # disable It vs time plotting
-		# self.PVs["VoltageSource"].put(0)	# enable voltage source
-		epics.PV("HESEB:VoltageValidation").put(0)	# enable voltage source
+		self.PVs["I0Trigger"].put(0)   		# disable I0 vs time plotting
+		self.PVs["ItTrigger"].put(0)  		# disable It vs time plotting
+		self.PVs["VoltageSource"].put(0)	# enable voltage source
 
 		self.grating = "I11R1-MO-MC2:OH-GRATING-STP-ROTX"
 		self.gratingRBV   = epics.PV(self.grating + ".RBV")
@@ -77,10 +75,6 @@ class HESEB:
 		else:
 			log.info("Testing mode: Yes")
 
-		self.tmuxSessionToKill = ['voltageSourceValidation', 'I0_startAcquire']
-		tmuxSession(self.tmuxSessionToKill).kill()
-
-		subprocess.Popen("./voltageSourceValidation.sh")
 		self.startScan()
 
 	def runPauseMonitor(self):
