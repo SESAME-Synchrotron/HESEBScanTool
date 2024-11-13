@@ -70,14 +70,6 @@ class ENGSCANCONT(HESEB_CONT):
 			scanTime = self.getStepMovementTime(picoAmmIntTime, len(points))
 
 			log.info(f"Energy Start: {startPoint}, Energy End: {endPoint}")
-
-			self.motors["PGM:Grating"].put("stop_go", 0) # Stop
-			time.sleep(0.1)
-			self.motors["PGM:M2"].put("stop_go", 0) # Stop
-
-			self.gratingVelo.put(float(self.gratingSpeed.get()))
-			self.m2Velo.put(float(self.m2Speed.get()))
-
 			log.info("move PGM to start point at default speed")
 			self.MovePGM(startPoint)
 

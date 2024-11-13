@@ -1,3 +1,4 @@
+import sys
 import time
 import log
 
@@ -60,4 +61,5 @@ class HESEB_CONT(HESEB):
 				timeCounter = timeCounter + 1
 				if timeCounter * self.scanLimits["checkToleranceEvery"] >= self.scanLimits["maxTime2MeetTolerance"]:
 					log.warning("Reaching maximum wait time to reach the target energy")
-					break
+					log.error("Can't start continuous scan")
+					sys.exit()
