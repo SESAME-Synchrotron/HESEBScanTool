@@ -5,6 +5,7 @@ Step energy scan derived class
 """
 import os
 import time
+from datetime import datetime, timedelta
 import threading
 import shutil 
 
@@ -17,6 +18,20 @@ from SEDSS.SEDSupport import timeModule
 class ENGSCANSTEP(HESEB_STEP):
 	def __init__(self, cfg, testingMode = "No"):
 		super().__init__(cfg, testingMode)
+		samples		 =	int(self.cfg["Nsamples"])
+		scans		 =	int(self.cfg["Nscans"])
+		intervals	 =	int(self.cfg["NIntervals"])
+		settlingTime = float(self.cfg["settlingTime"])
+		intervalsTime = 0
+		for interval in range(intervals):
+			points = len(self.drange(self.cfg["Intervals"][interval]["Startpoint"], self.cfg["Intervals"][interval]["Endpoint"], self.cfg["Intervals"][interval]["Stepsize"]))
+			intervalsTime += (points * scans * samples * (self.cfg["Intervals"][interval]["picoAmmIntTime"] + settlingTime))
+		intervalsTime += 300
+
+		currentTime = datetime.now()
+		remainingTime = currentTime + timedelta(seconds=int(intervalsTime))
+		self.PVs["RemainingTime"].put(remainingTime.strftime('%H:%M'), wait=True)
+		self.startScan()
 
 	def startScan(self):
 		counter = 0 
@@ -32,7 +47,6 @@ class ENGSCANSTEP(HESEB_STEP):
 		self.clearPlot()
 
 		log.info("Start data collection ...")
-		points = map(lambda intv: self.drange(intv["Startpoint"], intv["Endpoint"], intv["Stepsize"]), self.cfg["Intervals"])
 		expData = {} # Experimental Data 
 
 		self.plotting()

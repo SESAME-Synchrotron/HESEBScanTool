@@ -17,32 +17,6 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
      <layout class="QGridLayout" name="timeLayout">
-      <item row="0" column="3">
-       <widget class="QLabel" name="elapsedTimeLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Elapsed time</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QELabel" name="elapsedTimeVal">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="variable" stdset="0">
-         <string>HESEB:ElapsedTime</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="startTimeLabel">
         <property name="sizePolicy">
@@ -69,6 +43,32 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="elapsedTimeLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Elapsed time</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QELabel" name="elapsedTimeVal">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="variable" stdset="0">
+         <string>HESEB:ElapsedTime</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
@@ -84,6 +84,26 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="QLabel" name="etcLabel">
+        <property name="text">
+         <string>Estimated time to complete</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3" colspan="2">
+       <widget class="QELabel" name="etcVal">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="variable" stdset="0">
+         <string>HESEB:RemainingTime</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

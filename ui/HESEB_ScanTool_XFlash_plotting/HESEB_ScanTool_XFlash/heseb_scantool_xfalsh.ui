@@ -85,7 +85,7 @@ padding: 0 3px 0 3px;</string>
          <bool>true</bool>
         </property>
         <property name="pvItemsIsVisible" stdset="0">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="statusIsVisible" stdset="0">
          <bool>false</bool>
@@ -103,6 +103,45 @@ padding: 0 3px 0 3px;</string>
          <string>HESEB:Plot:AbsFlu</string>
         </property>
         <property name="DataVariableC" stdset="0">
+         <string>mcaTest:mca1.R0</string>
+        </property>
+        <property name="DataVariableD" stdset="0">
+         <string>mcaTest:mca1.R1</string>
+        </property>
+        <property name="DataVariableE" stdset="0">
+         <string>mcaTest:mca1.R2</string>
+        </property>
+        <property name="DataVariableF" stdset="0">
+         <string>mcaTest:mca1.R3</string>
+        </property>
+        <property name="DataVariableG" stdset="0">
+         <string>mcaTest:mca1.R4</string>
+        </property>
+        <property name="DataVariableH" stdset="0">
+         <string>mcaTest:mca1.R5</string>
+        </property>
+        <property name="DataVariableI" stdset="0">
+         <string>mcaTest:mca1.R5</string>
+        </property>
+        <property name="DataVariableJ" stdset="0">
+         <string>mcaTest:mca1.R7</string>
+        </property>
+        <property name="DataVariableK" stdset="0">
+         <string>mcaTest:mca1.R8</string>
+        </property>
+        <property name="DataVariableL" stdset="0">
+         <string/>
+        </property>
+        <property name="DataVariableM" stdset="0">
+         <string/>
+        </property>
+        <property name="DataVariableN" stdset="0">
+         <string/>
+        </property>
+        <property name="DataVariableO" stdset="0">
+         <string/>
+        </property>
+        <property name="DataVariableP" stdset="0">
          <string/>
         </property>
         <property name="SizeVariableX" stdset="0">
@@ -115,6 +154,45 @@ padding: 0 3px 0 3px;</string>
          <string>HESEB:Plot:AbsFlu.NORD</string>
         </property>
         <property name="SizeVariableC" stdset="0">
+         <string>mcaTest:mca1.R0N</string>
+        </property>
+        <property name="SizeVariableD" stdset="0">
+         <string>mcaTest:mca1.R1N</string>
+        </property>
+        <property name="SizeVariableE" stdset="0">
+         <string>mcaTest:mca1.R2N</string>
+        </property>
+        <property name="SizeVariableF" stdset="0">
+         <string>mcaTest:mca1.R3N</string>
+        </property>
+        <property name="SizeVariableG" stdset="0">
+         <string>mcaTest:mca1.R4N</string>
+        </property>
+        <property name="SizeVariableH" stdset="0">
+         <string>mcaTest:mca1.R5N</string>
+        </property>
+        <property name="SizeVariableI" stdset="0">
+         <string>mcaTest:mca1.R6N</string>
+        </property>
+        <property name="SizeVariableJ" stdset="0">
+         <string>mcaTest:mca1.R7N</string>
+        </property>
+        <property name="SizeVariableK" stdset="0">
+         <string>mcaTest:mca1.R8N</string>
+        </property>
+        <property name="SizeVariableL" stdset="0">
+         <string/>
+        </property>
+        <property name="SizeVariableM" stdset="0">
+         <string/>
+        </property>
+        <property name="SizeVariableN" stdset="0">
+         <string/>
+        </property>
+        <property name="SizeVariableO" stdset="0">
+         <string/>
+        </property>
+        <property name="SizeVariableP" stdset="0">
          <string/>
         </property>
         <property name="AliasNameX" stdset="0">

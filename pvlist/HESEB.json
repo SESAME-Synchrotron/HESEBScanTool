@@ -48,6 +48,9 @@
 		"ElapsedTime":{
 			"pvname":"HESEB:ElapsedTime"
 		},
+		"RemainingTime":{
+			"pvname":"HESEB:RemainingTime"
+		},
 		"VoltageSource":{
 			"pvname":"HESEB:VoltageValidation"
 		},

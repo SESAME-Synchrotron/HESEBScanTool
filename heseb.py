@@ -73,8 +73,6 @@ class HESEB:
 		else:
 			log.info("Testing mode: Yes")
 
-		self.startScan()
-
 	def runPauseMonitor(self):
 		log.info("start pause trigger monitor")
 		PauseMonitorThread = threading.Thread(target=self.pauseTrigger, args=(), daemon=True)
