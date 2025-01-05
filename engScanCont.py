@@ -17,8 +17,8 @@ from SEDSS.SEDSupport import timeModule
 
 class ENGSCANCONT(HESEB_CONT):
 	def __init__(self, cfg, testingMode = "No"):
-		super().__init__(cfg, testingMode)
 		self.lock = False
+		super().__init__(cfg, testingMode)
 
 	def startScan(self):
 		counter = 0
@@ -255,9 +255,10 @@ class ENGSCANCONT(HESEB_CONT):
 			time.sleep(0.1)
 			self.motors["PGM:M2"].put("stop_go", 0) # Stop
 			time.sleep(0.1)
+			self.gratingVelo.put(float(self.gratingSpeed.get()))
+			self.m2Velo.put(float(self.m2Speed.get()))
+			time.sleep(0.1)
 			self.motors["PGM:Grating"].put("stop_go", 3) # Go
 			time.sleep(0.1)
 			self.motors["PGM:M2"].put("stop_go", 3) # Go
-			self.gratingVelo.put(float(self.gratingSpeed.get()))
-			self.m2Velo.put(float(self.m2Speed.get()))
 			super().signal_handler(sig, frame)

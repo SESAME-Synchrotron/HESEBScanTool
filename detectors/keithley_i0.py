@@ -11,27 +11,27 @@ class KEITHLEY_I0(Base):
 		self.paths = paths
 		self.cfg = cfg
 
-		self.PVs["picoAmmeterI0SoftReset"].put(1)	# apply soft reset before start collecting data
-		self.PVs["picoAmmeterI0Damping"].put(0)		# disable damping
-		self.PVs["picoAmmeterI0TPSS"].put(0)		# put 0 in time per step sample
+		self.PVs["picoAmmeterI0SoftReset"].put(1, wait=True)	# apply soft reset before start collecting data
+		self.PVs["picoAmmeterI0Damping"].put(0, wait=True)		# disable damping
+		self.PVs["picoAmmeterI0TPSS"].put(0, wait=True)		# put 0 in time per step sample
 
 		self.voltageSourceEnable 		= voltageSourceParam[0]
 		self.voltageSourceRange 		= voltageSourceParam[1]
 		self.voltageSourceCurrentLimit  = voltageSourceParam[2]
 		self.voltageSourceValue		    = voltageSourceParam[3]
 		""" put the values taken for the voltage source parameters after reset """
-		self.PVs["voltageSourceEnable"].put(self.voltageSourceEnable)
-		self.PVs["voltageSourceRange"].put(self.voltageSourceRange)
-		self.PVs["voltageSourceCurrentLimit"].put(self.voltageSourceCurrentLimit)
-		self.PVs["voltageSourceVoltage"].put(self.voltageSourceValue)
+		self.PVs["voltageSourceEnable"].put(self.voltageSourceEnable, wait=True)
+		self.PVs["voltageSourceRange"].put(self.voltageSourceRange, wait=True)
+		self.PVs["voltageSourceCurrentLimit"].put(self.voltageSourceCurrentLimit, wait=True)
+		self.PVs["voltageSourceVoltage"].put(self.voltageSourceValue, wait=True)
 
 	def ACQ(self, args):
 
 		NPLC, ActualIntTime = self.getNPLC_IntTime(args["picoAmmIntTime"])
-		self.PVs["picoAmmeterI0TPSS"].put(ActualIntTime)
-		self.PVs["picoAmmeterI0IntTime"].put(NPLC)		# integration time
+		self.PVs["picoAmmeterI0TPSS"].put(ActualIntTime, wait=True)
+		self.PVs["picoAmmeterI0IntTime"].put(NPLC, wait=True)		# integration time
 		startTime = time.time()
-		self.PVs["picoAmmeterI0StartAcq"].put(1)
+		self.PVs["picoAmmeterI0StartAcq"].put(1, wait=True)
 		time.sleep(0.1)
 
 		while self.PVs["picoAmmeterI0StartAcq"].get(timeout=1, use_monitor=False):

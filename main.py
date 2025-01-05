@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import argparse
 
 from common import Common
@@ -28,6 +29,9 @@ if __name__ == "__main__":
 
 	epics.PV("HESEB:ScanStop").put(1)
 	os.system("killall HESEB_ScanTool_LiveDataVisualization")
+	time.sleep(0.5)
+	epics.PV("HESEB:ScanStop").put(0)
+	epics.PV("HESEB:VoltageValidation").put(0)	# enable voltage source
 	paths	= Common.loadjson("configurations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
 
@@ -41,3 +45,4 @@ if __name__ == "__main__":
 	# 	MAPSCAN(cfg=cfg, testingMode=tMode)
 
 	sys.exit(app.exit())
+

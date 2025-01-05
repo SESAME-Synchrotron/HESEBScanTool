@@ -11,16 +11,16 @@ class KEITHLEY_ITRANS(Base):
 		self.paths = paths
 		self.cfg = cfg
 
-		self.PVs["picoAmmeterItransSoftReset"].put(1)	# apply soft reset before start collecting data
-		self.PVs["picoAmmeterItransTPSS"].put(0)		# put 0 in time per step sample
+		self.PVs["picoAmmeterItransSoftReset"].put(1, wait=True)	# apply soft reset before start collecting data
+		self.PVs["picoAmmeterItransTPSS"].put(0, wait=True)		# put 0 in time per step sample
 
 	def ACQ(self, args):
 
 		NPLC, ActualIntTime = self.getNPLC_IntTime(args["picoAmmIntTime"])
-		self.PVs["picoAmmeterItransTPSS"].put(ActualIntTime)
-		self.PVs["picoAmmeterItransIntTime"].put(NPLC)		# integration time
+		self.PVs["picoAmmeterItransTPSS"].put(ActualIntTime, wait=True)
+		self.PVs["picoAmmeterItransIntTime"].put(NPLC, wait=True)		# integration time
 		startTime = time.time()
-		self.PVs["picoAmmeterItransStartAcq"].put(1)
+		self.PVs["picoAmmeterItransStartAcq"].put(1, wait=True)
 		time.sleep(0.1)
 
 		while self.PVs["picoAmmeterItransStartAcq"].get(timeout=1, use_monitor=False):

@@ -29,12 +29,10 @@ class HESEB:
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
-		self.PVs["ScanStop"].put(0)
 		self.PVs["ScanPause"].put(0)
 		self.PVs["CalibrationEnergy"].put(1)
 		self.PVs["I0Trigger"].put(0)   		# disable I0 vs time plotting
 		self.PVs["ItTrigger"].put(0)  		# disable It vs time plotting
-		self.PVs["VoltageSource"].put(0)	# enable voltage source
 
 		self.grating = "I11R1-MO-MC2:OH-GRATING-STP-ROTX"
 		self.gratingRBV   = epics.PV(self.grating + ".RBV")
@@ -51,10 +49,10 @@ class HESEB:
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
 		self.voltageSourcePARAM = []
 		# get the values of voltage source parameters before reset
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnable"]["pvname"]).get())
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRange"]["pvname"]).get())
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimit"]["pvname"]).get())
-		self.voltageSourcePARAM.append(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceVoltageRBV"]["pvname"]).get())
+		self.voltageSourcePARAM.append(bool(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnableRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(int(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRangeRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(float(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimitRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(float(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceVoltageRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
 
 		self.paths		= Common.loadjson("configurations/paths.json")
 		self.cfg		= cfg
