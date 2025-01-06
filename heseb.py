@@ -47,12 +47,13 @@ class HESEB:
 		self.m2Speed = epics.PV(self.m2 + ".VMAX")
 
 		self.KeithelyI0PV = readFile("pvlist/KEITHLEY_I0.json").readJSON()
+		KeithelyItransPV = readFile("pvlist/KEITHLEY_ITRANS.json").readJSON()
 		self.voltageSourcePARAM = []
 		# get the values of voltage source parameters before reset
-		self.voltageSourcePARAM.append(bool(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceEnableRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
-		self.voltageSourcePARAM.append(int(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceRangeRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
-		self.voltageSourcePARAM.append(float(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceCurrentLimitRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
-		self.voltageSourcePARAM.append(float(epics.PV(self.KeithelyI0PV["PV"]["voltageSourceVoltageRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(bool(epics.PV(KeithelyItransPV["PV"]["voltageSourceEnableRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(int(epics.PV(KeithelyItransPV["PV"]["voltageSourceRangeRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(float(epics.PV(KeithelyItransPV["PV"]["voltageSourceCurrentLimitRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
+		self.voltageSourcePARAM.append(float(epics.PV(KeithelyItransPV["PV"]["voltageSourceVoltageRBV"]["pvname"]).get(timeout=1, use_monitor=False)))
 
 		self.paths		= Common.loadjson("configurations/paths.json")
 		self.cfg		= cfg
@@ -352,9 +353,9 @@ class HESEB:
 			if det == "XFLASH":
 				self.detectors.append(XFLASH("XFLASH", self.paths, self.cfg | self.userinfo))
 			elif det == "KEITHLEY_I0":
-				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0", self.paths, self.userinfo, self.voltageSourcePARAM))
+				self.detectors.append(KEITHLEY_I0("KEITHLEY_I0", self.paths, self.userinfo))
 			elif det == "KEITHLEY_Itrans":
-				self.detectors.append(KEITHLEY_ITRANS("KEITHLEY_ITRANS", self.paths, self.userinfo))
+				self.detectors.append(KEITHLEY_ITRANS("KEITHLEY_ITRANS", self.paths, self.userinfo, self.voltageSourcePARAM))
 			elif not det in self.available_detectors:
 				raise Exception("Unknown detector")
 

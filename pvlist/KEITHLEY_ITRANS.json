@@ -2,25 +2,46 @@
 	"PV":
 	{
 		"picoAmmeterItransTPSS":{
-			"pvname":"K6485:1:TimePerSampleStep"
+			"pvname":"K6487:1:TimePerSampleStep"
 		},
 		"picoAmmeterItransStartAcq":{
-			"pvname":"K6485:1:Acquire.PROC"
+			"pvname":"K6487:1:Acquire.PROC"
 		},
 		"picoAmmeterItransAcqReadOut":{
-			"pvname":"K6485:1:Acquire"
-		},
-		"picoAmmeterItransAutoZero":{
-			"pvname":"K6485:1:AutoZero"
+			"pvname":"K6487:1:Acquire"
 		},
 		"picoAmmeterItransSoftReset":{
-			"pvname":"K6485:1:RST.PROC"
+			"pvname":"K6487:1:RST.PROC"
+		},
+		"picoAmmeterItransDamping":{
+			"pvname":"K6487:1:Damping"
 		},
 		"picoAmmeterItransIntTime":{
-			"pvname":"K6485:1:IntegrationTime"
+			"pvname":"K6487:1:IntegrationTime"
 		},
-		"picoAmmeterItransAVGSamples":{
-			"pvname":"K6485:1:AverageFilterCount"
+		"voltageSourceEnable":{
+			"pvname":"K6487:1:SourceEnable"
+		},
+		"voltageSourceRange":{
+			"pvname":"K6487:1:SourceRange"
+		},
+		"voltageSourceCurrentLimit":{
+			"pvname":"K6487:1:SourceIlimit"
+		},
+		"voltageSourceVoltage":{
+			"pvname":"K6487:1:SourceVoltage"
+		},
+		"voltageSourceEnableRBV":{
+			"pvname":"K6487:1:SourceEnableRBV"
+		},
+		"voltageSourceRangeRBV":{
+			"pvname":"K6487:1:SourceRangeRBV"
+		},
+		"voltageSourceCurrentLimitRBV":{
+			"pvname":"K6487:1:SourceIlimitRBV"
+		},
+		"voltageSourceVoltageRBV":{
+			"pvname":"K6487:1:SourceVoltageRBV"
 		}
 	}
 }

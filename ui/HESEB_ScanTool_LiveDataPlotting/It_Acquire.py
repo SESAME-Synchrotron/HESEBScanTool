@@ -17,12 +17,13 @@ indexFilePath = "It_Index.txt"
 
 ItPlot = PV("HESEB:Plot:It")
 ItIndex = PV("HESEB:Plot:It:Index")
-ItReset = PV("K6485:1:RST.PROC")
-ItSampling = PV("K6485:1:TimePerSampleStep")
+ItReset = PV("K6487:1:RST.PROC")
+ItDamping = PV("K6487:1:Damping")
+ItSampling = PV("K6487:1:TimePerSampleStep")
 ItRun = PV("HESEB:Run:It")
-ItIntTime = PV("K6485:1:IntegrationTime")
-ItAcquire = PV("K6485:1:Acquire")
-ItAcquireProc = PV("K6485:1:Acquire.PROC")
+ItIntTime = PV("K6487:1:IntegrationTime")
+ItAcquire = PV("K6487:1:Acquire")
+ItAcquireProc = PV("K6487:1:Acquire.PROC")
 
 empty = [0]
 ItPlot.put(empty, wait=True)
@@ -161,6 +162,7 @@ if __name__ == "__main__":
 
 	NPLC, ActualIntTime = getNPLC_IntTime(intTime)
 	ItReset.put(1)		# Apply soft reset before start collecting data
+	I0Damping.put(0) 	# disable damping
 	ItSampling.put(0) 	# put 0 in time per step sample
 	It_run = ItRun.get()	# trigger to start (0:Start, 1:Stop)
 

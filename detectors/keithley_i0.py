@@ -4,7 +4,7 @@ from .base import Base
 from SEDSS.SEDSupport import timeModule
 
 class KEITHLEY_I0(Base):
-	def __init__(self, name, paths, cfg={}, voltageSourceParam=[]):
+	def __init__(self, name, paths, cfg={}):
 		super().__init__(name)
 
 		self.loadPVS(name)
@@ -12,18 +12,7 @@ class KEITHLEY_I0(Base):
 		self.cfg = cfg
 
 		self.PVs["picoAmmeterI0SoftReset"].put(1, wait=True)	# apply soft reset before start collecting data
-		self.PVs["picoAmmeterI0Damping"].put(0, wait=True)		# disable damping
 		self.PVs["picoAmmeterI0TPSS"].put(0, wait=True)		# put 0 in time per step sample
-
-		self.voltageSourceEnable 		= voltageSourceParam[0]
-		self.voltageSourceRange 		= voltageSourceParam[1]
-		self.voltageSourceCurrentLimit  = voltageSourceParam[2]
-		self.voltageSourceValue		    = voltageSourceParam[3]
-		""" put the values taken for the voltage source parameters after reset """
-		self.PVs["voltageSourceEnable"].put(self.voltageSourceEnable, wait=True)
-		self.PVs["voltageSourceRange"].put(self.voltageSourceRange, wait=True)
-		self.PVs["voltageSourceCurrentLimit"].put(self.voltageSourceCurrentLimit, wait=True)
-		self.PVs["voltageSourceVoltage"].put(self.voltageSourceValue, wait=True)
 
 	def ACQ(self, args):
 
