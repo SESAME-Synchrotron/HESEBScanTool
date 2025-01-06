@@ -1,0 +1,146 @@
+<?xml version="1.0" standalone="no" ?>
+<hdf5_layout>
+  <global name="detector_data_destination" ndattribute="/mnt/detData" />
+	<group name="exchange">
+	  <group name="xmap">
+		<dataset     name="data"        source="detector">
+		  <attribute name="description" source="constant"   value="mappingData"   type="string" />
+		  <attribute name="axes"        source="constant"   value="y:x:channels"  type="string" />
+		  <attribute name="units"       source="constant"   value="counts"        type="string" />
+		</dataset>
+	  </group><!-- /xmap -->
+	</group><!-- /exchange -->
+
+	<group name="measurement">
+	  <group name="instrument">
+		<group name="source">
+		  <dataset      name="beamline"     source="constant"     value="ID11L - HElmholtz-SESAME"   type="string" when="OnFileClose" />
+		  <dataset      name="source_name"  source="constant"     value="Insertion Device"    type="string" when="OnFileClose" />
+		  <dataset      name="current"      source="ndattribute"  ndattribute="RingCurrent"               when="OnFileClose">
+			<attribute  name="units"        source="constant"     value="mA"                type="string" />
+		  </dataset>
+
+		  <dataset      name="machine_status" source="ndattribute"  ndattribute="MachineStatus" when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="status"    type="string" />
+		  </dataset>
+
+		  <dataset      name="machine_energy" source="ndattribute"  ndattribute="MachineEnergy" when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="GeV"       type="string" />
+		  </dataset>
+
+		  <dataset      name="life_time"      source="ndattribute"  ndattribute="LifeTime"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="H"         type="string" />
+		  </dataset>
+
+  		  <dataset      name="id_gap"      	  source="ndattribute"  ndattribute="IDGap"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"         type="string" />
+		  </dataset>
+
+  		  <dataset      name="id_shift"       source="ndattribute"  ndattribute="IDShift"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"         type="string" />
+		  </dataset>
+
+  		  <dataset      name="upstream_x"      source="ndattribute"  ndattribute="UpstreamX"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"         type="string" />
+		  </dataset>
+
+  		  <dataset      name="upstream_y"      source="ndattribute"  ndattribute="UpstreamY"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"         type="string" />
+		  </dataset>
+
+		  <dataset      name="downstream_x"      source="ndattribute"  ndattribute="DownstreamX"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"         type="string" />
+		  </dataset>
+
+		  <dataset      name="downstream_y"      source="ndattribute"  ndattribute="DownstreamY"      when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"         type="string" />
+		  </dataset>
+		  </group><!-- /source -->
+	  </group><!-- /instrument -->
+
+		<group name="sample">
+			<group name="experiment">
+				<dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" />
+				<dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" />
+				<dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEnergy" />
+				<!-- <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" /> -->
+				<dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
+				<dataset      name="sample_name"   source="ndattribute" ndattribute="Sample" />
+				<dataset      name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" />
+				<dataset      name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" />
+			</group><!-- /experiment -->
+
+			<group name="experimenter">
+			<dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" />
+			<dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" />
+			<dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
+			</group><!-- /experimenter -->
+		</group><!-- /sample -->
+	</group><!-- /measurement -->
+
+
+	<group name="process">
+		<group name="data_writing">
+		  <dataset      name="writer_name"      source="constant"   value="XAFS/XRF-ZMQ-DXFile-Writer" type="string" />
+		  <dataset      name="writer_version"   source="constant"   value="1.0 Released"               type="string" />
+		  <dataset      name="scan_mode"        source="constant"   value="Step Scan | Mapping"        type="string" />
+
+		  <dataset      name="file_layout"      source="constant"   value="DxLayout | Data Exchange" >
+			<attribute  name="type"             source="constant"   value="HDF5" type="string" />
+		  </dataset>
+
+		  <dataset      name="scan_topology"    source="ndattribute"  ndattribute="ScanTopology" />
+
+		  <dataset      name="experiment_type"  source="ndattribute"  ndattribute="ExperimentType" >
+			<attribute  name="type"             source="constant"     value="Users | Local | Energy Calibration" type="string" />
+		  </dataset>
+
+		  <dataset      name="total_points"     source="ndattribute"  ndattribute="TotalPoints" when="OnFileClose" >
+			<attribute  name="units"            source="constant"     value="number" type="string" />
+		  </dataset>
+
+		  <dataset      name="received_points"  source="ndattribute"  ndattribute="ReceivedPoints" when="OnFileClose" >
+			<attribute  name="units"            source="constant"     value="number" type="string" />
+		  </dataset>
+
+		  <dataset      name="missed_points"    source="ndattribute"  ndattribute="MissedPoints" when="OnFileClose" >
+			<attribute  name="units"            source="constant"     value="number" type="string" />
+		  </dataset>
+		</group><!-- /data_writing -->
+
+		<group name="acquisition">
+		  <dataset      name="exp_start_time"     source="ndattribute"    ndattribute="ExpStartTime" >
+			<attribute name="format" source="constant" value="(Y-m-d T HH:MM:SS)" type="string" when="OnFileClose" />
+		  </dataset>
+
+		  <dataset      name="scan_start_time"    source="ndattribute"    ndattribute="ScanStartTime" >
+			<attribute name="format" source="constant" value="(Y-m-d T HH:MM:SS)" type="string" when="OnFileClose" />
+		  </dataset>
+
+		  <dataset      name="scan_end_time"      source="ndattribute"    ndattribute="ScanEndTime" when="OnFileClose" >
+			<attribute name="format" source="constant" value="(Y-m-d T HH:MM:SS)" type="string" when="OnFileClose" />
+		  </dataset>
+
+		  <dataset      name="integration_time"   source="ndattribute"    ndattribute="IntTime" >
+			<attribute name="units" source="constant" value="s" type="string" />
+		  </dataset>
+
+		  <dataset      name="x_start"            source="ndattribute"    ndattribute="ROIXStart" />
+		  <dataset      name="y_start"            source="ndattribute"    ndattribute="ROIYStart" />
+		  <dataset      name="x_end"              source="ndattribute"    ndattribute="ROIXEnd" />
+		  <dataset      name="y_end"              source="ndattribute"    ndattribute="ROIYEnd" />
+		  <dataset      name="z"                  source="ndattribute"    ndattribute="ROIZ" />
+		  <dataset      name="rotation"           source="ndattribute"    ndattribute="ROIRotation" />
+
+		  <dataset      name="resolution_x"       source="ndattribute"    ndattribute="ResolutionX" >
+			<attribute name="units" source="constant" value="mm" type="string" />
+		  </dataset>
+
+		  <dataset      name="resolution_y"       source="ndattribute"    ndattribute="ResolutionY" >
+			<attribute name="units" source="constant" value="mm" type="string" />
+		  </dataset>
+
+		</group><!-- /acquisition -->
+	</group><!-- /process -->
+
+</hdf5_layout>
