@@ -25,10 +25,11 @@ from SEDSS.SEDTransfer import SEDTransfer
 from SEDSS.SEDFileManager import path
 
 class HESEB:
-	def __init__(self, cfg, testingMode = "No"):
+	def __init__(self, cfg, testingMode="No"):
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("HESEB")
+		self.testingMode = testingMode.strip().capitalize()
 		self.PVs["ScanPause"].put(0)
 		self.PVs["CalibrationEnergy"].put(1)
 		self.PVs["I0Trigger"].put(0)   		# disable I0 vs time plotting
@@ -68,7 +69,7 @@ class HESEB:
 
 		signal.signal(signal.SIGINT, self.signal_handler)
 
-		if testingMode == "No":
+		if self.testingMode == "No":
 			log.info("Testing mode: No")
 			self.runPauseMonitor()
 		else:
@@ -380,12 +381,18 @@ class HESEB:
 			subprocess.Popen(plotGUI)
 
 	def dataTransfer(self):
-		if self.cfg["expType"] == "proposal":
-			SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.userinfo["Experimental_Data_Path"]).scp()
-		else: 
-			IHPath = path(self.paths["SED_TOP"], beamline = "HESEB").getIHPath()
-			SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + IHPath).scp()
-		log.info("Data transfer is done")
+		if self.testingMode == "Yes":
+			SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.paths["SED_TOP"] + "/" + self.paths["SED_Test"]).scp()
+		else:
+			try:
+				if self.cfg["expType"] == "proposal":
+					SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.userinfo["Experimental_Data_Path"]).scp()
+				else: 
+					IHPath = path(self.paths["SED_TOP"], beamline = "HESEB").getIHPath()
+					SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + IHPath).scp()
+				log.info("Data transfer is done")
+			except:
+				log.error("Problem transferring the data")
 
 	def signal_handler(self, sig, frame):
 		""" Calls abort_scan when ^C is typed """

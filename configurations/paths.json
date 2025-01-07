@@ -5,5 +5,6 @@
 	"HESEB_ScanTool_I0_It": "/home/control/bin/HESEB_ScanTool_I0_It",
 	"HESEB_ScanTool_XFLASH": "/home/control/bin/HESEB_ScanTool_XFLASH",
 	"DS": "dcasu@10.1.14.100",
-	"SED_TOP": "/PETRA/SED"
+	"SED_TOP": "/PETRA/SED",
+	"SED_Test": "HESEB/testDevData"
 }
