@@ -147,7 +147,7 @@ class ConfigGUI:
 			self.IntervalsGUI	= IntervalGUI()
 			self.SamplesGUI		= SamplePosGUI()
 			self.DetectorsGUI	= DetectorsGUI()
-			self.cfgpath = QtWidgets.QFileDialog.getOpenFileName(self.Qwiz, "choose configuration file", "~","*.cfg")[0]
+			self.cfgpath = QtWidgets.QFileDialog.getOpenFileName(self.Qwiz, "choose configuration file", "DATA","*.cfg")[0]
 			try:
 				self.guiObj.filePath.setText(self.cfgpath)
 				self.cfg = self.loadcfgfile(self.cfgpath)

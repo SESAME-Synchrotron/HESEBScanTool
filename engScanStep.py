@@ -25,8 +25,7 @@ class ENGSCANSTEP(HESEB_STEP):
 		intervalsTime = 0
 		for interval in range(intervals):
 			points = len(self.drange(self.cfg["Intervals"][interval]["Startpoint"], self.cfg["Intervals"][interval]["Endpoint"], self.cfg["Intervals"][interval]["Stepsize"]))
-			intervalsTime += (points * scans * samples * (self.cfg["Intervals"][interval]["picoAmmIntTime"] + settlingTime))
-		intervalsTime += 300
+			intervalsTime += (points * scans * samples * (self.cfg["Intervals"][interval]["picoAmmIntTime"] + settlingTime + 5))	# 5: time to meet energy tolerance
 
 		currentTime = datetime.now()
 		remainingTime = currentTime + timedelta(seconds=int(intervalsTime))
