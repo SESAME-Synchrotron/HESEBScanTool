@@ -10,7 +10,7 @@ from SEDWriter import SEDWriter
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.SEDSupport import readFile
 
-class H5Writer (SEDWriter):
+class H5Writer(SEDWriter):
 	def __init__(self, fName, fPath, configFile, wMode="w"):
 		super().__init__(fName, fPath)
 
@@ -43,7 +43,6 @@ class H5Writer (SEDWriter):
 			# self.fType = self.configFile["fileType"]
 
 			# hdf5 file may not contain fixed attributes
-			self.writerFileReady = self.configFile["EPICSandIOCs"]["writerFileReady"]
 			if "hdf5FixedAtt" in self.configFile:
 				self.hdf5FixedAtts = self.configFile["hdf5FixedAtt"]
 			self.PVTimeout = self.configFile["EPICSandIOCs"]["EPICSPVTimeout"]

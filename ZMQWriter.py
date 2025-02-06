@@ -14,7 +14,7 @@ from SEDSS.CLIMessage import CLIMessage
 
 GfullH5Path = None 	# Global(G) full h5 path
 
-class ZMQWriter (H5Writer):
+class ZMQWriter(H5Writer):
 	def __init__(self, fName, fPath, configFile, wMode="w"):
 		super().__init__(fName, fPath, configFile, wMode)
 
@@ -22,6 +22,7 @@ class ZMQWriter (H5Writer):
 		GfullH5Path = self.fPath + "/" + self.fName
 
 		self.startTime = time.time()
+		self.ZMQRType = zmq.SUB
 
 		self.prefix = "HESEB:"
 		self.PVs = self.configFile["writerPVs"]

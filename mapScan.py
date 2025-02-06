@@ -22,19 +22,19 @@ from ZMQWriter import ZMQWriter
 
 h5CfgFile = "configurations/HESEB_Writer.json"
 class MAPSCAN(HESEB_STEP):
-	def __init__(self, paths, cfg, testingMode="No", accPlotting="No"):
-		super().__init__(paths, cfg, testingMode, accPlotting)
+	def __init__(self, cfg, testingMode="No"):
+		super().__init__(cfg, testingMode)
 
-		self.ROIXStart     = self.cfg['ROIXStart']
-		self.ROIXEnd       = self.cfg['ROIXEnd']
-		self.ROIYStart     = self.cfg['ROIYStart']
-		self.ROIYEnd       = self.cfg['ROIYEnd']
-		self.scanResX      = self.cfg['ResX']
-		self.scanResY      = self.cfg['ResY']
-		self.rotStageAngle = self.cfg["ROIRot"]
-		self.scanEnergy    = self.cfg['Energy']
-		self.scanTopology  = self.cfg["ExpMetaData"][6]["mapScanTopology"]
-		self.FrameDuration = self.cfg["IntTime"]
+		self.ROIXStart     =  self.cfg['ROIXStart']
+		self.ROIXEnd       =  self.cfg['ROIXEnd']
+		self.ROIYStart     =  self.cfg['ROIYStart']
+		self.ROIYEnd       =  self.cfg['ROIYEnd']
+		self.scanResX      =  self.cfg['ResX']
+		self.scanResY      =  self.cfg['ResY']
+		self.rotStageAngle =  self.cfg["ROIRot"]
+		self.scanEnergy    =  self.cfg['Energy']
+		self.scanTopology  =  self.cfg["ExpMetaData"][3]["mapScanTopology"]
+		self.FrameDuration =  self.cfg["IntTime"]
 
 		""" read HESEB_writer cfg file"""
 		self.h5cfg = readFile(h5CfgFile).readJSON()
@@ -146,7 +146,6 @@ class MAPSCAN(HESEB_STEP):
 			self.MoveSmpY(yScanPoints[i])
 			log.info('Collecting data for the scan point: ({},{})'.format(xScanPoints[i],yScanPoints[i]))
 			mcaData = self.getDetectorData()
-			# print(mcaData)
 			try:
 				# self.sock.send_pyobj(list(range(0,2048)))
 				self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
@@ -194,9 +193,9 @@ class MAPSCAN(HESEB_STEP):
 		log.info("Collecting data from detectors")
 		expData.update(ACQdata)
 
-		return (expData["KETEK-MCA1"])
+		return (expData["XFLASH-MCA1"])
 
-	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
+	def startZMQ(self, numPointsX, numPointsY, scanTopo = "snake", arrayIndexX = None, arrayIndexY=None):
 		self.writer.createRawDatasets(numPointsX, numPointsY)
 		self.writer.createDefaultDatasets(numPointsX, numPointsY)
 		self.writer.receiveData(numPointsX, numPointsY, scanTopo, arrayIndexX, arrayIndexY)

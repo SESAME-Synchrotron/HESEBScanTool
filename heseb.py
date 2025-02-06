@@ -128,6 +128,7 @@ class HESEB:
 
 		self.dataFileName =	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
 		self.dataFileFullPath =	"{}/{}".format(self.localDataPath, self.dataFileName)
+		self.h5FileName 	=   "{}-{}".format(self.cfg["DataFileName"], self.creationTime)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
 		self.PVs["SEDPath"].put(self.localDataPath)
 		if not os.path.exists(self.localDataPath):
@@ -167,9 +168,10 @@ class HESEB:
 		time.sleep(0.1)
 
 		self.PVs["PGM:Energy:Reached"].put(1, wait=True)
-		self.energy0 = self.cfg["Intervals"][0]["Startpoint"]
-		log.info("Move PGM to initial energy ({})".format(self.energy0))
-		self.MovePGM(self.energy0)
+		if self.cfg['scanType'] != 'stepMapScan':
+			self.energy0 = self.cfg["Intervals"][0]["Startpoint"]
+			log.info("Move PGM to initial energy ({})".format(self.energy0))
+			self.MovePGM(self.energy0)
 
 	def MoveSmpX(self, SP):
 		log.info("Move sample X to: {}".format(SP))
