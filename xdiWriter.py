@@ -1,7 +1,7 @@
 import os
 import sys
 import time
-import h5py
+import csv
 import fileinput
 from epics import PV
 from SEDSS.SEDSupport import readFile
@@ -79,7 +79,7 @@ class XDIWriter:
 		self.fullFileName = self.filePath + "/" + self.fileName + "_" + self.sampleTitle + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.expStartTime + ".xdi"
 
 		if "XFLASH" in self.detChosen:
-				self.h5FileName = "/".join(self.fullFileName.split("/")[:-1]) + "/channels.h5"
+				self.CSVFileName = "/".join(self.fullFileName.split("/")[:-1]) + "/channels.csv"
 				self.dataChannels = PV("mcaTest:mca1.VAL")
 				self.numChannels = int(PV("mcaTest:mca1.NORD").get())
 
@@ -88,16 +88,16 @@ class XDIWriter:
 			if "XFLASH" in self.detChosen:
 				self.createKEITHLEY_I0_Itrans_XFLASH()
 				self.fillKEITHLEY_I0_Itrans_XFLASH()
-				self.createH5ROIs()
-				self.fillH5ROIs()
+				self.createCSVROIs()
+				self.fillCSVROIs()
 			else:
 				self.createKEITHLEY_I0_Itrans()
 				self.fillKEITHLEY_I0_Itrans()
 		elif "XFLASH" in self.detChosen:
 			self.createKEITHLEY_I0_XFLASH()
 			self.fillKEITHLEY_I0_XFLASH()
-			self.createH5ROIs()
-			self.fillH5ROIs()
+			self.createCSVROIs()
+			self.fillCSVROIs()
 		else:
 			self.createKEITHLEY_I0()
 			self.fillKEITHLEY_I0()
@@ -349,26 +349,16 @@ class XDIWriter:
 		f.write(fullFormat % fullData)
 		f.close()
 
-	def createH5ROIs(self):
-		if not os.path.exists(self.h5FileName):
-			with h5py.File(self.h5FileName, 'w') as f:
-				f.create_dataset('channels', shape=(0, 1, self.numChannels), maxshape=(None, 1, self.numChannels), chunks=True)
-				f.create_dataset('energySP', shape=(0, 1), maxshape=(None, 1), chunks=True)
-				f.create_dataset('energyRBV', shape=(0, 1), maxshape=(None, 1), chunks=True)
+	def createCSVROIs(self):
+		if not os.path.exists(self.CSVFileName):
+			with open(self.CSVFileName, mode="w", newline="") as f:
+				writer = csv.writer(f)
+				writer.writerow(["energySP(eV)", "energyRBV(RBV)" ,"channels"])
 
-	def fillH5ROIs(self):
-		with h5py.File(self.h5FileName, 'a') as f:
-			currentShape = f['channels'].shape
-			f['channels'].resize((currentShape[0] + 1, currentShape[1], currentShape[2]))
-			f['channels'][-1] = list(self.dataChannels.get()[:self.numChannels])
-
-			currentShape = f['energySP'].shape
-			f['energySP'].resize((currentShape[0] + 1, currentShape[1]))
-			f['energySP'][-1] = self.currentSP
-
-			currentShape = f['energyRBV'].shape
-			f['energyRBV'].resize((currentShape[0] + 1, currentShape[1]))
-			f['energyRBV'][-1] = self.data["ENERGY-RBK"]
+	def fillCSVROIs(self):
+		with open(self.CSVFileName, mode="a", newline="") as f:
+			writer = csv.writer(f)
+			writer.writerow([self.currentSP, self.data["ENERGY-RBK"]] + list(self.dataChannels.get()[:self.numChannels]))
 
 	def onClose(self):
 		scanEndTime = "Scan.end_time: {}".format(str(time.strftime("%Y-%m-%dT%H:%M:%S")) )
