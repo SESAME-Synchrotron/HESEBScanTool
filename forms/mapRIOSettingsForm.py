@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/mapRIOSettings.ui'
+# Form implementation generated from reading ui file 'mapRIOSettings.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -62,7 +62,7 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
         self.mapROIZ = QtWidgets.QLineEdit(self.layoutWidget)
-        self.mapROIZ.setEnabled(False)
+        self.mapROIZ.setEnabled(True)
         self.mapROIZ.setObjectName("mapROIZ")
         self.gridLayout.addWidget(self.mapROIZ, 4, 1, 1, 1)
         self.label_3 = QtWidgets.QLabel(self.layoutWidget)

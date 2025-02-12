@@ -379,7 +379,7 @@ class ConfigGUI:
 		if mapROIZ == '' or not Common.regexvalidation('MapROI', mapROIZ):
 			CLIMessage ("Please enter a valid value for ROI Z axis ", 'W')
 			return self.WizardPages.stepMapScanParameters.value
-		self.cfg['ROIZ'] = mapROIYEnd
+		self.cfg['ROIZ'] = mapROIZ
 
 		mapROIRot = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIRot.text()
 		if mapROIRot == '' or not Common.regexvalidation('Position', mapROIRot):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/configWizard.ui'
+# Form implementation generated from reading ui file 'configWizard.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Wizard(object):
     def setupUi(self, Wizard):
         Wizard.setObjectName("Wizard")
-        Wizard.resize(500, 622)
+        Wizard.resize(510, 622)
         self.ExpType = QtWidgets.QWizardPage()
         self.ExpType.setObjectName("ExpType")
         self.groupBox = QtWidgets.QGroupBox(self.ExpType)
@@ -562,7 +562,7 @@ class Ui_Wizard(object):
         self.label_21.setText(_translate("Wizard", "Int. time (sec)"))
         self.label_49.setText(_translate("Wizard", "X"))
         self.label_50.setText(_translate("Wizard", "Y"))
-        self.label_43.setText(_translate("Wizard", "ROI"))
+        self.label_43.setText(_translate("Wizard", "Scan area"))
         self.label_20.setText(_translate("Wizard", "Resolution:"))
         self.label_51.setText(_translate("Wizard", "X"))
         self.label_52.setText(_translate("Wizard", "Y"))
