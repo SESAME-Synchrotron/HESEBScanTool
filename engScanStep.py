@@ -133,6 +133,14 @@ class ENGSCANSTEP(HESEB_STEP):
 				if "XFLASH" in self.cfg["detectors"]:
 					IfDp =	ACQdata["XFLASH-If"]
 					AbsorptionFluoDp =	ACQdata["XFLASH-FLUOR"]
+					self.ROI0.append(float(ACQdata[f"XFLASH-ROI_0[c/s]"]))
+					self.ROI1.append(float(ACQdata[f"XFLASH-ROI_1[c/s]"]))
+					self.ROI2.append(float(ACQdata[f"XFLASH-ROI_2[c/s]"]))
+					self.ROI3.append(float(ACQdata[f"XFLASH-ROI_3[c/s]"]))
+					self.ROI4.append(float(ACQdata[f"XFLASH-ROI_4[c/s]"]))
+					self.ROI5.append(float(ACQdata[f"XFLASH-ROI_5[c/s]"]))
+					self.ROI6.append(float(ACQdata[f"XFLASH-ROI_6[c/s]"]))
+					self.ROI7.append(float(ACQdata[f"XFLASH-ROI_7[c/s]"]))
 
 				self.Energy.append(Energy)
 				self.I0.append(I0Dp)

@@ -219,6 +219,14 @@ class HESEB:
 		self.AbsTr2	= []
 		self.If		= []
 		self.AbsFlu	= []
+		self.ROI0	= []
+		self.ROI1	= []
+		self.ROI2	= []
+		self.ROI3	= []
+		self.ROI4	= []
+		self.ROI5	= []
+		self.ROI6	= []
+		self.ROI7	= []
 		self.PVs["Plot:Energy"].put(self.Energy)
 		self.PVs["Plot:I0"].put(self.I0)
 		self.PVs["Plot:It"].put(self.It)
@@ -226,7 +234,14 @@ class HESEB:
 		self.PVs["Plot:AbsTr"].put(self.AbsTr)
 		self.PVs["Plot:AbsTr2"].put(self.AbsTr2)
 		self.PVs["Plot:If"].put(self.If)
-		self.PVs["Plot:AbsFlu"].put(self.AbsFlu)
+		self.PVs["Plot:ROI0"].put(self.ROI0)
+		self.PVs["Plot:ROI1"].put(self.ROI1)
+		self.PVs["Plot:ROI2"].put(self.ROI2)
+		self.PVs["Plot:ROI3"].put(self.ROI3)
+		self.PVs["Plot:ROI4"].put(self.ROI4)
+		self.PVs["Plot:ROI5"].put(self.ROI5)
+		self.PVs["Plot:ROI6"].put(self.ROI6)
+		self.PVs["Plot:ROI7"].put(self.ROI7)
 
 	def setPlotData(self):
 		log.info("Setting plots data")
@@ -238,6 +253,14 @@ class HESEB:
 		self.PVs["Plot:AbsTr2"].put(self.AbsTr2)
 		self.PVs["Plot:If"].put(self.If)
 		self.PVs["Plot:AbsFlu"].put(self.AbsFlu)
+		self.PVs["Plot:ROI0"].put(self.ROI0)
+		self.PVs["Plot:ROI1"].put(self.ROI1)
+		self.PVs["Plot:ROI2"].put(self.ROI2)
+		self.PVs["Plot:ROI3"].put(self.ROI3)
+		self.PVs["Plot:ROI4"].put(self.ROI4)
+		self.PVs["Plot:ROI5"].put(self.ROI5)
+		self.PVs["Plot:ROI6"].put(self.ROI6)
+		self.PVs["Plot:ROI7"].put(self.ROI7)
 
 	def checkPause(self):
 		diffTime = 0
@@ -256,6 +279,7 @@ class HESEB:
 		currentOk = True
 		photonShutterOk = True
 		radiationShutterOk = True
+		GV6OK = True
 		KeithelyI0OK = True
 		ringLowerCurrent = self.scanLimits["SRLowerCurrent"]
 		ringUpperCurrent = self.scanLimits["SRUpperCurrent"]
@@ -268,11 +292,13 @@ class HESEB:
 		currentLogFlag = 0
 		photonShutterLogFlag = 0
 		radiationShutterLogFlag = 0
+		GV6LogFlag = 0
 		KeithelyI0LogFlag = 0
 
 		while True:
 			photonShutterStatus = self.PVs["photonShutter:Status"].get()
 			radiationShutterStatus = self.PVs["radiationShutter:Status"].get()
+			GV6Status = self.PVs["GV6:Status"].get()
 			currentCurrent = self.PVs["RING:Current"].get()
 			KeithelyI0ReadOut = KeithelyI0ReadOutPV.get()
 
@@ -313,8 +339,20 @@ class HESEB:
 					log.warning("Scan is paused | Radiation shutter status is: closed")
 					radiationShutterLogFlag = 1
 
+			################### Check GV6 parameters ###############
+			if GV6Status == 3: # GV6 is open 3, 1 closed
+				GV6OK = True
+				if GV6LogFlag == 1:
+					log.warning("GV6 status is returned to allowed limits, now it is: open")
+					GV6LogFlag = 0
+			else:
+				GV6OK = False
+				if GV6LogFlag == 0:
+					log.warning("Scan is paused | GV6 status is: closed")
+					GV6LogFlag = 1
+
 			#################### Check ROIs if current, shutters and stopper are okay ###############
-			if currentOk and photonShutterOk and radiationShutterOk  == True:
+			if currentOk and photonShutterOk and radiationShutterOk and GV6OK  == True:
 				#################### Check Keithely_I0 ####################
 				if KeithelyI0ReadOut >= KeithelyI0LowerLimit:
 					KeithelyI0OK = True
@@ -330,7 +368,7 @@ class HESEB:
 						KeithelyI0LogFlag = 1
 
 			# if any of below is false, pause the scan
-			if False in (currentOk, photonShutterOk, radiationShutterOk, KeithelyI0OK):
+			if False in (currentOk, photonShutterOk, radiationShutterOk, GV6OK, KeithelyI0OK):
 				self.PVs["ScanPause"].put(1) # 1 pause, 0 release
 			else:
 				self.PVs["ScanPause"].put(0)

@@ -103,31 +103,31 @@ padding: 0 3px 0 3px;</string>
          <string>HESEB:Plot:AbsFlu</string>
         </property>
         <property name="DataVariableC" stdset="0">
-         <string>mcaTest:mca1.R0</string>
+         <string>HESEB:Plot:ROI0</string>
         </property>
         <property name="DataVariableD" stdset="0">
-         <string>mcaTest:mca1.R1</string>
+         <string>HESEB:Plot:ROI1</string>
         </property>
         <property name="DataVariableE" stdset="0">
-         <string>mcaTest:mca1.R2</string>
+         <string>HESEB:Plot:ROI2</string>
         </property>
         <property name="DataVariableF" stdset="0">
-         <string>mcaTest:mca1.R3</string>
+         <string>HESEB:Plot:ROI3</string>
         </property>
         <property name="DataVariableG" stdset="0">
-         <string>mcaTest:mca1.R4</string>
+         <string>HESEB:Plot:ROI4</string>
         </property>
         <property name="DataVariableH" stdset="0">
-         <string>mcaTest:mca1.R5</string>
+         <string>HESEB:Plot:ROI5</string>
         </property>
         <property name="DataVariableI" stdset="0">
-         <string>mcaTest:mca1.R5</string>
+         <string>HESEB:Plot:ROI6</string>
         </property>
         <property name="DataVariableJ" stdset="0">
-         <string>mcaTest:mca1.R7</string>
+         <string>HESEB:Plot:ROI7</string>
         </property>
         <property name="DataVariableK" stdset="0">
-         <string>mcaTest:mca1.R8</string>
+         <string/>
         </property>
         <property name="DataVariableL" stdset="0">
          <string/>
@@ -154,31 +154,31 @@ padding: 0 3px 0 3px;</string>
          <string>HESEB:Plot:AbsFlu.NORD</string>
         </property>
         <property name="SizeVariableC" stdset="0">
-         <string>mcaTest:mca1.R0N</string>
+         <string>HESEB:Plot:ROI0.NORD</string>
         </property>
         <property name="SizeVariableD" stdset="0">
-         <string>mcaTest:mca1.R1N</string>
+         <string>HESEB:Plot:ROI1.NORD</string>
         </property>
         <property name="SizeVariableE" stdset="0">
-         <string>mcaTest:mca1.R2N</string>
+         <string>HESEB:Plot:ROI2.NORD</string>
         </property>
         <property name="SizeVariableF" stdset="0">
-         <string>mcaTest:mca1.R3N</string>
+         <string>HESEB:Plot:ROI3.NORD</string>
         </property>
         <property name="SizeVariableG" stdset="0">
-         <string>mcaTest:mca1.R4N</string>
+         <string>HESEB:Plot:ROI4.NORD</string>
         </property>
         <property name="SizeVariableH" stdset="0">
-         <string>mcaTest:mca1.R5N</string>
+         <string>HESEB:Plot:ROI5.NORD</string>
         </property>
         <property name="SizeVariableI" stdset="0">
-         <string>mcaTest:mca1.R6N</string>
+         <string>HESEB:Plot:ROI6.NORD</string>
         </property>
         <property name="SizeVariableJ" stdset="0">
-         <string>mcaTest:mca1.R7N</string>
+         <string>HESEB:Plot:ROI7.NORD</string>
         </property>
         <property name="SizeVariableK" stdset="0">
-         <string>mcaTest:mca1.R8N</string>
+         <string/>
         </property>
         <property name="SizeVariableL" stdset="0">
          <string/>

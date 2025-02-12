@@ -12,6 +12,18 @@
 		"Plot:Energy":{
 			"pvname":"HESEB:Plot:Energy"
 		},
+		"Id:Gap":{
+			"pvname":"UE56IS:BaseParGapsel.B"
+		},
+		"Id:Speed":{
+			"pvname":"UE56IS:DiagPhyVelSet"
+		},
+		"Id:Execute":{
+			"pvname":"UE56IS:BaseCmdCalc.PROC"
+		},
+		"Id:Status":{
+			"pvname":"UE56IS:BaseStatISLbl"
+		},
 		"Plot:I0":{
 			"pvname":"HESEB:Plot:I0"
 		},
@@ -32,6 +44,30 @@
 		},
 		"Plot:AbsFlu":{
 			"pvname":"HESEB:Plot:AbsFlu"
+		},
+		"Plot:ROI0":{
+			"pvname":"HESEB:Plot:ROI0"
+		},
+		"Plot:ROI1":{
+			"pvname":"HESEB:Plot:ROI1"
+		},
+		"Plot:ROI2":{
+			"pvname":"HESEB:Plot:ROI2"
+		},
+		"Plot:ROI3":{
+			"pvname":"HESEB:Plot:ROI3"
+		},
+		"Plot:ROI4":{
+			"pvname":"HESEB:Plot:ROI4"
+		},
+		"Plot:ROI5":{
+			"pvname":"HESEB:Plot:ROI5"
+		},
+		"Plot:ROI6":{
+			"pvname":"HESEB:Plot:ROI6"
+		},
+		"Plot:ROI7":{
+			"pvname":"HESEB:Plot:ROI7"
 		},
 		"ProposalID":{
 			"pvname":"HESEB:ProposalID"
@@ -98,6 +134,9 @@
 		},
 		"radiationShutter:Status":{
 			"pvname":"I11FE-VA-PHST:Main"
+		},
+		"GV6:Status":{
+			"pvname":"I11OH-VA-GV6:getStatus.RVAL"
 		}
 
 	},
