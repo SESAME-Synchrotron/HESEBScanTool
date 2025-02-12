@@ -223,6 +223,18 @@ record(waveform, "$(P)MirrorCoatingVFM")
 	field(NELM, "600")
 }
 
+record(ao, "$(P)I0StartReadout")
+{
+	field(DESC, "Keithley I0 1st readout")
+	field(PREC, "6")
+}
+
+record(ao, "$(P)I0EndReadout")
+{
+	field(DESC, "Keithley I0 last readout")
+        field(PREC, "6")
+}
+
 record(waveform, "$(P)ExpStartTime")
 {
 	field(FTVL, "UCHAR")
@@ -245,6 +257,12 @@ record(waveform, "$(P)ElapsedTime")
 {
 	field(FTVL, "UCHAR")
 	field(NELM, "600")
+}
+
+record(waveform, "$(P)RemainingTime")
+{
+        field(FTVL, "UCHAR")
+        field(NELM, "600")
 }
 
 record(longout, "$(P)ScanEnergy")

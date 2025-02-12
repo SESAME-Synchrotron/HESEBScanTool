@@ -70,3 +70,59 @@ record(waveform, "$(P)Plot:AbsFlu")
 	field(FTVL, "DOUBLE")
 	field(NELM, "25000")
 }
+
+record(waveform, "$(P)Plot:ROI0")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI1")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI2")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI3")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI4")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI5")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI6")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:ROI7")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
