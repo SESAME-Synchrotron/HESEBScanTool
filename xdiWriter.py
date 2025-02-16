@@ -215,7 +215,9 @@ class XDIWriter:
 			startCol = 9
 			header = "(1)energy_SP   (2)energy_RBV   (3)I0   (4)Itrans   (5)mutrans   (6)XFLASH-Ifluor   (7)XFLASH-mufluor   (8)XFLASH-INT_TIME[sec]"
 			for ROI in self.selectedROIs:
-				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI}\n")
+				LO = f"mcaTest:mca1.R{ROI}LO"
+				HI = f"mcaTest:mca1.R{ROI}HI"
+				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI} [{PV(LO).get()}, {PV(HI).get()}]\n")
 				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
 				startCol += 1
 			if self.personalInfoFlage == 1:
@@ -289,7 +291,9 @@ class XDIWriter:
 			startCol = 7
 			header = "(1)energy_SP   (2)energy_RBV   (3)I0   (4)XFLASH-Ifluor   (5)XFLASH-mufluor   (6)XFLASH-INT_TIME[sec]"
 			for ROI in self.selectedROIs:
-				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI}\n")
+				LO = f"mcaTest:mca1.R{ROI}LO"
+				HI = f"mcaTest:mca1.R{ROI}HI"
+				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI} [{PV(LO).get()}, {PV(HI).get()}]\n")
 				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
 				startCol += 1
 			if self.personalInfoFlage == 1:
