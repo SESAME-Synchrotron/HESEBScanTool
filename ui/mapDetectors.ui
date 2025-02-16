@@ -34,7 +34,7 @@
   </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -240,6 +240,9 @@
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -267,26 +270,26 @@
        <item>
         <widget class="QCheckBox" name="ROI_3">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_3</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="ROI_6">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_6</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -297,39 +300,39 @@
        <item>
         <widget class="QCheckBox" name="ROI_1">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_1</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="ROI_4">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_4</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="ROI_7">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_7</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -340,39 +343,39 @@
        <item>
         <widget class="QCheckBox" name="ROI_2">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_2</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="ROI_5">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_5</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="ROI_8">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>ROI_8</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
