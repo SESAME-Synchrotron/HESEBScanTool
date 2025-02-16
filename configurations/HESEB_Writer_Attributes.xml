@@ -17,6 +17,8 @@
 	<Attribute name="ExperimentType"           type="EPICS_PV" source="HESEB:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
 	<Attribute name="ExperimentalFileName"     type="EPICS_PV" source="HESEB:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>
 	<Attribute name="ExperimentalFilePath"     type="EPICS_PV" source="HESEB:ExperimentalFilePath"                        dbrtype="DBR_STRING" description="Experimental file path"/>
+	<Attribute name="I0StartReadout"           type="EPICS_PV" source="HESEB:I0StartReadout"                              dbrtype="DBR_STRING" description="Keithley I0 1st Readout (A)"/>
+	<Attribute name="I0EndReadout"             type="EPICS_PV" source="HESEB:I0EndReadout"                                dbrtype="DBR_STRING" description="Keithley I0 last Readout (A)"/>
 	<Attribute name="ExpStartTime"             type="EPICS_PV" source="HESEB:ExpStartTime"                                dbrtype="DBR_STRING" description="Experiment start time (Y-m-d T HH:MM:SS)"/>
 	<Attribute name="ScanStartTime"            type="EPICS_PV" source="HESEB:ScanStartTime"                               dbrtype="DBR_STRING" description="Scan start time (Y-m-d T HH:MM:SS)"/>
 	<Attribute name="ScanEndTime"              type="EPICS_PV" source="HESEB:ScanEndTime"                                 dbrtype="DBR_STRING" description="Scan end time (Y-m-d T HH:MM:SS)"/>

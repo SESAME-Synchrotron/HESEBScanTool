@@ -7,7 +7,7 @@
 	{
 		"EPICSPVTimeout": 1,
 		"xFlashNumChannels": "mcaTest:mca1.NORD",
-		"xFlashNetValue":"mcaTest:mca1.VAL"
+		"xFlashNetValue":"mcaTest:mca1.R0N"
 	},
 	"formatSettings":
 	{
@@ -70,6 +70,8 @@
 		"BeamlineFocusing",
 		"MirrorCoatingVCM",
 		"MirrorCoatingVFM",
+		"I0StartReadout",
+		"I0EndReadout",
 		"ExpStartTime",
 		"ScanStartTime",
 		"ScanEndTime",
@@ -83,18 +85,18 @@
 	],
 	"rawDatasets":
 	{
-		"Pixel":
+		"ROI_0":
 		{
-		"dataset":"/exchange/xmap/pixel",
+		"dataset":"/exchange/xmap/ROI_0",
 		"valueType":"EPICSPV",
 		"value":"mcaTest:mca1.R0N",
 		"attributes":
-		{
-			"NDAttrDescription":"The net value of the channels",
-			"NDAttrName":"NetValue",
-			"NDAttrSource":"Driver",
-			"NDAttrSourceType":"NDAttrSourceDriver"
-		}
+			{
+				"NDAttrDescription":"The net value of R0",
+				"NDAttrName":"NetValue",
+				"NDAttrSource":"Driver",
+				"NDAttrSourceType":"NDAttrSourceDriver"
+			}
 		}
 	},
 	"defaultDatasets":

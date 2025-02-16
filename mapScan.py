@@ -10,6 +10,7 @@ import zmq
 import threading
 import numpy as np
 import shutil
+import decimal
 from epics import PV
 
 from SEDSS.CLIMessage import CLIMessage
@@ -32,9 +33,14 @@ class MAPSCAN(HESEB_STEP):
 		self.scanResX      =  self.cfg['ResX']
 		self.scanResY      =  self.cfg['ResY']
 		self.rotStageAngle =  self.cfg["ROIRot"]
+		self.ROIZ 		   =  self.cfg["ROIZ"]
 		self.scanEnergy    =  self.cfg['Energy']
 		self.scanTopology  =  self.cfg["ExpMetaData"][3]["mapScanTopology"]
 		self.FrameDuration =  self.cfg["IntTime"]
+		ROIs = self.cfg["ROIs"]
+		self.ROIs = []
+		for ROI in ROIs:
+			self.ROIs.append(int(ROI[-1]))
 
 		""" read HESEB_writer cfg file"""
 		self.h5cfg = readFile(h5CfgFile).readJSON()
@@ -50,7 +56,16 @@ class MAPSCAN(HESEB_STEP):
 		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)
 
-		#self.writePVS()		# write the config data in PVs
+		prefix = "HESEB:"
+		PVs = self.h5cfg["writerPVs"]
+		self.I0StartReadoutPV = PV(prefix + PVs[PVs.index("I0StartReadout")])
+		self.I0EndReadoutPV = PV(prefix + PVs[PVs.index("I0EndReadout")])
+
+		self.I0Start = 0
+		self.I0StartReadoutPV.put(0, wait=True)
+		self.I0EndReadoutPV.put(0, wait=True)
+
+		self.writePVS()		# write the config data in PVs
 
 		""" setup h5 file layout """
 		h5Layout = threading.Thread(target=self.setupH5DXLayout, args=())
@@ -129,13 +144,14 @@ class MAPSCAN(HESEB_STEP):
 		log.info('Scan Topology: {}'.format(self.scanTopology))
 
 		self.MoveSmpRot(self.rotStageAngle)
+		self.MoveSmpZ(self.ROIZ)
 
 		if self.scanTopology == 'Snake':
 			xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange, self.yRange)
 		overAllPointsCounter = len(xScanPoints)
 
 		""" start zmq receiver socket """
-		zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ receiver socket in background
+		zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange, self.ROIs, self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ receiver socket in background
 		zmqRec.start()
 
 		for i in range(len(xScanPoints)):
@@ -147,7 +163,7 @@ class MAPSCAN(HESEB_STEP):
 			log.info('Collecting data for the scan point: ({},{})'.format(xScanPoints[i],yScanPoints[i]))
 			mcaData = self.getDetectorData()
 			try:
-				# self.sock.send_pyobj(list(range(0,2048)))
+				# self.sock.send_pyobj(list(range(0,1024)))
 				self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
 
 			except:
@@ -166,6 +182,24 @@ class MAPSCAN(HESEB_STEP):
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
 
+	def drange(self, start, stop, step, prec=10):
+		log.info("Calculating energy points")
+		decimal.getcontext().prec = prec
+		points = []
+		r = decimal.Decimal(start)
+		step = decimal.Decimal(step)
+
+		if start <= stop:
+			while r <= stop:
+				points.append(float(r))
+				r += step
+		else:
+			while r >= stop:
+				points.append(float(r))
+				r -= step
+
+		return points
+
 	def getDetectorData(self):
 
 		args 		  = {}
@@ -174,6 +208,7 @@ class MAPSCAN(HESEB_STEP):
 		expData 	  = {}
 
 		args["FrameDuration"] = self.FrameDuration
+		args["picoAmmIntTime"] = self.FrameDuration
 		args["scanTopology"] = self.scanTopology
 
 		log.info("Collecting data from chosen detectors")
@@ -189,20 +224,25 @@ class MAPSCAN(HESEB_STEP):
 		for thread in detThreadList:
 			thread.join()
 
-		ACQdata={**ACQdata,**det.data}
+		for det in self.detectors:
+			ACQdata={**ACQdata,**det.data}
 		log.info("Collecting data from detectors")
 		expData.update(ACQdata)
 
+		if not self.I0Start:
+			self.I0Start = 1
+			self.I0StartReadoutPV.put(expData["KEITHLEY_I0"], wait=True)
+		self.I0EndReadoutPV.put(expData["KEITHLEY_I0"], wait=True)
 		return (expData["XFLASH-MCA1"])
 
-	def startZMQ(self, numPointsX, numPointsY, scanTopo = "snake", arrayIndexX = None, arrayIndexY=None):
-		self.writer.createRawDatasets(numPointsX, numPointsY)
+	def startZMQ(self, numPointsX, numPointsY, ROIs, scanTopo = "snake",arrayIndexX=None, arrayIndexY=None):
+		self.writer.createRawDatasets(numPointsX, numPointsY, ROIs)
 		self.writer.createDefaultDatasets(numPointsX, numPointsY)
-		self.writer.receiveData(numPointsX, numPointsY, scanTopo, arrayIndexX, arrayIndexY)
+		self.writer.receiveData(numPointsX, numPointsY, ROIs, scanTopo, arrayIndexX, arrayIndexY)
 		PV("HESEB:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
 
 	def setupH5DXLayout(self):
-		self.writer = ZMQWriter(self.h5FileName, self.BasePath, h5CfgFile)
+		self.writer = ZMQWriter(self.h5FileName, self.BasePath, h5CfgFile, self.ROIs)
 		self.writer.createH5File()
 		self.writer.setupH5DXLayout()
 
@@ -215,7 +255,7 @@ class MAPSCAN(HESEB_STEP):
 		self.sock.send_pyobj("scanAborted")		# parse scanAborted if the scan has been aborted
 		PV("HESEB:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
 		self.closeH5File()
-		super().signal_handler(self, sig, frame)
+		super().signal_handler(sig, frame)
 
 	def writePVS(self):
 
@@ -252,13 +292,13 @@ class MAPSCAN(HESEB_STEP):
 
 		PV(prefix + PVs[PVs.index("ScanTopo")]).put(self.scanTopology, wait=True)
 		# PV(prefix + PVs[PVs.index("ElementEdge")]).put(self.cfg['ExpMetaData'][0]['edge'], wait=True)
-		PV(prefix + PVs[PVs.index("MonoName")]).put(self.cfg['ExpMetaData'][3]['Mono'], wait=True)
+		# PV(prefix + PVs[PVs.index("MonoName")]).put(self.cfg['ExpMetaData'][3]['Mono'], wait=True)
 
-		if self.cfg['ExpMetaData'][3]['Mono'] == "Si 111":
-			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(3.1356, wait=True)
-		else:
-			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(1.6374, wait=True)
-
+		# if self.cfg['ExpMetaData'][3]['Mono'] == "Si 111":
+		# 	PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(3.1356, wait=True)
+		# else:
+		# 	PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(1.6374, wait=True)
+		
 		PV(prefix + PVs[PVs.index("MonoSettlingTime")]).put(self.cfg['settlingTime'], wait=True)
 		PV(prefix + PVs[PVs.index("IntTime")]).put(self.FrameDuration, wait=True)
 		PV(prefix + PVs[PVs.index("XStart")]).put(self.ROIXStart, wait=True)
@@ -271,8 +311,8 @@ class MAPSCAN(HESEB_STEP):
 		PV(prefix + PVs[PVs.index("ResolutionY")]).put(self.scanResY, wait=True)
 		PV(prefix + PVs[PVs.index("BeamlineCollimation")]).put("slits", wait=True)
 		PV(prefix + PVs[PVs.index("BeamlineFocusing")]).put(0, wait=True)
-		PV(prefix + PVs[PVs.index("MirrorCoatingVCM")]).put(self.cfg['ExpMetaData'][1]['vcm'], wait=True)
-		PV(prefix + PVs[PVs.index("MirrorCoatingVFM")]).put(self.cfg['ExpMetaData'][2]['vfm'], wait=True)
+		# PV(prefix + PVs[PVs.index("MirrorCoatingVCM")]).put(self.cfg['ExpMetaData'][1]['vcm'], wait=True)
+		# PV(prefix + PVs[PVs.index("MirrorCoatingVFM")]).put(self.cfg['ExpMetaData'][2]['vfm'], wait=True)
 		PV(prefix + PVs[PVs.index("ExpStartTime")]).put(self.expStartTimeDF, wait=True)
 		PV(prefix + PVs[PVs.index("ScanStartTime")]).put(self.creationTime, wait=True)
 		PV(prefix + PVs[PVs.index("ScanEnergy")]).put(self.cfg['Energy'], wait=True)
@@ -280,8 +320,8 @@ class MAPSCAN(HESEB_STEP):
 		# PV(prefix + PVs[PVs.index("EnergyMode")]).put(, wait=True)
 		# PV(prefix + PVs[PVs.index("SampleStoichiometry")]).put(self.cfg['ExpMetaData'][2]['stoichiometry'], wait=True)
 		# PV(prefix + PVs[PVs.index("SamplePreperation")]).put(self.cfg['ExpMetaData'][3]['samplePrep'], wait=True)
-		PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][4]['userCom'], wait=True)
-		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][5]['expCom'], wait=True)
+		# PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][4]['userCom'], wait=True)
+		# PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][5]['expCom'], wait=True)
 
 		CLIMessage("Finishing writePVs...", "I")
 		log.info("Finishing writePVs...")

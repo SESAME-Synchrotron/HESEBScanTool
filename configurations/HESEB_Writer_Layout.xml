@@ -81,7 +81,7 @@
 
 	<group name="process">
 		<group name="data_writing">
-		  <dataset      name="writer_name"      source="constant"   value="XAFS/XRF-ZMQ-DXFile-Writer" type="string" />
+		  <dataset      name="writer_name"      source="constant"   value="HESEB-ZMQ-DXFile-Writer" type="string" />
 		  <dataset      name="writer_version"   source="constant"   value="1.0 Released"               type="string" />
 		  <dataset      name="scan_mode"        source="constant"   value="Step Scan | Mapping"        type="string" />
 
@@ -109,6 +109,14 @@
 		</group><!-- /data_writing -->
 
 		<group name="acquisition">
+		  <dataset      name="I0_readout_start"     source="ndattribute"    ndattribute="I0StartReadout" >
+			<attribute name="format" source="constant" value="A" type="string" when="OnFileClose" />
+		  </dataset>
+
+		  <dataset      name="I0_readout_end"     source="ndattribute"    ndattribute="I0EndReadout" >
+			<attribute name="format" source="constant" value="A" type="string" when="OnFileClose" />
+		  </dataset>
+
 		  <dataset      name="exp_start_time"     source="ndattribute"    ndattribute="ExpStartTime" >
 			<attribute name="format" source="constant" value="(Y-m-d T HH:MM:SS)" type="string" when="OnFileClose" />
 		  </dataset>

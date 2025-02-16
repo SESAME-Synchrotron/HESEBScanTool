@@ -15,7 +15,7 @@ from SEDSS.CLIMessage import CLIMessage
 GfullH5Path = None 	# Global(G) full h5 path
 
 class ZMQWriter(H5Writer):
-	def __init__(self, fName, fPath, configFile, wMode="w"):
+	def __init__(self, fName, fPath, configFile, ROIs, wMode="w"):
 		super().__init__(fName, fPath, configFile, wMode)
 
 		global GfullH5Path
@@ -26,6 +26,12 @@ class ZMQWriter(H5Writer):
 
 		self.prefix = "HESEB:"
 		self.PVs = self.configFile["writerPVs"]
+		self.totalPointsPV = PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")])
+		self.missedPointsPV = PV(self.prefix + self.PVs[self.PVs.index("MissedPoints")])
+		self.receivedPointsPV = PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")])
+		self.selectedROIs = {}
+		for ROI in ROIs:
+			self.selectedROIs[str(ROI)] = PV(self.configFile["EPICSandIOCs"]["xFlashNetValue"].replace("0", str(ROI)))
 
 		"""
 		Get ZMQ Sender settings from beamline configurations file
@@ -74,7 +80,7 @@ class ZMQWriter(H5Writer):
 
 		log.info("Default datasets creation is done")
 
-	def createRawDatasets(self, numPointsX, numPointsY):
+	def createRawDatasets(self, numPointsX, numPointsY, ROIs):
 		"""
 		This method is used to create datasets that are associated with the detector of points to
 		be collected.
@@ -82,15 +88,15 @@ class ZMQWriter(H5Writer):
 		"""
 		CLIMessage("Raw datasets creation", "I")
 		log.info("Start creating raw datasets")
-		rawDatasets = self.configFile["rawDatasets"]
+		dataset = self.configFile["rawDatasets"]["ROI_0"]
 
 		dt = h5py.string_dtype(encoding='ascii')
 		_dtype = dt # default if no dtype found
 
-		for dataset in rawDatasets:
-			if rawDatasets[dataset]["valueType"] == "EPICSPV":
+		for ROI in ROIs:
+			if dataset["valueType"] == "EPICSPV":
 
-				_data, _dataType = self.getPVValueType(rawDatasets[dataset]["value"])
+				_data, _dataType = self.getPVValueType(dataset["value"].replace("0", str(ROI)))
 
 				if _dataType in {"int","time_int", "ctrl_int", "short",
 				"time_short","ctrl_short", "enum","time_enum", "ctrl_enum",
@@ -103,16 +109,16 @@ class ZMQWriter(H5Writer):
 					_dtype = dt
 
 				# create datasets
-				datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"],
+				datasetOnH5 = self.h5File.create_dataset(dataset["dataset"].replace("0", str(ROI)),
 				dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)        # create a 2D dataset based on rows*cols >> y*x
 
 				# add attributes to the created dataset
-				for att in rawDatasets[dataset]["attributes"]:
-					datasetOnH5.attrs[att]=rawDatasets[dataset]["attributes"][att]
+				for att in dataset["attributes"]:
+					datasetOnH5.attrs[att]=dataset["attributes"][att].replace("0", str(ROI))
 
 		log.info("Raw datasets creation is done")
 
-	def receiveData(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
+	def receiveData(self, numPointsX, numPointsY, ROIs, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
 		"""
 			Prepare the data sets to be ready to collect data points
 		"""
@@ -124,7 +130,7 @@ class ZMQWriter(H5Writer):
 		self.arrayYIndex = arrayIndexY
 		self.scanTopo = scanTopo
 
-		PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")]).put(self.numXPoints * self.numYPoints, wait=True)
+		self.totalPointsPV.put(self.numXPoints * self.numYPoints, wait=True)
 		CLIMessage(f"Ready to collect {self.numXPoints * self.numYPoints} points", "I")
 
 		self.h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
@@ -133,7 +139,7 @@ class ZMQWriter(H5Writer):
 		self.indexY 	= "/defaults/IndexY"
 		self.positionX 	= "/defaults/PositionX"
 		self.positionY 	= "/defaults/PositionY"
-		self.pixel      = "/exchange/xmap/pixel"
+		self.pixel      = "/exchange/xmap/ROI_0"
 
 		self.h5file[self.data].resize(self.numXPoints, axis=1)      # resize X axis from 1 to X points
 		self.h5file[self.data].resize(self.numYPoints, axis=0)      # resize Y axis from 1 to Y points
@@ -148,7 +154,7 @@ class ZMQWriter(H5Writer):
 		else:
 			for point in zip(self.arrayXIndex, self.arrayYIndex):
 				x, y = point
-				self.writingData(x, y)
+				self.writingData(x, y, ROIs)
 
 		self.h5file.close()
 		CLIMessage(f"total received points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints} | "
@@ -156,7 +162,7 @@ class ZMQWriter(H5Writer):
 		log.info(f"total received points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints} | "
 				   f"missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}")
 
-	def writingData(self, x, y):
+	def writingData(self, x, y, ROIs):
 		"""
 			writing the received data in the datasets, if the data not received >> the value in the index dataset will be 0
 		"""
@@ -164,9 +170,10 @@ class ZMQWriter(H5Writer):
 		data = self.sock.recv_pyobj()   # waiting until receive data
 		if data == "timeout":
 			self.h5file[self.data][y, x, :] = 0
-			self.h5file[self.pixel][y,x] = 0
+			for ROI in ROIs:
+				self.h5file[self.pixel.replace("0", str(ROI))][y,x] = 0
 			self.missedPoints.append((x, y))
-			PV(self.prefix + self.PVs[self.PVs.index("MissedPoints")]).put(len(self.missedPoints), wait=True)
+			self.missedPointsPV.put(len(self.missedPoints), wait=True)
 			log.error(f"missed point index ({x, y})")
 			CLIMessage(f"missed point index ({x, y})", "W")
 		elif data == "scanAborted":
@@ -174,9 +181,10 @@ class ZMQWriter(H5Writer):
 			log.info(f"scan has been aborted >>> received points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}")
 			self.h5File.close()
 		else:
-			PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
+			self.receivedPointsPV.put(self.totalPoints, wait=True)
 			self.h5file[self.data][y, x, :] = data
-			self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["xFlashNetValue"]).get(timeout=self.PVTimeout, use_monitor=False)
+			for ROI in ROIs:
+				self.h5file[self.pixel.replace("0", str(ROI))][y,x] = self.selectedROIs[str(ROI)].get(timeout=self.PVTimeout, use_monitor=False)
 			CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | "
 						f"current point index: {x, y} | "
 						f"current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} | "
