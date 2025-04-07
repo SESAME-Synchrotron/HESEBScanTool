@@ -130,7 +130,7 @@ class XDIWriter:
 			f.write("# Facility.name: SESAME Synchrotron-light\n")
 			f.write("# Facility.energy: 2.50 GeV\n")
 			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
-			f.write("# Facility.xray_source: SESAME Bending Magnet\n")
+			f.write("# Facility.xray_source: SESAME ID11L (Undulator)\n")
 			f.write("# Scan.start_time: {}\n".format(str(self.expStartTimeDF) ))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
@@ -179,7 +179,7 @@ class XDIWriter:
 			f.write("# Facility.name: SESAME Synchrotron-light\n")
 			f.write("# Facility.energy: 2.50 GeV\n")
 			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
-			f.write("# Facility.xray_source: SESAME Bending Magnet\n")
+			f.write("# Facility.xray_source: SESAME ID11L (Undulator)\n")
 			f.write("# Scan.start_time: {}\n".format(str(self.expStartTimeDF) ))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
@@ -217,7 +217,8 @@ class XDIWriter:
 			for ROI in self.selectedROIs:
 				LO = f"mcaTest:mca1.R{ROI}LO"
 				HI = f"mcaTest:mca1.R{ROI}HI"
-				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI} [{PV(LO).get()}, {PV(HI).get()}]\n")
+				LA = f"mcaTest:mca1.R{ROI}NM"
+				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI} ({PV(LA).get()}) [{PV(LO).get()}, {PV(HI).get()}]\n")
 				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
 				startCol += 1
 			if self.personalInfoFlage == 1:
@@ -238,7 +239,7 @@ class XDIWriter:
 			f.write("# Facility.name: SESAME Synchrotron-light\n")
 			f.write("# Facility.energy: 2.50 GeV\n")
 			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
-			f.write("# Facility.xray_source: SESAME Bending Magnet\n")
+			f.write("# Facility.xray_source: SESAME ID11L (Undulator)\n")
 			f.write("# Scan.start_time: {}\n".format(str(self.expStartTimeDF) ))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
@@ -293,7 +294,8 @@ class XDIWriter:
 			for ROI in self.selectedROIs:
 				LO = f"mcaTest:mca1.R{ROI}LO"
 				HI = f"mcaTest:mca1.R{ROI}HI"
-				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI} [{PV(LO).get()}, {PV(HI).get()}]\n")
+				LA = f"mcaTest:mca1.R{ROI}NM"
+				f.write(f"# Column.{startCol}: XFLASH-ROI_{ROI} ({PV(LA).get()}) [{PV(LO).get()}, {PV(HI).get()}]\n")
 				header = header + f"   ({startCol})XFLASH-ROI_{ROI}"
 				startCol += 1
 			if self.personalInfoFlage == 1:
@@ -314,7 +316,7 @@ class XDIWriter:
 			f.write("# Facility.name: SESAME Synchrotron-light\n")
 			f.write("# Facility.energy: 2.50 GeV\n")
 			f.write("# Facility.current: {}\n".format(self.RINGCurrent))
-			f.write("# Facility.xray_source: SESAME Bending Magnet\n")
+			f.write("# Facility.xray_source: SESAME ID11L (Undulator)\n")
 			f.write("# Scan.start_time: {}\n".format(str(self.expStartTimeDF) ))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
@@ -355,7 +357,7 @@ class XDIWriter:
 
 	def createCSVROIs(self):
 		if not os.path.exists(self.CSVFileName):
-			with open(self.CSVFileName, mode="w", newline="") as f:
+			with open(self.CSVFileName, mode="a+", newline="") as f:
 				writer = csv.writer(f)
 				writer.writerow(["energySP(eV)", "energyRBV(RBV)" ,"channels"])
 

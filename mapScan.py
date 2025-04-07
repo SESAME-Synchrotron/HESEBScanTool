@@ -51,19 +51,9 @@ class MAPSCAN(HESEB_STEP):
 		ZMQSPort = ZMQSettings["ZMQPort"]
 		ZMQSProtocol = ZMQSettings["ZMQProtocol"]
 		ZMQSender = ZMQSProtocol + "://" + ZMQSender + ":" + ZMQSPort
-		self.numChannels = PV(self.h5cfg["EPICSandIOCs"]["xFlashNumChannels"]).get(timeout=1, use_monitor=False)
 		context = zmq.Context()
 		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)
-
-		prefix = "HESEB:"
-		PVs = self.h5cfg["writerPVs"]
-		self.I0StartReadoutPV = PV(prefix + PVs[PVs.index("I0StartReadout")])
-		self.I0EndReadoutPV = PV(prefix + PVs[PVs.index("I0EndReadout")])
-
-		self.I0Start = 0
-		self.I0StartReadoutPV.put(0, wait=True)
-		self.I0EndReadoutPV.put(0, wait=True)
 
 		self.writePVS()		# write the config data in PVs
 
@@ -146,29 +136,49 @@ class MAPSCAN(HESEB_STEP):
 		self.MoveSmpRot(self.rotStageAngle)
 		self.MoveSmpZ(self.ROIZ)
 
-		if self.scanTopology == 'Snake':
+		if self.scanTopology == 'Sequential':
+			""" start zmq receiver socket """
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.ROIs,), daemon=True)		# run ZMQ receiver socket in background
+			zmqRec.start()
+
+			overAllPointsCounter = len(self.xRange) * len(self.yRange)
+			for y in self.yRange:
+				self.checkPause()
+				log.info('Moving sample stage Y to: {}'.format(y))
+				self.MoveSmpY(y)
+				for x in self.xRange:
+					self.checkPause()
+					log.info('Moving sample stage X to: {}'.format(x))
+					self.MoveSmpX(x)
+					log.info('Collecting data for the scan point: ({}, {})'.format(x, y))
+					expData = self.getDetectorData()
+					try:
+						self.sock.send_pyobj(expData)		# send expData
+					except:
+						self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
+			self.closeH5File()
+
+		elif self.scanTopology == 'Snake':
 			xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange, self.yRange)
-		overAllPointsCounter = len(xScanPoints)
+			overAllPointsCounter = len(xScanPoints)
 
-		""" start zmq receiver socket """
-		zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange, self.ROIs, self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ receiver socket in background
-		zmqRec.start()
+			""" start zmq receiver socket """
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange, self.ROIs, self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ receiver socket in background
+			zmqRec.start()
 
-		for i in range(len(xScanPoints)):
-			self.checkPause()
-			log.info('Move sample X to: {}'.format(xScanPoints[i]))
-			self.MoveSmpX(xScanPoints[i])
-			log.info('Move sample Y to: {}'.format(yScanPoints[i]))
-			self.MoveSmpY(yScanPoints[i])
-			log.info('Collecting data for the scan point: ({},{})'.format(xScanPoints[i],yScanPoints[i]))
-			mcaData = self.getDetectorData()
-			try:
-				# self.sock.send_pyobj(list(range(0,1024)))
-				self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
-
-			except:
-				self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
-		self.closeH5File()
+			for i in range(len(xScanPoints)):
+				self.checkPause()
+				log.info('Move sample X to: {}'.format(xScanPoints[i]))
+				self.MoveSmpX(xScanPoints[i])
+				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
+				self.MoveSmpY(yScanPoints[i])
+				log.info('Collecting data for the scan point: ({}, {})'.format(xScanPoints[i], yScanPoints[i]))
+				expData = self.getDetectorData()
+				try:
+					self.sock.send_pyobj(expData)		# send expData
+				except:
+					self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
+			self.closeH5File()
 
 		time.sleep(1)
 		print("#########################################################################")
@@ -229,14 +239,10 @@ class MAPSCAN(HESEB_STEP):
 		log.info("Collecting data from detectors")
 		expData.update(ACQdata)
 
-		if not self.I0Start:
-			self.I0Start = 1
-			self.I0StartReadoutPV.put(expData["KEITHLEY_I0"], wait=True)
-		self.I0EndReadoutPV.put(expData["KEITHLEY_I0"], wait=True)
-		return (expData["XFLASH-MCA1"])
+		return expData
 
-	def startZMQ(self, numPointsX, numPointsY, ROIs, scanTopo = "snake",arrayIndexX=None, arrayIndexY=None):
-		self.writer.createRawDatasets(numPointsX, numPointsY, ROIs)
+	def startZMQ(self, numPointsX, numPointsY, ROIs, scanTopo = "seq", arrayIndexX=None, arrayIndexY=None):
+		self.writer.createRawDatasets(numPointsX, numPointsY, ROIs, self.cfg["detectors"])
 		self.writer.createDefaultDatasets(numPointsX, numPointsY)
 		self.writer.receiveData(numPointsX, numPointsY, ROIs, scanTopo, arrayIndexX, arrayIndexY)
 		PV("HESEB:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)

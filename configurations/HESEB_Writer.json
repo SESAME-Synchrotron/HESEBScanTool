@@ -7,7 +7,8 @@
 	{
 		"EPICSPVTimeout": 1,
 		"xFlashNumChannels": "mcaTest:mca1.NORD",
-		"xFlashNetValue":"mcaTest:mca1.R0N"
+		"xFlashNetValue":"mcaTest:mca1.R0",
+		"xFlashLabel":"mcaTest:mca1.R0NM"
 	},
 	"formatSettings":
 	{
@@ -89,10 +90,39 @@
 		{
 		"dataset":"/exchange/xmap/ROI_0",
 		"valueType":"EPICSPV",
-		"value":"mcaTest:mca1.R0N",
+		"value":"mcaTest:mca1.R0",
 		"attributes":
 			{
 				"NDAttrDescription":"The net value of R0",
+				"NDAttrName":"NetValue",
+				"NDAttrSource":"Driver",
+				"NDAttrSourceType":"NDAttrSourceDriver"
+			}
+		}
+	},
+	"transmissionDatasets":
+	{
+		"KEITHLEY_I0":
+		{
+		"dataset":"/exchange/xmap/I0",
+		"valueType":"EPICSPV",
+		"value":"K6485:1:Acquire",
+		"attributes":
+			{
+				"NDAttrDescription":"The readout of Keithley I0",
+				"NDAttrName":"NetValue",
+				"NDAttrSource":"Driver",
+				"NDAttrSourceType":"NDAttrSourceDriver"
+			}
+		},
+		"KEITHLEY_Itrans":
+		{
+		"dataset":"/exchange/xmap/It",
+		"valueType":"EPICSPV",
+		"value":"K6487:1:Acquire",
+		"attributes":
+			{
+				"NDAttrDescription":"The readout of Keithley It",
 				"NDAttrName":"NetValue",
 				"NDAttrSource":"Driver",
 				"NDAttrSourceType":"NDAttrSourceDriver"

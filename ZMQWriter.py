@@ -29,10 +29,14 @@ class ZMQWriter(H5Writer):
 		self.totalPointsPV = PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")])
 		self.missedPointsPV = PV(self.prefix + self.PVs[self.PVs.index("MissedPoints")])
 		self.receivedPointsPV = PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")])
+		self.numChannels = PV(self.configFile["EPICSandIOCs"]["xFlashNumChannels"]).get()
 		self.selectedROIs = {}
 		for ROI in ROIs:
 			self.selectedROIs[str(ROI)] = PV(self.configFile["EPICSandIOCs"]["xFlashNetValue"].replace("0", str(ROI)))
-
+		
+		self.labelROIs = {}
+		for ROI in ROIs:
+			self.labelROIs[str(ROI)] = PV(self.configFile["EPICSandIOCs"]["xFlashLabel"].replace("0", str(ROI))).get()
 		"""
 		Get ZMQ Sender settings from beamline configurations file
 		Notes:
@@ -80,7 +84,7 @@ class ZMQWriter(H5Writer):
 
 		log.info("Default datasets creation is done")
 
-	def createRawDatasets(self, numPointsX, numPointsY, ROIs):
+	def createRawDatasets(self, numPointsX, numPointsY, ROIs, detectors):
 		"""
 		This method is used to create datasets that are associated with the detector of points to
 		be collected.
@@ -109,12 +113,37 @@ class ZMQWriter(H5Writer):
 					_dtype = dt
 
 				# create datasets
-				datasetOnH5 = self.h5File.create_dataset(dataset["dataset"].replace("0", str(ROI)),
+				datasetOnH5 = self.h5File.create_dataset(f'{dataset["dataset"].replace("0", str(ROI))}_{self.labelROIs[str(ROI)]}',
 				dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)        # create a 2D dataset based on rows*cols >> y*x
 
 				# add attributes to the created dataset
 				for att in dataset["attributes"]:
 					datasetOnH5.attrs[att]=dataset["attributes"][att].replace("0", str(ROI))
+
+		# create transmission datasets
+		availableDetectors = ['KEITHLEY_I0', 'KEITHLEY_Itrans']
+		for det in detectors:
+			if det in availableDetectors:
+				dataset = self.configFile["transmissionDatasets"][det]
+
+				_data, _dataType = self.getPVValueType(dataset["value"])
+				if _dataType in {"int","time_int", "ctrl_int", "short",
+				"time_short","ctrl_short", "enum","time_enum", "ctrl_enum",
+				"long","time_long", "ctrl_long"}: # _AN: These data types need to be validated
+					_dtype = h5py.h5t.NATIVE_INT32
+				elif _dataType in {"double", "time_double", "ctrl_double", "float",
+				"time_float", "ctrl_float"}:
+					_dtype = "double"
+				elif _dataType in {"char", "time_char", "ctrl_char", "time_string"}:
+					_dtype = dt
+
+				# create datasets
+				datasetOnH5 = self.h5File.create_dataset(dataset["dataset"].split("_")[-1],
+				dtype=_dtype,  shape=len(numPointsX) * len(numPointsY), chunks=True)        # create a 1 dimension dataset based on total scanning points
+
+				# add attributes to the created dataset
+				for att in dataset["attributes"]:
+					datasetOnH5.attrs[att]=dataset["attributes"][att]
 
 		log.info("Raw datasets creation is done")
 
@@ -140,6 +169,11 @@ class ZMQWriter(H5Writer):
 		self.positionX 	= "/defaults/PositionX"
 		self.positionY 	= "/defaults/PositionY"
 		self.pixel      = "/exchange/xmap/ROI_0"
+		self.I0         = "/exchange/xmap/I0"
+		try:
+			self.It         = "/exchange/xmap/It"
+		except:
+			pass
 
 		self.h5file[self.data].resize(self.numXPoints, axis=1)      # resize X axis from 1 to X points
 		self.h5file[self.data].resize(self.numYPoints, axis=0)      # resize Y axis from 1 to Y points
@@ -150,7 +184,7 @@ class ZMQWriter(H5Writer):
 		if self.scanTopo.lower()[0:3] == "seq":
 			for y in range(0,self.numYPoints):
 				for x in range(0,self.numXPoints):
-					self.writingData(x, y)
+					self.writingData(x, y, ROIs)
 		else:
 			for point in zip(self.arrayXIndex, self.arrayYIndex):
 				x, y = point
@@ -167,24 +201,30 @@ class ZMQWriter(H5Writer):
 			writing the received data in the datasets, if the data not received >> the value in the index dataset will be 0
 		"""
 		self.totalPoints +=1            # increase the received points each time (for each point)
-		data = self.sock.recv_pyobj()   # waiting until receive data
-		if data == "timeout":
+		expData = self.sock.recv_pyobj()   # waiting until receive data
+
+		if expData == "timeout":
 			self.h5file[self.data][y, x, :] = 0
 			for ROI in ROIs:
-				self.h5file[self.pixel.replace("0", str(ROI))][y,x] = 0
+				self.h5file[f'{self.pixel.replace("0", str(ROI))}_{self.labelROIs[str(ROI)]}'][y,x] = 0
 			self.missedPoints.append((x, y))
 			self.missedPointsPV.put(len(self.missedPoints), wait=True)
 			log.error(f"missed point index ({x, y})")
 			CLIMessage(f"missed point index ({x, y})", "W")
-		elif data == "scanAborted":
+		elif expData == "scanAborted":
 			CLIMessage(f"scan has been aborted >>> received points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}", "E")
 			log.info(f"scan has been aborted >>> received points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}")
 			self.h5File.close()
 		else:
 			self.receivedPointsPV.put(self.totalPoints, wait=True)
-			self.h5file[self.data][y, x, :] = data
+			self.h5file[self.data][y, x, :] = list(expData["XFLASH-MCA1"][:self.numChannels])
 			for ROI in ROIs:
-				self.h5file[self.pixel.replace("0", str(ROI))][y,x] = self.selectedROIs[str(ROI)].get(timeout=self.PVTimeout, use_monitor=False)
+				name = f'{self.pixel.replace("0", str(ROI))}_{self.labelROIs[str(ROI)]}'
+				data = self.selectedROIs[str(ROI)].get(timeout=self.PVTimeout, use_monitor=False)
+				try:
+					self.h5file[name][y,x] = data / expData["KEITHLEY_I0"]
+				except:
+					self.h5file[name][y,x] = data
 			CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | "
 						f"current point index: {x, y} | "
 						f"current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} | "
@@ -202,3 +242,8 @@ class ZMQWriter(H5Writer):
 		self.h5file[self.indexY][self.totalPoints-1] = y
 		self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
 		self.h5file[self.positionY][self.totalPoints-1] = self.arrayYPositions[y]
+		self.h5file[self.I0][self.totalPoints-1] = expData["KEITHLEY_I0"]
+		try:
+			self.h5file[self.It][self.totalPoints-1] = expData["KEITHLEY_Itrans"]
+		except:
+			pass

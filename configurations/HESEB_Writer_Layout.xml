@@ -109,14 +109,6 @@
 		</group><!-- /data_writing -->
 
 		<group name="acquisition">
-		  <dataset      name="I0_readout_start"     source="ndattribute"    ndattribute="I0StartReadout" >
-			<attribute name="format" source="constant" value="A" type="string" when="OnFileClose" />
-		  </dataset>
-
-		  <dataset      name="I0_readout_end"     source="ndattribute"    ndattribute="I0EndReadout" >
-			<attribute name="format" source="constant" value="A" type="string" when="OnFileClose" />
-		  </dataset>
-
 		  <dataset      name="exp_start_time"     source="ndattribute"    ndattribute="ExpStartTime" >
 			<attribute name="format" source="constant" value="(Y-m-d T HH:MM:SS)" type="string" when="OnFileClose" />
 		  </dataset>
