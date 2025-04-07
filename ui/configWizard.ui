@@ -762,13 +762,8 @@
        <item row="0" column="7">
         <widget class="QComboBox" name="mapScanTopology">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
-         <item>
-          <property name="text">
-           <string>Snake</string>
-          </property>
-         </item>
          <item>
           <property name="text">
            <string>Sequential</string>
@@ -776,7 +771,7 @@
          </item>
          <item>
           <property name="text">
-           <string>Diagonal</string>
+           <string>Snake</string>
           </property>
          </item>
         </widget>

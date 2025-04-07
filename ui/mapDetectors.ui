@@ -184,7 +184,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>KEITHLEY 6487 (I0)</string>
+     <string>KEITHLEY 6485 (I0)</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -192,7 +192,7 @@
    </widget>
    <widget class="QCheckBox" name="KEITHLEY_Itrans">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -203,7 +203,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>KEITHLEY 6485 (Itrans)</string>
+     <string>KEITHLEY 6487 (Itrans)</string>
     </property>
     <property name="checked">
      <bool>false</bool>

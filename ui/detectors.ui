@@ -178,7 +178,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>KEITHLEY 6487 (I0)</string>
+     <string>KEITHLEY 6485 (I0)</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -197,7 +197,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>KEITHLEY 6485 (Itrans)</string>
+     <string>KEITHLEY 6487 (Itrans)</string>
     </property>
     <property name="checked">
      <bool>false</bool>
@@ -233,7 +233,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>

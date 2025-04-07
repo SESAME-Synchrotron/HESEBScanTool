@@ -162,7 +162,7 @@ if __name__ == "__main__":
 
 	NPLC, ActualIntTime = getNPLC_IntTime(intTime)
 	ItReset.put(1)		# Apply soft reset before start collecting data
-	I0Damping.put(0) 	# disable damping
+	ItDamping.put(0) 	# disable damping
 	ItSampling.put(0) 	# put 0 in time per step sample
 	It_run = ItRun.get()	# trigger to start (0:Start, 1:Stop)
 
